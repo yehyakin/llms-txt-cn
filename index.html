@@ -3,8 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>cetxt · 给 AI 的网站说明书</title>
-<meta name="description" content="面向中文站长的 llms.txt 生成、检查与部署助手：填表单生成符合 llmstxt.org 规范的文件，粘贴校验拿 0–100 文件质量分。纯前端，文件不出浏览器。">
+<title>llms.txt 中文生成器与校验器 · cetxt</title>
+<meta name="description" content="面向中文站长的 llms.txt 生成、检查与部署助手：填表单生成符合 llmstxt.org 规范的文件，粘贴校验拿 0–100 结构质量分。纯前端，文件不出浏览器。">
+<link rel="canonical" href="https://cetxt.com/">
+<link rel="describedby" href="/llms.txt">
+<meta name="theme-color" content="#0c0c0e">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="cetxt">
+<meta property="og:title" content="cetxt · 给 AI 的网站说明书">
+<meta property="og:description" content="面向中文站长的 llms.txt 生成、检查与部署助手：生成符合规范的文件，校验拿 0–100 结构质量分。纯前端，文件不出浏览器。">
+<meta property="og:url" content="https://cetxt.com/">
+<meta property="og:image" content="https://cetxt.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="cetxt · 给 AI 的网站说明书">
+<meta name="twitter:description" content="面向中文站长的 llms.txt 生成、检查与部署助手。纯前端，文件不出浏览器。">
+<meta name="twitter:image" content="https://cetxt.com/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -621,7 +635,7 @@ footer{
           <span class="mask"><span style="--i:0">粘贴，校验，</span></span>
           <span class="mask"><span style="--i:1">拿一个<span class="acc">诚实</span>的分数。</span></span>
         </h1>
-        <p class="hero-sub">按 <b>llmstxt.org v2</b> 规范检查结构与链接，给出 <b>0–100 文件质量分</b>和每条问题的修复建议。分数只代表文件写得好不好，不代表 AI 会收录你。</p>
+        <p class="hero-sub">按 <b>llmstxt.org v2</b> 规范检查结构与链接，给出 <b>0–100 结构质量分</b>和每条问题的修复建议。分数只代表文件写得好不好，不代表 AI 会收录你。</p>
         <div class="hero-meta">
           <div><div class="k">RULES</div><div class="v">28 项确定性检查</div></div>
           <div><div class="k">ENGINE</div><div class="v">llms.js · 纯本地</div></div>
@@ -652,7 +666,7 @@ footer{
           <div class="score-head">
             <div class="score-num"><span class="num" id="scoreNum">0</span><small>/100</small></div>
             <div class="score-side">
-              <div class="grade-k" id="gradeBadge">AI 就绪度 · 文件质量分</div>
+              <div class="grade-k" id="gradeBadge">AI 就绪度 · 结构质量分</div>
               <h3 class="grade-t" id="gradeTitle">—</h3>
               <p class="grade-d num" id="gradeDesc"></p>
             </div>
@@ -664,7 +678,7 @@ footer{
           <div class="card-head" style="margin-top:34px"><span class="idx">03</span><h2>本次未验证</h2></div>
           <p class="sub">纯前端受浏览器跨域限制，以下几项 v1 无法自动检查，请手动确认</p>
           <ul class="unver" id="unverBox"></ul>
-          <div class="footnote"><span class="mono">口径说明</span>这个分数是<b>文件质量分</b>，不是"AI 收录分"。截至 2026 年，没有主流大模型厂商公开承诺系统性消费 llms.txt。把它当作网站卫生项，而不是排名手段。</div>
+          <div class="footnote"><span class="mono">口径说明</span>这个分数是<b>结构质量分</b>，不是"AI 收录分"。截至 2026 年，没有主流大模型厂商公开承诺系统性消费 llms.txt。把它当作网站卫生项，而不是排名手段。</div>
         </div>
         <div class="card" id="emptyCard" style="margin-top:24px">
           <div class="empty">
@@ -746,7 +760,7 @@ footer{
           <ul>
             <li>H1 后跟 <code>&gt;</code> 引用块写一句话摘要</li>
             <li>链接用 <code>https://</code> 绝对地址，并配 <code>: 描述</code></li>
-            <li>名为 <code>Optional</code> 的分组会被 AI 跳过，别放核心链接</li>
+            <li>名为 <code>Optional</code> 的分组是放次要链接的约定：Agent 在需要更短上下文时可以忽略，v2 不再要求机械跳过</li>
             <li>v2 新增发现机制：<code>rel=describedby</code> 指向 llms.txt</li>
           </ul>
         </div>
@@ -760,7 +774,7 @@ footer{
   <div class="foot-in">
     <div class="foot-word" data-rv>ce<em>txt</em></div>
     <div class="foot-row">
-      <div class="mono">LLMS.TXT 中文工具 · MIT 开源<br>规范来源 llmstxt.org · 评分是文件质量分，不承诺收录排名</div>
+      <div class="mono">LLMS.TXT 中文工具 · MIT 开源<br>规范来源 llmstxt.org · 评分是结构质量分，不承诺收录排名</div>
       <div class="mono"><a href="https://github.com/yehyakin/llms-txt-cn" target="_blank" rel="noopener">GITHUB ↗</a><br>yehyakin / llms-txt-cn</div>
     </div>
   </div>
@@ -1145,10 +1159,11 @@ function renderResult(r){
   var pct = Math.max(0, Math.min(100, r.score));
   renderScore(pct);
   var ec = r.issues.filter(function(i){return i.sev==='error';}).length,
-      wc = r.issues.filter(function(i){return i.sev==='warn';}).length;
+      wc = r.issues.filter(function(i){return i.sev==='warn';}).length,
+      sc = r.issues.filter(function(i){return i.sev==='suggest'||i.sev==='info';}).length;
   $('gradeTitle').textContent = r.hasError ? '存在不合规项'
     : ({'优秀':'写得很好','良好':'文件可用','可用':'基本可用','待改进':'需要改进'})[r.grade] || r.grade;
-  $('gradeDesc').textContent = '发现 ' + ec + ' 个错误 · ' + wc + ' 个警告 · ' +
+  $('gradeDesc').textContent = '发现 ' + ec + ' 个错误 · ' + wc + ' 个警告 · ' + sc + ' 条建议 · ' +
     r.stats.links + ' 个链接 · ' + r.stats.sections + ' 个分组 · 约 ' +
     (r.stats.bytes > 1024 ? Math.round(r.stats.bytes/1024) + 'KB' : r.stats.bytes + 'B');
   var dimsBox = $('dimsBox'); dimsBox.innerHTML = '';
