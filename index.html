@@ -16,7 +16,7 @@
   --bg3:#17171a;
   --ink:#f4f1e9;         /* 暖白 */
   --mut:#97958d;         /* 暖灰 */
-  --dim:#5c5b56;
+  --dim:#85837c;
   --line:rgba(244,241,233,.13);
   --line-soft:rgba(244,241,233,.07);
   --acc:#d2ff00;         /* 单一强调：荧光绿 */
@@ -64,9 +64,7 @@ a{color:inherit}
 @media (pointer:fine){
   #cur,#curR{display:block}
   #cur{width:6px; height:6px; border-radius:50%; background:var(--acc)}
-  #curR{width:34px; height:34px; border-radius:50%; border:1px solid rgba(210,255,0,.5);
-    transition:width .35s var(--ease),height .35s var(--ease),border-color .35s,background .35s}
-  #curR.big{width:64px; height:64px; background:rgba(210,255,0,.08); border-color:var(--acc)}
+  #curR{width:64px; height:64px; border-radius:50%; border:1px solid rgba(210,255,0,.5)}
 }
 
 /* ---------- Preloader ---------- */
@@ -266,8 +264,8 @@ select{appearance:none; -webkit-appearance:none; cursor:pointer;
   will-change:transform;
 }
 .btn:active{transform:scale(.96)}
-.btn-pri{background:var(--acc); color:var(--acc-ink); box-shadow:0 6px 28px rgba(210,255,0,.22)}
-.btn-pri:hover{filter:brightness(1.07); box-shadow:0 8px 34px rgba(210,255,0,.32)}
+.btn-pri{background:var(--acc); color:var(--acc-ink); box-shadow:0 4px 18px rgba(210,255,0,.14)}
+.btn-pri:hover{filter:brightness(1.07); box-shadow:0 6px 24px rgba(210,255,0,.2)}
 .btn-pri:disabled{background:var(--bg3); color:var(--dim); box-shadow:none; cursor:not-allowed; filter:none}
 .btn-sec{background:rgba(244,241,233,.06); color:var(--ink); border:1px solid var(--line)}
 .btn-sec:hover{border-color:rgba(210,255,0,.45); color:var(--acc)}
@@ -842,15 +840,15 @@ function heroIn(id){
 (function(){
   if (!FINE || RM) return;
   var dot = $('cur'), ring = $('curR');
-  var mx = -100, my = -100, rx = -100, ry = -100;
+  var mx = -100, my = -100, rx = -100, ry = -100, sc = .53;
   document.addEventListener('mousemove', function(e){
     mx = e.clientX; my = e.clientY;
     dot.style.transform = 'translate(' + (mx-3) + 'px,' + (my-3) + 'px)';
   });
   (function loop(){
     rx += (mx - rx) * .16; ry += (my - ry) * .16;
-    var s = ring.classList.contains('big') ? 32 : 17;
-    ring.style.transform = 'translate(' + (rx-s) + 'px,' + (ry-s) + 'px)';
+    sc += (((ring.classList.contains('big')) ? 1 : .53) - sc) * .18;
+    ring.style.transform = 'translate(' + (rx-32) + 'px,' + (ry-32) + 'px) scale(' + sc.toFixed(3) + ')';
     requestAnimationFrame(loop);
   })();
   document.addEventListener('mouseover', function(e){
