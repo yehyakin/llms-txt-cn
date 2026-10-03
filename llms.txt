@@ -1,0 +1,20 @@
+# cetxt
+
+> 给 AI 的网站说明书 —— 面向中文站长的 llms.txt 生成、检查与部署助手。
+
+cetxt 是纯前端的 llms.txt 工具站：填表单生成符合 llmstxt.org v2 规范的 llms.txt，粘贴校验拿 0–100 文件质量分，附部署指南。文件全程在浏览器本地处理，不上传。开源（MIT）。
+
+## 工具
+
+- [生成器](https://cetxt.com/): 填表单生成 llms.txt，实时预览、一键复制或下载
+- [校验器](https://cetxt.com/#val): 粘贴或上传 llms.txt，按规范检查并给出 0–100 文件质量分与修复建议
+
+## 指南
+
+- [部署指南](https://cetxt.com/#deploySec): WordPress、Vercel、Nginx/Caddy 的上线步骤与复查清单
+- [规范速览](https://cetxt.com/#specSec): llmstxt.org v2 的必须与推荐项，校验器每条结论的依据
+
+## 相关
+
+- [GitHub 仓库](https://github.com/yehyakin/llms-txt-cn): 开源代码（MIT）
+- [llmstxt.org](https://llmstxt.org): llms.txt 规范官网
