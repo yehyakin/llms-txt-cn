@@ -463,6 +463,36 @@ footer{
   .grain{animation:none}
   #cur,#curR{display:none}
 }
+
+/* ---------- Round 3：参考库落地 ---------- */
+/* NumberFlow 式逐位滚动分数 */
+#scoreNum{display:inline-flex; overflow:hidden; font-family:var(--serif); font-weight:900}
+.dcol{display:inline-block; height:1em; overflow:hidden}
+.dstrip{display:flex; flex-direction:column; transition:transform .85s var(--ease); will-change:transform}
+.dd{display:block; height:1em; line-height:1}
+/* 校验按钮 working 状态：thinking-orb 呼吸点 */
+.btn .orb{width:11px; height:11px; border-radius:50%; background:currentColor; flex:none;
+  animation:breathe 1.15s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(.65); opacity:.45} 50%{transform:scale(1.2); opacity:1}}
+.btn.working{pointer-events:none; filter:saturate(.85)}
+/* toast：Sonner 式成功描画 */
+#toast .tk{width:15px; height:15px; flex:none; display:flex}
+#toast .tk path{stroke:var(--acc-ink); stroke-width:2.2; fill:none; stroke-linecap:round; stroke-linejoin:round;
+  stroke-dasharray:22; stroke-dashoffset:22; animation:draw .45s var(--ease) .05s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+/* 表单错误抖动（transitions.dev 12-error-state-shake：分段 easing） */
+@keyframes t-shake{
+  0%     { transform:translateX(0);     animation-timing-function:cubic-bezier(.22,1,.36,1); }
+  28.57% { transform:translateX(6px);   animation-timing-function:cubic-bezier(.22,1,.36,1); }
+  57.14% { transform:translateX(-6px);  animation-timing-function:cubic-bezier(.22,1,.36,1); }
+  78.57% { transform:translateX(4px);   animation-timing-function:cubic-bezier(.22,1,.36,1); }
+  100%   { transform:translateX(0); }
+}
+.shake{animation:t-shake 380ms both}
+#toast .tk{animation:tkIn .3s var(--ease)}
+@keyframes tkIn{from{opacity:0; transform:scale(.5)} to{opacity:1; transform:scale(1)}}
+/* 高频交互反馈提速（Kowalski：日用交互 0–120ms 级） */
+.chip,.btn-sec,.tab,.gh,.kbd-hint,.iconbtn,.pal-item{transition-duration:.18s}
 </style>
 </head>
 <body>
@@ -475,7 +505,7 @@ footer{
   <div class="l-count num" id="lCount">000</div>
 </div>
 
-<div id="toast" role="status"><span class="dot"></span><span id="toastMsg">已复制</span></div>
+<div id="toast" role="status"><span id="toastIcon"></span><span id="toastMsg">已复制</span></div>
 
 <div id="pal" role="dialog" aria-label="命令面板">
   <div class="pal-box">
@@ -746,18 +776,42 @@ var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var FINE = window.matchMedia('(pointer: fine)').matches;
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-/* ============ Toast ============ */
+/* ============ Toast（Sonner 纪律：一句话） ============ */
 var toastT = null;
-function toast(msg){
+var CHECK_SVG = '<svg class="tk" viewBox="0 0 16 16"><path d="M3 8.5l3.2 3.2L13 5"/></svg>';
+function toast(msg, kind){
   $('toastMsg').textContent = msg;
+  $('toastIcon').innerHTML = (kind === 'ok') ? CHECK_SVG : '';
   var t = $('toast'); t.classList.add('show');
   clearTimeout(toastT); toastT = setTimeout(function(){ t.classList.remove('show'); }, 1800);
 }
 
 /* ============ Preloader ============ */
 var loader = $('loader');
+/* scramble：hero mono 标签字符 churn 后 settle（OriginKit 手法） */
+function scramble(el){
+  var final = el.getAttribute('data-text') || el.textContent;
+  el.setAttribute('data-text', final);
+  if (RM) return;
+  var glyphs = '█▓▒░<>/·—_+#';
+  var t0 = null, dur = 620;
+  function fr(now){
+    if (!t0) t0 = now;
+    var p = Math.min(1, (now - t0) / dur);
+    var n = Math.floor(final.length * (1 - Math.pow(1 - p, 2)));
+    var out = final.slice(0, n);
+    for (var i = n; i < final.length; i++){
+      out += (final[i] === ' ' || final[i] === '·') ? final[i]
+        : glyphs[Math.floor(Math.random() * glyphs.length)];
+    }
+    el.textContent = out;
+    if (p < 1) requestAnimationFrame(fr); else el.textContent = final;
+  }
+  requestAnimationFrame(fr);
+}
 function heroIn(id){
   var h = $(id); h.classList.remove('in'); void h.offsetWidth; h.classList.add('in');
+  var k = h.querySelector('.hero-kicker'); if (k) scramble(k);
 }
 (function(){
   var QS = location.search || '';
@@ -1009,7 +1063,7 @@ $('btnAddSec').addEventListener('click', function(){
 });
 $('btnCopy').addEventListener('click', function(){
   var txt = $('preview').textContent;
-  function done(){ toast('已复制到剪贴板'); renderPreview(true); }
+  function done(){ toast('已复制到剪贴板','ok'); renderPreview(true); }
   function fallback(){
     var ta = document.createElement('textarea');
     ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
@@ -1027,7 +1081,7 @@ $('btnDl').addEventListener('click', function(){
   a.href = URL.createObjectURL(blob); a.download = 'llms.txt';
   document.body.appendChild(a); a.click();
   setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
-  toast('llms.txt 已开始下载');
+  toast('llms.txt 已开始下载','ok');
 });
 
 /* ============ 校验器 ============ */
@@ -1036,7 +1090,7 @@ var DIM_TXT = { h1:'H1 标题', summary:'摘要', sections:'H2 分组', links:'�
 var DIM_MAX = { h1:30, summary:20, sections:30, links:20 };
 var SAMPLE = '# 我的博客\n\n> 一个写独立开发的中文博客\n\n这里记录出海、独立开发和 AI 工具的实战。\n\n## 文章\n\n- [第一篇](https://example.com/p1): 关于独立开发\n- [第二篇](/p2): 关于 AI 工具\n\n## 关于\n\n- [关于我](https://example.com/about)\n';
 $('btnSample').addEventListener('click', function(){
-  $('vInput').value = SAMPLE; toast('示例已载入');
+  $('vInput').value = SAMPLE; toast('示例已载入','ok');
 });
 $('fileUp').addEventListener('change', function(){
   var f = this.files[0]; if (!f) return;
@@ -1045,7 +1099,7 @@ $('fileUp').addEventListener('change', function(){
     try {
       var dec = new TextDecoder($('encSel').value, {fatal:false});
       $('vInput').value = dec.decode(rd.result);
-      toast('文件已读取：' + f.name);
+      toast('文件已读取：' + f.name,'ok');
     } catch(e) { toast('解码失败：浏览器不支持该编码'); }
   };
   rd.readAsArrayBuffer(f);
@@ -1053,26 +1107,45 @@ $('fileUp').addEventListener('change', function(){
 });
 $('btnValidate').addEventListener('click', function(){
   var text = $('vInput').value;
-  if (!text.trim()) { $('vInput').focus(); toast('先粘贴或上传文件内容'); return; }
-  renderResult(LLMS.validateLLMS(text));
-  $('resultCard').hidden = false; $('emptyCard').hidden = true;
-  io.observe($('resultCard'));
-  $('resultCard').scrollIntoView({behavior: RM ? 'auto' : 'smooth', block:'start'});
-});
-function countUp(el, to, dur){
-  if (RM) { el.textContent = to; return; }
-  var t0 = null;
-  function step(ts){
-    if (!t0) t0 = ts;
-    var p = Math.min(1, (ts - t0) / dur);
-    el.textContent = Math.round(to * (1 - Math.pow(1-p, 4)));
-    if (p < 1) requestAnimationFrame(step);
+  if (!text.trim()) {
+    var ta = $('vInput');
+    ta.classList.remove('shake'); void ta.offsetWidth; ta.classList.add('shake');
+    ta.focus(); toast('先粘贴或上传文件内容'); return;
   }
-  requestAnimationFrame(step);
+  var btn = $('btnValidate'), orig = btn.innerHTML;
+  btn.classList.add('working'); btn.innerHTML = '<span class="orb"></span>校验中';
+  setTimeout(function(){
+    renderResult(LLMS.validateLLMS(text));
+    btn.classList.remove('working'); btn.innerHTML = orig;
+    $('resultCard').hidden = false; $('emptyCard').hidden = true;
+    io.observe($('resultCard'));
+    $('resultCard').scrollIntoView({behavior: RM ? 'auto' : 'smooth', block:'start'});
+  }, RM ? 0 : 650);
+});
+/* NumberFlow 式：逐位滚动，只动变化的位，短路径 */
+function renderScore(to){
+  var el = $('scoreNum');
+  var str = String(Math.max(0, Math.min(100, Math.round(to))));
+  el.innerHTML = '';
+  str.split('').forEach(function(ch, i){
+    var col = document.createElement('span'); col.className = 'dcol';
+    var strip = document.createElement('span'); strip.className = 'dstrip';
+    for (var d = 0; d <= 9; d++){
+      var s = document.createElement('span'); s.className = 'dd'; s.textContent = d;
+      strip.appendChild(s);
+    }
+    col.appendChild(strip); el.appendChild(col);
+    (function(st, target, idx){
+      requestAnimationFrame(function(){
+        if (!RM) st.style.transitionDelay = (idx * 65) + 'ms';
+        st.style.transform = 'translateY(' + (-target) + 'em)';
+      });
+    })(strip, +ch, i);
+  });
 }
 function renderResult(r){
   var pct = Math.max(0, Math.min(100, r.score));
-  countUp($('scoreNum'), pct, 1000);
+  renderScore(pct);
   var ec = r.issues.filter(function(i){return i.sev==='error';}).length,
       wc = r.issues.filter(function(i){return i.sev==='warn';}).length;
   $('gradeTitle').textContent = r.hasError ? '存在不合规项'
@@ -1124,6 +1197,12 @@ var CMDS = [
 ];
 var palSel = 0, palItems = [];
 function openPal(){
+  var box = document.querySelector('.pal-box');
+  try {
+    var r = $('palOpen').getBoundingClientRect(), br = box.getBoundingClientRect();
+    box.style.transformOrigin = ((r.left + r.width/2) - br.left) + 'px ' +
+      ((r.top + r.height/2) - br.top) + 'px';
+  } catch(e){}
   $('pal').classList.add('open'); palSel = 0;
   $('palInput').value = ''; renderPal('');
   setTimeout(function(){ $('palInput').focus(); }, 60);
