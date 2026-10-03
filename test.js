@@ -89,9 +89,21 @@ t('列表项无链接：E5b 警告', () => {
   eq(r.issues.find(i => i.code === 'E5b').sev, 'warn');
 });
 
-t('链接在 H2 之前：W0', () => {
+t('详情区普通列表：不判 E5b（v2 官方示例合法）', () => {
+  const r = validateLLMS(`# 站\n\n> 摘要\n\nImportant notes:\n\n- 一条说明\n- 另一条说明\n\n## A\n\n- [x](https://a.com): 描述`);
+  eq(hasCode(r, 'E5b'), false);
+  eq(r.hasError, false);
+});
+
+t('详情区含链接的列表：不再判 W0', () => {
   const r = validateLLMS(`# 站\n\n> 摘要\n\n- [x](https://a.com): 描述\n\n## A\n\n- [y](https://b.com): 描述`);
-  eq(hasCode(r, 'W0'), true);
+  eq(hasCode(r, 'W0'), false);
+});
+
+t('v2 官方 FastHTML 式示例：零误报', () => {
+  const r = validateLLMS(`# FastHTML\n\n> FastHTML is a python library.\n\nImportant notes:\n\n- Although inspired by FastAPI, it is *not* compatible\n- Compatible with vanilla JS, not React\n\n## Docs\n\n- [Quick start](https://fastht.ml): A brief overview\n\n## Optional\n\n- [Starlette docs](https://example.com): Useful subset`);
+  eq(r.hasError, false);
+  eq(r.issues.filter(i => i.sev === 'error' || i.sev === 'warn').length, 0);
 });
 
 t('空分组：W2；无分组：W2b 建议', () => {
