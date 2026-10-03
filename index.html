@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>cetxt · llms.txt 中文生成器与校验器</title>
+<meta name="description" content="面向中文站长的 llms.txt 生成器与校验器：填写表单一键生成符合 llmstxt.org 规范的文件，粘贴校验拿 0–100 AI 就绪度评分。纯前端，文件不出浏览器。">
+<style>
+:root{
+  --bg:#f5f5f7; --card:#ffffff; --text:#1d1d1f; --muted:#6e6e73;
+  --line:rgba(0,0,0,.08); --accent:#007aff; --accent-soft:rgba(0,122,255,.1);
+  --danger:#ff3b30; --danger-soft:rgba(255,59,48,.1);
+  --warn:#ff9500; --warn-soft:rgba(255,149,0,.12);
+  --ok:#34c759; --ok-soft:rgba(52,199,89,.12);
+  --shadow:0 8px 24px rgba(0,0,0,.08);
+  --r-card:20px; --r-ctl:12px;
+  --ease:cubic-bezier(.32,.72,0,1);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#000000; --card:#1c1c1e; --text:#f5f5f7; --muted:#98989d;
+    --line:rgba(255,255,255,.12); --accent:#0a84ff; --accent-soft:rgba(10,132,255,.16);
+    --shadow:0 8px 24px rgba(0,0,0,.4);
+  }
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:-apple-system,"SF Pro Display","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",sans-serif;
+  font-size:17px; line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+.num{font-variant-numeric:tabular-nums}
+/* ---------- header ---------- */
+.topbar{
+  position:sticky; top:0; z-index:20;
+  backdrop-filter:saturate(180%) blur(20px); -webkit-backdrop-filter:saturate(180%) blur(20px);
+  background:color-mix(in srgb, var(--bg) 78%, transparent);
+  border-bottom:.5px solid var(--line);
+}
+.topbar-in{max-width:1120px; margin:0 auto; padding:12px 20px; display:flex; align-items:center; gap:16px}
+.brand{display:flex; align-items:center; gap:10px; font-weight:700; font-size:20px; letter-spacing:-.3px}
+.brand-mark{
+  width:30px; height:30px; border-radius:9px; background:var(--accent); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:15px; font-weight:800;
+}
+.brand small{font-size:11px; color:var(--muted); font-weight:500; display:block; line-height:1.2}
+.seg{
+  margin-left:auto; display:flex; background:var(--line); border-radius:12px; padding:3px; gap:2px;
+}
+.seg button{
+  border:0; background:transparent; color:var(--muted); font-size:15px; font-weight:600;
+  padding:8px 20px; border-radius:9px; cursor:pointer; transition:all .2s var(--ease);
+  font-family:inherit; min-height:36px;
+}
+.seg button.on{background:var(--card); color:var(--text); box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.gh-link{
+  display:flex; align-items:center; gap:6px; color:var(--muted); text-decoration:none;
+  font-size:13px; font-weight:600; padding:8px 12px; border-radius:10px;
+}
+.gh-link:hover{color:var(--text); background:var(--line)}
+/* ---------- layout ---------- */
+.wrap{max-width:1120px; margin:0 auto; padding:32px 20px 64px}
+.hero{margin:8px 0 28px; max-width:640px}
+.hero h1{font-size:34px; line-height:1.2; letter-spacing:-.5px; margin:0 0 12px; font-weight:700}
+.hero p{margin:0; color:var(--muted); font-size:17px}
+.hero p b{color:var(--text); font-weight:600}
+.card{
+  background:var(--card); border-radius:var(--r-card); box-shadow:var(--shadow);
+  padding:24px; margin-bottom:24px;
+}
+.card h2{font-size:20px; margin:0 0 4px; font-weight:700; letter-spacing:-.3px}
+.card .sub{font-size:13px; color:var(--muted); margin:0 0 20px}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start}
+@media (max-width:860px){ .grid2{grid-template-columns:1fr} }
+/* ---------- form ---------- */
+.field{margin-bottom:16px}
+.field label{display:block; font-size:13px; font-weight:600; color:var(--muted); margin-bottom:8px}
+.field label .req{color:var(--danger)}
+input[type=text], input[type=url], textarea, select{
+  width:100%; border:.5px solid var(--line); border-radius:var(--r-ctl);
+  background:var(--bg); color:var(--text); font-size:16px; font-family:inherit;
+  padding:12px 14px; outline:none; transition:border-color .2s var(--ease), box-shadow .2s var(--ease);
+}
+input:focus, textarea:focus, select:focus{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft)}
+textarea{resize:vertical; min-height:88px; line-height:1.6}
+textarea.mono, .preview{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:13.5px}
+.hint{font-size:12px; color:var(--muted); margin-top:6px}
+/* link rows */
+.linkrow{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px}
+.linkrow .full{grid-column:1/-1}
+.linkrow input{padding:10px 12px; font-size:15px}
+.rowhead{display:flex; align-items:center; gap:8px; margin:20px 0 12px}
+.rowhead h3{font-size:17px; margin:0; font-weight:700}
+.rowhead .sec-del{margin-left:auto}
+.iconbtn{
+  border:.5px solid var(--line); background:var(--card); color:var(--muted);
+  width:32px; height:32px; border-radius:10px; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center;
+  transition:all .2s var(--ease); flex:none;
+}
+.iconbtn:hover{color:var(--danger); border-color:var(--danger)}
+.iconbtn svg{width:16px; height:16px}
+.btn{
+  border:0; border-radius:var(--r-ctl); font-size:16px; font-weight:600; font-family:inherit;
+  padding:13px 22px; cursor:pointer; transition:transform .15s var(--ease), box-shadow .2s var(--ease), background .2s;
+  min-height:48px; display:inline-flex; align-items:center; justify-content:center; gap:8px;
+}
+.btn:active{transform:scale(.97)}
+.btn-pri{background:var(--accent); color:#fff; box-shadow:0 4px 14px rgba(0,122,255,.35)}
+.btn-pri:hover{filter:brightness(1.06)}
+.btn-pri:disabled{background:var(--line); color:var(--muted); box-shadow:none; cursor:not-allowed}
+.btn-sec{background:var(--line); color:var(--text)}
+.btn-sec:hover{filter:brightness(.96)}
+.btn-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:20px}
+.chips{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px}
+.chip{
+  border:.5px solid var(--line); background:var(--card); border-radius:999px;
+  font-size:13px; font-weight:600; color:var(--muted); padding:8px 16px; cursor:pointer;
+  transition:all .2s var(--ease); font-family:inherit;
+}
+.chip:hover{color:var(--accent); border-color:var(--accent)}
+/* preview */
+.preview-wrap{position:sticky; top:76px}
+.preview{
+  background:var(--bg); border:.5px solid var(--line); border-radius:14px;
+  padding:18px; white-space:pre-wrap; word-break:break-word; max-height:520px; overflow:auto;
+  margin:0; line-height:1.7; min-height:200px;
+}
+.preview:empty::before{content:"左侧填写后，这里实时预览生成的 llms.txt"; color:var(--muted)}
+.copy-ok{font-size:13px; color:var(--ok); font-weight:600; opacity:0; transition:opacity .3s}
+.copy-ok.show{opacity:1}
+.warnline{
+  display:flex; gap:8px; align-items:flex-start; font-size:13px; color:#b25e00;
+  background:var(--warn-soft); border-radius:10px; padding:10px 12px; margin-top:12px;
+}
+@media (prefers-color-scheme:dark){ .warnline{color:#ffb340} }
+/* ---------- validator ---------- */
+.val-actions{display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-top:16px}
+.val-actions select{width:auto; padding:10px 12px; font-size:14px}
+.score-head{display:flex; gap:24px; align-items:center; margin-bottom:8px; flex-wrap:wrap}
+.ring{position:relative; width:132px; height:132px; flex:none}
+.ring svg{transform:rotate(-90deg)}
+.ring .val{
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+}
+.ring .val b{font-size:34px; font-weight:800; letter-spacing:-1px}
+.ring .val span{font-size:11px; color:var(--muted); font-weight:600}
+.grade h3{margin:0 0 6px; font-size:22px}
+.grade p{margin:0; color:var(--muted); font-size:14px}
+.badge{
+  display:inline-block; font-size:12px; font-weight:700; border-radius:999px;
+  padding:4px 12px; margin-bottom:8px;
+}
+.badge.bad{background:var(--danger-soft); color:var(--danger)}
+.badge.good{background:var(--ok-soft); color:var(--ok)}
+.dims{margin:20px 0}
+.dim{display:grid; grid-template-columns:110px 1fr 48px; gap:12px; align-items:center; margin-bottom:12px; font-size:14px}
+.dim .bar{height:8px; border-radius:99px; background:var(--line); overflow:hidden}
+.dim .bar i{display:block; height:100%; background:var(--accent); border-radius:99px; transition:width .6s var(--ease)}
+.dim b{text-align:right; font-variant-numeric:tabular-nums}
+.issues{margin-top:8px}
+.issue{
+  display:flex; gap:12px; padding:14px 4px; border-top:.5px solid var(--line); font-size:14px;
+  animation:fadein .3s var(--ease);
+}
+@keyframes fadein{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none}}
+.sev{flex:none; font-size:11px; font-weight:800; border-radius:7px; padding:3px 8px; height:fit-content; margin-top:2px}
+.sev.error{background:var(--danger-soft); color:var(--danger)}
+.sev.warn{background:var(--warn-soft); color:#b25e00}
+@media (prefers-color-scheme:dark){ .sev.warn{color:#ffb340} }
+.sev.info{background:var(--accent-soft); color:var(--accent)}
+.issue .msg b{display:block; font-weight:600; margin-bottom:2px}
+.issue .msg .fix{color:var(--muted); font-size:13px}
+.issue .ln{margin-left:auto; flex:none; font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums; padding-top:4px}
+.empty{
+  text-align:center; padding:56px 20px; color:var(--muted);
+}
+.empty svg{width:48px; height:48px; margin-bottom:12px; opacity:.5}
+.empty p{margin:0; font-size:15px}
+.checklist{list-style:none; margin:12px 0 0; padding:0; font-size:14px; color:var(--muted)}
+.checklist li{padding:8px 0 8px 28px; position:relative; border-top:.5px solid var(--line)}
+.checklist li::before{
+  content:""; position:absolute; left:2px; top:13px; width:14px; height:14px;
+  border-radius:5px; border:1.5px solid var(--line); background:var(--bg);
+}
+/* spec */
+.spec-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+@media (max-width:700px){ .spec-grid{grid-template-columns:1fr} }
+.spec-box{background:var(--bg); border-radius:14px; padding:18px}
+.spec-box h4{margin:0 0 10px; font-size:15px}
+.spec-box ul{margin:0; padding-left:18px; font-size:14px; color:var(--muted)}
+.spec-box li{margin-bottom:6px}
+.spec-box code{background:var(--line); border-radius:6px; padding:1px 6px; font-size:12.5px; color:var(--text)}
+footer{border-top:.5px solid var(--line); padding:28px 20px 40px; color:var(--muted); font-size:13px}
+footer .wrap{padding:0}
+footer a{color:var(--accent); text-decoration:none}
+.footnote{
+  margin-top:24px; font-size:13px; color:var(--muted); background:var(--bg);
+  border-radius:12px; padding:14px 16px;
+}
+.footnote b{color:var(--text)}
+[hidden]{display:none !important}
+@media (prefers-reduced-motion:reduce){
+  *, *::before, *::after{animation-duration:.01ms !important; transition-duration:.01ms !important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand"><span class="brand-mark">测</span><span>cetxt<small>llms.txt 中文工具</small></span></div>
+    <nav class="seg" role="tablist" aria-label="功能切换">
+      <button id="tabBtnGen" class="on" role="tab" aria-selected="true">生成器</button>
+      <button id="tabBtnVal" role="tab" aria-selected="false">校验器</button>
+    </nav>
+    <a class="gh-link" href="https://github.com/yehyakin/llms-txt-cn" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      GitHub
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- ============ 生成器 ============ -->
+  <section id="tabGen">
+    <div class="hero">
+      <h1>给 AI 的网站说明书，<br>三分钟写好。</h1>
+      <p>填表单 → 生成符合 <b>llmstxt.org</b> 规范的 <b>llms.txt</b> → 一键复制或下载。全程在浏览器里完成，文件不上传。</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h2>网站信息</h2>
+        <p class="sub">先选个模板，或直接填写</p>
+        <div class="chips" id="tplChips">
+          <button class="chip" data-tpl="blog">博客</button>
+          <button class="chip" data-tpl="company">企业官网</button>
+          <button class="chip" data-tpl="docs">文档站</button>
+          <button class="chip" data-tpl="clear">清空</button>
+        </div>
+        <div class="field">
+          <label>站点名称 <span class="req">*</span> <span class="hint">—— 会成为文件的 H1 标题，唯一必填项</span></label>
+          <input type="text" id="fName" placeholder="例如：我的独立博客" autocomplete="off">
+        </div>
+        <div class="field">
+          <label>站点 URL</label>
+          <input type="url" id="fUrl" placeholder="https://example.com" autocomplete="off" inputmode="url">
+        </div>
+        <div class="field">
+          <label>一句话简介 <span class="hint">—— 给 AI 的电梯演讲，强烈推荐写</span></label>
+          <textarea id="fTagline" rows="2" placeholder="例如：一个记录独立开发实战的中文博客"></textarea>
+        </div>
+        <div class="field">
+          <label>补充说明 <span class="hint">—— 可选，几段话讲清网站是干嘛的</span></label>
+          <textarea id="fDetails" rows="3" placeholder="例如：主要写出海 SaaS 和 AI 工具评测，每周更新。"></textarea>
+        </div>
+        <div id="secList"></div>
+        <div class="btn-row">
+          <button class="btn btn-sec" id="btnAddSec" type="button">+ 添加分组</button>
+        </div>
+      </div>
+      <div class="preview-wrap">
+        <div class="card">
+          <h2>预览</h2>
+          <p class="sub">实时生成 · Markdown 格式</p>
+          <pre class="preview" id="preview"></pre>
+          <div class="warnline" id="exWarn" hidden>
+            <span>注意：还有 example.com 示例链接没替换，发布前记得改成真实地址。</span>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-pri" id="btnCopy" type="button" disabled>复制</button>
+            <button class="btn btn-sec" id="btnDl" type="button" disabled>下载 llms.txt</button>
+            <span class="copy-ok" id="copyOk">已复制</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 校验器 ============ -->
+  <section id="tabVal" hidden>
+    <div class="hero">
+      <h1>粘贴，校验，<br>拿一个诚实的分数。</h1>
+      <p>按 <b>llmstxt.org v2</b> 规范检查结构与链接，给出 <b>0–100 文件质量分</b>和每条问题的修复建议。分数只代表文件写得好不好，不代表 AI 会收录你。</p>
+    </div>
+    <div class="card">
+      <h2>输入待校验的文件内容</h2>
+      <p class="sub">粘贴文本，或上传 .txt 文件（支持 UTF-8 / GBK / Big5 编码）</p>
+      <div class="field">
+        <textarea id="vInput" class="mono" rows="10" placeholder="# 站点名称&#10;&#10;> 一句话简介&#10;&#10;## 分组&#10;&#10;- [名称](https://example.com/page): 描述"></textarea>
+      </div>
+      <div class="val-actions">
+        <button class="btn btn-pri" id="btnValidate" type="button">开始校验</button>
+        <button class="btn btn-sec" id="btnSample" type="button">载入示例</button>
+        <label class="btn btn-sec" for="fileUp" style="cursor:pointer">上传文件</label>
+        <input type="file" id="fileUp" accept=".txt,.md,text/plain" hidden>
+        <select id="encSel" aria-label="文件编码">
+          <option value="utf-8">UTF-8</option>
+          <option value="gbk">GBK</option>
+          <option value="big5">Big5</option>
+          <option value="gb2312">GB2312</option>
+        </select>
+      </div>
+    </div>
+    <div class="card" id="resultCard" hidden>
+      <div class="score-head">
+        <div class="ring">
+          <svg width="132" height="132" viewBox="0 0 132 132">
+            <circle cx="66" cy="66" r="54" fill="none" stroke="var(--line)" stroke-width="10"/>
+            <circle id="ringFg" cx="66" cy="66" r="54" fill="none" stroke="var(--accent)" stroke-width="10"
+              stroke-linecap="round" stroke-dasharray="339.29" stroke-dashoffset="339.29"/>
+          </svg>
+          <div class="val"><b class="num" id="scoreNum">0</b><span>AI 就绪度</span></div>
+        </div>
+        <div class="grade">
+          <span class="badge good" id="gradeBadge">良好</span>
+          <h3 id="gradeTitle">文件可用</h3>
+          <p id="gradeDesc" class="num"></p>
+        </div>
+      </div>
+      <div class="dims" id="dimsBox"></div>
+      <h2 style="margin-top:8px">问题清单</h2>
+      <p class="sub">错误必须修，警告建议修，建议看情况。展开每条都有修复方法。</p>
+      <div class="issues" id="issuesBox"></div>
+      <h2 style="margin-top:24px">本次未验证</h2>
+      <p class="sub">纯前端受浏览器跨域限制，以下几项 v1 无法自动检查，请手动确认</p>
+      <ul class="checklist" id="unverBox"></ul>
+      <div class="footnote"><b>口径说明：</b>这个分数是<b>文件质量分</b>，不是"AI 收录分"。截至 2026 年，没有主流大模型厂商公开承诺系统性消费 llms.txt。把它当作网站卫生项，而不是排名手段。</div>
+    </div>
+    <div class="card" id="emptyCard">
+      <div class="empty">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <p>粘贴 llms.txt 内容后点「开始校验」，<br>这里会显示评分和问题清单。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 部署指南 ============ -->
+  <section class="card" id="deploySec">
+    <h2>部署指南</h2>
+    <p class="sub">文件生成后，三步上线。核心就一条：让 https://你的域名/llms.txt 在浏览器里能直接看到纯文本</p>
+    <div class="spec-grid">
+      <div class="spec-box">
+        <h4>WordPress / 虚拟主机</h4>
+        <ul>
+          <li>主机面板 → 文件管理器 → 进入 <code>public_html</code></li>
+          <li>上传 <code>llms.txt</code>（文件名全小写）</li>
+          <li>或用 Yoast SEO / AIOSEO 插件一键生成，自动随文章更新</li>
+        </ul>
+      </div>
+      <div class="spec-box">
+        <h4>Vercel / Next.js / 静态站</h4>
+        <ul>
+          <li>把 <code>llms.txt</code> 放进 <code>public/</code> 目录</li>
+          <li>重新部署，访问 <code>/llms.txt</code> 确认</li>
+          <li>Hugo / Hexo 同理：放进 <code>static/</code> 目录</li>
+        </ul>
+      </div>
+      <div class="spec-box">
+        <h4>自有服务器（Nginx / Caddy）</h4>
+        <ul>
+          <li>放到网站根目录，与首页同级</li>
+          <li>确认返回 <code>Content-Type: text/plain</code> 而非 HTML</li>
+          <li>别让 WAF 把它当成可疑请求拦掉</li>
+        </ul>
+      </div>
+      <div class="spec-box">
+        <h4>上线后复查清单</h4>
+        <ul>
+          <li>浏览器打开 <code>/llms.txt</code>，看到的是文本不是网页</li>
+          <li>随机点开 3–5 个链接，确认都能访问、不是 404</li>
+          <li>改版或迁移后重新跑一遍校验（路由变了链接最容易挂）</li>
+          <li><code>robots.txt</code> 确认没有误伤想开放的 AI 爬虫</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 规范速览 ============ -->
+  <section class="card">
+    <h2>规范速览</h2>
+    <p class="sub">依据 llmstxt.org v2（2026-08）。校验器的每条结论都能在这里找到依据</p>
+    <div class="spec-grid">
+      <div class="spec-box">
+        <h4>必须</h4>
+        <ul>
+          <li><code># 站点名</code> 是唯一必填章节，且只能有一个</li>
+          <li>顺序固定：H1 → 摘要 → 详情段 → H2 分组</li>
+          <li>每项是一个 Markdown 链接 <code>[名称](URL)</code>，名称不能为空</li>
+          <li>文件可放根目录或子路径（如 <code>/docs/llms.txt</code>）</li>
+        </ul>
+      </div>
+      <div class="spec-box">
+        <h4>推荐</h4>
+        <ul>
+          <li>H1 后跟 <code>&gt;</code> 引用块写一句话摘要</li>
+          <li>链接用 <code>https://</code> 绝对地址，并配 <code>: 描述</code></li>
+          <li>名为 <code>Optional</code> 的分组会被 AI 跳过，别放核心链接</li>
+          <li>v2 新增发现机制：<code>rel=describedby</code> 指向 llms.txt</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>cetxt · llms.txt 中文工具 · 开源 <a href="https://github.com/yehyakin/llms-txt-cn" target="_blank" rel="noopener">yehyakin/llms-txt-cn</a>（MIT）</div>
+    <div style="margin-top:8px">规范来源 <a href="https://llmstxt.org" target="_blank" rel="noopener">llmstxt.org</a>。评分是文件质量分，不承诺任何 AI 平台收录或排名。</div>
+  </div>
+</footer>
+<script src="llms.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = function(id){ return document.getElementById(id); };
+
+  /* ---------- Tab 切换 ---------- */
+  var tabGen = $('tabGen'), tabVal = $('tabVal');
+  $('tabBtnGen').addEventListener('click', function(){ switchTab(true); });
+  $('tabBtnVal').addEventListener('click', function(){ switchTab(false); });
+  function switchTab(isGen){
+    tabGen.hidden = !isGen; tabVal.hidden = isGen;
+    $('tabBtnGen').classList.toggle('on', isGen);
+    $('tabBtnVal').classList.toggle('on', !isGen);
+    $('tabBtnGen').setAttribute('aria-selected', isGen);
+    $('tabBtnVal').setAttribute('aria-selected', !isGen);
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  /* ---------- 生成器 ---------- */
+  var state = { sections: [] };
+
+  var TPLS = {
+    blog: { name:'我的博客', url:'https://example.com', tagline:'一个记录独立开发实战的中文博客',
+      details:'主要写出海 SaaS、AI 工具评测和独立开发收入复盘，每周更新。',
+      sections:[ {title:'文章', links:[
+        {name:'关于独立开发', url:'https://example.com/indie', desc:'独立开发入门指南'},
+        {name:'AI 工具评测', url:'https://example.com/ai-tools', desc:'每周更新的工具实测'} ]},
+        {title:'关于', links:[ {name:'关于我', url:'https://example.com/about', desc:'博主介绍与联系方式'} ]} ] },
+    company: { name:'示例公司', url:'https://example.com', tagline:'为中小团队提供 SaaS 工具',
+      details:'成立于 2020 年，专注提升团队协作效率。',
+      sections:[ {title:'产品', links:[
+        {name:'产品介绍', url:'https://example.com/product', desc:'核心功能与定价'},
+        {name:'客户案例', url:'https://example.com/cases', desc:'各行业落地案例'} ]},
+        {title:'支持', links:[
+        {name:'帮助中心', url:'https://example.com/help', desc:'常见问题与教程'},
+        {name:'联系我们', url:'https://example.com/contact', desc:'商务合作与客服'} ]} ] },
+    docs: { name:'示例文档', url:'https://example.com', tagline:'产品的使用文档与 API 参考',
+      details:'面向开发者的完整文档，包含快速开始、概念讲解和 API 参考。',
+      sections:[ {title:'快速开始', links:[
+        {name:'安装', url:'https://example.com/docs/install', desc:'5 分钟跑起来'},
+        {name:'第一个项目', url:'https://example.com/docs/quickstart', desc:'手把手教程'} ]},
+        {title:'API 参考', links:[ {name:'REST API', url:'https://example.com/docs/api', desc:'完整接口文档'} ]} ] }
+  };
+
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function syncFromInputs(){
+    state.name = $('fName').value; state.url = $('fUrl').value;
+    state.tagline = $('fTagline').value; state.details = $('fDetails').value;
+  }
+  function renderSections(){
+    var box = $('secList'); box.innerHTML = '';
+    state.sections.forEach(function(sec, si){
+      var wrap = document.createElement('div');
+      var html = '<div class="rowhead"><h3>分组 ' + (si+1) + '</h3>' +
+        '<button class="iconbtn sec-del" data-si="'+si+'" title="删除分组" aria-label="删除分组">' +
+        '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 4h12M6 4V2.5A.5.5 0 016.5 2h3a.5.5 0 01.5.5V4M4 4l.8 9.2a1 1 0 001 .8h4.4a1 1 0 001-.8L12 4"/></svg></button></div>' +
+        '<div class="field"><input type="text" data-sec="'+si+'" placeholder="分组标题，例如：产品文档" value="'+esc(sec.title)+'"></div><div data-links="'+si+'"></div>' +
+        '<button class="chip" data-addlink="'+si+'">+ 添加链接</button>';
+      wrap.innerHTML = html;
+      var linksBox = wrap.querySelector('[data-links="'+si+'"]');
+      sec.links.forEach(function(lk, li){
+        var row = document.createElement('div');
+        row.className = 'linkrow';
+        row.innerHTML =
+          '<input type="text" placeholder="名称 *" value="'+esc(lk.name)+'" data-lk="'+si+':'+li+':name" aria-label="链接名称">' +
+          '<input type="url" placeholder="https://… *" value="'+esc(lk.url)+'" data-lk="'+si+':'+li+':url" inputmode="url" aria-label="链接地址">' +
+          '<input type="text" class="full" placeholder="一句话描述（推荐写）" value="'+esc(lk.desc)+'" data-lk="'+si+':'+li+':desc" aria-label="链接描述">' +
+          '<button class="iconbtn full" data-dellink="'+si+':'+li+'" title="删除链接" aria-label="删除链接" style="width:100%;height:34px">' +
+          '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10"/></svg></button>';
+        linksBox.appendChild(row);
+      });
+      box.appendChild(wrap);
+    });
+    // 绑定
+    box.querySelectorAll('[data-sec]').forEach(function(inp){
+      inp.addEventListener('input', function(){ state.sections[+inp.dataset.sec].title = inp.value; updatePreview(); });
+    });
+    box.querySelectorAll('[data-lk]').forEach(function(inp){
+      inp.addEventListener('input', function(){
+        var p = inp.dataset.lk.split(':'), si = +p[0], li = +p[1], k = p[2];
+        state.sections[si].links[li][k] = inp.value; updatePreview();
+      });
+    });
+    box.querySelectorAll('[data-addlink]').forEach(function(b){
+      b.addEventListener('click', function(){
+        state.sections[+b.dataset.addlink].links.push({name:'',url:'',desc:''});
+        renderSections(); updatePreview();
+      });
+    });
+    box.querySelectorAll('[data-dellink]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var p = b.dataset.dellink.split(':');
+        state.sections[+p[0]].links.splice(+p[1],1);
+        renderSections(); updatePreview();
+      });
+    });
+    box.querySelectorAll('.sec-del').forEach(function(b){
+      b.addEventListener('click', function(){
+        state.sections.splice(+b.dataset.si,1);
+        renderSections(); updatePreview();
+      });
+    });
+  }
+
+  function applyTpl(key){
+    if (key === 'clear') {
+      $('fName').value = $('fUrl').value = $('fTagline').value = $('fDetails').value = '';
+      state.sections = [{title:'', links:[{name:'',url:'',desc:''}]}];
+    } else {
+      var t = TPLS[key];
+      $('fName').value = t.name; $('fUrl').value = t.url;
+      $('fTagline').value = t.tagline; $('fDetails').value = t.details;
+      state.sections = JSON.parse(JSON.stringify(t.sections));
+    }
+    syncFromInputs(); renderSections(); updatePreview();
+  }
+  document.querySelectorAll('#tplChips .chip').forEach(function(c){
+    c.addEventListener('click', function(){ applyTpl(c.dataset.tpl); });
+  });
+  ['fName','fUrl','fTagline','fDetails'].forEach(function(id){
+    $(id).addEventListener('input', function(){ syncFromInputs(); updatePreview(); });
+  });
+  $('btnAddSec').addEventListener('click', function(){
+    state.sections.push({title:'', links:[{name:'',url:'',desc:''}]});
+    renderSections(); updatePreview();
+  });
+
+  function buildData(){
+    syncFromInputs();
+    return { siteName: state.name, siteUrl: state.url, tagline: state.tagline,
+      details: state.details, sections: state.sections };
+  }
+  function updatePreview(){
+    var md = LLMS.generateLLMS(buildData());
+    var hasContent = (state.name||'').trim() !== '';
+    $('preview').textContent = hasContent ? md : '';
+    $('btnCopy').disabled = $('btnDl').disabled = !hasContent;
+    var warn = hasContent && /example\.com/.test(md);
+    $('exWarn').hidden = !warn;
+  }
+  function flashCopy(){
+    var el = $('copyOk'); el.classList.add('show');
+    setTimeout(function(){ el.classList.remove('show'); }, 1600);
+  }
+  $('btnCopy').addEventListener('click', function(){
+    var txt = $('preview').textContent;
+    function done(){ flashCopy(); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(done).catch(function(){ fallback(); });
+    } else fallback();
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done(); } catch(e){}
+      document.body.removeChild(ta);
+    }
+  });
+  $('btnDl').addEventListener('click', function(){
+    var blob = new Blob([$('preview').textContent], {type:'text/plain;charset=utf-8'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'llms.txt';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  });
+
+  /* ---------- 校验器 ---------- */
+  var SEV_TXT = { error:'错误', warn:'警告', suggest:'建议', info:'提示' };
+  var DIM_TXT = { h1:'H1 标题', summary:'摘要', sections:'H2 分组', links:'链接质量' };
+  var DIM_MAX = { h1:30, summary:20, sections:30, links:20 };
+
+  var SAMPLE = '# 我的博客\n\n> 一个写独立开发的中文博客\n\n这里记录出海、独立开发和 AI 工具的实战。\n\n## 文章\n\n- [第一篇](https://example.com/p1): 关于独立开发\n- [第二篇](/p2): 关于 AI 工具\n\n## 关于\n\n- [关于我](https://example.com/about)\n';
+  $('btnSample').addEventListener('click', function(){ $('vInput').value = SAMPLE; });
+
+  $('fileUp').addEventListener('change', function(){
+    var f = this.files[0]; if (!f) return;
+    var rd = new FileReader();
+    rd.onload = function(){
+      try {
+        var dec = new TextDecoder($('encSel').value, {fatal:false});
+        $('vInput').value = dec.decode(rd.result);
+      } catch(e) {
+        $('vInput').value = '解码失败：浏览器不支持该编码';
+      }
+    };
+    rd.readAsArrayBuffer(f);
+    this.value = '';
+  });
+
+  $('btnValidate').addEventListener('click', function(){
+    var text = $('vInput').value;
+    if (!text.trim()) { $('vInput').focus(); return; }
+    var r = LLMS.validateLLMS(text);
+    renderResult(r);
+    $('resultCard').hidden = false; $('emptyCard').hidden = true;
+    $('resultCard').scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  function renderResult(r){
+    // 分数环
+    var C = 339.29, pct = Math.max(0, Math.min(100, r.score));
+    var fg = $('ringFg');
+    fg.style.transition = 'none'; fg.style.strokeDashoffset = C;
+    requestAnimationFrame(function(){
+      fg.style.transition = 'stroke-dashoffset .8s cubic-bezier(.32,.72,0,1)';
+      fg.style.strokeDashoffset = C * (1 - pct/100);
+    });
+    fg.setAttribute('stroke', r.hasError ? 'var(--danger)' : pct >= 75 ? 'var(--ok)' : pct >= 60 ? 'var(--warn)' : 'var(--danger)');
+    // 数字滚动
+    var n0 = 0, t0 = null;
+    function step(ts){
+      if (!t0) t0 = ts;
+      var p = Math.min(1, (ts - t0) / 700);
+      $('scoreNum').textContent = Math.round(pct * (1 - Math.pow(1-p, 3)));
+      if (p < 1) requestAnimationFrame(step);
+    }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) $('scoreNum').textContent = pct;
+    else requestAnimationFrame(step);
+
+    var badge = $('gradeBadge');
+    badge.textContent = r.grade;
+    badge.className = 'badge ' + (r.hasError || r.score < 60 ? 'bad' : 'good');
+    var ec = r.issues.filter(function(i){return i.sev==='error';}).length,
+        wc = r.issues.filter(function(i){return i.sev==='warn';}).length;
+    $('gradeTitle').textContent = r.hasError ? '存在不合规项' : ({'优秀':'写得很好','良好':'文件可用','可用':'基本可用','待改进':'需要改进'})[r.grade];
+    $('gradeDesc').textContent = '发现 ' + ec + ' 个错误、' + wc + ' 个警告 · ' +
+      r.stats.links + ' 个链接 · ' + r.stats.sections + ' 个分组 · 约 ' +
+      (r.stats.bytes > 1024 ? Math.round(r.stats.bytes/1024) + 'KB' : r.stats.bytes + 'B');
+
+    // 维度条
+    var dimsBox = $('dimsBox'); dimsBox.innerHTML = '';
+    Object.keys(DIM_TXT).forEach(function(k){
+      var row = document.createElement('div'); row.className = 'dim';
+      var p = DIM_MAX[k] ? Math.round(r.dims[k]/DIM_MAX[k]*100) : 0;
+      row.innerHTML = '<span>' + DIM_TXT[k] + '</span>' +
+        '<div class="bar"><i style="width:0%"></i></div><b class="num">' + r.dims[k] + '/' + DIM_MAX[k] + '</b>';
+      dimsBox.appendChild(row);
+      requestAnimationFrame(function(){ row.querySelector('i').style.width = p + '%'; });
+    });
+
+    // 问题清单
+    var box = $('issuesBox'); box.innerHTML = '';
+    var order = { error:0, warn:1, suggest:2, info:3 };
+    var items = r.issues.slice().sort(function(a,b){ return (order[a.sev]-order[b.sev]) || (a.line-b.line); });
+    if (!items.length) {
+      box.innerHTML = '<div class="empty"><p>没有发现问题，文件很干净。</p></div>';
+    }
+    items.forEach(function(it){
+      var d = document.createElement('div'); d.className = 'issue';
+      d.innerHTML = '<span class="sev ' + it.sev + '">' + SEV_TXT[it.sev] + '</span>' +
+        '<div class="msg"><b>' + esc(it.msg) + '</b><span class="fix">修复：' + esc(it.fix) + '</span></div>' +
+        '<span class="ln">L' + it.line + '</span>';
+      box.appendChild(d);
+    });
+
+    // 未验证
+    var ub = $('unverBox'); ub.innerHTML = '';
+    r.unverified.forEach(function(u){
+      var li = document.createElement('li');
+      li.innerHTML = '<b style="color:var(--text)">' + esc(u.title) + '</b>：' + esc(u.msg) + '（' + esc(u.fix) + '）';
+      ub.appendChild(li);
+    });
+  }
+
+  /* 初始化 */
+  state.sections = [{title:'', links:[{name:'',url:'',desc:''}]}];
+  renderSections(); updatePreview();
+})();
+</script>
+</body>
+</html>
