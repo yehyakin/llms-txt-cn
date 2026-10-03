@@ -132,12 +132,13 @@
       if (d.deep) push('suggest', 'S1', d.line, '详情区出现了三级及以下标题', '规范建议 H1 与 H2 之间只放段落和列表，标题移到 H2 分组里');
     });
 
-    /* 逐项检查链接 */
+    /* 逐项检查链接：只查 H2 分组内的文件列表。H1 与 H2 之间的详情区是自由格式
+       （段落、普通列表都合法，官方示例即如此），不要求每个列表项都有链接 */
     var seenURLs = {}, linkStats = { total: 0, abs: 0, desc: 0 };
     p.items.forEach(function (it) {
+      if (!it.inSection) return; // 详情区列表：合法，不检查
       var links = extractLinks(it.body);
       if (!links.length) { push('warn', 'E5b', it.line, '列表项里没有有效的 Markdown 链接', '改成「- [名称](https://…)」格式'); return; }
-      if (!it.inSection) push('warn', 'W0', it.line, '链接出现在 H2 分组之前', '把链接放进某个 ## 分组下，结构更清晰');
       links.forEach(function (L) {
         linkStats.total++;
         if (L.broken) { push('error', 'E5', it.line, '链接括号不配对：' + it.body.slice(0, 40), '检查 [名称](URL) 的括号是否成对闭合'); return; }
@@ -176,7 +177,7 @@
       var k = h.text.trim().toLowerCase();
       if (seenH2[k]) push('warn', 'W4', h.line, '分组名「' + h.text.trim() + '」在第 ' + seenH2[k] + ' 行出现过', '合并或改名');
       else seenH2[k] = h.line;
-      if (/^\s*optional\s*$/i.test(h.text)) push('info', 'W10', h.line, '名为 Optional 的分组按惯例会被 AI 跳过', '别把核心链接放在这里');
+      if (/^\s*optional\s*$/i.test(h.text)) push('info', 'W10', h.line, 'Optional 是放次要链接的约定：Agent 在需要更短上下文时可以忽略，v2 不再赋予它机械跳过语义', '核心内容放前面的分组，这里只放次要链接');
     });
 
     /* W5 长度卫生 */
