@@ -1,0 +1,13 @@
+[Unit]
+Description=cetxt llms.txt online check backend
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /srv/cetxt/check.py
+Restart=always
+RestartSec=3
+User=root
+
+[Install]
+WantedBy=multi-user.target
