@@ -1055,6 +1055,9 @@ $('tabBtnGen').addEventListener('click', function(){ switchTab(true); });
 $('tabBtnVal').addEventListener('click', function(){ switchTab(false); });
 $('tabBtnCheck').addEventListener('click', function(){ switchTab('check'); });
 $('brandHome').addEventListener('click', function(){ switchTab(true); });
+// 动态结果卡片使用行内 onclick 调用这两个函数；脚本包在 IIFE 内，需显式暴露到全局
+window.switchTab = switchTab;
+window.checkGoDetail = checkGoDetail;
 
 /* ============ 生成器 ============ */
 var state = { sections: [] };
