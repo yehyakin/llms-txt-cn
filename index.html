@@ -602,8 +602,8 @@ footer{
   <div class="topbar-in">
     <a class="brand" id="brandHome"><b>ce<em>txt</em></b><span>LLMS.TXT 中文工具</span></a>
     <nav class="tabs" role="tablist" aria-label="功能切换">
-      <button class="tab on" id="tabBtnCheck" role="tab" aria-selected="true"><span class="n">01</span>在线体检</button>
-      <button class="tab" id="tabBtnGen" role="tab" aria-selected="false"><span class="n">02</span>生成器</button>
+      <button class="tab on" id="tabBtnGen" role="tab" aria-selected="true"><span class="n">01</span>生成器</button>
+      <button class="tab" id="tabBtnCheck" role="tab" aria-selected="false"><span class="n">02</span>在线体检</button>
       <button class="tab" id="tabBtnVal" role="tab" aria-selected="false"><span class="n">03</span>校验器</button>
     </nav>
     <div class="top-actions">
@@ -619,7 +619,7 @@ footer{
 <div class="stage">
 <main>
   <!-- ============ 生成器 ============ -->
-  <section id="tabGen" hidden>
+  <section id="tabGen">
     <div class="wrap">
       <div class="hero" id="heroGen">
         <div class="spot"></div>
@@ -764,7 +764,7 @@ footer{
   </section>
 
   <!-- ============ 部署指南 ============ -->
-  <section id="tabCheck">
+  <section id="tabCheck" hidden>
     <div class="wrap">
       <div class="hero" id="heroCheck">
         <div class="spot"></div>
@@ -950,7 +950,7 @@ function heroIn(id){
   var QS = location.search || '';
   if (RM || sessionStorage.getItem('cetxt_seen') || QS.indexOf('noloader') > -1) {
     loader.style.display = 'none';
-    heroIn('heroCheck');
+    heroIn('heroGen');
     return;
   }
   var c = $('lCount'), fill = $('lbarFill'), n = 0, t0 = null;
@@ -964,7 +964,7 @@ function heroIn(id){
     else {
       sessionStorage.setItem('cetxt_seen','1');
       loader.classList.add('done');
-      setTimeout(function(){ heroIn('heroCheck'); }, 350);
+      setTimeout(function(){ heroIn('heroGen'); }, 350);
       setTimeout(function(){ loader.style.display = 'none'; }, 1400);
     }
   }
@@ -1052,7 +1052,7 @@ function switchTab(which){
 }
 $('tabBtnGen').addEventListener('click', function(){ switchTab(true); });
 $('tabBtnVal').addEventListener('click', function(){ switchTab(false); });
-$('brandHome').addEventListener('click', function(){ switchTab('check'); });
+$('brandHome').addEventListener('click', function(){ switchTab(true); });
 
 /* ============ 生成器 ============ */
 var state = { sections: [] };
