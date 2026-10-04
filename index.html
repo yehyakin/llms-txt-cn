@@ -410,6 +410,23 @@ label.upload{cursor:pointer}
 .spec-box code{font-family:var(--mono); background:rgba(210,255,0,.07); border:1px solid rgba(210,255,0,.16);
   border-radius:6px; padding:1px 7px; font-size:12.5px; color:var(--acc)}
 
+/* ---------- 数据带（调查报告入口） ---------- */
+.data-band{display:block; border:1px solid var(--line-soft); border-radius:18px; overflow:hidden;
+  text-decoration:none; color:var(--ink); background:var(--bg2); transition:border-color .25s}
+.data-band:hover{border-color:var(--acc)}
+.db-nums{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line-soft)}
+.db-nums>div{background:var(--bg2); padding:clamp(24px,3.4vw,40px)}
+.db-nums b{display:block; font-family:var(--serif); font-weight:900;
+  font-size:clamp(40px,6vw,62px); line-height:1.05; color:var(--acc); letter-spacing:-.01em}
+.db-nums span{display:block; margin-top:10px; font-family:var(--mono); font-size:11px;
+  letter-spacing:.2em; color:var(--mut)}
+.db-go{display:flex; justify-content:space-between; align-items:center;
+  padding:20px clamp(24px,3.4vw,40px)}
+.db-go .t{font-family:var(--mono); font-size:12.5px; letter-spacing:.22em; color:var(--ink)}
+.db-go .arr{font-family:var(--mono); color:var(--acc); font-size:20px; transition:transform .25s}
+.data-band:hover .db-go .arr{transform:translateX(6px)}
+@media (max-width:700px){ .db-nums{grid-template-columns:1fr 1fr} .db-nums>div:last-child{grid-column:1/-1} }
+
 /* ---------- 页脚（滚动揭示） ---------- */
 footer{
   position:sticky; bottom:0; z-index:0; background:#08080a;
@@ -767,6 +784,24 @@ footer{
       </div>
     </div>
   </section>
+
+  <section class="section" id="dataSec">
+    <div class="wrap">
+      <div class="sec-head" data-rv>
+        <span class="idx">05 · DATA</span>
+        <h1><span class="mask"><span style="--i:0">顺手查了 <span class="acc">1100</span> 个站。</span></span></h1>
+        <p>2026-10-04，我们把 1000 个大型中文站和 100 个独立站的 /llms.txt 逐个请求了一遍。数据、方法、名单全公开。</p>
+      </div>
+      <a class="data-band" href="/survey/" data-rv>
+        <div class="db-nums">
+          <div><b>3.0%</b><span>大型站有真正 llms.txt</span></div>
+          <div><b>19%</b><span>独立站</span></div>
+          <div><b>100</b><span>bilibili.com 得分</span></div>
+        </div>
+        <div class="db-go"><span class="t">查看完整调查报告</span><span class="arr">→</span></div>
+      </a>
+    </div>
+  </section>
 </main>
 </div>
 
@@ -775,7 +810,7 @@ footer{
     <div class="foot-word" data-rv>ce<em>txt</em></div>
     <div class="foot-row">
       <div class="mono">LLMS.TXT 中文工具 · MIT 开源<br>规范来源 llmstxt.org · 评分是结构质量分，不承诺收录排名</div>
-      <div class="mono"><a href="https://github.com/yehyakin/llms-txt-cn" target="_blank" rel="noopener">GITHUB ↗</a><br>yehyakin / llms-txt-cn</div>
+      <div class="mono"><a href="/survey/">调查报告 ↗</a><br><a href="https://github.com/yehyakin/llms-txt-cn" target="_blank" rel="noopener">GITHUB ↗</a><br>yehyakin / llms-txt-cn</div>
     </div>
   </div>
 </footer>
