@@ -690,6 +690,7 @@ footer{
               <div class="btn-row">
                 <button class="btn btn-pri mag" id="btnCopy" type="button" disabled>复制</button>
                 <button class="btn btn-sec" id="btnDl" type="button" disabled>下载 llms.txt</button>
+                <button class="btn btn-sec" id="btnToVal" type="button" disabled>继续校验 →</button>
               </div>
             </div>
           </div>
@@ -1171,7 +1172,7 @@ function renderPreview(animate){
     }).join('\n');
     pv.classList.toggle('still', !animate || RM);
   }
-  $('btnCopy').disabled = $('btnDl').disabled = !has;
+  $('btnCopy').disabled = $('btnDl').disabled = $('btnToVal').disabled = !has;
   $('exWarn').hidden = !(has && /example\.com/.test(md));
   if (has) {
     $('stLines').textContent = md.split('\n').length;
@@ -1215,6 +1216,11 @@ $('btnCopy').addEventListener('click', function(){
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(txt).then(done).catch(fallback);
   } else fallback();
+});
+$('btnToVal').addEventListener('click', function(){
+  $('vInput').value = $('preview').textContent;
+  switchTab('val');
+  setTimeout(function(){ $('btnValidate').click(); }, 250);
 });
 $('btnDl').addEventListener('click', function(){
   var blob = new Blob([$('preview').textContent], {type:'text/plain;charset=utf-8'});
@@ -1355,6 +1361,14 @@ function renderCheckResult(out, r){
   }
   if (v === 'real' || v === 'nonstandard'){
     lastCheckText = r.text || null;
+    if (r.truncated){
+      h += '<div class="chk-title">文件太大，<span class="acc">没看完</span></div>';
+      h += '<p class="chk-desc"><b>' + d + '</b> 的 llms.txt 超过了 200KB，只看了前 200KB——这个分数不完整，没法跟别人比。下载完整文件，用校验器上传后再打分。</p>';
+      h += meta();
+      h += '<div class="chk-actions"><button class="btn btn-pri" type="button" onclick="switchTab(\'val\')">去校验器上传完整文件</button></div>';
+      out.innerHTML = h;
+      return;
+    }
     var sc = LLMS.validateLLMS(r.text || '');
     var errs = sc.issues.filter(function(i){ return i.sev === 'error'; }).length;
     var warns = sc.issues.filter(function(i){ return i.sev === 'warn'; }).length;
@@ -1430,6 +1444,7 @@ var CMDS = [
   {t:'前往校验器', k:'V', fn:function(){ switchTab(false); }},
   {t:'复制生成的 llms.txt', k:'C', fn:function(){ if(!$('btnCopy').disabled) $('btnCopy').click(); }},
   {t:'下载 llms.txt', k:'D', fn:function(){ if(!$('btnDl').disabled) $('btnDl').click(); }},
+  {t:'生成后继续校验', k:'E', fn:function(){ if(!$('btnToVal').disabled) $('btnToVal').click(); }},
   {t:'载入校验示例', k:'S', fn:function(){ switchTab(false); $('btnSample').click(); }},
   {t:'开始校验', k:'↵', fn:function(){ switchTab(false); $('btnValidate').click(); }},
   {t:'查看 2026 中文网站 llms.txt 调查报告', k:'→', fn:function(){ location.href = '/survey/'; }},
