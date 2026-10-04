@@ -14,11 +14,11 @@
 <meta property="og:title" content="2026 中文网站 llms.txt 采用情况调查">
 <meta property="og:description" content="1000 个大型中文站，只有 30 个有真正的 llms.txt（3.0%）。B站 100 分，百度淘宝京东都没有。">
 <meta property="og:url" content="https://cetxt.com/survey/">
-<meta property="og:image" content="https://cetxt.com/og.png">
+<meta property="og:image" content="https://cetxt.com/survey/og-survey.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="2026 中文网站 llms.txt 采用情况调查">
 <meta name="twitter:description" content="1000 大型站 3.0%，100 独立站 19%。数据、方法、名单全公开。">
-<meta name="twitter:image" content="https://cetxt.com/og.png">
+<meta name="twitter:image" content="https://cetxt.com/survey/og-survey.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -158,7 +158,7 @@ footer a{color:var(--ink);text-decoration:none}
     <table>
       <tr><th>检测结果</th><th>数量</th><th>占比</th></tr>
       <tr><td>根目录有真正的 llms.txt（200 + Markdown）</td><td class="num">30</td><td class="pct">3.0%</td></tr>
-      <tr><td>200 但返回 HTML（SPA 回退 / 首页兜底）</td><td class="num">164</td><td class="pct">16.4%</td></tr>
+      <tr><td>200 但返回 HTML（页面壳 / 拦截页）</td><td class="num">164</td><td class="pct">16.4%</td></tr>
       <tr><td>404（无文件）</td><td class="num">412</td><td class="pct">41.2%</td></tr>
       <tr><td>未能判定（WAF 拦截 / 超时 / 5xx）</td><td class="num">390</td><td class="pct">39.0%</td></tr>
       <tr><td>200 非规范文本（robots 内容 / 空文件等）</td><td class="num">4</td><td class="pct">0.4%</td></tr>
@@ -175,6 +175,7 @@ footer a{color:var(--ink);text-decoration:none}
 
   <section>
     <div class="sec-head"><span class="idx">02 · NAMES</span><h2>点名</h2></div>
+    <p class="note" style="margin:-8px 0 22px">返回 200，就代表 llms.txt 部署成功了吗？淘宝、京东、拼多多的 <span class="mono">/llms.txt</span> 打开都是网页壳——AI 拿到的是壳，不是说明书。</p>
     <div class="eg">
       <span class="dom">bilibili.com</span><span class="sc">100 / 优秀</span>
       <p>B站。11KB，结构满分。大型站里写得最好的之一——而百度（404）、淘宝（HTML 壳）、京东（HTML 壳）、抖音（404）都没有。</p>
@@ -199,7 +200,7 @@ footer a{color:var(--ink);text-decoration:none}
       <span class="dom">nvidia.cn</span><span class="sc">30 / 待改进</span>
       <p class="dim">英伟达中国。文件超 200KB 被截断，还混进了 HTML 标签。体积失控的典型。</p>
     </div>
-    <p class="note">没有文件的巨头（抽样确认）：百度、淘宝、京东、拼多多、抖音、微信、支付宝、新浪、豆瓣、V2EX、知乎（HTML 壳）、微博（HTML 壳）、美团（连接失败）。</p>
+    <p class="note">没有真正文件的巨头（抽样确认）：百度、淘宝（HTML 壳）、京东（HTML 壳）、拼多多（HTML 壳）、抖音、微信、支付宝、新浪、豆瓣、V2EX、知乎（HTML 壳）、微博（HTML 壳）、美团（连接失败）。</p>
   </section>
 
   <section>
