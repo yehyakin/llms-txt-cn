@@ -113,6 +113,27 @@ footer a{color:var(--ink);text-decoration:none}
   section{margin:64px 0}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.browser{border:1px solid var(--line);margin:16px 0}
+.b-tools{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:14px}
+.b-tools input{background:transparent;border:1px solid var(--line);color:var(--ink);
+  font-family:var(--mono);font-size:14px;padding:12px 16px;width:100%;outline:none;border-radius:0}
+.b-tools input:focus{border-color:var(--acc)}
+.b-tools input::placeholder{color:var(--mut)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{background:transparent;border:1px solid var(--line);color:var(--mut);
+  font-family:var(--mono);font-size:12px;letter-spacing:.05em;padding:8px 14px;cursor:pointer;border-radius:0}
+.chips button.on{border-color:var(--acc);color:var(--acc)}
+.chips button:hover{color:var(--ink)}
+.b-meta{padding:12px 22px;font-size:11px;letter-spacing:.15em;color:var(--mut);border-bottom:1px solid var(--line);font-family:var(--mono)}
+.b-list{list-style:none;max-height:520px;overflow:auto;padding:6px 22px 18px;margin:0}
+.b-list li{padding:9px 0;border-bottom:1px dotted rgba(244,241,233,.08);
+  font-family:var(--mono);font-size:13px;display:flex;gap:12px;align-items:baseline}
+.b-list .d{color:var(--ink);white-space:nowrap}
+.b-list .n{color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
+.b-list .st{font-size:11px;letter-spacing:.08em;white-space:nowrap;color:var(--mut)}
+.b-list .st.ok{color:var(--acc)}
+.b-list .sc{color:var(--acc);white-space:nowrap}
 </style>
 </head>
 <body>
@@ -226,210 +247,63 @@ footer a{color:var(--ink);text-decoration:none}
   <div class="cta">
     <h2>你的站呢？</h2>
     <p>花 30 秒，看看你的 llms.txt 能拿几分。</p>
-    <a href="/">去 cetxt.com 测一下 →</a>
+    <a href="/#check">去 cetxt.com 测一下 →</a>
   </div>
 
   <section>
     <div class="sec-head"><span class="idx">06 · LIST</span><h2>名单</h2></div>
-    <p class="note" style="margin:0 0 8px">大型站：公开 30 个真文件与 164 个 HTML 伪装（状态为公开 URL 的返回事实）。独立站：100 个完整名单。无文件的 412 个大型站名单备查，不在此列出。</p>
-    <details class="names"><summary><span>大型站 · 有真正的 llms.txt</span><span class="cnt">30</span></summary><ul>
-<li><span>bilibili.com</span><span class="nm">哔哩哔哩</span><span class="sco">100 分</span></li>
-<li><span>crealitycloud.cn</span><span class="nm"></span><span class="sco">100 分</span></li>
-<li><span>gitee.com</span><span class="nm">码云</span><span class="sco">100 分</span></li>
-<li><span>huanqiu.com</span><span class="nm">环球网</span><span class="sco">100 分</span></li>
-<li><span>made-in-china.com</span><span class="nm">中国制造网</span><span class="sco">100 分</span></li>
-<li><span>modelscope.cn</span><span class="nm"></span><span class="sco">100 分</span></li>
-<li><span>pingan.com.cn</span><span class="nm"></span><span class="sco">100 分</span></li>
-<li><span>shein.com</span><span class="nm">SHEIN</span><span class="sco">100 分</span></li>
-<li><span>taptap.cn</span><span class="nm"></span><span class="sco">100 分</span></li>
-<li><span>ifeng.com</span><span class="nm">凤凰网</span><span class="sco">99 分</span></li>
-<li><span>qiniu.com</span><span class="nm">七牛云</span><span class="sco">99 分</span></li>
-<li><span>codebuddy.cn</span><span class="nm"></span><span class="sco">97 分</span></li>
-<li><span>hxfiber.com.cn</span><span class="nm"></span><span class="sco">97 分</span></li>
-<li><span>klook.com</span><span class="nm">Klook</span><span class="sco">97 分</span></li>
-<li><span>storm.mg</span><span class="nm">风传媒</span><span class="sco">97 分</span></li>
-<li><span>bt.cn</span><span class="nm"></span><span class="sco">95 分</span></li>
-<li><span>workbuddy.cn</span><span class="nm"></span><span class="sco">94 分</span></li>
-<li><span>zhandian.cn</span><span class="nm"></span><span class="sco">94 分</span></li>
-<li><span>eb.ac.cn</span><span class="nm"></span><span class="sco">93 分</span></li>
-<li><span>smzdm.com</span><span class="nm">什么值得买</span><span class="sco">93 分</span></li>
-<li><span>logitech.com.cn</span><span class="nm"></span><span class="sco">80 分</span></li>
-<li><span>logitechg.com.cn</span><span class="nm"></span><span class="sco">80 分</span></li>
-<li><span>ctrip.com</span><span class="nm">携程</span><span class="sco">70 分</span></li>
-<li><span>thinkphp.cn</span><span class="nm"></span><span class="sco">60 分</span></li>
-<li><span>wallstreetcn.com</span><span class="nm">华尔街见闻</span><span class="sco">60 分</span></li>
-<li><span>coze.cn</span><span class="nm"></span><span class="sco">50 分</span></li>
-<li><span>tvb.com</span><span class="nm">TVB</span><span class="sco">50 分</span></li>
-<li><span>moegirl.org.cn</span><span class="nm"></span><span class="sco">30 分</span></li>
-<li><span>nvidia.cn</span><span class="nm"></span><span class="sco">30 分</span></li>
-<li><span>ybzhan.cn</span><span class="nm"></span><span class="sco">0 分</span></li>
-    </ul></details>
-    <details class="names"><summary><span>大型站 · 200 但返回 HTML</span><span class="cnt">164</span></summary><ul>
-<li><span>12306.cn</span><span class="nm"></span></li>
-<li><span>12371.cn</span><span class="nm"></span></li>
-<li><span>163.com</span><span class="nm">网易</span></li>
-<li><span>1688.com</span><span class="nm">阿里巴巴中文站</span></li>
-<li><span>17173.com</span><span class="nm">17173游戏网</span></li>
-<li><span>17u.cn</span><span class="nm"></span></li>
-<li><span>22.cn</span><span class="nm"></span></li>
-<li><span>36kr.com</span><span class="nm">36氪</span></li>
-<li><span>39.net</span><span class="nm">39健康网</span></li>
-<li><span>4.cn</span><span class="nm"></span></li>
-<li><span>51job.com</span><span class="nm">前程无忧</span></li>
-<li><span>58.com</span><span class="nm">58同城</span></li>
-<li><span>7k7k.com</span><span class="nm">7k7k小游戏</span></li>
-<li><span>99.com.cn</span><span class="nm"></span></li>
-<li><span>aastocks.com</span><span class="nm">阿思达克</span></li>
-<li><span>alibaba.com</span><span class="nm">阿里巴巴国际站</span></li>
-<li><span>aliexpress.com</span><span class="nm">速卖通</span></li>
-<li><span>amazon.cn</span><span class="nm"></span></li>
-<li><span>aminer.cn</span><span class="nm"></span></li>
-<li><span>apple.cn</span><span class="nm"></span></li>
-<li><span>asi-china.cn</span><span class="nm"></span></li>
-<li><span>autohome.com.cn</span><span class="nm"></span></li>
-<li><span>av380.cn</span><span class="nm"></span></li>
-<li><span>azure.cn</span><span class="nm"></span></li>
-<li><span>beijing.gov.cn</span><span class="nm"></span></li>
-<li><span>bidcenter.com.cn</span><span class="nm"></span></li>
-<li><span>bigmodel.cn</span><span class="nm"></span></li>
-<li><span>bjahy.cn</span><span class="nm"></span></li>
-<li><span>blizzard.cn</span><span class="nm"></span></li>
-<li><span>ca369.cn</span><span class="nm"></span></li>
-<li><span>cac.gov.cn</span><span class="nm"></span></li>
-<li><span>caixin.com</span><span class="nm">财新</span></li>
-<li><span>cau.edu.cn</span><span class="nm"></span></li>
-<li><span>cctv.cn</span><span class="nm"></span></li>
-<li><span>chatglm.cn</span><span class="nm"></span></li>
-<li><span>china-heating.org.cn</span><span class="nm"></span></li>
-<li><span>chinadaily.com.cn</span><span class="nm"></span></li>
-<li><span>clf.cn</span><span class="nm"></span></li>
-<li><span>cnif.cn</span><span class="nm"></span></li>
-<li><span>cnppri.com.cn</span><span class="nm"></span></li>
-<li><span>cnr.cn</span><span class="nm"></span></li>
-<li><span>cntv.cn</span><span class="nm"></span></li>
-<li><span>dangdang.com</span><span class="nm">当当</span></li>
-<li><span>dianping.com</span><span class="nm">大众点评</span></li>
-<li><span>dongchedi.com</span><span class="nm">懂车帝</span></li>
-<li><span>duolingo.cn</span><span class="nm"></span></li>
-<li><span>dwz.cn</span><span class="nm"></span></li>
-<li><span>dxy.cn</span><span class="nm"></span></li>
-<li><span>dyhairong.cn</span><span class="nm"></span></li>
-<li><span>eastmoney.com</span><span class="nm">东方财富</span></li>
-<li><span>elong.com</span><span class="nm">艺龙</span></li>
-<li><span>ettoday.net</span><span class="nm">ETtoday</span></li>
-<li><span>excelliance.cn</span><span class="nm"></span></li>
-<li><span>excelsecu.com.cn</span><span class="nm"></span></li>
-<li><span>eyny.com</span><span class="nm">伊莉论坛</span></li>
-<li><span>fanvil.com.cn</span><span class="nm"></span></li>
-<li><span>feelgood.cn</span><span class="nm"></span></li>
-<li><span>firefox.com.cn</span><span class="nm"></span></li>
-<li><span>fliggy.com</span><span class="nm">飞猪</span></li>
-<li><span>focus.cn</span><span class="nm"></span></li>
-<li><span>gamer.com.tw</span><span class="nm">巴哈姆特</span></li>
-<li><span>ganji.com</span><span class="nm">赶集网</span></li>
-<li><span>gf.com.cn</span><span class="nm"></span></li>
-<li><span>guahao.com</span><span class="nm">微医</span></li>
-<li><span>guancha.cn</span><span class="nm"></span></li>
-<li><span>hao123.com</span><span class="nm">hao123</span></li>
-<li><span>hbfxzx.com.cn</span><span class="nm"></span></li>
-<li><span>hlj.gov.cn</span><span class="nm"></span></li>
-<li><span>hongxiu.com</span><span class="nm">红袖添香</span></li>
-<li><span>hpplay.cn</span><span class="nm"></span></li>
-<li><span>huawei.com.cn</span><span class="nm"></span></li>
-<li><span>huion.cn</span><span class="nm"></span></li>
-<li><span>huxiu.com</span><span class="nm">虎嗅</span></li>
-<li><span>iconfont.cn</span><span class="nm"></span></li>
-<li><span>immersivetranslate.cn</span><span class="nm"></span></li>
-<li><span>immomo.com</span><span class="nm">陌陌</span></li>
-<li><span>ip-com.com.cn</span><span class="nm"></span></li>
-<li><span>iresearch.cn</span><span class="nm"></span></li>
-<li><span>itellyou.cn</span><span class="nm"></span></li>
-<li><span>jc001.cn</span><span class="nm"></span></li>
-<li><span>jd.com</span><span class="nm">京东</span></li>
-<li><span>jiangxi.gov.cn</span><span class="nm"></span></li>
-<li><span>jtexpress.com.cn</span><span class="nm"></span></li>
-<li><span>juejin.cn</span><span class="nm"></span></li>
-<li><span>jxnews.com.cn</span><span class="nm"></span></li>
-<li><span>jyb.cn</span><span class="nm"></span></li>
-<li><span>kingtto.cn</span><span class="nm"></span></li>
-<li><span>koolearn.com</span><span class="nm">新东方在线</span></li>
-<li><span>kuaishou.com</span><span class="nm">快手</span></li>
-<li><span>kytwx.cn</span><span class="nm"></span></li>
-<li><span>lagou.com</span><span class="nm">拉勾</span></li>
-<li><span>law-gov.cn</span><span class="nm"></span></li>
-<li><span>ldxp.cn</span><span class="nm"></span></li>
-<li><span>mantoo.com.cn</span><span class="nm"></span></li>
-<li><span>mee.gov.cn</span><span class="nm"></span></li>
-<li><span>meipian.cn</span><span class="nm"></span></li>
-<li><span>mercedes-benz.com.cn</span><span class="nm"></span></li>
-<li><span>mgtv.com</span><span class="nm">芒果TV</span></li>
-<li><span>migu.cn</span><span class="nm"></span></li>
-<li><span>moonshot.cn</span><span class="nm"></span></li>
-<li><span>mwr.gov.cn</span><span class="nm"></span></li>
-<li><span>ncss.cn</span><span class="nm"></span></li>
-<li><span>nekomi.cn</span><span class="nm"></span></li>
-<li><span>nike.com.cn</span><span class="nm"></span></li>
-<li><span>npc.gov.cn</span><span class="nm"></span></li>
-<li><span>nppa.gov.cn</span><span class="nm"></span></li>
-<li><span>pc.com.cn</span><span class="nm"></span></li>
-<li><span>pcauto.com.cn</span><span class="nm"></span></li>
-<li><span>pchome.com.tw</span><span class="nm">PChome</span></li>
-<li><span>pchouse.com.cn</span><span class="nm"></span></li>
-<li><span>pconline.com.cn</span><span class="nm"></span></li>
-<li><span>pedaily.cn</span><span class="nm"></span></li>
-<li><span>php.cn</span><span class="nm"></span></li>
-<li><span>pinduoduo.com</span><span class="nm">拼多多</span></li>
-<li><span>qq.com</span><span class="nm">腾讯网</span></li>
-<li><span>quickconnect.cn</span><span class="nm"></span></li>
-<li><span>renren.com</span><span class="nm">人人网</span></li>
-<li><span>rthk.hk</span><span class="nm">香港电台</span></li>
-<li><span>ruten.com.tw</span><span class="nm">露天拍卖</span></li>
-<li><span>sanqianghx.cn</span><span class="nm"></span></li>
-<li><span>scol.com.cn</span><span class="nm"></span></li>
-<li><span>shopee.cn</span><span class="nm"></span></li>
-<li><span>shopee.tw</span><span class="nm">虾皮台湾</span></li>
-<li><span>siliconflow.cn</span><span class="nm"></span></li>
-<li><span>sinolight.cn</span><span class="nm"></span></li>
-<li><span>sm.cn</span><span class="nm">神马搜索</span></li>
-<li><span>sohu.com</span><span class="nm">搜狐</span></li>
-<li><span>starbucks.com.cn</span><span class="nm"></span></li>
-<li><span>sustech.edu.cn</span><span class="nm"></span></li>
-<li><span>suzhou.gov.cn</span><span class="nm"></span></li>
-<li><span>sysu.edu.cn</span><span class="nm"></span></li>
-<li><span>tantanapp.com</span><span class="nm">探探</span></li>
-<li><span>taobao.com</span><span class="nm">淘宝</span></li>
-<li><span>thesiswriting.cn</span><span class="nm"></span></li>
-<li><span>tmall.com</span><span class="nm">天猫</span></li>
-<li><span>tudou.com</span><span class="nm">土豆</span></li>
-<li><span>tzcxhr.cn</span><span class="nm"></span></li>
-<li><span>uc.cn</span><span class="nm"></span></li>
-<li><span>ucloud.cn</span><span class="nm"></span></li>
-<li><span>uibe.edu.cn</span><span class="nm"></span></li>
-<li><span>url.cn</span><span class="nm"></span></li>
-<li><span>vip.com</span><span class="nm">唯品会</span></li>
-<li><span>visa.cn</span><span class="nm"></span></li>
-<li><span>weather.com.cn</span><span class="nm"></span></li>
-<li><span>wechatpay.cn</span><span class="nm"></span></li>
-<li><span>weibo.cn</span><span class="nm"></span></li>
-<li><span>weibo.com</span><span class="nm">微博</span></li>
-<li><span>whu.edu.cn</span><span class="nm"></span></li>
-<li><span>www.edu.cn</span><span class="nm"></span></li>
-<li><span>www.net.cn</span><span class="nm"></span></li>
-<li><span>wxkjpump.cn</span><span class="nm"></span></li>
-<li><span>xiaohongshu.com</span><span class="nm">小红书</span></li>
-<li><span>xinmin.cn</span><span class="nm"></span></li>
-<li><span>xuexi.cn</span><span class="nm"></span></li>
-<li><span>yam.com</span><span class="nm">蕃薯藤</span></li>
-<li><span>yangshipin.cn</span><span class="nm"></span></li>
-<li><span>youku.com</span><span class="nm">优酷</span></li>
-<li><span>ytone.com.cn</span><span class="nm"></span></li>
-<li><span>zhangyue.com</span><span class="nm">掌阅</span></li>
-<li><span>zhihu.com</span><span class="nm">知乎</span></li>
-<li><span>zhiqi01.cn</span><span class="nm"></span></li>
-<li><span>zte.com.cn</span><span class="nm"></span></li>
-<li><span>zuoyebang.com</span><span class="nm">作业帮</span></li>
-<li><span>zw.cn</span><span class="nm"></span></li>
-    </ul></details>
+    <p class="note" style="margin:0 0 8px">大型站 1000 个完整数据可搜索、筛选（状态为公开 URL 的返回事实）。独立站 100 名单如下。</p>
+    <div class="browser">
+      <div class="b-tools">
+        <input id="q" type="search" placeholder="搜索域名或站名，如 bilibili / 哔哩哔哩" autocomplete="off">
+        <div class="chips" id="chips">
+          <button data-f="all" class="on">全部 1000</button>
+          <button data-f="真文件">真文件 30</button>
+          <button data-f="HTML伪装">HTML伪装 164</button>
+          <button data-f="无文件">无文件 412</button>
+          <button data-f="未能判定">未能判定 390</button>
+          <button data-f="非规范文本">非规范文本 4</button>
+        </div>
+      </div>
+      <div class="b-meta" id="bMeta">加载中…</div>
+      <ul class="b-list" id="bList"></ul>
+    </div>
+    <script>
+    (function(){
+      var list=document.getElementById('bList'), meta=document.getElementById('bMeta'),
+          q=document.getElementById('q'), chips=document.getElementById('chips');
+      var DATA=[], f='all', kw='';
+      function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+      function render(){
+        var r=DATA.filter(function(x){
+          var okF = (f==='all'||x.c===f);
+          var okK = !kw || x.d.toLowerCase().indexOf(kw)>-1 || (x.n&&x.n.toLowerCase().indexOf(kw)>-1);
+          return okF&&okK;
+        });
+        meta.textContent='共 '+r.length+' 条'+(r.length>200?' · 仅显示前 200 条，输入关键词缩小范围':'');
+        var h='';
+        r.slice(0,200).forEach(function(x){
+          h+='<li><span class="d">'+esc(x.d)+'</span><span class="n">'+esc(x.n)+'</span>'+
+             '<span class="st'+(x.c==='真文件'?' ok':'')+'">'+esc(x.c)+'</span>'+
+             (x.s!=null?'<span class="sc">'+x.s+'分</span>':'')+'</li>';
+        });
+        list.innerHTML=h||'<li><span class="n">没有匹配的结果，换个关键词试试</span></li>';
+      }
+      chips.addEventListener('click',function(e){
+        var b=e.target.closest('button'); if(!b) return;
+        chips.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+        b.classList.add('on'); f=b.getAttribute('data-f'); render();
+      });
+      var timer=null;
+      q.addEventListener('input',function(){
+        clearTimeout(timer);
+        timer=setTimeout(function(){kw=q.value.trim().toLowerCase();render();},180);
+      });
+      fetch('data.json').then(function(r){return r.json();}).then(function(j){
+        DATA=j; meta.textContent='共 1000 条'; render();
+      }).catch(function(){meta.textContent='数据加载失败，请刷新重试';});
+    })();
+    </script>
     <details class="names"><summary><span>独立站 · 有真正的 llms.txt</span><span class="cnt">19</span></summary><ul>
 <li><span>ad-morph.com</span><span class="nm">AdMorph</span><span class="sco">50 分</span></li>
 <li><span>aibeautytest.org</span><span class="nm">Free AI Beauty Test</span><span class="sco">80 分</span></li>
