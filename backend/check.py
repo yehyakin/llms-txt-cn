@@ -252,6 +252,13 @@ class Handler(http.server.BaseHTTPRequestHandler):
         except Exception as e:
             result = {"domain": domain, "verdict": "unknown",
                       "reason": "内部错误：" + type(e).__name__, "code": "internal"}
+        # 最小计数：每天一个文件，每行一个 verdict，无域名、无 IP、无时间戳
+        try:
+            day = time.strftime("%Y-%m-%d", time.gmtime())
+            with open("/srv/cetxt/stats/%s.log" % day, "a") as f:
+                f.write("%s\n" % result.get("verdict", "unknown"))
+        except Exception:
+            pass
         self.send_json(200, result)
 
 
