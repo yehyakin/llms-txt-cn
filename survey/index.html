@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>2026 中文网站 llms.txt 采用情况调查 · cetxt</title>
+<title>大厂 llms.txt 成绩单：B站100分，百度、淘宝、京东呢？ · cetxt</title>
 <meta name="description" content="1000 个大型中文站：仅 3.0% 有真正的 llms.txt；100 个独立站：19%。B站 100 分，百度淘宝京东抖音都没有。数据、方法、名单全公开。">
 <link rel="canonical" href="https://cetxt.com/survey/">
 <link rel="describedby" href="/llms.txt">
@@ -11,12 +11,12 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="cetxt">
-<meta property="og:title" content="2026 中文网站 llms.txt 采用情况调查">
+<meta property="og:title" content="大厂 llms.txt 成绩单：B站100分，百度、淘宝、京东呢？">
 <meta property="og:description" content="1000 个大型中文站，只有 30 个有真正的 llms.txt（3.0%）。B站 100 分，百度淘宝京东都没有。">
 <meta property="og:url" content="https://cetxt.com/survey/">
 <meta property="og:image" content="https://cetxt.com/survey/og-survey.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="2026 中文网站 llms.txt 采用情况调查">
+<meta name="twitter:title" content="大厂 llms.txt 成绩单：B站100分，百度、淘宝、京东呢？">
 <meta name="twitter:description" content="1000 大型站 3.0%，100 独立站 19%。数据、方法、名单全公开。">
 <meta name="twitter:image" content="https://cetxt.com/survey/og-survey.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -92,6 +92,16 @@ ol.prob b{color:var(--acc)}
 .cta a{display:inline-block;background:var(--acc);color:#0c0c0e;text-decoration:none;
   font-family:var(--mono);font-size:14px;letter-spacing:.15em;padding:16px 40px;font-weight:700}
 .cta a:hover{transform:translateY(-2px)}
+.bcards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:28px 0 6px}
+.bcard{border:1px solid var(--line);border-radius:10px;padding:13px 15px;background:rgba(244,241,233,.02)}
+.bcard .d{font-family:var(--mono);font-size:13px}
+.bcard .s{font-family:var(--mono);font-size:11.5px;margin-top:7px;letter-spacing:.06em}
+.bcard .s.good{color:var(--acc)} .bcard .s.bad{color:#ff8080}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0 42px}
+.hero-cta a{text-decoration:none;font-family:var(--mono);font-size:14px;letter-spacing:.12em;padding:15px 34px;font-weight:700}
+.hero-cta a.p{background:var(--acc);color:#0c0c0e}
+.hero-cta a.s{border:1px solid var(--line);color:var(--ink)}
+@media(max-width:760px){.bcards{grid-template-columns:repeat(2,1fr)}}
 details.names{border:1px solid var(--line);margin:16px 0}
 details.names summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;
   align-items:center;padding:18px 22px;font-family:var(--mono);font-size:13px;letter-spacing:.1em}
@@ -141,9 +151,23 @@ footer a{color:var(--ink);text-decoration:none}
 
   <div class="topbar"><span>CETXT · 调查报告</span><a href="/">← cetxt.com</a></div>
 
-  <div class="kicker">调查报告 · 2026-10-04 · 大型站 1000 + 独立站 100 · 只读检测</div>
-  <h1>中文网站 <span class="acc">llms.txt</span><br>采用情况调查</h1>
-  <p class="lede">我们查了 <b>1000 个大型中文站</b>和 <b>100 个中文独立站</b>的根目录 <b>/llms.txt</b>。大型站只有 <b>30 个</b>放了真正的文件（<b>3.0%</b>）；独立站好一些，<b>19%</b>。B站拿了 <b>100 分</b>，百度、淘宝、京东、抖音都没有。</p>
+  <div class="kicker">cetxt 大厂 llms.txt 成绩单 · 2026-10-04 · 大型站 1000 + 独立站 100 · 只读检测</div>
+  <h1>B站拿了100分，<br>百度、淘宝、京东<span class="acc">呢？</span></h1>
+  <p class="lede">我们查了 <b>1000 个大型中文站</b>和 <b>100 个中文独立站</b>的根目录 <b>/llms.txt</b>。大型站只有 <b>30 个</b>放了真正的文件（<b>3.0%</b>）；独立站好一些，<b>19%</b>。</p>
+  <div class="bcards">
+    <div class="bcard"><div class="d">bilibili.com</div><div class="s good">100 / 优秀</div></div>
+    <div class="bcard"><div class="d">modelscope.cn</div><div class="s good">100 / 优秀</div></div>
+    <div class="bcard"><div class="d">gitee.com</div><div class="s good">100 / 优秀</div></div>
+    <div class="bcard"><div class="d">huanqiu.com</div><div class="s good">100 / 优秀</div></div>
+    <div class="bcard"><div class="d">baidu.com</div><div class="s bad">404 / 无文件</div></div>
+    <div class="bcard"><div class="d">taobao.com</div><div class="s bad">200 / HTML 壳</div></div>
+    <div class="bcard"><div class="d">jd.com</div><div class="s bad">200 / HTML 壳</div></div>
+    <div class="bcard"><div class="d">douyin.com</div><div class="s bad">404 / 无文件</div></div>
+  </div>
+  <div class="hero-cta">
+    <a class="p" href="/#check">查查我的站 →</a>
+    <a class="s" href="/#val">已有文件？粘贴校验</a>
+  </div>
 
   <div class="stats">
     <div class="stat"><div class="n">3.0<small>%</small></div><div class="k">大型站有真正文件</div></div>
