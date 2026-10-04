@@ -453,6 +453,26 @@ label.upload{cursor:pointer}
 .data-band:hover .db-go .arr{transform:translateX(6px)}
 @media (max-width:700px){ .db-nums{grid-template-columns:1fr 1fr} .db-nums>div:last-child{grid-column:1/-1} }
 
+/* ---------- 在线体检 ---------- */
+.check-row{display:flex; gap:12px; align-items:stretch}
+@media (max-width:640px){ .check-row{flex-direction:column} }
+.check-out{margin-top:22px; border-top:1px solid var(--line-soft); padding-top:22px}
+.chk-loading{display:flex; align-items:center; gap:12px; font-family:var(--mono); font-size:13px; color:var(--mut)}
+.dots{display:inline-flex; gap:5px}
+.dots i{width:6px; height:6px; border-radius:50%; background:var(--acc); animation:blink 1.2s infinite}
+.dots i:nth-child(2){animation-delay:.2s}
+.dots i:nth-child(3){animation-delay:.4s}
+@keyframes blink{ 0%,100%{opacity:.25} 50%{opacity:1} }
+.chk-err{color:var(--red); font-size:14px; margin:0}
+.chk-title{font-family:var(--serif); font-weight:900; font-size:clamp(24px,3.6vw,32px); margin:0 0 10px; letter-spacing:-.01em}
+.chk-title .acc{color:var(--acc)}
+.chk-desc{color:var(--mut); font-size:14px; line-height:1.8; margin:0 0 18px; max-width:660px}
+.chk-desc b{color:var(--ink); font-weight:600}
+.chk-score{display:flex; gap:clamp(20px,4vw,44px); align-items:center; flex-wrap:wrap; margin-bottom:6px}
+.chk-grade{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--acc)}
+.chk-meta{font-family:var(--mono); font-size:11.5px; color:var(--mut); letter-spacing:.04em; margin:12px 0 18px; line-height:2}
+.chk-actions{display:flex; gap:10px; flex-wrap:wrap}
+
 /* ---------- 页脚（滚动揭示） ---------- */
 footer{
   position:sticky; bottom:0; z-index:0; background:#08080a;
@@ -584,6 +604,7 @@ footer{
     <nav class="tabs" role="tablist" aria-label="功能切换">
       <button class="tab on" id="tabBtnGen" role="tab" aria-selected="true"><span class="n">01</span>生成器</button>
       <button class="tab" id="tabBtnVal" role="tab" aria-selected="false"><span class="n">02</span>校验器</button>
+      <button class="tab" id="tabBtnCheck" role="tab" aria-selected="false"><span class="n">03</span>在线体检</button>
     </nav>
     <div class="top-actions">
       <button class="kbd-hint" id="palOpen" aria-label="打开命令面板"><kbd>⌘K</kbd>命令</button>
@@ -743,6 +764,36 @@ footer{
   </section>
 
   <!-- ============ 部署指南 ============ -->
+  <section id="tabCheck" hidden>
+    <div class="wrap">
+      <div class="hero" id="heroCheck">
+        <div class="spot"></div>
+        <div class="hero-kicker">SITE CHECK · 在线体检</div>
+        <h1>
+          <span class="mask"><span style="--i:0">输入域名，</span></span>
+          <span class="mask"><span style="--i:1">看看你的站<span class="acc">几分</span>。</span></span>
+        </h1>
+        <p class="hero-sub">我们替你去请求 <b>/llms.txt</b>，按 <b>llmstxt.org v2</b> 打分。抓不到就直说抓不到，不编。</p>
+        <div class="hero-meta">
+          <div><div class="k">FETCH</div><div class="v">服务端实时抓取</div></div>
+          <div><div class="k">ENGINE</div><div class="v">llms.js · 本地打分</div></div>
+          <div><div class="k">COST</div><div class="v">免费</div></div>
+        </div>
+      </div>
+      <div class="tool">
+        <div class="card" data-rv>
+          <div class="card-head"><span class="idx">01</span><h2>查我的站</h2></div>
+          <p class="sub">输入域名，如 <span class="mono">example.com</span>（只查根目录 /llms.txt）</p>
+          <div class="check-row">
+            <div class="field" style="flex:1;margin:0"><input type="text" id="checkDomain" class="mono" placeholder="example.com" autocomplete="off" spellcheck="false"></div>
+            <button class="btn btn-pri mag" id="btnCheck" type="button">开始体检</button>
+          </div>
+          <div id="checkOut" class="check-out" hidden></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="deploySec">
     <div class="wrap">
       <div class="sec-head" data-rv>
@@ -973,23 +1024,30 @@ document.querySelectorAll('[data-rv]').forEach(function(el){ io.observe(el); });
 
 /* ============ Tab 切换 ============ */
 var tabGen = $('tabGen'), tabVal = $('tabVal');
-function switchTab(isGen){
-  var show = isGen ? tabGen : tabVal, hide = isGen ? tabVal : tabGen;
-  if (show.hidden === false && hide.hidden === true) { heroIn(isGen ? 'heroGen' : 'heroVal'); return; }
+function cap(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+function switchTab(which){
+  if (which === true) which = 'gen';
+  else if (which === false) which = 'val';
+  var tabs = ['gen','val','check'];
+  if (tabs.indexOf(which) < 0) which = 'gen';
+  var show = $('tab' + cap(which));
+  var hides = tabs.filter(function(x){ return x !== which; }).map(function(x){ return $('tab' + cap(x)); });
+  if (!show.hidden) { heroIn('hero' + cap(which)); return; }
   function commit(){
-    hide.hidden = true; hide.classList.remove('switching');
+    hides.forEach(function(h){ h.hidden = true; h.classList.remove('switching'); });
     show.hidden = false;
     show.classList.add('switching'); void show.offsetWidth; show.classList.remove('switching');
-    $('tabBtnGen').classList.toggle('on', isGen);
-    $('tabBtnVal').classList.toggle('on', !isGen);
-    $('tabBtnGen').setAttribute('aria-selected', isGen ? 'true' : 'false');
-    $('tabBtnVal').setAttribute('aria-selected', isGen ? 'false' : 'true');
+    tabs.forEach(function(x){
+      var on = x === which;
+      $('tabBtn' + cap(x)).classList.toggle('on', on);
+      $('tabBtn' + cap(x)).setAttribute('aria-selected', on ? 'true' : 'false');
+    });
     window.scrollTo({top:0, behavior: RM ? 'auto' : 'smooth'});
-    heroIn(isGen ? 'heroGen' : 'heroVal');
+    heroIn('hero' + cap(which));
     closePal();
   }
   if (RM) { commit(); return; }
-  hide.classList.add('switching');
+  hides.forEach(function(h){ h.classList.add('switching'); });
   setTimeout(commit, 200);
 }
 $('tabBtnGen').addEventListener('click', function(){ switchTab(true); });
@@ -1269,6 +1327,102 @@ function renderResult(r){
   });
 }
 
+/* ============ 在线体检 ============ */
+var checkAbort = null, lastCheckText = null;
+function cleanDomainInput(s){
+  s = (s || '').trim().toLowerCase();
+  if (!s) return '';
+  s = s.replace(/^[a-z][a-z0-9+.-]*:\/\//, '').split('/')[0].split('?')[0].split('#')[0].split('@').pop();
+  s = s.replace(/:\d+$/, '').replace(/\.+$/, '');
+  return s;
+}
+function checkGoDetail(){
+  if (!lastCheckText) return;
+  switchTab('val');
+  $('vInput').value = lastCheckText;
+  setTimeout(function(){ $('btnValidate').click(); }, 250);
+}
+function renderCheckError(out, msg){
+  out.innerHTML = '<p class="chk-err">' + esc(msg) + '</p>';
+}
+function renderCheckResult(out, r){
+  var v = r.verdict, d = esc(r.domain), h = '';
+  function meta(){
+    var m = 'GET <b>' + esc(r.final_url || ('https://' + r.domain + '/llms.txt')) + '</b> · ' + (r.elapsed_ms || 0) + ' ms';
+    if (r.truncated) m += ' · 文件超过 200KB，只检查了前 200KB';
+    return '<div class="chk-meta">' + m + '</div>';
+  }
+  if (v === 'real' || v === 'nonstandard'){
+    lastCheckText = r.text || null;
+    var sc = LLMS.validateLLMS(r.text || '');
+    var errs = sc.issues.filter(function(i){ return i.sev === 'error'; }).length;
+    var warns = sc.issues.filter(function(i){ return i.sev === 'warn'; }).length;
+    h += '<div class="chk-score"><div class="score-num"><span class="num">' + sc.score + '</span><small>/100</small></div>'
+       + '<div><div class="chk-grade">' + esc(sc.grade || '') + '</div>'
+       + '<div class="chk-meta" style="margin:8px 0 0">错误 ' + errs + ' · 警告 ' + warns + '</div></div></div>';
+    if (v === 'real'){
+      h += '<p class="chk-desc"><b>' + d + '</b> 的 llms.txt 是真的，结构质量 <b>' + sc.score + ' 分</b>。</p>';
+    } else {
+      h += '<p class="chk-desc">抓到了文件，但它不太像 Markdown（可能是纯文本或其他格式）。按规范打了 <b>' + sc.score + ' 分</b>，仅供参考。</p>';
+    }
+    h += meta();
+    h += '<div class="chk-actions"><button class="btn btn-pri" type="button" onclick="checkGoDetail()">在校验器中查看详情</button></div>';
+  } else if (v === 'missing'){
+    lastCheckText = null;
+    h += '<div class="chk-title">还没有 <span class="acc">llms.txt</span></div>';
+    h += '<p class="chk-desc"><b>' + d + '</b> 的 <span class="mono">/llms.txt</span> 返回 404。好消息：现在是最好下手的时候——30 秒生成一个，直接超过 97% 的大型站。</p>';
+    h += meta();
+    h += '<div class="chk-actions"><button class="btn btn-pri" type="button" onclick="switchTab(\'gen\')">去生成一个 →</button></div>';
+  } else if (v === 'html_spoof'){
+    lastCheckText = null;
+    h += '<div class="chk-title">AI <span class="acc">读不到</span>这个文件</div>';
+    h += '<p class="chk-desc"><b>' + d + '</b> 的 <span class="mono">/llms.txt</span> 返回 200，但内容是 HTML（多半是 SPA 的兜底）。AI 拿到的是网页壳，不是说明书。</p>';
+    h += meta();
+    h += '<div class="chk-actions"><button class="btn btn-pri" type="button" onclick="switchTab(\'gen\')">去生成一个 →</button></div>';
+  } else {
+    lastCheckText = null;
+    h += '<div class="chk-title">没能<span class="acc">判定</span></div>';
+    h += '<p class="chk-desc">' + esc(r.reason || '未知原因') + '。这个站可能拦截了机器访问，也可以手动把文件贴到校验器。</p>';
+    h += meta();
+    h += '<div class="chk-actions"><button class="btn btn-sec" type="button" onclick="switchTab(\'val\')">去校验器粘贴</button></div>';
+  }
+  out.innerHTML = h;
+}
+function doCheck(){
+  var input = $('checkDomain'), out = $('checkOut');
+  var d = cleanDomainInput(input.value);
+  if (!d){
+    out.hidden = false;
+    renderCheckError(out, '先输入一个域名，比如 example.com');
+    return;
+  }
+  if (!/^(?=.{1,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}$/i.test(d)){
+    out.hidden = false;
+    renderCheckError(out, '域名格式不对，检查一下再试');
+    return;
+  }
+  if (checkAbort) checkAbort.abort();
+  checkAbort = new AbortController();
+  var timer = setTimeout(function(){ checkAbort.abort(); }, 30000);
+  out.hidden = false;
+  out.innerHTML = '<div class="chk-loading"><span class="dots"><i></i><i></i><i></i></span>正在请求 https://' + esc(d) + '/llms.txt …</div>';
+  var btn = $('btnCheck');
+  btn.disabled = true;
+  fetch('/api/check?domain=' + encodeURIComponent(d), {signal: checkAbort.signal})
+    .then(function(resp){ return resp.json().then(function(j){ return {status: resp.status, body: j}; }); })
+    .then(function(res){
+      clearTimeout(timer); btn.disabled = false;
+      if (res.status !== 200){ renderCheckError(out, (res.body && res.body.reason) || '请求失败，稍后再试'); return; }
+      renderCheckResult(out, res.body);
+    })
+    .catch(function(e){
+      clearTimeout(timer); btn.disabled = false;
+      renderCheckError(out, e && e.name === 'AbortError' ? '请求超时（30 秒），对方站点响应太慢' : '网络错误，请重试');
+    });
+}
+$('btnCheck').addEventListener('click', doCheck);
+$('checkDomain').addEventListener('keydown', function(e){ if (e.key === 'Enter') doCheck(); });
+
 /* ============ ⌘K 命令面板 ============ */
 var CMDS = [
   {t:'前往生成器', k:'G', fn:function(){ switchTab(true); }},
@@ -1278,6 +1432,7 @@ var CMDS = [
   {t:'载入校验示例', k:'S', fn:function(){ switchTab(false); $('btnSample').click(); }},
   {t:'开始校验', k:'↵', fn:function(){ switchTab(false); $('btnValidate').click(); }},
   {t:'查看 2026 中文网站 llms.txt 调查报告', k:'→', fn:function(){ location.href = '/survey/'; }},
+  {t:'在线体检：查我的站', k:'T', fn:function(){ switchTab('check'); }},
 ];
 var palSel = 0, palItems = [];
 function openPal(){
@@ -1342,6 +1497,7 @@ state.sections = [{title:'', links:[{name:'',url:'',desc:''}]}];
 renderSections(); renderPreview(false);
 if ((location.search || '').indexOf('review') > -1) document.documentElement.classList.add('rev');
 if (location.hash === '#val') switchTab(false);
+if (location.hash === '#check') switchTab('check');
 if ((location.search || '').indexOf('demo=val') > -1) {
   switchTab(false);
   setTimeout(function(){ $('btnSample').click(); $('btnValidate').click(); }, 400);
