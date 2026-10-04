@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>llms.txt 中文生成器与校验器 · cetxt</title>
-<meta name="description" content="面向中文站长的 llms.txt 生成、检查与部署助手：填表单生成符合 llmstxt.org 规范的文件，粘贴校验拿 0–100 结构质量分。纯前端，文件不出浏览器。">
+<meta name="description" content="面向中文站长的 llms.txt 生成、检查与部署助手：填表单生成符合 llmstxt.org 规范的文件，粘贴校验拿 0–100 结构质量分，输入域名在线体检。生成与校验在浏览器本地完成。">
 <link rel="canonical" href="https://cetxt.com/">
 <link rel="describedby" href="/llms.txt">
 <meta name="theme-color" content="#0c0c0e">
@@ -12,12 +12,12 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="cetxt">
 <meta property="og:title" content="cetxt · 给 AI 的网站说明书">
-<meta property="og:description" content="面向中文站长的 llms.txt 生成、检查与部署助手：生成符合规范的文件，校验拿 0–100 结构质量分。纯前端，文件不出浏览器。">
+<meta property="og:description" content="面向中文站长的 llms.txt 生成、检查与部署助手：生成规范文件，校验拿 0–100 结构质量分，输入域名在线体检。生成与校验在本地完成。">
 <meta property="og:url" content="https://cetxt.com/">
 <meta property="og:image" content="https://cetxt.com/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="cetxt · 给 AI 的网站说明书">
-<meta name="twitter:description" content="面向中文站长的 llms.txt 生成、检查与部署助手。纯前端，文件不出浏览器。">
+<meta name="twitter:description" content="面向中文站长的 llms.txt 生成、检查与部署助手。生成与校验在本地完成，在线体检由服务端代为请求。">
 <meta name="twitter:image" content="https://cetxt.com/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -591,9 +591,9 @@ footer{
 
 <div class="announce" id="announce" role="note">
   <div class="announce-in">
-    <span class="desk">2026 中文网站 llms.txt 调查 — 1000 大型站仅 3.0% 有真正的文件</span>
-    <span class="mobi">仅 3.0% 大型站有 llms.txt</span>
-    <a href="/survey/">查看报告 →</a>
+    <span class="desk">大厂 llms.txt 成绩单：B站100分，百度、淘宝、京东呢？</span>
+    <span class="mobi">B站100分，其他大厂呢？</span>
+    <a href="/survey/">看成绩单 →</a>
   </div>
   <button class="announce-x" id="announceX" aria-label="关闭">×</button>
 </div>
@@ -1371,15 +1371,15 @@ function renderCheckResult(out, r){
   } else if (v === 'missing'){
     lastCheckText = null;
     h += '<div class="chk-title">还没有 <span class="acc">llms.txt</span></div>';
-    h += '<p class="chk-desc"><b>' + d + '</b> 的 <span class="mono">/llms.txt</span> 返回 404。好消息：现在是最好下手的时候——30 秒生成一个，直接超过 97% 的大型站。</p>';
+    h += '<p class="chk-desc"><b>' + d + '</b> 的 <span class="mono">/llms.txt</span> 返回 404。好消息：现在是最好下手的时候——30 秒生成一个，和 B站、Gitee 同场交卷。</p>';
     h += meta();
     h += '<div class="chk-actions"><button class="btn btn-pri" type="button" onclick="switchTab(\'gen\')">去生成一个 →</button></div>';
   } else if (v === 'html_spoof'){
     lastCheckText = null;
     h += '<div class="chk-title">AI <span class="acc">读不到</span>这个文件</div>';
-    h += '<p class="chk-desc"><b>' + d + '</b> 的 <span class="mono">/llms.txt</span> 返回 200，但内容是 HTML（多半是 SPA 的兜底）。AI 拿到的是网页壳，不是说明书。</p>';
+    h += '<p class="chk-desc"><b>' + d + '</b> 的 <span class="mono">/llms.txt</span> 返回 200，但内容是 HTML（可能是 SPA 兜底或 WAF 拦截页）。AI 拿到的是网页壳，不是说明书——先排错，多半不用重写。</p>';
     h += meta();
-    h += '<div class="chk-actions"><button class="btn btn-pri" type="button" onclick="switchTab(\'gen\')">去生成一个 →</button></div>';
+    h += '<div class="chk-actions"><button class="btn btn-pri" type="button" onclick="document.getElementById(\'deploySec\').scrollIntoView({behavior:(typeof RM!==\'undefined\'&&RM)?\'auto\':\'smooth\'})">查看部署排错 →</button><button class="btn btn-sec" type="button" onclick="switchTab(\'gen\')">去生成一个</button></div>';
   } else {
     lastCheckText = null;
     h += '<div class="chk-title">没能<span class="acc">判定</span></div>';
