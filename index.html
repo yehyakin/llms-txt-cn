@@ -95,6 +95,32 @@ a{color:inherit}
 #loader .l-bar i{position:absolute; inset:0; background:var(--acc); transform-origin:left; transform:scaleX(0)}
 
 /* ---------- 顶栏 ---------- */
+.announce{
+  position:fixed; top:0; left:0; right:0; z-index:110; display:none;
+  background:var(--acc); color:#0c0c0e;
+}
+body.has-ann .announce{display:block}
+.announce-in{
+  max-width:var(--maxw); margin:0 auto; padding:0 28px; height:38px;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  font-family:var(--mono); font-size:12px; letter-spacing:.06em; font-weight:500;
+  white-space:nowrap; overflow:hidden;
+}
+.announce-in a{color:#0c0c0e; font-weight:700; text-decoration:underline; text-underline-offset:3px}
+.announce-x{
+  position:absolute; right:12px; top:50%; transform:translateY(-50%);
+  border:0; background:none; color:#0c0c0e; font-size:16px; line-height:1;
+  cursor:pointer; padding:6px; opacity:.6;
+}
+.announce-x:hover{opacity:1}
+.announce .mobi{display:none}
+body.has-ann .topbar{top:38px}
+body.has-ann main{padding-top:102px}
+@media (max-width:720px){
+  .announce-in{padding:0 40px 0 16px; font-size:11px}
+  .announce .desk{display:none}
+  .announce .mobi{display:inline}
+}
 .topbar{
   position:fixed; top:0; left:0; right:0; z-index:100;
   backdrop-filter:saturate(160%) blur(18px); -webkit-backdrop-filter:saturate(160%) blur(18px);
@@ -541,6 +567,15 @@ footer{
     <input id="palInput" type="text" placeholder="输入命令…" autocomplete="off" aria-label="搜索命令">
     <div class="pal-list" id="palList"></div>
   </div>
+</div>
+
+<div class="announce" id="announce" role="note">
+  <div class="announce-in">
+    <span class="desk">2026 中文网站 llms.txt 调查 — 1000 大型站仅 3.0% 有真正的文件</span>
+    <span class="mobi">仅 3.0% 大型站有 llms.txt</span>
+    <a href="/survey/">查看报告 →</a>
+  </div>
+  <button class="announce-x" id="announceX" aria-label="关闭">×</button>
 </div>
 
 <header class="topbar">
@@ -1242,6 +1277,7 @@ var CMDS = [
   {t:'下载 llms.txt', k:'D', fn:function(){ if(!$('btnDl').disabled) $('btnDl').click(); }},
   {t:'载入校验示例', k:'S', fn:function(){ switchTab(false); $('btnSample').click(); }},
   {t:'开始校验', k:'↵', fn:function(){ switchTab(false); $('btnValidate').click(); }},
+  {t:'查看 2026 中文网站 llms.txt 调查报告', k:'→', fn:function(){ location.href = '/survey/'; }},
 ];
 var palSel = 0, palItems = [];
 function openPal(){
@@ -1275,6 +1311,19 @@ function paintPalSel(){
   });
 }
 $('palOpen').addEventListener('click', openPal);
+
+/* ---------- 调查通栏 ---------- */
+(function(){
+  var KEY = 'cetxt_announce';
+  try {
+    if (localStorage.getItem(KEY) === 'off') return;
+  } catch(e){}
+  document.body.classList.add('has-ann');
+  $('announceX').addEventListener('click', function(){
+    document.body.classList.remove('has-ann');
+    try { localStorage.setItem(KEY, 'off'); } catch(e){}
+  });
+})();
 $('pal').addEventListener('click', function(e){ if (e.target === $('pal')) closePal(); });
 $('palInput').addEventListener('input', function(){ palSel = 0; renderPal(this.value); });
 $('palInput').addEventListener('keydown', function(e){
