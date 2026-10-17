@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>llms.txt 是什么？给中文站长的一篇讲透 · cetxt</title>
+<meta name="description" content="llms.txt 是放在网站根目录、写给 AI 看的说明书：告诉 AI 你的网站是干嘛的、有哪些重要页面。用大白话讲清 llms.txt 的作用、格式、要不要做，以及中文站的真实数据。">
+<link rel="canonical" href="https://cetxt.com/guide/what-is-llms-txt/">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0c0c0e">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="cetxt">
+<meta property="og:title" content="llms.txt 是什么？给中文站长的一篇讲透">
+<meta property="og:description" content="放在网站根目录、写给 AI 看的说明书。用大白话讲清 llms.txt 的作用、格式、要不要做。">
+<meta property="og:url" content="https://cetxt.com/guide/what-is-llms-txt/">
+<meta property="og:image" content="https://cetxt.com/og.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "llms.txt 是什么？给中文站长的一篇讲透",
+  "description": "llms.txt 是放在网站根目录、写给 AI 看的说明书。用大白话讲清作用、格式与要不要做。",
+  "url": "https://cetxt.com/guide/what-is-llms-txt/",
+  "inLanguage": "zh-CN",
+  "datePublished": "2026-10-05",
+  "author": { "@type": "Organization", "name": "cetxt", "url": "https://cetxt.com/" },
+  "publisher": { "@type": "Organization", "name": "cetxt", "url": "https://cetxt.com/" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;900&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#0c0c0e; --bg2:#121214; --ink:#f4f1e9; --mut:#97958d; --line:rgba(244,241,233,.13); --acc:#d2ff00; --acc-ink:#0c0c0e; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:"Noto Sans SC",sans-serif;font-size:17px;line-height:1.9;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:720px;margin:0 auto;padding:0 24px}
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:22px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .topbar a{color:var(--mut);text-decoration:none}
+  .topbar a:hover{color:var(--acc)}
+  .crumb{font-size:13px;color:var(--mut);margin:36px 0 16px}
+  .crumb a{color:var(--mut);text-decoration:none}
+  h1{font-family:"Noto Serif SC",serif;font-size:38px;font-weight:900;line-height:1.4;letter-spacing:.01em;margin-bottom:16px}
+  .meta{font-size:13px;color:var(--mut);margin-bottom:40px;font-family:"JetBrains Mono",monospace}
+  h2{font-family:"Noto Serif SC",serif;font-size:26px;font-weight:600;margin:56px 0 18px;line-height:1.5}
+  h2 .n{color:var(--acc);font-family:"JetBrains Mono",monospace;font-size:18px;margin-right:10px}
+  p{margin:0 0 20px;color:#d8d5cc}
+  strong{color:var(--ink)}
+  a{color:var(--acc);text-decoration:none;border-bottom:1px solid rgba(210,255,0,.35)}
+  ul,ol{margin:0 0 20px 22px;color:#d8d5cc}
+  li{margin-bottom:10px}
+  code{font-family:"JetBrains Mono",monospace;font-size:14px;background:var(--bg2);border:1px solid var(--line);border-radius:6px;padding:2px 8px;color:var(--acc)}
+  pre{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:20px;overflow-x:auto;margin:0 0 24px;font-size:14px;line-height:1.7}
+  pre code{background:none;border:none;padding:0;color:#d8d5cc}
+  .callout{background:rgba(210,255,0,.06);border:1px solid rgba(210,255,0,.25);border-radius:12px;padding:20px 22px;margin:28px 0}
+  .callout p{margin:0;font-size:15px}
+  .cta{margin:64px 0;text-align:center;border-top:1px solid var(--line);padding-top:48px}
+  .cta a.btn{display:inline-block;background:var(--acc);color:var(--acc-ink);font-weight:700;font-size:16px;padding:15px 42px;border-radius:999px;text-decoration:none;border:none;margin:6px}
+  .cta a.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .foot{border-top:1px solid var(--line);margin-top:32px;padding:28px 0 64px;font-size:13px;color:var(--mut);display:flex;justify-content:space-between}
+  .foot a{color:var(--mut)}
+  table{width:100%;border-collapse:collapse;margin:0 0 24px;font-size:15px}
+  th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line)}
+  th{color:var(--mut);font-weight:500;font-size:13px}
+  @media(max-width:640px){ h1{font-size:30px} body{font-size:16px} }
+</style>
+<script defer src="https://umami.kin3.net/script.js" data-website-id="3a06af3f-999b-4956-a6af-8760b6a03ed3"></script>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar"><a href="/">← cetxt.com</a><a href="/survey/">调查报告</a></div>
+
+  <div class="crumb"><a href="/">首页</a> / <a href="/guide/what-is-llms-txt/">指南</a> / llms.txt 是什么</div>
+
+  <h1>llms.txt 是什么？<br>给中文站长的一篇讲透</h1>
+  <div class="meta">2026-10-05 · 阅读约 6 分钟</div>
+
+  <h2><span class="n">01</span>一句话说清</h2>
+  <p><strong>llms.txt 是一个放在网站根目录的纯文本文件，写给 AI 看的。</strong>它用最直白的方式告诉 AI：你的网站是干嘛的、有哪些重要页面、每个页面一句话是讲什么的。</p>
+  <p>你可以把它理解成 <strong>robots.txt 的反面</strong>：robots.txt 是告诉爬虫"别来"，llms.txt 是告诉 AI"快来，这是说明书，照着读"。</p>
+
+  <h2><span class="n">02</span>为什么需要它</h2>
+  <p>以前用户找信息靠搜索引擎，搜关键词、点链接。现在越来越多人在直接问 AI："帮我找个好用的 llms.txt 生成器""这家公司的退款政策是什么"。</p>
+  <p>AI 回答这类问题时，需要去读你的网站。但网站是给人看的：导航栏、轮播图、弹窗、JS 渲染——AI 啃这些很费劲，还容易读错。</p>
+  <p>llms.txt 就是把网站的精华浓缩成一份 AI 好读的清单。<strong>有它，AI 能更快、更准地介绍你的网站；没它，AI 只能靠猜，或者干脆不提你。</strong></p>
+
+  <div class="callout">
+    <p>📊 真实数据：我们 2026 年 10 月测了 1000 个中文大站，只有 <strong>30 个（3%）</strong>放了真正的 llms.txt。百度 404，淘宝京东打开是 HTML 壳。完整数据在<a href="/survey/">调查报告</a>。</p>
+  </div>
+
+  <h2><span class="n">03</span>它长什么样</h2>
+  <p>llms.txt 是 Markdown 格式，人也能读。一个最小可用的例子：</p>
+<pre><code># 我的博客
+
+&gt; 分享独立开发、效率工具和生活记录的个人博客，每周更新。
+
+## 文章
+- [为什么我放弃了 Notion](https://example.com/posts/notion)：从 Notion 迁移到纯文本工作流的完整记录
+- [独立开发第一年](https://example.com/posts/indie-year-1)：收入、踩坑与经验总结
+
+## 关于
+- [关于我](https://example.com/about)：前大厂程序员，现独立开发者</code></pre>
+  <p>三件套：<strong>一级标题</strong>（网站名）+ <strong>引用块</strong>（一句话介绍）+ <strong>二级标题分组</strong>（链接列表，每个链接带一句话描述）。就这么简单。</p>
+  <p>注意那个描述很关键：<strong>链接光秃秃一个地址、没有一句话说明，是最常见的毛病。</strong>AI 靠这句话判断这个页面值不值得读。</p>
+
+  <h2><span class="n">04</span>跟 llms-full.txt 是什么关系</h2>
+  <p>规范里还有个可选的 <code>llms-full.txt</code>：把网站所有重要内容拼成一个超大文本文件，相当于"全文版"。llms.txt 是目录，llms-full.txt 是全书。</p>
+  <p>新手先把 llms.txt 做好就行，full 版本等以后再说。</p>
+
+  <h2><span class="n">05</span>做了有什么用，没做会怎样</h2>
+  <table>
+    <tr><th></th><th>有规范的 llms.txt</th><th>没有</th></tr>
+    <tr><td>AI 介绍你的网站</td><td>准确、带正确链接</td><td>靠猜，可能编造链接</td></tr>
+    <tr><td>被 AI 问答引用</td><td>更容易被选中</td><td>拼不过有文件的竞品</td></tr>
+    <tr><td>成本</td><td>半小时写一份</td><td>—</td></tr>
+  </table>
+  <p>说白了：<strong>这是 AI 时代的 SEO 入场券，成本半小时，不做等于把位置让给竞品。</strong>我们测下来，有文件的站平均能拿到 82 分（满分 100），说明认真做的人不多——现在做就是红利期。</p>
+
+  <h2><span class="n">06</span>怎么开始</h2>
+  <p>三步：</p>
+  <ol>
+    <li><strong>生成</strong>——用 <a href="/#gen">cetxt 生成器</a>填个表单，30 秒出一份合规范的文件；</li>
+    <li><strong>检查</strong>——有现成文件的，<a href="/#val">粘贴校验</a>拿 0–100 分，看看哪里扣分；</li>
+    <li><strong>部署</strong>——把文件放到网站根目录，访问 <code>你的域名/llms.txt</code> 能打开纯文本就行。</li>
+  </ol>
+  <p>不确定自己写得对不对？<a href="/#check">输入域名在线体检</a>，直接给你打分。</p>
+  <p>想看别人怎么写：<a href="/guide/how-to-write-llms-txt/">《llms.txt 怎么写？规范、示例和常见坑》</a></p>
+
+  <div class="cta">
+    <a class="btn" href="/#gen">生成我的 llms.txt →</a><br>
+    <a class="btn ghost" href="/#check">先体检一下我的站</a>
+  </div>
+
+  <div class="foot"><span>cetxt.com — 给 AI 的网站说明书</span><a href="/">回首页</a></div>
+
+</div>
+</body>
+</html>

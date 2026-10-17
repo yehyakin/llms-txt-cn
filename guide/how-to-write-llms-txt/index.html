@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>llms.txt 怎么写？规范、示例和常见坑 · cetxt</title>
+<meta name="description" content="llms.txt 格式规范详解：H1 标题、引用块摘要、H2 分组、链接描述怎么写，附好坏示例对比，以及我们从 1000 个网站实测中总结的 5 个常见坑。">
+<link rel="canonical" href="https://cetxt.com/guide/how-to-write-llms-txt/">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0c0c0e">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="cetxt">
+<meta property="og:title" content="llms.txt 怎么写？规范、示例和常见坑">
+<meta property="og:description" content="llms.txt 格式规范详解，附好坏示例对比，以及从 1000 个网站实测中总结的 5 个常见坑。">
+<meta property="og:url" content="https://cetxt.com/guide/how-to-write-llms-txt/">
+<meta property="og:image" content="https://cetxt.com/og.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "llms.txt 怎么写？规范、示例和常见坑",
+  "description": "llms.txt 格式规范详解：标题、摘要、分组、链接描述怎么写，附好坏示例对比与 5 个常见坑。",
+  "url": "https://cetxt.com/guide/how-to-write-llms-txt/",
+  "inLanguage": "zh-CN",
+  "datePublished": "2026-10-05",
+  "author": { "@type": "Organization", "name": "cetxt", "url": "https://cetxt.com/" },
+  "publisher": { "@type": "Organization", "name": "cetxt", "url": "https://cetxt.com/" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;900&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#0c0c0e; --bg2:#121214; --ink:#f4f1e9; --mut:#97958d; --line:rgba(244,241,233,.13); --acc:#d2ff00; --acc-ink:#0c0c0e; --red:#ff6b6b; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:"Noto Sans SC",sans-serif;font-size:17px;line-height:1.9;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:720px;margin:0 auto;padding:0 24px}
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:22px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .topbar a{color:var(--mut);text-decoration:none}
+  .topbar a:hover{color:var(--acc)}
+  .crumb{font-size:13px;color:var(--mut);margin:36px 0 16px}
+  .crumb a{color:var(--mut);text-decoration:none}
+  h1{font-family:"Noto Serif SC",serif;font-size:38px;font-weight:900;line-height:1.4;margin-bottom:16px}
+  .meta{font-size:13px;color:var(--mut);margin-bottom:40px;font-family:"JetBrains Mono",monospace}
+  h2{font-family:"Noto Serif SC",serif;font-size:26px;font-weight:600;margin:56px 0 18px;line-height:1.5}
+  h2 .n{color:var(--acc);font-family:"JetBrains Mono",monospace;font-size:18px;margin-right:10px}
+  h3{font-size:19px;margin:32px 0 12px;color:var(--ink)}
+  p{margin:0 0 20px;color:#d8d5cc}
+  strong{color:var(--ink)}
+  a{color:var(--acc);text-decoration:none;border-bottom:1px solid rgba(210,255,0,.35)}
+  ul,ol{margin:0 0 20px 22px;color:#d8d5cc}
+  li{margin-bottom:10px}
+  code{font-family:"JetBrains Mono",monospace;font-size:14px;background:var(--bg2);border:1px solid var(--line);border-radius:6px;padding:2px 8px;color:var(--acc)}
+  pre{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:20px;overflow-x:auto;margin:0 0 24px;font-size:14px;line-height:1.7}
+  pre code{background:none;border:none;padding:0;color:#d8d5cc}
+  pre.bad{border-color:rgba(255,107,107,.4)}
+  pre.good{border-color:rgba(210,255,0,.4)}
+  .tag{display:inline-block;font-size:12px;font-weight:700;padding:3px 12px;border-radius:999px;margin-bottom:12px}
+  .tag.bad{background:rgba(255,107,107,.12);color:var(--red);border:1px solid rgba(255,107,107,.4)}
+  .tag.good{background:rgba(210,255,0,.1);color:var(--acc);border:1px solid rgba(210,255,0,.4)}
+  .callout{background:rgba(210,255,0,.06);border:1px solid rgba(210,255,0,.25);border-radius:12px;padding:20px 22px;margin:28px 0}
+  .callout p{margin:0;font-size:15px}
+  .cta{margin:64px 0;text-align:center;border-top:1px solid var(--line);padding-top:48px}
+  .cta a.btn{display:inline-block;background:var(--acc);color:var(--acc-ink);font-weight:700;font-size:16px;padding:15px 42px;border-radius:999px;text-decoration:none;border:none;margin:6px}
+  .cta a.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .foot{border-top:1px solid var(--line);margin-top:32px;padding:28px 0 64px;font-size:13px;color:var(--mut);display:flex;justify-content:space-between}
+  .foot a{color:var(--mut)}
+  @media(max-width:640px){ h1{font-size:30px} body{font-size:16px} }
+</style>
+<script defer src="https://umami.kin3.net/script.js" data-website-id="3a06af3f-999b-4956-a6af-8760b6a03ed3"></script>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar"><a href="/">← cetxt.com</a><a href="/survey/">调查报告</a></div>
+
+  <div class="crumb"><a href="/">首页</a> / <a href="/guide/what-is-llms-txt/">指南</a> / llms.txt 怎么写</div>
+
+  <h1>llms.txt 怎么写？<br>规范、示例和常见坑</h1>
+  <div class="meta">2026-10-05 · 阅读约 8 分钟</div>
+
+  <p>还不知道 llms.txt 是什么？先看<a href="/guide/what-is-llms-txt/">《llms.txt 是什么？给中文站长的一篇讲透》</a>。这篇只讲怎么写：规范拆开揉碎，附好坏对比，再告诉你我们从 1000 个网站实测里挖出来的 5 个坑。</p>
+
+  <h2><span class="n">01</span>规范长什么样</h2>
+  <p>llms.txt 是 Markdown，结构固定为四件套：</p>
+  <ol>
+    <li><strong>H1（一级标题）</strong>——网站名，只能有一个，放在最开头；</li>
+    <li><strong>引用块（&gt;）</strong>——一句话介绍网站是干嘛的，紧跟 H1；</li>
+    <li><strong>H2（二级标题）分组</strong>——按主题把链接分组，比如"产品""文档""博客"；</li>
+    <li><strong>链接列表</strong>——每个链接带一句话描述，格式：<code>- [标题](地址)：一句话描述</code>。</li>
+  </ol>
+  <p>记住这个顺序，基本不会错。我们的<a href="/#gen">生成器</a>就是按这个结构出的文件。</p>
+
+  <h2><span class="n">02</span>好坏示例对比</h2>
+
+  <h3>❌ 坏示例：链接裸奔</h3>
+  <span class="tag bad">54 分</span>
+<pre class="bad"><code># 我的网站
+
+## 链接
+- https://example.com/a
+- https://example.com/b
+- https://example.com/c</code></pre>
+  <p>毛病：没有一句话摘要；链接没有描述，AI 不知道点进去是啥；裸 URL 不如 Markdown 链接好读。</p>
+
+  <h3>✅ 好示例：每句话都有用</h3>
+  <span class="tag good">96 分</span>
+<pre class="good"><code># 我的网站
+
+&gt; 专注独立开发的个人博客，分享效率工具评测与出海经验，每周三更新。
+
+## 精选文章
+- [为什么我放弃了 Notion](https://example.com/posts/notion)：从 Notion 迁移到纯文本工作流的完整记录，含工具清单
+- [独立开发第一年](https://example.com/posts/year1)：收入构成、踩过的坑、给新手的三条建议
+
+## 关于我
+- [关于](https://example.com/about)：前大厂程序员，现独立开发者，联系方式在这</code></pre>
+  <p>好在哪：一句话摘要说清定位；每个链接都有描述，AI 能判断值不值得深入读；分组清晰。</p>
+
+  <div class="callout">
+    <p>💡 写完不放心？<a href="/#val">粘贴到校验器</a>，0–100 分告诉你哪里扣分。</p>
+  </div>
+
+  <h2><span class="n">03</span>5 个常见坑（来自 1000 站实测）</h2>
+
+  <h3>坑 1：返回 200，打开是 HTML 壳</h3>
+  <p>164 个大站踩了这个坑：<code>/llms.txt</code> 返回 200，但内容是网站的 HTML 外壳，不是纯文本。SPA 站点最容易中招——路由没配好，什么路径都返回 index.html。AI 拿到的是壳，不是说明书，等于白做。</p>
+  <p><strong>怎么避：</strong>部署后直接浏览器打开 <code>你的域名/llms.txt</code>，看到纯文本才算数。我们的<a href="/#check">在线体检</a>会自动识别这种情况。</p>
+
+  <h3>坑 2：链接只有地址，没有描述</h3>
+  <p>这是独立站里最常见的毛病。站长花心思列了几十个链接，但每个都是光秃秃的 URL。AI 靠描述决定要不要点进去读——没描述的链接，基本等于没写。</p>
+  <p><strong>怎么避：</strong>每个链接跟一句 15–30 字的话：这个页面讲什么、适合谁看。</p>
+
+  <h3>坑 3：缺一句话摘要</h3>
+  <p>H1 下面直接就是链接列表，没有 <code>&gt;</code> 引用块摘要。AI 第一眼看不到"你是谁"，后面的链接就缺了上下文。</p>
+  <p><strong>怎么避：</strong>H1 后面必须跟一句：网站是干嘛的、给谁看的、多久更新。</p>
+
+  <h3>坑 4：链接重复、死链一堆</h3>
+  <p>字节的 Coze 就是例子：文件做了，但 74 个警告，链接重复一堆，只拿 50 分。做了不等于做好。</p>
+  <p><strong>怎么避：</strong>定期跑一遍校验，死链、重复一次清干净。</p>
+
+  <h3>坑 5：更新了网站，忘了更新文件</h3>
+  <p>llms.txt 是手写的，网站一改版，文件就过期。过期的说明书比没有更糟——AI 会一本正经地介绍你已经下线的产品。</p>
+  <p><strong>怎么避：</strong>把"更新 llms.txt"写进发布 checklist，或者每次大改版后跑一次<a href="/#check">体检</a>。</p>
+
+  <h2><span class="n">04</span>部署 checklist</h2>
+  <ul>
+    <li>文件放网站<strong>根目录</strong>，路径必须是 <code>/llms.txt</code>；</li>
+    <li>Content-Type 用 <code>text/plain</code> 或 <code>text/markdown</code>，别当 HTML 吐；</li>
+    <li>浏览器直接打开能看到纯文本（避开坑 1）；</li>
+    <li>跑一遍<a href="/#val">校验</a>，80 分以上再发布；</li>
+    <li>大改版后记得更新文件（避开坑 5）。</li>
+  </ul>
+
+  <div class="cta">
+    <a class="btn" href="/#gen">生成我的 llms.txt →</a><br>
+    <a class="btn ghost" href="/#check">体检一下我的站</a>
+  </div>
+
+  <div class="foot"><span>cetxt.com — 给 AI 的网站说明书</span><a href="/">回首页</a></div>
+
+</div>
+</body>
+</html>

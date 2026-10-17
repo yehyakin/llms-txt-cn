@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>llms.txt 常见问题 FAQ · cetxt</title>
+<meta name="description" content="llms.txt 常见问题：会影响 SEO 吗？和 robots.txt 冲突吗？小网站需要吗？多久更新一次？不做会怎样？一页讲清。">
+<link rel="canonical" href="https://cetxt.com/faq/">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0c0c0e">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="cetxt">
+<meta property="og:title" content="llms.txt 常见问题 FAQ">
+<meta property="og:description" content="llms.txt 常见问题一页讲清：SEO 影响、robots.txt 关系、小站要不要做、多久更新。">
+<meta property="og:url" content="https://cetxt.com/faq/">
+<meta property="og:image" content="https://cetxt.com/og.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "llms.txt 会影响 SEO 吗？",
+      "acceptedAnswer": { "@type": "Answer", "text": "llms.txt 本身不直接影响传统搜索引擎排名，它是写给 AI 看的。但在 AI 问答越来越多的今天，它决定 AI 能不能准确介绍你的网站，可以理解为 AI 时代的 SEO 入场券。" }
+    },
+    {
+      "@type": "Question",
+      "name": "llms.txt 和 robots.txt 冲突吗？",
+      "acceptedAnswer": { "@type": "Answer", "text": "不冲突，作用相反。robots.txt 告诉爬虫别来，llms.txt 告诉 AI 快来、照着这份说明书读。两个文件可以同时存在，互不干扰。" }
+    },
+    {
+      "@type": "Question",
+      "name": "小网站也需要 llms.txt 吗？",
+      "acceptedAnswer": { "@type": "Answer", "text": "更需要。大站自带品牌，AI 本来就认识；小网站没人知道，llms.txt 是你主动递给 AI 的名片。我们实测 100 个中文独立站只有 19% 有文件，现在做就是红利期。" }
+    },
+    {
+      "@type": "Question",
+      "name": "有了 llms.txt 就一定会被 AI 引用吗？",
+      "acceptedAnswer": { "@type": "Answer", "text": "不保证。llms.txt 解决的是 AI 能不能读懂你，不解决 AI 愿不愿意引用你。引用还取决于内容质量、权威度等因素。但没有它，AI 连读懂都费劲。" }
+    },
+    {
+      "@type": "Question",
+      "name": "llms.txt 多久更新一次？",
+      "acceptedAnswer": { "@type": "Answer", "text": "网站大改版、上线重要新页面时就该更新。过期的说明书比没有更糟——AI 会一本正经地介绍你已经下线的产品。建议把更新 llms.txt 写进发布 checklist。" }
+    },
+    {
+      "@type": "Question",
+      "name": "怎么检查我的 llms.txt 写得对不对？",
+      "acceptedAnswer": { "@type": "Answer", "text": "三种方式：在 cetxt 粘贴校验拿 0–100 结构质量分；输入域名在线体检自动抓取打分；部署后浏览器直接打开 你的域名/llms.txt，看到纯文本才算数。" }
+    },
+    {
+      "@type": "Question",
+      "name": "llms.txt 放哪里？",
+      "acceptedAnswer": { "@type": "Answer", "text": "网站根目录，路径必须是 /llms.txt。Content-Type 用 text/plain 或 text/markdown，不要返回 HTML。" }
+    }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;900&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#0c0c0e; --bg2:#121214; --ink:#f4f1e9; --mut:#97958d; --line:rgba(244,241,233,.13); --acc:#d2ff00; --acc-ink:#0c0c0e; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:"Noto Sans SC",sans-serif;font-size:17px;line-height:1.9;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:720px;margin:0 auto;padding:0 24px}
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:22px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .topbar a{color:var(--mut);text-decoration:none}
+  .topbar a:hover{color:var(--acc)}
+  .crumb{font-size:13px;color:var(--mut);margin:36px 0 16px}
+  .crumb a{color:var(--mut);text-decoration:none}
+  h1{font-family:"Noto Serif SC",serif;font-size:38px;font-weight:900;line-height:1.4;margin-bottom:16px}
+  .meta{font-size:13px;color:var(--mut);margin-bottom:40px;font-family:"JetBrains Mono",monospace}
+  details{background:var(--bg2);border:1px solid var(--line);border-radius:12px;margin-bottom:14px;overflow:hidden}
+  summary{cursor:pointer;padding:20px 22px;font-weight:700;font-size:17px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";color:var(--acc);font-size:22px;flex-shrink:0}
+  details[open] summary::after{content:"–"}
+  details .a{padding:0 22px 22px;color:#d8d5cc;font-size:16px}
+  details .a a{color:var(--acc);text-decoration:none;border-bottom:1px solid rgba(210,255,0,.35)}
+  details .a code{font-family:"JetBrains Mono",monospace;font-size:14px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:2px 8px;color:var(--acc)}
+  .cta{margin:64px 0;text-align:center;border-top:1px solid var(--line);padding-top:48px}
+  .cta a.btn{display:inline-block;background:var(--acc);color:var(--acc-ink);font-weight:700;font-size:16px;padding:15px 42px;border-radius:999px;text-decoration:none;margin:6px}
+  .cta a.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .foot{border-top:1px solid var(--line);margin-top:32px;padding:28px 0 64px;font-size:13px;color:var(--mut);display:flex;justify-content:space-between}
+  .foot a{color:var(--mut);text-decoration:none}
+  @media(max-width:640px){ h1{font-size:30px} body{font-size:16px} }
+</style>
+<script defer src="https://umami.kin3.net/script.js" data-website-id="3a06af3f-999b-4956-a6af-8760b6a03ed3"></script>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar"><a href="/">← cetxt.com</a><a href="/survey/">调查报告</a></div>
+
+  <div class="crumb"><a href="/">首页</a> / 常见问题</div>
+
+  <h1>llms.txt 常见问题</h1>
+  <div class="meta">7 个问题，一页讲清 · 点开展开</div>
+
+  <details open>
+    <summary>llms.txt 会影响 SEO 吗？</summary>
+    <div class="a">本身不直接影响传统搜索引擎排名——它是写给 AI 看的。但在 AI 问答越来越多的今天，它决定 AI 能不能准确介绍你的网站。可以理解为 <strong>AI 时代的 SEO 入场券</strong>。</div>
+  </details>
+
+  <details>
+    <summary>llms.txt 和 robots.txt 冲突吗？</summary>
+    <div class="a">不冲突，作用正好相反：robots.txt 告诉爬虫"别来"，llms.txt 告诉 AI"快来，照着这份说明书读"。两个文件可以同时存在，互不干扰。</div>
+  </details>
+
+  <details>
+    <summary>小网站也需要 llms.txt 吗？</summary>
+    <div class="a"><strong>更需要。</strong>大站自带品牌，AI 本来就认识；小网站没人知道，llms.txt 是你主动递给 AI 的名片。我们实测 100 个中文独立站只有 19% 有文件——现在做就是红利期。</div>
+  </details>
+
+  <details>
+    <summary>有了 llms.txt 就一定会被 AI 引用吗？</summary>
+    <div class="a"><strong>不保证。</strong>llms.txt 解决的是 AI 能不能读懂你，不解决 AI 愿不愿意引用你。引用还取决于内容质量、权威度等因素。但没有它，AI 连读懂都费劲。——我们不承诺收录或排名，只给结构质量分。</div>
+  </details>
+
+  <details>
+    <summary>llms.txt 多久更新一次？</summary>
+    <div class="a">网站大改版、上线重要新页面时就该更新。<strong>过期的说明书比没有更糟</strong>——AI 会一本正经地介绍你已经下线的产品。建议把"更新 llms.txt"写进发布 checklist。</div>
+  </details>
+
+  <details>
+    <summary>怎么检查我的 llms.txt 写得对不对？</summary>
+    <div class="a">三种方式：<a href="/#val">粘贴校验</a>拿 0–100 结构质量分；<a href="/#check">输入域名在线体检</a>自动抓取打分；部署后浏览器直接打开 <code>你的域名/llms.txt</code>，看到纯文本才算数。</div>
+  </details>
+
+  <details>
+    <summary>llms.txt 放哪里？</summary>
+    <div class="a">网站<strong>根目录</strong>，路径必须是 <code>/llms.txt</code>。Content-Type 用 <code>text/plain</code> 或 <code>text/markdown</code>，不要返回 HTML——返回 200 但内容是 HTML 壳是最常见的坑，详见<a href="/guide/how-to-write-llms-txt/">写作指南</a>。</div>
+  </details>
+
+  <div class="cta">
+    <a class="btn" href="/#gen">生成我的 llms.txt →</a><br>
+    <a class="btn ghost" href="/guide/what-is-llms-txt/">先了解 llms.txt 是什么</a>
+  </div>
+
+  <div class="foot"><span>cetxt.com — 给 AI 的网站说明书</span><a href="/">回首页</a></div>
+
+</div>
+</body>
+</html>

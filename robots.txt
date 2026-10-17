@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cetxt.com/sitemap.xml
+
+# Content signals (EU Directive 2019/790 Art. 4 reservations below)
+# search: building a search index and providing search results
+# ai-input: inputting content into AI models (RAG, grounding, generative answers)
+# ai-train: training or fine-tuning AI models
+#
+# search: yes — 索引与搜索结果展示欢迎
+# ai-input: yes — AI 问答引用本页公开内容欢迎，并请注明来源
+# ai-train: no — 不允许用于模型训练与微调
