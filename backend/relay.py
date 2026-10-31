@@ -84,9 +84,11 @@ def host_ok(host):
     try:
         infos = socket.getaddrinfo(host, None, type=socket.SOCK_STREAM)
     except socket.gaierror:
-        return False
+        return None  # 解析失败（域名无记录），与"解析到内网"区分
     ips = {i[4][0] for i in infos}
-    return bool(ips) and all(is_public_ip(ip) for ip in ips)
+    if not ips:
+        return None
+    return all(is_public_ip(ip) for ip in ips)
 
 
 def check_url(url):
@@ -102,7 +104,10 @@ def check_url(url):
     if port and not ((u.scheme == "http" and port == 80) or (u.scheme == "https" and port == 443)):
         return None, "bad_port"
     host = (u.hostname or "").rstrip(".").lower()
-    if not host_ok(host):
+    ok = host_ok(host)
+    if ok is None:
+        return None, "dns_fail"
+    if not ok:
         return None, "dns_blocked"
     return u, None
 
@@ -114,14 +119,17 @@ def fetch_once(u, max_bytes, accept):
     conn = cls(host, port, timeout=TIMEOUT)
     try:
         path = (u.path or "/") + ("?" + u.query if u.query else "")
-        conn.request("GET", path, headers={"User-Agent": UA, "Accept": accept, "Accept-Encoding": "identity"})
-        resp = conn.getresponse()
+        # 先建连再核验对端 IP（防 DNS rebinding）。必须在 getresponse 之前取：
+        # 对方回 Connection: close 时 http.client 会把 sock 置空，之后再取会误判
+        conn.connect()
         try:
-            peer = conn.sock.getpeername()[0] if conn.sock else None
+            peer = conn.sock.getpeername()[0]
         except Exception:
             peer = None
         if not peer or not is_public_ip(peer):
             return {"kind": "error", "code": "dns_blocked", "reason": "对端地址异常"}
+        conn.request("GET", path, headers={"User-Agent": UA, "Accept": accept, "Accept-Encoding": "identity"})
+        resp = conn.getresponse()
         status = resp.status
         ctype = resp.getheader("Content-Type", "") or ""
         if status in (301, 302, 303, 307, 308):
@@ -174,7 +182,8 @@ def relay(url, max_bytes, accept):
             return {"kind": "error", "code": "timeout", "reason": "整体超时"}
         u, err = check_url(url)
         if err:
-            return {"kind": "error", "code": err, "reason": "目标地址被拒绝（%s）" % err, "refused": redirects > 0}
+            reason = "域名无法解析（没有 A/AAAA 记录）" if err == "dns_fail" else "目标地址被拒绝（%s）" % err
+            return {"kind": "error", "code": err, "reason": reason, "refused": redirects > 0}
         r = fetch_once(u, max_bytes, accept)
         if r["kind"] != "redirect":
             if r["kind"] == "response":
