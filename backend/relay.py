@@ -13,6 +13,8 @@ Worker 被拦时把同一个 URL 交给这台服务器代抓。
 监听 127.0.0.1:8768，公网经 Caddy（relay.cetxt.com）反代。
 """
 import base64
+import gzip
+import zlib
 import hmac
 import http.client
 import http.server
@@ -127,7 +129,21 @@ def fetch_once(u, max_bytes, accept):
         body = b""
         truncated = False
         if 200 <= status < 300:
+            enc = (resp.getheader("Content-Encoding") or "").lower()
             data = resp.read(max_bytes + 1)
+            # 有的站无视 Accept-Encoding: identity 仍返回 gzip（如 B站），这里解压（解压后同样受上限约束）
+            if "gzip" in enc or data[:2] == b"\x1f\x8b":
+                try:
+                    d = zlib.decompressobj(16 + zlib.MAX_WBITS)
+                    data = d.decompress(data, max_bytes + 1)
+                except Exception:
+                    pass
+            elif "deflate" in enc:
+                try:
+                    d = zlib.decompressobj()
+                    data = d.decompress(data, max_bytes + 1)
+                except Exception:
+                    pass
             truncated = len(data) > max_bytes
             body = data[:max_bytes]
         return {"kind": "response", "status": status, "content_type": ctype,
