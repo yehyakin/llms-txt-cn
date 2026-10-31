@@ -1,159 +1,468 @@
 <!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>概念 D · 产品页叙事 · cetxt</title><meta name="robots" content="noindex">
+<title>概念 D · 产品页 · cetxt</title><meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
 <style>
-:root{--ink:#1d1d1f;--mut:#6e6e73;--bg:#fff;--alt:#f5f5f7;--acc:#0071e3;--ok:#1f9d55;--warn:#bf6a02;
---sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font:17px/1.47 var(--sans);-webkit-font-smoothing:antialiased;letter-spacing:-.01em}
-a{color:var(--acc);text-decoration:none}
-.gnav{height:44px;background:rgba(22,22,23,.85);backdrop-filter:saturate(180%) blur(20px);color:#e8e8ed;font-size:12px}
-.gnav .in{max-width:1000px;margin:0 auto;height:100%;display:flex;align-items:center;justify-content:space-between;padding:0 22px}
-.gnav a{color:#e8e8ed;opacity:.85}.gnav .ls{display:flex;gap:30px}
-.lnav{position:sticky;top:0;z-index:9;height:52px;background:rgba(255,255,255,.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08)}
-.lnav .in{max-width:1000px;margin:0 auto;height:100%;display:flex;align-items:center;padding:0 22px;gap:24px}
-.lnav .t{font-size:21px;font-weight:600;letter-spacing:-.02em;margin-right:auto;color:var(--ink)}
-.lnav .s{font-size:12px;color:var(--ink);opacity:.8}.lnav .s.on{opacity:.5}
-.btn{display:inline-block;background:var(--acc);color:#fff;border-radius:980px;font-size:17px;padding:11px 22px;border:0;cursor:pointer;font-family:inherit}
-.btn.sm{font-size:12px;padding:4px 11px}
-section{padding:110px 22px;text-align:center;overflow:hidden}
+:root{--ink:#1d1d1f;--mut:#86868b;--mut2:#6e6e73;--alt:#f5f5f7;--acc:#0071e3;--ok:#30d158;--warn:#ff9f0a;--bad:#ff453a;
+--sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--ease:cubic-bezier(.28,.11,.32,1);--spring:cubic-bezier(.34,1.56,.64,1)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background:#fff}
+body{color:var(--ink);font:17px/1.47 var(--sans);-webkit-font-smoothing:antialiased;letter-spacing:-.022em;overflow-x:hidden}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+button{font-family:inherit;color:inherit;border:0;background:none;cursor:pointer}
+sup{font-size:.55em;vertical-align:super;line-height:0;color:var(--mut2)}
+
+/* ---------- nav ---------- */
+.gnav{height:44px;background:rgba(250,250,252,.8);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);font-size:12px;position:relative;z-index:11}
+.gnav .in{max-width:1024px;margin:0 auto;height:100%;display:flex;align-items:center;justify-content:space-between;padding:0 22px}
+.gnav a{color:#1d1d1f;opacity:.8;transition:opacity .3s}.gnav a:hover{opacity:1;text-decoration:none}.gnav .ls{display:flex;gap:34px}
+.gnav .logo{font:700 15px var(--sans);letter-spacing:-.03em;opacity:1}
+.lnav{position:sticky;top:0;z-index:10;height:52px;transition:background .5s var(--ease),box-shadow .5s}
+.lnav.stuck{background:rgba(255,255,255,.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);box-shadow:0 1px 0 rgba(0,0,0,.08)}
+.lnav .in{max-width:1024px;margin:0 auto;height:100%;display:flex;align-items:center;padding:0 22px;gap:24px}
+.lnav .t{font-size:21px;font-weight:600;letter-spacing:-.02em;margin-right:auto}
+.lnav .s{font-size:12px;color:var(--ink);opacity:.82}.lnav .s.on{opacity:.45;pointer-events:none}
+.pill{display:inline-flex;align-items:center;justify-content:center;background:var(--acc);color:#fff;border-radius:980px;font-size:17px;padding:12px 23px;transition:background .2s,transform .25s var(--spring);user-select:none;-webkit-user-select:none}
+.pill:hover{background:#0077ed;text-decoration:none}.pill:active{transform:scale(.95)}
+.pill.sm{font-size:12px;padding:4px 11px}.pill.ghost{background:none;color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
+.pill.ghost:hover{background:var(--acc);color:#fff}
+
+/* ---------- type ---------- */
+section{position:relative;padding:130px 22px;text-align:center}
 .alt{background:var(--alt)}
-.eyebrow{font-size:21px;font-weight:600;color:var(--mut);margin-bottom:6px}
-.h0{font-size:clamp(40px,8vw,80px);font-weight:700;line-height:1.05;letter-spacing:-.035em}
-.h1{font-size:clamp(34px,6vw,64px);font-weight:700;line-height:1.08;letter-spacing:-.03em}
-.h2{font-size:clamp(28px,4.4vw,48px);font-weight:700;line-height:1.1;letter-spacing:-.025em}
-.lead{font-size:clamp(19px,2.2vw,24px);font-weight:600;color:var(--mut);max-width:680px;margin:20px auto 0;line-height:1.35}
-.body{max-width:680px;margin:28px auto 0;color:var(--ink);font-size:19px;line-height:1.55;text-align:left}
-.more{margin-top:26px;display:inline-flex;align-items:center;gap:10px;font-size:17px;color:var(--ink);background:none;border:0;font-family:inherit;cursor:pointer}
-.more i{font-style:normal;width:36px;height:36px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:22px;line-height:1;transition:transform .3s}
-.more[aria-expanded=true] i{transform:rotate(45deg)}
-.more-body{max-width:640px;margin:0 auto;text-align:left;color:var(--mut);font-size:17px;max-height:0;overflow:hidden;transition:max-height .5s ease,margin .5s}
-.more-body.open{max-height:400px;margin-top:22px}
-/* hero object: the "titanium card" is a document */
-.doc{width:min(420px,86vw);aspect-ratio:1.586;margin:60px auto 0;border-radius:22px;position:relative;text-align:left;padding:26px 28px;
-background:linear-gradient(135deg,#f4f4f6 0%,#dcdce0 38%,#f9f9fb 52%,#cfcfd4 78%,#ececef 100%);
-box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 30px 60px -20px rgba(0,0,0,.35),0 12px 24px -12px rgba(0,0,0,.2);transform:perspective(1200px) rotateX(12deg);transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
-.doc.in{transform:perspective(1200px) rotateX(0)}
-.doc .f{font:600 13px var(--mono);color:#555;letter-spacing:.02em}
-.doc .sc{position:absolute;right:28px;top:22px;font-size:54px;font-weight:700;letter-spacing:-.05em;color:#2a2a2c}
-.doc .sc small{font-size:15px;color:#777;font-weight:500;letter-spacing:0}
-.doc .ln{position:absolute;left:28px;right:28px;bottom:24px;font:12.5px/1.75 var(--mono);color:#444}
-.doc .ln b{color:#111}
-.domain{display:flex;max-width:520px;margin:44px auto 0;background:var(--alt);border-radius:16px;padding:6px;gap:6px}
-.domain input{flex:1;min-width:0;border:0;background:transparent;font:19px var(--sans);padding:10px 14px;outline:0;color:var(--ink)}
-.hint{font-size:14px;color:var(--mut);margin-top:12px}
-/* staggered words */
-.stack span{display:block;opacity:.12;transition:opacity .6s}
-.stack.in span{opacity:1}.stack.in span:nth-child(2){transition-delay:.25s}.stack.in span:nth-child(3){transition-delay:.5s}.stack.in span:nth-child(4){transition-delay:.75s}
-/* bot list */
-.bots{max-width:760px;margin:56px auto 0;display:grid;grid-template-columns:repeat(2,1fr);gap:14px;text-align:left}
-.bot{background:#fff;border-radius:18px;padding:20px 22px;display:flex;justify-content:space-between;align-items:center}
-.bot b{font:600 15px var(--mono)}.bot small{display:block;color:var(--mut);font-size:13px;margin-top:2px}
-.st{font-size:13px;font-weight:600;border-radius:980px;padding:4px 10px;white-space:nowrap}
-.st.p{color:var(--warn);background:#fff4e5}.st.y{color:var(--ok);background:#e9f7ef}.st.n{color:#d70015;background:#ffecee}
-/* big numbers */
-.nums{display:flex;justify-content:center;gap:clamp(28px,7vw,90px);margin-top:60px;flex-wrap:wrap}
-.nums div{min-width:150px}.nums b{display:block;font-size:clamp(48px,7vw,72px);font-weight:700;letter-spacing:-.04em;line-height:1;
-background:linear-gradient(90deg,#0071e3,#7a3cff);-webkit-background-clip:text;background-clip:text;color:transparent}
-.nums span{display:block;color:var(--mut);font-size:15px;margin-top:10px;font-weight:600}
-/* routers */
-.tiles{max-width:1000px;margin:56px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:left}
-.tile{background:#fff;border-radius:28px;padding:34px 30px 30px;min-height:300px;display:flex;flex-direction:column}
-.alt .tile{background:#fff}.tile .k{font:13px var(--mono);color:var(--mut)}
-.tile h3{font-size:28px;font-weight:700;letter-spacing:-.02em;margin:8px 0 6px}
-.tile p{color:var(--mut);font-size:17px;line-height:1.4}
-.tile .ill{margin-top:auto;font:12px/1.6 var(--mono);color:#86868b;background:var(--alt);border-radius:14px;padding:14px;white-space:pre;overflow:hidden}
-.tile a{margin-top:16px;font-size:17px}
-footer{background:var(--alt);font-size:12px;color:var(--mut);padding:20px 22px 40px}
-footer .in{max-width:1000px;margin:0 auto;border-top:1px solid #d2d2d7;padding-top:16px;line-height:1.6}
-.fade{opacity:0;transform:translateY(40px);transition:opacity 1s,transform 1s cubic-bezier(.2,.8,.2,1)}.fade.in{opacity:1;transform:none}
-.tag{position:fixed;left:12px;bottom:12px;z-index:20;font:12px var(--mono);background:#1d1d1f;color:#fff;border-radius:8px;padding:6px 10px;opacity:.85}
-@media(max-width:734px){.gnav .ls{display:none}.lnav .s{display:none}section{padding:80px 20px}.bots{grid-template-columns:1fr}.tiles{grid-template-columns:1fr}.tile{min-height:0}.body{font-size:17px}}
-@media(prefers-reduced-motion:reduce){.fade,.doc,.stack span{transition:none;opacity:1;transform:none}}
+.h-hero{font-size:clamp(48px,9.6vw,96px);font-weight:700;line-height:1.04;letter-spacing:-.045em}
+.h1{font-size:clamp(40px,7vw,80px);font-weight:700;line-height:1.05;letter-spacing:-.04em}
+.h2{font-size:clamp(32px,5.4vw,56px);font-weight:700;line-height:1.07;letter-spacing:-.035em}
+.sub{font-size:clamp(21px,2.6vw,28px);font-weight:600;line-height:1.25;letter-spacing:-.025em}
+.mut{color:var(--mut)}
+.grad{background:linear-gradient(90deg,#0090f7,#ba62fc 50%,#f2416b);-webkit-background-clip:text;background-clip:text;color:transparent}
+.copy{max-width:692px;margin:0 auto;text-align:left;font-size:clamp(19px,2.2vw,24px);font-weight:600;line-height:1.42;color:var(--mut);letter-spacing:-.02em}
+.copy b{color:var(--ink);font-weight:600}
+
+/* reveal */
+.rv{opacity:0;transform:translate3d(0,48px,0);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
+.rv.in{opacity:1;transform:none}.rv.d1{transition-delay:.12s}.rv.d2{transition-delay:.24s}.rv.d3{transition-delay:.36s}
+
+/* ---------- hero card (titanium) ---------- */
+.hero{padding:70px 22px 40px;overflow:hidden}
+.hero .ctas{display:flex;gap:16px;justify-content:center;margin-top:32px;flex-wrap:wrap}
+.stage{height:min(78vw,520px);perspective:1400px;margin-top:40px;display:grid;place-items:center;touch-action:pan-y}
+.card{--rx:58deg;--ry:0deg;--rz:-8deg;--s:.86;--lx:30%;--ly:20%;
+width:min(78vw,460px);aspect-ratio:1.586;border-radius:clamp(16px,3.4vw,24px);position:relative;transform-style:preserve-3d;
+transform:rotateX(var(--rx)) rotateY(var(--ry)) rotateZ(var(--rz)) scale(var(--s));will-change:transform}
+.face{position:absolute;inset:0;border-radius:inherit;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.front{background:
+ radial-gradient(120% 90% at var(--lx) var(--ly),rgba(255,255,255,.95) 0%,rgba(255,255,255,0) 45%),
+ repeating-linear-gradient(90deg,rgba(0,0,0,.018) 0 1px,rgba(255,255,255,.02) 1px 2px),
+ linear-gradient(115deg,#e9e9ec 0%,#f7f7f9 30%,#dcdce1 55%,#f2f2f5 75%,#d6d6db 100%);
+ box-shadow:inset 0 0 0 1px rgba(255,255,255,.7),inset 0 -1px 2px rgba(0,0,0,.08)}
+.front::after{content:"";position:absolute;inset:-40%;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.55) 50%,transparent 60%);transform:translateX(var(--sheen,-60%));transition:transform .2s linear;mix-blend-mode:soft-light}
+.etch{position:absolute;color:#b9b9be;text-shadow:0 1px 0 rgba(255,255,255,.9),0 -1px 0 rgba(0,0,0,.12)}
+.etch.logo{left:8.5%;top:11%;font:700 clamp(18px,4vw,26px) var(--sans);letter-spacing:-.04em}
+.etch.chip{right:8.5%;top:12%;width:13%;aspect-ratio:1.3;border-radius:5px;background:linear-gradient(135deg,#d9d9de,#f1f1f4 45%,#cfcfd5);box-shadow:inset 0 0 0 1px rgba(0,0,0,.06),0 1px 0 rgba(255,255,255,.8)}
+.etch.chip::before{content:"";position:absolute;inset:22% 18%;border:1px solid rgba(0,0,0,.09);border-radius:3px}
+.etch.name{left:8.5%;bottom:11%;font:600 clamp(11px,2.2vw,14px) var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.etch.mark{right:8.5%;bottom:10%;font:600 clamp(10px,2vw,13px) var(--mono);letter-spacing:.06em}
+.back{transform:rotateY(180deg);background:linear-gradient(115deg,#2b2b2f,#3a3a3f 40%,#232326 70%,#323236)}
+.shadow{position:absolute;left:8%;right:8%;bottom:-14%;height:22%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.28),transparent);filter:blur(10px);transform:translateZ(-60px) rotateX(90deg);opacity:var(--sh,.5)}
+.hint-drag{font-size:12px;color:var(--mut);margin-top:6px;opacity:.9}
+
+/* ---------- iPhone ---------- */
+.split{max-width:1024px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;text-align:left}
+.split .h2{margin-bottom:22px}
+.phone{width:min(340px,82vw);aspect-ratio:9/19.3;margin:0 auto;border-radius:56px;padding:12px;position:relative;
+background:linear-gradient(145deg,#d8d8dc,#a9a9ae 30%,#e6e6ea 55%,#9d9da2 85%);box-shadow:0 0 0 1px rgba(0,0,0,.15),0 40px 80px -30px rgba(0,0,0,.45),inset 0 0 2px rgba(255,255,255,.8)}
+.phone::before{content:"";position:absolute;right:-3px;top:24%;width:3px;height:12%;border-radius:0 2px 2px 0;background:#9d9da2}
+.screen{height:100%;border-radius:45px;background:#f2f2f7;overflow:hidden;position:relative;display:flex;flex-direction:column}
+.island{position:absolute;left:50%;top:11px;transform:translateX(-50%);width:32%;height:30px;border-radius:20px;background:#000;z-index:3;transition:width .5s var(--spring),height .5s var(--spring)}
+.island.busy{width:56%;height:34px}
+.island i{position:absolute;right:12px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;border:2px solid #30d158;border-top-color:transparent;opacity:0;animation:spin .8s linear infinite}
+.island.busy i{opacity:1}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sbar{height:52px;flex:none;display:flex;justify-content:space-between;align-items:flex-end;padding:0 28px 6px;font:600 14px var(--sans)}
+.app{flex:1;overflow:auto;padding:6px 16px 20px;-webkit-overflow-scrolling:touch;scrollbar-width:none}.app::-webkit-scrollbar{display:none}
+.app h4{font-size:30px;font-weight:700;letter-spacing:-.03em;margin:4px 2px 12px}
+.mini{border-radius:14px;aspect-ratio:1.586;position:relative;overflow:hidden;margin-bottom:14px;
+background:linear-gradient(115deg,#e9e9ec,#f8f8fa 35%,#dcdce1 60%,#f2f2f5);box-shadow:0 8px 20px -10px rgba(0,0,0,.35)}
+.mini .etch.logo{font-size:16px}.mini .etch.name{font-size:10px}
+.mini .score{position:absolute;right:8%;bottom:9%;font:700 34px var(--sans);letter-spacing:-.05em;color:#2c2c2e;text-shadow:0 1px 0 rgba(255,255,255,.8)}
+.mini .score small{font-size:12px;color:#8e8e93;font-weight:600;letter-spacing:0}
+.grp{background:#fff;border-radius:12px;overflow:hidden;margin-bottom:14px}
+.grp .hd{display:flex;justify-content:space-between;padding:12px 14px 4px;font-size:13px;color:#8e8e93}
+.row{display:flex;align-items:center;gap:11px;padding:10px 14px;position:relative}
+.row+.row::before{content:"";position:absolute;left:52px;right:0;top:0;height:1px;background:#e5e5ea}
+.ico{width:28px;height:28px;border-radius:7px;flex:none;display:grid;place-items:center;font:700 12px var(--sans);color:#fff}
+.row .tx{flex:1;min-width:0}.row b{display:block;font:600 14px var(--sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row small{font-size:12px;color:#8e8e93}
+.row .v{font:600 14px var(--sans);white-space:nowrap}
+.v.ok{color:#248a3d}.v.p{color:#c93400}.v.n{color:#d70015}
+.sk{height:12px;border-radius:6px;background:linear-gradient(90deg,#e5e5ea 25%,#f2f2f7 50%,#e5e5ea 75%);background-size:200% 100%;animation:sk 1.2s infinite}
+@keyframes sk{to{background-position:-200% 0}}
+.try{margin-top:28px;display:flex;gap:10px;max-width:440px;background:#fff;border-radius:14px;padding:6px;box-shadow:0 0 0 1px #d2d2d7;transition:box-shadow .3s}
+.try:focus-within{box-shadow:0 0 0 2px var(--acc),0 0 0 6px rgba(0,113,227,.15)}
+.try input{flex:1;min-width:0;border:0;outline:0;font:17px var(--sans);padding:8px 12px;background:transparent;color:var(--ink)}
+.chips{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.chip{font-size:14px;padding:6px 14px;border-radius:980px;background:#fff;box-shadow:inset 0 0 0 1px #d2d2d7;transition:transform .2s var(--spring),box-shadow .2s}
+.chip:active{transform:scale(.93)}.chip:hover{box-shadow:inset 0 0 0 1px var(--ink)}
+.err{color:#d70015;font-size:14px;margin-top:10px;min-height:20px}
+
+/* ---------- sticky word scrub ---------- */
+.scrub{height:280vh;padding:0}
+.scrub .pin{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:0 22px}
+.scrub .w{display:block;font-size:clamp(56px,13vw,150px);font-weight:700;line-height:1.02;letter-spacing:-.05em;color:#1d1d1f;opacity:.08;transition:opacity .25s linear}
+.scrub .w.on{opacity:1}
+.scrub .more{position:absolute;bottom:9vh}
+
+/* expand "+" */
+.more{display:inline-flex;align-items:center;gap:12px;font-size:17px;font-weight:600;padding:6px 6px 6px 6px;border-radius:980px;transition:transform .25s var(--spring)}
+.more:active{transform:scale(.95)}
+.more i{width:36px;height:36px;border-radius:50%;background:#1d1d1f;color:#fff;display:grid;place-items:center;transition:transform .5s var(--spring),background .3s}
+.more i svg{width:14px;height:14px}
+.more:hover i{background:#333336}
+.sheet{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:24px;visibility:hidden}
+.sheet .bg{position:absolute;inset:0;background:rgba(0,0,0,.42);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);opacity:0;transition:opacity .45s var(--ease)}
+.sheet .box{position:relative;max-width:640px;width:100%;max-height:82vh;overflow:auto;background:#fff;border-radius:28px;padding:56px 44px 44px;text-align:left;
+transform:translate3d(0,40px,0) scale(.96);opacity:0;transition:transform .55s var(--spring),opacity .35s var(--ease)}
+.sheet.open{visibility:visible}.sheet.open .bg{opacity:1}.sheet.open .box{transform:none;opacity:1}
+.sheet h3{font-size:32px;font-weight:700;letter-spacing:-.03em;margin-bottom:18px;line-height:1.1}
+.sheet p{font-size:17px;line-height:1.6;color:#333336;margin-bottom:14px}.sheet code{font:14px var(--mono);background:var(--alt);padding:2px 6px;border-radius:6px}
+.sheet .x{position:absolute;right:18px;top:18px;width:36px;height:36px;border-radius:50%;background:#e8e8ed;display:grid;place-items:center;transition:transform .2s var(--spring)}
+.sheet .x:active{transform:scale(.9)}
+
+/* ---------- score wheel ---------- */
+.wheel-wrap{display:grid;grid-template-columns:auto 1fr;gap:64px;max-width:900px;margin:64px auto 0;align-items:center;text-align:left}
+.wheel{width:min(340px,76vw);aspect-ratio:1;position:relative}
+.wheel svg{width:100%;height:100%;transform:rotate(-90deg);overflow:visible}
+.wheel .seg{fill:none;stroke-width:30;stroke-linecap:butt;cursor:pointer;transition:stroke-dashoffset 1.4s var(--ease),opacity .4s,stroke-width .3s var(--spring)}
+.wheel .seg:hover{stroke-width:36}.wheel .seg.off{opacity:.13}
+.wheel .c{position:absolute;inset:0;display:grid;place-items:center;text-align:center;pointer-events:none}
+.wheel .c b{font-size:clamp(64px,13vw,96px);font-weight:700;letter-spacing:-.06em;line-height:1;font-variant-numeric:tabular-nums}
+.wheel .c small{display:block;font-size:15px;color:var(--mut2);font-weight:600;margin-top:6px}
+.legend{list-style:none}
+.legend li{display:flex;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid #d2d2d7;cursor:pointer;user-select:none;-webkit-user-select:none;transition:opacity .3s}
+.legend li.off{opacity:.38}.legend li:last-child{border:0}
+.legend .dot{width:14px;height:14px;border-radius:50%;flex:none}
+.legend b{font-size:19px;flex:1}.legend span{font:600 17px var(--sans);color:var(--mut2);font-variant-numeric:tabular-nums}
+.wnote{margin-top:18px;font-size:17px;color:var(--mut2);min-height:52px}
+
+/* ---------- robots builder ---------- */
+.builder{max-width:1024px;margin:60px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:24px;text-align:left}
+.panel{background:#fff;border-radius:28px;padding:28px}
+.alt .panel{background:#fff}
+.tog{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid #e8e8ed}
+.tog:last-child{border:0}
+.tog b{font:600 15px var(--mono)}.tog small{display:block;font-size:13px;color:var(--mut)}
+.sw{width:51px;height:31px;border-radius:31px;background:#e9e9ea;position:relative;flex:none;transition:background .3s}
+.sw::after{content:"";position:absolute;left:2px;top:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.16);transition:transform .35s var(--spring),width .2s}
+.sw:active::after{width:33px}
+.sw[aria-checked=true]{background:#34c759}.sw[aria-checked=true]::after{transform:translateX(20px)}
+.sw[aria-checked=true]:active::after{transform:translateX(14px)}
+.code{background:#1d1d1f;color:#f5f5f7;border-radius:28px;padding:28px;font:14px/1.75 var(--mono);white-space:pre;overflow:auto;position:relative;min-height:100%}
+.code .cm{color:#86868b}.code .k{color:#ff7ab2}.code .vv{color:#9ef0a5}
+.code .flash{animation:fl 1s var(--ease)}@keyframes fl{0%{background:rgba(48,209,88,.35)}100%{background:transparent}}
+.code .copy-btn{position:absolute;right:18px;top:18px;font:600 12px var(--sans);color:#f5f5f7;background:rgba(255,255,255,.12);border-radius:980px;padding:6px 12px;transition:background .2s}
+.code .copy-btn:hover{background:rgba(255,255,255,.22)}
+
+/* ---------- dark titanium ---------- */
+.dark{background:#000;color:#f5f5f7;overflow:hidden}
+.dark .mut{color:#86868b}
+.bigcard{width:min(90vw,820px);aspect-ratio:1.586;margin:70px auto 0;border-radius:clamp(20px,4vw,40px);position:relative;overflow:hidden;
+background:radial-gradient(80% 60% at var(--bx,50%) 0%,rgba(255,255,255,.22),transparent 60%),repeating-linear-gradient(90deg,rgba(255,255,255,.015) 0 1px,transparent 1px 3px),linear-gradient(120deg,#3a3a3e,#1f1f22 45%,#2e2e32 70%,#18181a);
+box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 60px 120px -40px rgba(120,120,140,.35);transform:scale(var(--bs,.9));transition:transform .1s linear}
+.bigcard pre{position:absolute;left:7%;top:12%;font:clamp(11px,1.9vw,17px)/1.9 var(--mono);color:#58585d;text-shadow:0 1px 0 rgba(255,255,255,.07),0 -1px 0 rgba(0,0,0,.6);text-align:left}
+.bigcard pre em{font-style:normal;color:#8a8a90}
+.bigcard .rfc{position:absolute;right:7%;bottom:11%;font:600 clamp(11px,1.8vw,15px) var(--mono);letter-spacing:.16em;color:#5a5a5f;text-shadow:0 1px 0 rgba(255,255,255,.07)}
+
+/* ---------- numbers ---------- */
+.nums{display:flex;justify-content:center;gap:clamp(30px,8vw,110px);margin-top:70px;flex-wrap:wrap}
+.nums div{min-width:160px}
+.nums b{display:block;font-size:clamp(64px,10vw,112px);font-weight:700;letter-spacing:-.06em;line-height:1;font-variant-numeric:tabular-nums}
+.nums span{display:block;color:var(--mut2);font-size:17px;margin-top:12px;font-weight:600}
+
+/* ---------- triple statement ---------- */
+.tri span{display:block}
+.tri span:nth-child(2){color:var(--mut)}.tri span:nth-child(3){color:#d2d2d7}
+
+/* ---------- routers ---------- */
+.tiles{max-width:1024px;margin:64px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center}
+.tile{background:#fff;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+.tile:hover{transform:translateY(-6px);box-shadow:0 30px 60px -30px rgba(0,0,0,.25)}
+.tile .tt{padding:40px 28px 0}.tile h3{font-size:28px;font-weight:700;letter-spacing:-.03em}.tile p{font-size:19px;color:var(--ink);margin:6px 0 14px;line-height:1.3}
+.tile .art{margin-top:auto;height:210px;position:relative;overflow:hidden}
+.art pre{position:absolute;left:12%;right:-10%;top:24px;bottom:-20px;background:#f5f5f7;border-radius:18px 0 0 0;padding:18px;font:12px/1.7 var(--mono);color:#6e6e73;text-align:left;box-shadow:0 0 0 1px #e8e8ed;transition:transform .7s var(--ease)}
+.tile:hover .art pre{transform:translate(-8px,-8px)}
+.art pre i{font-style:normal;color:#0071e3}.art pre u{text-decoration:none;color:#c93400}
+
+footer{background:var(--alt);font-size:12px;color:var(--mut2);padding:16px 22px calc(40px + env(safe-area-inset-bottom))}
+footer .in{max-width:1024px;margin:0 auto;line-height:1.7}
+footer ol{padding-left:16px;margin-bottom:14px;border-bottom:1px solid #d2d2d7;padding-bottom:14px}
+.tag{position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:60;font:12px var(--mono);background:rgba(29,29,31,.85);color:#fff;border-radius:8px;padding:6px 10px;backdrop-filter:blur(8px)}
+
+@media(max-width:833px){.split,.wheel-wrap,.builder{grid-template-columns:1fr}.split{gap:40px;text-align:center}.try,.chips{margin-left:auto;margin-right:auto;justify-content:center}.wheel{margin:0 auto}.tiles{grid-template-columns:1fr}}
+@media(max-width:734px){.gnav .ls{display:none}.lnav .s{display:none}section{padding:96px 20px}.sheet .box{padding:52px 26px 30px;border-radius:24px}.phone{border-radius:50px}.screen{border-radius:40px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none}.scrub{height:auto}.scrub .pin{position:static;height:auto;padding:110px 22px}.scrub .w{opacity:1}}
 </style></head><body>
-<div class="gnav"><div class="in"><a href="#">cetxt</a><div class="ls"><a href="#">在线体检</a><a href="#">生成器</a><a href="#">校验器</a><a href="#">调查报告</a><a href="#">指南</a><a href="#">FAQ</a></div><a href="#">GitHub</a></div></div>
-<div class="lnav"><div class="in"><span class="t">llms.txt 体检</span><a class="s on">概览</a><a class="s" href="#">生成 llms.txt</a><a class="s" href="#">生成 robots.txt</a><a class="s" href="#">校验</a><a class="btn sm" href="#check">开始体检</a></div></div>
 
-<section>
- <h1 class="h0 fade">cetxt</h1>
- <p class="lead fade" style="font-size:clamp(24px,3.4vw,40px);color:var(--ink);font-weight:700;max-width:none">把网站介绍给 AI。<br>就这么简单。</p>
- <div class="doc" id="doc">
-  <div class="f">bilibili.com/llms.txt</div>
-  <div class="sc">100<small> /100</small></div>
-  <div class="ln"><b># 哔哩哔哩</b><br>&gt; 摘要 ✓ · 6 个分组 · 52 条链接<br>10.7 KB · 0 错误 · 0 警告</div>
+<div class="gnav"><div class="in"><a class="logo" href="#">cetxt</a><div class="ls"><a href="#">在线体检</a><a href="#">生成器</a><a href="#">校验器</a><a href="#">调查报告</a><a href="#">指南</a><a href="#">FAQ</a></div><a href="#">GitHub</a></div></div>
+<nav class="lnav" id="lnav"><div class="in"><span class="t">llms.txt 体检</span><a class="s on">概览</a><a class="s" href="#robots">robots 生成</a><a class="s" href="#score">评分规则</a><a class="s" href="#survey">调查</a><a class="pill sm" href="#try">开始体检</a></div></nav>
+
+<!-- HERO -->
+<section class="hero">
+ <h1 class="h-hero rv">cetxt</h1>
+ <p class="sub rv d1" style="margin-top:10px">把你的网站，<br>好好介绍给 AI。</p>
+ <div class="ctas rv d2"><a class="pill" href="#try">开始体检</a><a class="pill ghost" href="#robots">生成 robots.txt</a></div>
+ <div class="stage" id="stage">
+  <div class="card" id="card">
+   <div class="face front"><span class="etch logo">cetxt</span><span class="etch chip"></span><span class="etch name">llms.txt · robots.txt</span><span class="etch mark">AI READY</span></div>
+   <div class="face back"></div>
+   <div class="shadow"></div>
+  </div>
  </div>
- <form class="domain fade" id="check" onsubmit="return false"><input value="bilibili.com" aria-label="域名"><button class="btn">体检</button></form>
- <p class="hint fade">免费，不用注册。检测 robots.txt 的 AI 爬虫规则和 llms.txt 的结构质量。</p>
+ <p class="hint-drag">拖动卡片看看</p>
+</section>
+
+<section style="padding-top:60px">
+ <p class="copy rv">AI 读网站的方式，和人不一样。它先看 robots.txt 决定能不能进门，再看 llms.txt 了解你是谁。<b>cetxt 把这两份文件一次查清：</b>哪些 AI 爬虫被放行，你的介绍写得好不好，哪里写错、怎么改。<b>输入域名，十秒出结果。</b></p>
+</section>
+
+<!-- LIVE CHECK -->
+<section class="alt" id="try">
+ <div class="split">
+  <div>
+   <p class="sub mut rv" style="margin-bottom:8px">真实体检，不是演示。</p>
+   <h2 class="h2 rv d1">结果放在手心里，<br>一眼看懂。</h2>
+   <p class="rv d2" style="font-size:19px;color:var(--mut2);max-width:440px">22 个 AI 爬虫逐一判定，llms.txt 按规则打分。手机上看，和电脑上一样清楚。</p>
+   <form class="try rv d2" id="f"><input id="dom" value="bilibili.com" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" aria-label="域名"><button class="pill" style="padding:9px 20px">体检</button></form>
+   <div class="chips rv d3"><button class="chip" data-d="bilibili.com">bilibili.com</button><button class="chip" data-d="gitee.com">gitee.com</button><button class="chip" data-d="zhihu.com">zhihu.com</button></div>
+   <p class="err" id="err"></p>
+  </div>
+  <div class="rv d1">
+   <div class="phone"><div class="screen">
+    <div class="island" id="island"><i></i></div>
+    <div class="sbar"><span id="clock">9:41</span><span style="display:flex;gap:5px;align-items:center"><svg width="18" height="11" viewBox="0 0 18 11"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="6" rx="1"/><rect x="10" y="2.5" width="3" height="8.5" rx="1"/><rect x="15" y="0" width="3" height="11" rx="1"/></svg><svg width="26" height="12" viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="19" height="8" rx="2"/><rect x="24" y="4" width="1.5" height="4" rx=".7" opacity=".4"/></svg></span></div>
+    <div class="app" id="app"></div>
+   </div></div>
+  </div>
+ </div>
+</section>
+
+<!-- SCRUB -->
+<section class="scrub" id="scrub">
+ <div class="pin">
+  <span class="w">不收费。</span><span class="w">不注册。</span><span class="w">不装</span><span class="w">插件。</span>
+  <button class="more" data-sheet="s1"><i><svg viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></i>了解检测方式</button>
+ </div>
+</section>
+
+<!-- SCORE WHEEL -->
+<section class="alt" id="score">
+ <h2 class="h1 rv">第一个告诉你<br><span class="grad">差在哪</span>的评分。</h2>
+ <p class="sub mut rv d1" style="max-width:720px;margin:22px auto 0">100 分拆成四块。点一下任意一块，看看少了它会怎样。</p>
+ <div class="wheel-wrap">
+  <div class="wheel rv"><svg viewBox="0 0 200 200" id="wsvg"></svg><div class="c"><div><b id="wnum">0</b><small id="wgrade">优秀</small></div></div></div>
+  <div class="rv d1"><ul class="legend" id="legend"></ul><p class="wnote" id="wnote">bilibili.com 的 llms.txt 四项全满：一个 H1、一句摘要、6 个分组、52 条带说明的链接。</p></div>
+ </div>
+ <p class="rv" style="margin-top:44px"><button class="more" data-sheet="s2"><i><svg viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></i>完整评分规则</button></p>
+</section>
+
+<!-- ROBOTS BUILDER -->
+<section id="robots">
+ <p class="sub mut rv">robots.txt 生成</p>
+ <h2 class="h1 rv d1">只拦训练，<br>保留引用。</h2>
+ <p class="sub mut rv d2" style="max-width:720px;margin:22px auto 0">打开的开关表示放行。训练类关掉，搜索类留着，AI 回答里照样能引用你。</p>
+ <div class="builder">
+  <div class="panel rv" id="toggles"></div>
+  <div class="code rv d1" id="code"></div>
+ </div>
+</section>
+
+<!-- DARK -->
+<section class="dark" id="dark">
+ <h2 class="h1 rv">告别猜测。<br>你好，规范。</h2>
+ <p class="sub mut rv d1" style="max-width:760px;margin:22px auto 0">每一条判定都能对回 robots.txt 的具体行号，规则依据 RFC 9309<sup>1</sup>，llms.txt 依据 llmstxt.org 规范<sup>2</sup>。</p>
+ <div class="bigcard rv" id="bigcard">
+  <pre><em>User-agent:</em> *
+<em>Disallow:</em> /medialist/detail/
+<em>Disallow:</em> /index.html
+
+<em>#</em> GPTBot → 部分路径 · 第 1 行
+<em>#</em> ClaudeBot → 部分路径 · 第 1 行</pre>
+  <span class="rfc">RFC 9309</span>
+ </div>
+</section>
+
+<!-- SURVEY -->
+<section id="survey">
+ <p class="sub mut rv">1000 站普查 · 2026 年 11 月</p>
+ <h2 class="h1 rv d1">中文互联网，<br>还没准备好。</h2>
+ <div class="nums">
+  <div class="rv"><b class="cnt" data-to="38">0</b><span>家有真正的 llms.txt</span></div>
+  <div class="rv d1"><b class="cnt grad" data-to="170">0</b><span>家把首页当 llms.txt 返回</span></div>
+  <div class="rv d2"><b class="cnt" data-to="47">0</b><span>家拦截训练类 AI 爬虫</span></div>
+ </div>
+ <p class="rv" style="margin-top:50px"><a href="/survey/" style="font-size:19px">阅读完整报告 ›</a></p>
 </section>
 
 <section class="alt">
- <p class="body fade" style="font-size:clamp(19px,2.3vw,26px);font-weight:600;line-height:1.45;color:var(--mut)">我们把一份 llms.txt 的好坏拆成能看懂的几件事：<span style="color:var(--ink)">有没有标题和摘要，分组是否清楚，链接能不能打开。</span>robots.txt 也一样，按 RFC 9309 逐条判定，告诉你 GPTBot、ClaudeBot、百度到底被放行了什么。<span style="color:var(--ink)">哪里写错了，怎么改，一眼就知道。</span></p>
+ <h2 class="h1 tri rv"><span>你的网站。</span><span>你的规则。</span><span>你说了算。</span></h2>
 </section>
 
+<!-- ROUTERS -->
 <section>
- <div class="h1 stack" id="stack"><span>不收费。</span><span>不注册。</span><span>不装插件。</span><span>输入就查。</span></div>
- <button class="more" aria-expanded="false" data-t="m1"><i>+</i>了解怎么检测</button>
- <div class="more-body" id="m1">输入域名后，服务器按普通访客的方式抓取一次 robots.txt 和 llms.txt，按规则打分后把结果返回浏览器。生成器和校验器在浏览器本地运行，粘贴的内容不上传。</div>
-</section>
-
-<section class="alt">
- <p class="eyebrow fade">AI 爬虫</p>
- <h2 class="h2 fade">谁能读你的网站，<br>一目了然。</h2>
- <p class="lead fade">22 个主流 AI 爬虫，训练、搜索、用户代理分开判定。以 bilibili.com 为例，没有为 AI 单独写规则，全部落到通配组。</p>
- <div class="bots">
-  <div class="bot fade"><div><b>GPTBot</b><small>OpenAI · 训练</small></div><span class="st p">部分路径</span></div>
-  <div class="bot fade"><div><b>ClaudeBot</b><small>Anthropic · 训练</small></div><span class="st p">部分路径</span></div>
-  <div class="bot fade"><div><b>Google-Extended</b><small>Google · Gemini</small></div><span class="st p">部分路径</span></div>
-  <div class="bot fade"><div><b>OAI-SearchBot</b><small>OpenAI · 搜索</small></div><span class="st p">部分路径</span></div>
-  <div class="bot fade"><div><b>CCBot</b><small>Common Crawl · 训练</small></div><span class="st p">部分路径</span></div>
-  <div class="bot fade"><div><b>Baiduspider</b><small>百度 · 搜索</small></div><span class="st p">部分路径</span></div>
- </div>
- <button class="more" aria-expanded="false" data-t="m2"><i>+</i>只拦训练，保留引用？</button>
- <div class="more-body" id="m2">给训练类爬虫单独写一组 <code>Disallow: /</code>，搜索类保持放行；或者加一行 <code>__usage_ai-training</code> 声明训练偏好。生成器里勾选就能得到完整的 robots.txt。</div>
-</section>
-
-<section>
- <p class="eyebrow fade">1000 站普查 · 2026 年 11 月</p>
- <h2 class="h2 fade">中文互联网，<br>还没准备好。</h2>
- <div class="nums fade">
-  <div><b>38</b><span>家有真正的 llms.txt</span></div>
-  <div><b>47</b><span>家拦截训练类 AI 爬虫</span></div>
-  <div><b>80.8</b><span>llms.txt 平均分</span></div>
- </div>
- <p class="fade" style="margin-top:44px"><a href="#" style="font-size:19px">阅读完整报告 ›</a></p>
-</section>
-
-<section class="alt">
- <h2 class="h2 fade">需要的工具，<br>都在这里。</h2>
+ <h2 class="h2 rv">需要的工具，<br>都在这里。</h2>
  <div class="tiles">
-  <div class="tile fade"><span class="k">生成器</span><h3>llms.txt</h3><p>填站名和几条链接，按规范排好。</p><div class="ill"># 你的网站
+  <a class="tile rv" href="#" style="background:var(--alt);color:inherit;text-decoration:none"><div class="tt"><h3>llms.txt 生成器</h3><p>填好站名和链接，<br>自动排好格式。</p><span style="color:var(--acc)">开始生成 ›</span></div><div class="art"><pre><i># 你的网站</i>
 &gt; 一句话介绍
 
-## 文档
-- [快速开始](/start)</div><a href="#">开始生成 ›</a></div>
-  <div class="tile fade"><span class="k">生成器</span><h3>robots.txt</h3><p>勾选要放行和拒绝的 AI 爬虫。</p><div class="ill">User-agent: GPTBot
-Disallow: /
-
-User-agent: OAI-SearchBot
-Allow: /</div><a href="#">开始生成 ›</a></div>
-  <div class="tile fade"><span class="k">校验器</span><h3>粘贴即查</h3><p>逐行检查，本地运行，不上传。</p><div class="ill">✓ H1 标题
+<i>## 文档</i>
+- [快速开始](/start): 五分钟上手
+- [API](/api): 接口说明</pre></div></a>
+  <a class="tile rv d1" href="#" style="background:var(--alt);color:inherit;text-decoration:none"><div class="tt"><h3>校验器</h3><p>粘贴内容，<br>逐行指出问题。</p><span style="color:var(--acc)">去校验 ›</span></div><div class="art"><pre>✓ 1 个 H1 标题
 ✓ 摘要引用块
-⚠ 第 14 行链接缺少描述</div><a href="#">去校验 ›</a></div>
+✓ 6 个分组
+<u>! 第 14 行链接缺少说明</u></pre></div></a>
+  <a class="tile rv d2" href="/survey/" style="background:var(--alt);color:inherit;text-decoration:none"><div class="tt"><h3>调查报告</h3><p>1000 个中文站点，<br>谁准备好了。</p><span style="color:var(--acc)">阅读报告 ›</span></div><div class="art"><pre>真文件      38
+HTML 伪装  170
+无文件      513
+未能判定    273</pre></div></a>
  </div>
 </section>
 
-<section>
- <h2 class="h1 fade">现在就给你的网站<br>做一次体检。</h2>
- <p class="lead fade">十秒出结果。</p>
- <p class="fade" style="margin-top:30px"><a class="btn" href="#check">开始体检</a></p>
+<section class="alt" style="padding-bottom:150px">
+ <h2 class="h1 rv">现在就给你的网站<br>做一次体检。</h2>
+ <p class="rv d1" style="margin-top:34px"><a class="pill" href="#try">开始体检</a></p>
 </section>
 
-<footer><div class="in">数据来自 cetxt 对公开 robots.txt 与 llms.txt 的抓取，示例为 bilibili.com 实测。robots 判定依据 RFC 9309。<br>Copyright © 2026 cetxt · MIT 开源 · 概念稿，仅供选型</div></footer>
-<div class="tag">概念 D · 产品页叙事</div>
+<footer><div class="in"><ol><li>robots.txt 判定依据 RFC 9309（Robots Exclusion Protocol），按最长匹配原则计算 Allow / Disallow。</li><li>llms.txt 依据 llmstxt.org 规范；评分为 cetxt 自定规则：H1 30 分、摘要 20 分、分组 30 分、链接 20 分，有错误项时最高 59 分。</li><li>普查数据为 cetxt 对 1000 个中文站点的抓取结果，2026 年 11 月。“未能判定”指抓取被拦截或超时。</li></ol>Copyright © 2026 cetxt · MIT 开源 · 概念稿，仅供选型</div></footer>
+
+<div class="sheet" id="sheet"><div class="bg"></div><div class="box"><button class="x" aria-label="关闭"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 1l10 10M11 1L1 11" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round"/></svg></button><div id="sheetBody"></div></div></div>
+<template id="s1"><h3>怎么检测的</h3><p>输入域名后，服务器以普通访客的方式各抓一次 <code>/robots.txt</code> 和 <code>/llms.txt</code>，跟随最多 5 次跳转。</p><p>robots.txt 按 RFC 9309 解析，为 22 个 AI 爬虫分别找到它们落入的规则组，判定为放行、部分路径或拒绝，并标出对应行号。</p><p>llms.txt 先识别是否真文件（很多站会把首页 HTML 当作 llms.txt 返回），再交给浏览器里的校验引擎打分。生成器和校验器完全在本地运行，粘贴的内容不上传。</p></template>
+<template id="s2"><h3>评分规则</h3><p><b>H1 标题，30 分。</b>有且只有一个 <code># 标题</code>。</p><p><b>摘要，20 分。</b>H1 后一行 <code>&gt; 一句话介绍</code>；空摘要给 10 分。</p><p><b>分组，30 分。</b>每个非空 <code>## 分组</code> 10 分，最多 30。</p><p><b>链接，20 分。</b>绝对地址占比和带说明占比各 10 分。</p><p>出现错误级问题（比如 script 标签、没有 H1）时，总分封顶 59，先修再谈分数。</p></template>
+
+<div class="tag">概念 D v2 · 产品页</div>
+<script src="/llms.js"></script>
 <script>
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.2});
-document.querySelectorAll('.fade,.doc,.stack').forEach(el=>io.observe(el));
-document.querySelectorAll('.more').forEach(b=>b.onclick=()=>{const o=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',o);document.getElementById(b.dataset.t).classList.toggle('open',o)});
+(()=>{
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),lerp=(a,b,t)=>a+(b-a)*t,ease=t=>1-Math.pow(1-t,3);
+
+/* reveal + counters */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target);
+ e.target.querySelectorAll('.cnt').forEach(countUp);if(e.target.classList.contains('wheel'))drawWheel(true)}),{threshold:.18,rootMargin:'0px 0px -6% 0px'});
+$$('.rv').forEach(el=>io.observe(el));
+function countUp(el){const to=+el.dataset.to,t0=performance.now(),d=1400;(function f(t){const p=clamp((t-t0)/d,0,1);el.textContent=Math.round(to*ease(p));if(p<1)requestAnimationFrame(f)})(t0)}
+
+/* sticky nav */
+const lnav=$('#lnav');
+
+/* hero card: scroll + drag */
+const card=$('#card'),stage=$('#stage');let drag=null,dx=0,dy=0,vx=0,spinY=0;
+stage.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,sy:spinY};stage.setPointerCapture(e.pointerId)});
+stage.addEventListener('pointermove',e=>{const r=stage.getBoundingClientRect();
+ const lx=(e.clientX-r.left)/r.width*100,ly=(e.clientY-r.top)/r.height*100;card.style.setProperty('--lx',lx+'%');card.style.setProperty('--ly',ly+'%');
+ if(drag){const nx=e.clientX-drag.x;vx=nx-dx;dx=nx;spinY=drag.sy+nx*.6}else if(e.pointerType==='mouse'){dy=(ly-50)*-.12;dx=0;card.dataset.hx=(lx-50)*.2}});
+stage.addEventListener('pointerup',()=>{drag=null;const snap=Math.round(spinY/180)*180;animateTo(snap)});
+stage.addEventListener('pointerleave',()=>{card.dataset.hx=0;dy=0});
+function animateTo(target){const from=spinY,t0=performance.now();(function f(t){const p=clamp((t-t0)/700,0,1);
+ const k=1+2.2*Math.pow(p-1,3)+1.2*Math.pow(p-1,2);spinY=lerp(from,target,k);if(p<1&&!drag)requestAnimationFrame(f)})(t0)}
+
+/* scrub words */
+const scrub=$('#scrub'),words=$$('#scrub .w');
+const big=$('#bigcard'),dark=$('#dark');
+
+function frame(){
+ const vh=innerHeight,y=scrollY;
+ lnav.classList.toggle('stuck',y>44);
+ // hero card: lies back -> stands up as you scroll
+ const r=stage.getBoundingClientRect();const p=RM?1:clamp(1-(r.top+r.height*.2)/(vh*.85),0,1);const e=ease(p);
+ const hx=+(card.dataset.hx||0);
+ card.style.setProperty('--rx',(lerp(58,6,e)+dy)+'deg');
+ card.style.setProperty('--rz',lerp(-8,0,e)+'deg');
+ card.style.setProperty('--ry',(spinY+hx+lerp(-14,0,e))+'deg');
+ card.style.setProperty('--s',lerp(.82,1,e));
+ card.querySelector('.front').style.setProperty('--sheen',(lerp(-70,70,e)+spinY*.3)+'%');
+ // words
+ const sr=scrub.getBoundingClientRect(),sp=clamp(-sr.top/(sr.height-vh),0,1);
+ words.forEach((w,i)=>w.classList.toggle('on',RM||sp>i/words.length*.85+.04));
+ // dark card
+ const dr=dark.getBoundingClientRect(),dp=clamp(1-dr.top/vh,0,1.4);
+ big.style.setProperty('--bs',lerp(.86,1,clamp(dp,0,1)));big.style.setProperty('--bx',lerp(20,80,clamp(dp/1.4,0,1))+'%');
+ requestAnimationFrame(frame)}
+requestAnimationFrame(frame);
+
+/* sheet */
+const sheet=$('#sheet'),sb=$('#sheetBody');let lastFocus;
+$$('[data-sheet]').forEach(b=>b.onclick=()=>{lastFocus=b;sb.innerHTML=$('#'+b.dataset.sheet).innerHTML;sheet.classList.add('open');document.body.style.overflow='hidden';sheet.querySelector('.x').focus()});
+const close=()=>{sheet.classList.remove('open');document.body.style.overflow='';lastFocus&&lastFocus.focus()};
+sheet.querySelector('.bg').onclick=close;sheet.querySelector('.x').onclick=close;addEventListener('keydown',e=>e.key==='Escape'&&close());
+
+/* ---------- live check in phone ---------- */
+const app=$('#app'),island=$('#island'),err=$('#err');
+const d=new Date();$('#clock').textContent=d.getHours()+':'+String(d.getMinutes()).padStart(2,'0');
+const SHOW=[['GPTBot','OpenAI 训练','#10a37f'],['ClaudeBot','Anthropic 训练','#d97757'],['Google-Extended','Gemini 训练','#4285f4'],['OAI-SearchBot','ChatGPT 搜索','#10a37f'],['PerplexityBot','Perplexity 搜索','#20808d'],['Bytespider','字节跳动 训练','#325ab4'],['Baiduspider','百度 搜索','#2932e1']];
+const ST={allowed:['放行','ok'],partial:['部分路径','p'],blocked:['拒绝','n'],none:['未写规则','ok'],unknown:['未能判定','p']};
+const SAMPLE={domain:'bilibili.com',name:'Bilibili / 哔哩哔哩',score:100,grade:'优秀',kb:'10.7',secs:6,links:52,bots:Object.fromEntries(SHOW.map(s=>[s[0],'partial']))};
+function render(r,loading){
+ if(loading){app.innerHTML='<h4>体检</h4><div class="mini"><span class="etch logo">cetxt</span><span class="etch name">'+esc(r)+'</span></div><div class="grp" style="padding:14px">'+'<div class="sk" style="width:70%;margin:6px 0 14px"></div><div class="sk" style="width:90%;margin-bottom:14px"></div><div class="sk" style="width:55%"></div></div><div class="grp" style="padding:14px"><div class="sk" style="width:80%;margin:6px 0 14px"></div><div class="sk" style="width:60%"></div></div>';return}
+ const sc=r.score==null?'—':r.score;
+ let h='<h4>体检</h4><div class="mini"><span class="etch logo">cetxt</span><span class="etch name">'+esc(r.domain)+'</span><span class="score"><span id="ms">0</span><small> /100</small></span></div>';
+ h+='<div class="grp"><div class="hd"><span>llms.txt</span><span>'+esc(r.grade)+'</span></div>';
+ if(r.score==null)h+=row('?','#8e8e93',r.note||'没有找到 llms.txt','','—','n');
+ else{h+=row('H1','#1d1d1f',r.name||'—','标题','✓','ok')+row('§','#5e5ce6',r.secs+' 个分组 · '+r.links+' 条链接','结构','✓','ok')+row('KB','#8e8e93',r.kb+' KB','大小','','')}
+ h+='</div><div class="grp"><div class="hd"><span>AI 爬虫</span><span>robots.txt</span></div>';
+ SHOW.forEach(([t,lab,c])=>{const s=ST[r.bots[t]]||['—',''];h+=row(t.slice(0,2),c,t,lab,s[0],s[1])});
+ h+='</div>';app.innerHTML=h;app.scrollTop=0;
+ if(typeof sc==='number'){const el=$('#ms'),t0=performance.now();(function f(t){const p=clamp((t-t0)/900,0,1);el.textContent=Math.round(sc*ease(p));if(p<1)requestAnimationFrame(f)})(t0)}else $('#ms').textContent='—';
+ $$('#app .row').forEach((x,i)=>{x.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'none'}],{duration:450,delay:i*45,easing:'cubic-bezier(.28,.11,.32,1)',fill:'backwards'})});
+}
+function row(ic,c,b,s,v,cls){return '<div class="row"><span class="ico" style="background:'+c+'">'+esc(ic)+'</span><span class="tx"><b>'+esc(b)+'</b>'+(s?'<small>'+esc(s)+'</small>':'')+'</span><span class="v '+cls+'">'+esc(v)+'</span></div>'}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+render(SAMPLE);
+async function check(dom){
+ dom=dom.trim().replace(/^https?:\/\//,'').replace(/\/.*$/,'').toLowerCase();if(!dom)return;
+ err.textContent='';island.classList.add('busy');render(dom,true);
+ try{const res=await fetch('/api/check?domain='+encodeURIComponent(dom));const j=await res.json();if(!res.ok||j.error)throw new Error(j.reason||j.error||'检测失败');
+  const L=j.llms||j,out={domain:dom,bots:{}};
+  if((L.verdict==='real'||L.verdict==='nonstandard')&&L.text&&window.LLMS){const v=LLMS.validateLLMS(L.text),p=LLMS.parseLLMS(L.text);
+   Object.assign(out,{score:v.score,grade:v.grade,kb:(v.stats.bytes/1024).toFixed(1),secs:v.stats.sections,links:v.stats.links,name:p.h1s[0]?p.h1s[0].text:''})}
+  else Object.assign(out,{score:null,grade:'未通过',note:L.verdict==='html_spoof'?'返回的是网页，不是 llms.txt':L.verdict==='missing'?'没有找到 llms.txt':'这次没能读到 llms.txt'});
+  ((j.robots&&j.robots.analysis&&j.robots.analysis.access)||[]).forEach(a=>out.bots[a.token]=a.status);
+  render(out);
+ }catch(e){err.textContent='没能查到 '+dom+'：'+e.message+'。';render(SAMPLE)}
+ finally{island.classList.remove('busy')}
+}
+$('#f').onsubmit=e=>{e.preventDefault();$('#dom').blur();check($('#dom').value)};
+$$('.chip').forEach(c=>c.onclick=()=>{$('#dom').value=c.dataset.d;check(c.dataset.d)});
+
+/* ---------- wheel ---------- */
+const SEG=[['H1 标题',30,'#0a84ff','少了 H1，AI 不知道你叫什么。这是错误级问题，总分会被封顶在 59。'],['一句话摘要',20,'#bf5af2','少了摘要，AI 只能自己猜你是做什么的。扣 20 分。'],['内容分组',30,'#ff375f','没有分组，链接堆成一团。每个非空分组 10 分，最多 30。'],['链接质量',20,'#ff9f0a','链接要用绝对地址、带一句说明，各占 10 分。']];
+const on=SEG.map(()=>true),R=80,C=2*Math.PI*R,svg=$('#wsvg'),legend=$('#legend');
+let acc=0;SEG.forEach((s,i)=>{const len=C*s[1]/100,gap=1.6;const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+ Object.entries({cx:100,cy:100,r:R,stroke:s[2],'stroke-dasharray':(len-gap)+' '+(C-len+gap),'stroke-dashoffset':-acc}).forEach(([k,v])=>c.setAttribute(k,v));
+ c.classList.add('seg');c.style.opacity=0;c.dataset.off=-acc;c.onclick=()=>toggle(i);svg.appendChild(c);acc+=len;
+ const li=document.createElement('li');li.innerHTML='<span class="dot" style="background:'+s[2]+'"></span><b>'+s[0]+'</b><span>'+s[1]+' 分</span>';li.onclick=()=>toggle(i);legend.appendChild(li)});
+let shown=0;
+function drawWheel(first){const segs=$$('#wsvg .seg');segs.forEach((c,i)=>{c.style.transitionDelay=first?(i*.18)+'s':'0s';c.style.opacity='';c.classList.toggle('off',!on[i])});
+ $$('#legend li').forEach((l,i)=>l.classList.toggle('off',!on[i]));
+ let sc=SEG.reduce((a,s,i)=>a+(on[i]?s[1]:0),0);if(!on[0]&&sc>59)sc=59;
+ const g=!on[0]?'不合规':sc>=90?'优秀':sc>=75?'良好':sc>=60?'可用':'待改进';$('#wgrade').textContent=g;
+ const from=shown,t0=performance.now(),el=$('#wnum');(function f(t){const p=clamp((t-t0)/(first?1600:600),0,1);el.textContent=Math.round(lerp(from,sc,ease(p)));if(p<1)requestAnimationFrame(f)})(t0);shown=sc}
+function toggle(i){on[i]=!on[i];drawWheel();$('#wnote').textContent=on.every(Boolean)?'四项全满，就是 100 分。':on[i]?'加回来了。':SEG[i][3];if(navigator.vibrate)navigator.vibrate(8)}
+
+/* ---------- robots builder ---------- */
+const BOTS=[['GPTBot','OpenAI · 训练',false],['ClaudeBot','Anthropic · 训练',false],['Google-Extended','Google · Gemini 训练',false],['CCBot','Common Crawl · 训练',false],['OAI-SearchBot','OpenAI · ChatGPT 搜索',true],['Claude-SearchBot','Anthropic · 搜索',true],['PerplexityBot','Perplexity · 搜索',true]];
+const tg=$('#toggles'),code=$('#code');let last={};
+BOTS.forEach((b,i)=>{const d=document.createElement('div');d.className='tog';d.innerHTML='<div><b>'+b[0]+'</b><small>'+b[1]+'</small></div><button class="sw" role="switch" aria-checked="'+b[2]+'" aria-label="'+b[0]+'"></button>';
+ d.querySelector('.sw').onclick=e=>{b[2]=!b[2];e.currentTarget.setAttribute('aria-checked',b[2]);if(navigator.vibrate)navigator.vibrate(6);paint(b[0])};tg.appendChild(d)});
+function paint(changed){
+ const deny=BOTS.filter(b=>!b[2]),allow=BOTS.filter(b=>b[2]);
+ let h='<button class="copy-btn" id="cp">拷贝</button><span class="cm"># robots.txt · 由 cetxt 生成</span>\n\n';
+ deny.forEach(b=>h+=line(b[0],'<span class="k">User-agent:</span> '+b[0]+'\n<span class="k">Disallow:</span> <span class="vv">/</span>\n\n'));
+ allow.forEach(b=>h+=line(b[0],'<span class="k">User-agent:</span> '+b[0]+'\n<span class="k">Allow:</span> <span class="vv">/</span>\n\n'));
+ h+='<span class="k">User-agent:</span> *\n<span class="k">Allow:</span> <span class="vv">/</span>';
+ function line(n,s){return n===changed?'<span class="flash">'+s+'</span>':s}
+ code.innerHTML=h;$('#cp').onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(code.innerText.replace(/^拷贝/,'').trim()).then(()=>{$('#cp').textContent='已拷贝 ✓';setTimeout(()=>$('#cp')&&($('#cp').textContent='拷贝'),1600)})}}
+paint();
+})();
 </script>
 </body></html>
