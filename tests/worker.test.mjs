@@ -210,5 +210,42 @@ await t('handler：5 分钟内同域名命中内存缓存', async () => {
   eq(net.calls.length, n); eq(r.headers.get('x-cetxt-cache'), 'hit');
 });
 
+/* ---------------- 中转回落（Worker 出口被拦） ---------------- */
+function relayNet(routes, relayFn) {
+  const net = mockNet(routes);
+  const base = net.fetch;
+  net.relayCalls = [];
+  net.fetch = async (url, init) => {
+    if (url === 'https://relay.test/fetch') { const b = JSON.parse(init.body); net.relayCalls.push({ b, key: init.headers['x-relay-key'] }); return new Response(JSON.stringify(relayFn(b)), { status: 200 }); }
+    return base(url, init);
+  };
+  net.relay = { url: 'https://relay.test/fetch', key: 'k1' };
+  return net;
+}
+const b64 = (s) => Buffer.from(s, 'utf8').toString('base64');
+await t('中转：直连 412 → 走中转，拿到 robots 内容', async () => {
+  const net = relayNet({ 'https://blk.com/robots.txt': { status: 412 } }, () => ({ kind: 'response', status: 200, content_type: 'text/plain', body_b64: b64('User-agent: *\nDisallow: /x\n'), final_url: 'https://blk.com/robots.txt', redirects: 0 }));
+  const r = await checkRobots('blk.com', net, Date.now() + 5000);
+  eq(r.state, 'ok'); eq(r.via, 'relay'); ok(r.text.includes('Disallow: /x')); eq(net.relayCalls[0].key, 'k1');
+});
+await t('中转：直连 200 / 404 不走中转', async () => {
+  const net = relayNet({ 'https://fine.com/robots.txt': { status: 200, body: 'User-agent: *\n' } }, () => { throw new Error('不应调用'); });
+  const r = await checkRobots('fine.com', net, Date.now() + 5000);
+  eq(r.state, 'ok'); eq(net.relayCalls.length, 0);
+  const l = await checkLlms('fine.com', net, Date.now() + 5000);
+  eq(l.verdict, 'missing'); eq(net.relayCalls.length, 0);
+});
+await t('中转：llms 直连 530 → 中转返回真文件', async () => {
+  const net = relayNet({ 'https://cf.com/llms.txt': { status: 530 } }, () => ({ kind: 'response', status: 200, content_type: 'text/plain', body_b64: b64('# Site\n> hi\n'), final_url: 'https://cf.com/llms.txt' }));
+  const l = await checkLlms('cf.com', net, Date.now() + 5000);
+  eq(l.verdict, 'real'); eq(l.via, 'relay');
+});
+await t('中转：中转本身不可用 → 保留直连结果', async () => {
+  const net = mockNet({ 'https://blk2.com/robots.txt': { status: 403 }, 'https://relay.test/fetch': { status: 502 } });
+  net.relay = { url: 'https://relay.test/fetch', key: 'k1' };
+  const r = await checkRobots('blk2.com', net, Date.now() + 5000);
+  eq(r.state, 'unavailable'); eq(r.http_status, 403); ok(!r.via);
+});
+
 console.log('\n' + pass + ' 通过，' + fail + ' 失败');
 if (fail) process.exit(1);

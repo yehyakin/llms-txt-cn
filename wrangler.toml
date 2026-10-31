@@ -25,3 +25,7 @@ simple = { limit = 20, period = 60 }
 # [[analytics_engine_datasets]]
 # binding = "STATS"
 # dataset = "cetxt_verdicts"
+
+[vars]
+RELAY_URL = "https://relay.cetxt.com/fetch"
+# RELAY_KEY 是 secret（wrangler secret put RELAY_KEY），与服务器 /etc/cetxt-relay/key 一致

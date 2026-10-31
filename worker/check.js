@@ -222,7 +222,7 @@ export function classifyLlms(status, ctype, text) {
 }
 
 /* https 优先；仅传输层失败时回落 http */
-async function fetchHttpsFirst(domain, path, opts, deps) {
+async function fetchDirect(domain, path, opts, deps) {
   let r = await fetchLimited('https://' + domain + path, opts, deps);
   if (r.kind === 'error' && r.transport) {
     const r2 = await fetchLimited('http://' + domain + path, opts, deps);
@@ -230,6 +230,55 @@ async function fetchHttpsFirst(domain, path, opts, deps) {
     return r2;
   }
   return r;
+}
+
+/* Worker 出口被对方拦截的典型表现：403/412/429/5xx（含 Cloudflare 52x/530）或传输层失败 */
+export function looksBlocked(r) {
+  if (!r) return false;
+  if (r.kind === 'error') return !!r.transport || r.code === 'timeout';
+  if (r.kind === 'response') return r.status === 403 || r.status === 412 || r.status === 429 || r.status >= 500;
+  return false;
+}
+
+function b64ToBytes(s) {
+  const bin = atob(s || '');
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+
+/* 回落：交给自有服务器代抓（relay.cetxt.com），它自己做 SSRF 防护与跟跳转 */
+export async function fetchViaRelay(url, opts, deps) {
+  const ac = new AbortController();
+  const remain = (opts.deadline || (Date.now() + LIMITS.deadlineMs)) - Date.now();
+  if (remain <= 1000) return null;
+  const timer = setTimeout(() => ac.abort(), Math.min(remain, 22000));
+  try {
+    const resp = await deps.fetch(deps.relay.url, {
+      method: 'POST', signal: ac.signal,
+      headers: { 'content-type': 'application/json', 'x-relay-key': deps.relay.key },
+      body: JSON.stringify({ url, max: opts.maxBytes, accept: opts.accept || 'text/plain,*/*' })
+    });
+    if (!resp.ok) return null;
+    const j = await resp.json();
+    if (!j || !j.kind) return null;
+    if (j.kind === 'response') {
+      return { kind: 'response', status: j.status, content_type: j.content_type || '', bytes: b64ToBytes(j.body_b64),
+        truncated: !!j.truncated, final_url: j.final_url, redirects: j.redirects || 0, via: 'relay' };
+    }
+    return Object.assign({}, j, { via: 'relay' });
+  } catch (e) { return null; }
+  finally { clearTimeout(timer); }
+}
+
+async function fetchHttpsFirst(domain, path, opts, deps) {
+  const r = await fetchDirect(domain, path, opts, deps);
+  if (!deps.relay || !deps.relay.url || !deps.relay.key || !looksBlocked(r)) return r;
+  const r2 = await fetchViaRelay('https://' + domain + path, opts, deps);
+  if (!r2) return r;
+  // 中转也失败（传输层）时，保留直连结果；否则以中转结果为准
+  if (r2.kind === 'error' && r2.transport && r.kind === 'response') return r;
+  return r2;
 }
 
 export async function checkLlms(domain, deps, deadline) {
@@ -241,6 +290,7 @@ export async function checkLlms(domain, deps, deadline) {
   const text = decodeBody(r.bytes, r.content_type);
   const verdict = classifyLlms(200, r.content_type, text);
   const out = { verdict, http_status: 200, final_url: r.final_url };
+  if (r.via) out.via = r.via;
   if (verdict === 'real' || verdict === 'nonstandard') { out.text = text; out.truncated = r.truncated; }
   return out;
 }
@@ -255,6 +305,7 @@ export async function checkRobots(domain, deps, deadline) {
   }
   const out = { state: r.status >= 200 && r.status < 300 ? 'ok' : (r.status >= 500 ? 'server_error' : 'unavailable'),
     http_status: r.status, final_url: r.final_url, redirects: r.redirects };
+  if (r.via) out.via = r.via;
   if (out.state === 'ok') {
     out.text = decodeBody(r.bytes, 'charset=utf-8');
     out.truncated = r.truncated;

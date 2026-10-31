@@ -47,7 +47,8 @@ export default {
     const url = new URL(request.url);
     if (url.pathname.startsWith('/api/')) {
       const f = (u, init) => fetch(u, init);
-      return api(request, env, ctx, { fetch: f, resolve: makeDohResolver(f), assetsFetch: EMBED && !env.ASSETS ? (p) => embedResponse(p, request) : null });
+      const relay = env.RELAY_URL && env.RELAY_KEY ? { url: env.RELAY_URL, key: env.RELAY_KEY } : null;
+      return api(request, env, ctx, { fetch: f, resolve: makeDohResolver(f), relay, assetsFetch: EMBED && !env.ASSETS ? (p) => embedResponse(p, request) : null });
     }
     if (request.method !== 'GET' && request.method !== 'HEAD') return new Response('Method Not Allowed', { status: 405 });
     if (env.ASSETS) {
