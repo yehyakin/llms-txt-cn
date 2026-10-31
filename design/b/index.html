@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>概念 B · 纸感中文报刊 · cetxt</title><meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f5f0e6;--ink:#1c1a17;--mut:#6b645a;--rule:#1c1a17;--hair:#d6cdbd;--red:#c0392b;--serif:"Noto Serif SC","Songti SC",serif;--sans:-apple-system,"PingFang SC",system-ui,sans-serif;--mono:ui-monospace,Menlo,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font:16px/1.8 var(--serif)}
+a{color:inherit}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+.mast{border-bottom:3px double var(--rule);padding:18px 0 10px;display:flex;justify-content:space-between;align-items:flex-end;font:13px var(--sans);color:var(--mut)}
+.mast .t{font:900 34px/1 var(--serif);color:var(--ink);letter-spacing:.04em}.mast .t em{font-style:normal;color:var(--red)}
+.menu{display:flex;gap:26px;font:14px var(--sans);border-bottom:1px solid var(--rule);padding:9px 0;overflow-x:auto;white-space:nowrap}
+.menu a{text-decoration:none}.menu a.on{color:var(--red);font-weight:600}
+.front{display:grid;grid-template-columns:1.35fr 1fr;gap:0;border-bottom:1px solid var(--rule)}
+.lead{padding:40px 36px 40px 0;border-right:1px solid var(--hair)}
+.kick{font:600 13px var(--sans);color:var(--red);letter-spacing:.12em}
+h1{font-weight:900;font-size:clamp(34px,6vw,64px);line-height:1.15;margin:12px 0 18px;letter-spacing:.01em}
+.dek{font-size:18px;color:var(--mut);max-width:30em}
+.check{margin-top:30px;display:flex;border:1.5px solid var(--ink);background:#fffdf8}
+.check span{font:15px var(--mono);color:var(--mut);padding:14px 0 14px 14px}
+.check input{flex:1;border:0;background:transparent;font:16px var(--mono);padding:14px 8px;outline:0;min-width:0}
+.check button{border:0;border-left:1.5px solid var(--ink);background:var(--ink);color:var(--paper);font:700 16px var(--serif);padding:0 26px;cursor:pointer;letter-spacing:.2em}
+.note{font:13px var(--sans);color:var(--mut);margin-top:10px}
+.side{padding:40px 0 40px 32px}
+.side h4{font:600 12px var(--sans);letter-spacing:.14em;color:var(--mut);border-bottom:1px solid var(--hair);padding-bottom:8px;margin-bottom:14px}
+.big{font:900 88px/1 var(--serif);color:var(--red)}.big small{font-size:28px;color:var(--ink)}
+.side p{font-size:15px;margin:10px 0 22px}
+.side ol{list-style:none;counter-reset:n;font-size:15px}
+.side li{counter-increment:n;display:flex;gap:12px;padding:9px 0;border-top:1px solid var(--hair)}
+.side li:before{content:counter(n);font:700 20px var(--serif);color:var(--red);width:18px}
+.report{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--rule)}
+.col{padding:30px 26px;border-right:1px solid var(--hair)}.col:first-child{padding-left:0}.col:last-child{border:0;padding-right:0}
+.col h3{font:900 22px var(--serif);margin-bottom:4px}.col .by{font:12px var(--sans);color:var(--mut);margin-bottom:14px}
+.grade{font:900 56px/1 var(--serif)}.grade small{font-size:16px;color:var(--mut);font-weight:500}
+.stamp{display:inline-block;border:2px solid var(--red);color:var(--red);font:700 13px var(--sans);padding:1px 8px;transform:rotate(-4deg);margin-left:8px;vertical-align:middle}
+table{width:100%;border-collapse:collapse;font:14px var(--sans);margin-top:6px}
+td{padding:7px 0;border-bottom:1px dotted var(--hair)}td:last-child{text-align:right}
+td code{font:13px var(--mono)}
+.y{color:#2f6b3a}.p{color:#a2621a}.n{color:var(--red)}
+.col p{font-size:15px}
+.tools{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:3px double var(--rule)}
+.tools a{display:block;text-decoration:none;padding:24px 18px 24px 0;border-right:1px solid var(--hair)}.tools a:last-child{border:0}
+.tools b{font:700 19px var(--serif);display:block}.tools span{font:13px var(--sans);color:var(--mut)}
+.tools a:hover b{color:var(--red)}
+footer{font:12.5px var(--sans);color:var(--mut);padding:20px 0 50px;display:flex;justify-content:space-between}
+.tag{position:fixed;left:12px;bottom:12px;z-index:9;font:12px var(--mono);background:var(--red);color:#fff;padding:6px 10px}
+@media(max-width:820px){.front,.report{grid-template-columns:1fr}.lead{padding-right:0;border:0}.side{padding:0 0 32px;border-top:1px solid var(--hair);padding-top:24px}.col{padding:24px 0;border-right:0;border-bottom:1px solid var(--hair)}.tools{grid-template-columns:1fr 1fr}.tools a{padding:18px 12px 18px 0}.mast .d{display:none}.check button{padding:0 16px;letter-spacing:.05em}}
+</style></head><body>
+<div class="wrap">
+<header class="mast"><div class="t">ce<em>txt</em> 体检报</div><div class="d">二〇二六年十一月一日 · 开源免费</div></header>
+<nav class="menu"><a class="on" href="#">头版·体检</a><a href="#">llms.txt 生成</a><a href="#">robots 生成</a><a href="#">粘贴校验</a><a href="#">普查报告</a><a href="#">写作指南</a><a href="#">问答</a></nav>
+<section class="front">
+ <div class="lead">
+  <div class="kick">本期头条 · 网站与 AI</div>
+  <h1>你的网站，<br>对 AI 说了什么？</h1>
+  <p class="dek">一份 robots.txt，决定 AI 能不能来；一份 llms.txt，决定它来了读不读得懂。输入域名，替你逐条核对。</p>
+  <form class="check" onsubmit="return false"><span>https://</span><input value="bilibili.com" aria-label="域名"><button>体检</button></form>
+  <p class="note">只读请求，不存域名。判定依据 RFC 9309 与 llmstxt.org。</p>
+ </div>
+ <aside class="side">
+  <h4>普查 · 一千家中文大站</h4>
+  <div class="big">47<small> 家</small></div>
+  <p>拦了至少一个 AI 训练爬虫。写了 <b>__usage_ai-training</b> 的，一家也没有。</p>
+  <ol><li>专门点名 GPTBot 的 22 家，台港媒体占一半</li><li>百度、小红书靠"白名单"顺带拦住 AI</li><li>真正的 llms.txt 从 30 家增至 38 家</li></ol>
+ </aside>
+</section>
+<section class="report">
+ <div class="col"><h3>llms.txt</h3><div class="by">bilibili.com · 10.7 KB</div>
+  <div class="grade">100<small> 分</small><span class="stamp">优秀</span></div>
+  <table><tr><td>H1 标题</td><td class="y">合格</td></tr><tr><td>一句话摘要</td><td class="y">合格</td></tr><tr><td>H2 分组</td><td>6 组</td></tr><tr><td>链接</td><td>52 条 · 0 警告</td></tr></table>
+ </div>
+ <div class="col"><h3>AI 爬虫</h3><div class="by">robots.txt · 按 RFC 9309 判定</div>
+  <table><tr><td><code>GPTBot</code></td><td class="p">部分路径</td></tr><tr><td><code>ClaudeBot</code></td><td class="p">部分路径</td></tr><tr><td><code>Google-Extended</code></td><td class="p">部分路径</td></tr><tr><td><code>OAI-SearchBot</code></td><td class="p">部分路径</td></tr><tr><td><code>Baiduspider</code></td><td class="p">部分路径</td></tr></table>
+ </div>
+ <div class="col"><h3>编者按</h3><div class="by">改进建议</div>
+  <p>B 站没有为 AI 单独写规则，所有爬虫共用 <code>User-agent: *</code> 一组。若想拒绝训练、保留 AI 搜索里的引用，给训练类爬虫单独成组即可——注意，专属组不会继承 * 的规则。</p>
+ </div>
+</section>
+<section class="tools"><a href="#"><b>写 llms.txt</b><span>填表即得，实时预览</span></a><a href="#"><b>写 robots.txt</b><span>训练偏好一键预设</span></a><a href="#"><b>校验文件</b><span>本地运行，不联网</span></a><a href="#"><b>读普查</b><span>1000 站数据全公开</span></a></section>
+<footer><span>cetxt.com 出品 · MIT 开源</span><span>规范来源 llmstxt.org · RFC 9309</span></footer>
+</div>
+<div class="tag">概念 B · 纸感中文报刊</div>
+</body></html>
