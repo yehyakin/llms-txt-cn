@@ -332,7 +332,7 @@ HTML 伪装  170
  <p class="rv d1" style="margin-top:34px"><a class="pill" href="#try">开始体检</a></p>
 </section>
 
-<footer><div class="in"><ol><li>robots.txt 判定依据 RFC 9309（Robots Exclusion Protocol），按最长匹配原则计算 Allow / Disallow。</li><li>llms.txt 依据 llmstxt.org 规范；评分为 cetxt 自定规则：H1 30 分、摘要 20 分、分组 30 分、链接 20 分，有错误项时最高 59 分。</li><li>普查数据为 cetxt 对 1000 个中文站点的抓取结果，2026 年 11 月。“未能判定”指抓取被拦截或超时。</li></ol>Copyright © 2026 cetxt · MIT 开源 · 概念稿，仅供选型</div></footer>
+<footer><div class="in"><ol><li>robots.txt 判定依据 RFC 9309（Robots Exclusion Protocol），按最长匹配原则计算 Allow / Disallow。</li><li>llms.txt 依据 llmstxt.org 规范；评分为 cetxt 自定规则：H1 30 分、摘要 20 分、分组 30 分、链接 20 分，有错误项时最高 59 分。</li><li>普查数据为 cetxt 对 1000 个中文站点的抓取结果，2026 年 11 月。</li></ol>Copyright © 2026 cetxt · MIT 开源 · 概念稿，仅供选型</div></footer>
 
 <div class="sheet" id="sheet"><div class="bg"></div><div class="box"><button class="x" aria-label="关闭"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 1l10 10M11 1L1 11" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round"/></svg></button><div id="sheetBody"></div></div></div>
 <template id="s1"><h3>怎么检测的</h3><p>输入域名后，服务器以普通访客的方式各抓一次 <code>/robots.txt</code> 和 <code>/llms.txt</code>，跟随最多 5 次跳转。</p><p>robots.txt 按 RFC 9309 解析，为 22 个 AI 爬虫分别找到它们落入的规则组，判定为放行、部分路径或拒绝，并标出对应行号。</p><p>llms.txt 先识别是否真文件（很多站会把首页 HTML 当作 llms.txt 返回），再交给浏览器里的校验引擎打分。生成器和校验器完全在本地运行，粘贴的内容不上传。</p></template>
