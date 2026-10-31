@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>概念 D · 产品页叙事 · cetxt</title><meta name="robots" content="noindex">
+<style>
+:root{--ink:#1d1d1f;--mut:#6e6e73;--bg:#fff;--alt:#f5f5f7;--acc:#0071e3;--ok:#1f9d55;--warn:#bf6a02;
+--sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:17px/1.47 var(--sans);-webkit-font-smoothing:antialiased;letter-spacing:-.01em}
+a{color:var(--acc);text-decoration:none}
+.gnav{height:44px;background:rgba(22,22,23,.85);backdrop-filter:saturate(180%) blur(20px);color:#e8e8ed;font-size:12px}
+.gnav .in{max-width:1000px;margin:0 auto;height:100%;display:flex;align-items:center;justify-content:space-between;padding:0 22px}
+.gnav a{color:#e8e8ed;opacity:.85}.gnav .ls{display:flex;gap:30px}
+.lnav{position:sticky;top:0;z-index:9;height:52px;background:rgba(255,255,255,.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08)}
+.lnav .in{max-width:1000px;margin:0 auto;height:100%;display:flex;align-items:center;padding:0 22px;gap:24px}
+.lnav .t{font-size:21px;font-weight:600;letter-spacing:-.02em;margin-right:auto;color:var(--ink)}
+.lnav .s{font-size:12px;color:var(--ink);opacity:.8}.lnav .s.on{opacity:.5}
+.btn{display:inline-block;background:var(--acc);color:#fff;border-radius:980px;font-size:17px;padding:11px 22px;border:0;cursor:pointer;font-family:inherit}
+.btn.sm{font-size:12px;padding:4px 11px}
+section{padding:110px 22px;text-align:center;overflow:hidden}
+.alt{background:var(--alt)}
+.eyebrow{font-size:21px;font-weight:600;color:var(--mut);margin-bottom:6px}
+.h0{font-size:clamp(40px,8vw,80px);font-weight:700;line-height:1.05;letter-spacing:-.035em}
+.h1{font-size:clamp(34px,6vw,64px);font-weight:700;line-height:1.08;letter-spacing:-.03em}
+.h2{font-size:clamp(28px,4.4vw,48px);font-weight:700;line-height:1.1;letter-spacing:-.025em}
+.lead{font-size:clamp(19px,2.2vw,24px);font-weight:600;color:var(--mut);max-width:680px;margin:20px auto 0;line-height:1.35}
+.body{max-width:680px;margin:28px auto 0;color:var(--ink);font-size:19px;line-height:1.55;text-align:left}
+.more{margin-top:26px;display:inline-flex;align-items:center;gap:10px;font-size:17px;color:var(--ink);background:none;border:0;font-family:inherit;cursor:pointer}
+.more i{font-style:normal;width:36px;height:36px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:22px;line-height:1;transition:transform .3s}
+.more[aria-expanded=true] i{transform:rotate(45deg)}
+.more-body{max-width:640px;margin:0 auto;text-align:left;color:var(--mut);font-size:17px;max-height:0;overflow:hidden;transition:max-height .5s ease,margin .5s}
+.more-body.open{max-height:400px;margin-top:22px}
+/* hero object: the "titanium card" is a document */
+.doc{width:min(420px,86vw);aspect-ratio:1.586;margin:60px auto 0;border-radius:22px;position:relative;text-align:left;padding:26px 28px;
+background:linear-gradient(135deg,#f4f4f6 0%,#dcdce0 38%,#f9f9fb 52%,#cfcfd4 78%,#ececef 100%);
+box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 30px 60px -20px rgba(0,0,0,.35),0 12px 24px -12px rgba(0,0,0,.2);transform:perspective(1200px) rotateX(12deg);transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
+.doc.in{transform:perspective(1200px) rotateX(0)}
+.doc .f{font:600 13px var(--mono);color:#555;letter-spacing:.02em}
+.doc .sc{position:absolute;right:28px;top:22px;font-size:54px;font-weight:700;letter-spacing:-.05em;color:#2a2a2c}
+.doc .sc small{font-size:15px;color:#777;font-weight:500;letter-spacing:0}
+.doc .ln{position:absolute;left:28px;right:28px;bottom:24px;font:12.5px/1.75 var(--mono);color:#444}
+.doc .ln b{color:#111}
+.domain{display:flex;max-width:520px;margin:44px auto 0;background:var(--alt);border-radius:16px;padding:6px;gap:6px}
+.domain input{flex:1;min-width:0;border:0;background:transparent;font:19px var(--sans);padding:10px 14px;outline:0;color:var(--ink)}
+.hint{font-size:14px;color:var(--mut);margin-top:12px}
+/* staggered words */
+.stack span{display:block;opacity:.12;transition:opacity .6s}
+.stack.in span{opacity:1}.stack.in span:nth-child(2){transition-delay:.25s}.stack.in span:nth-child(3){transition-delay:.5s}.stack.in span:nth-child(4){transition-delay:.75s}
+/* bot list */
+.bots{max-width:760px;margin:56px auto 0;display:grid;grid-template-columns:repeat(2,1fr);gap:14px;text-align:left}
+.bot{background:#fff;border-radius:18px;padding:20px 22px;display:flex;justify-content:space-between;align-items:center}
+.bot b{font:600 15px var(--mono)}.bot small{display:block;color:var(--mut);font-size:13px;margin-top:2px}
+.st{font-size:13px;font-weight:600;border-radius:980px;padding:4px 10px;white-space:nowrap}
+.st.p{color:var(--warn);background:#fff4e5}.st.y{color:var(--ok);background:#e9f7ef}.st.n{color:#d70015;background:#ffecee}
+/* big numbers */
+.nums{display:flex;justify-content:center;gap:clamp(28px,7vw,90px);margin-top:60px;flex-wrap:wrap}
+.nums div{min-width:150px}.nums b{display:block;font-size:clamp(48px,7vw,72px);font-weight:700;letter-spacing:-.04em;line-height:1;
+background:linear-gradient(90deg,#0071e3,#7a3cff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nums span{display:block;color:var(--mut);font-size:15px;margin-top:10px;font-weight:600}
+/* routers */
+.tiles{max-width:1000px;margin:56px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:left}
+.tile{background:#fff;border-radius:28px;padding:34px 30px 30px;min-height:300px;display:flex;flex-direction:column}
+.alt .tile{background:#fff}.tile .k{font:13px var(--mono);color:var(--mut)}
+.tile h3{font-size:28px;font-weight:700;letter-spacing:-.02em;margin:8px 0 6px}
+.tile p{color:var(--mut);font-size:17px;line-height:1.4}
+.tile .ill{margin-top:auto;font:12px/1.6 var(--mono);color:#86868b;background:var(--alt);border-radius:14px;padding:14px;white-space:pre;overflow:hidden}
+.tile a{margin-top:16px;font-size:17px}
+footer{background:var(--alt);font-size:12px;color:var(--mut);padding:20px 22px 40px}
+footer .in{max-width:1000px;margin:0 auto;border-top:1px solid #d2d2d7;padding-top:16px;line-height:1.6}
+.fade{opacity:0;transform:translateY(40px);transition:opacity 1s,transform 1s cubic-bezier(.2,.8,.2,1)}.fade.in{opacity:1;transform:none}
+.tag{position:fixed;left:12px;bottom:12px;z-index:20;font:12px var(--mono);background:#1d1d1f;color:#fff;border-radius:8px;padding:6px 10px;opacity:.85}
+@media(max-width:734px){.gnav .ls{display:none}.lnav .s{display:none}section{padding:80px 20px}.bots{grid-template-columns:1fr}.tiles{grid-template-columns:1fr}.tile{min-height:0}.body{font-size:17px}}
+@media(prefers-reduced-motion:reduce){.fade,.doc,.stack span{transition:none;opacity:1;transform:none}}
+</style></head><body>
+<div class="gnav"><div class="in"><a href="#">cetxt</a><div class="ls"><a href="#">在线体检</a><a href="#">生成器</a><a href="#">校验器</a><a href="#">调查报告</a><a href="#">指南</a><a href="#">FAQ</a></div><a href="#">GitHub</a></div></div>
+<div class="lnav"><div class="in"><span class="t">llms.txt 体检</span><a class="s on">概览</a><a class="s" href="#">生成 llms.txt</a><a class="s" href="#">生成 robots.txt</a><a class="s" href="#">校验</a><a class="btn sm" href="#check">开始体检</a></div></div>
+
+<section>
+ <h1 class="h0 fade">cetxt</h1>
+ <p class="lead fade" style="font-size:clamp(24px,3.4vw,40px);color:var(--ink);font-weight:700;max-width:none">把网站介绍给 AI。<br>就这么简单。</p>
+ <div class="doc" id="doc">
+  <div class="f">bilibili.com/llms.txt</div>
+  <div class="sc">100<small> /100</small></div>
+  <div class="ln"><b># 哔哩哔哩</b><br>&gt; 摘要 ✓ · 6 个分组 · 52 条链接<br>10.7 KB · 0 错误 · 0 警告</div>
+ </div>
+ <form class="domain fade" id="check" onsubmit="return false"><input value="bilibili.com" aria-label="域名"><button class="btn">体检</button></form>
+ <p class="hint fade">免费，不用注册。检测 robots.txt 的 AI 爬虫规则和 llms.txt 的结构质量。</p>
+</section>
+
+<section class="alt">
+ <p class="body fade" style="font-size:clamp(19px,2.3vw,26px);font-weight:600;line-height:1.45;color:var(--mut)">我们把一份 llms.txt 的好坏拆成能看懂的几件事：<span style="color:var(--ink)">有没有标题和摘要，分组是否清楚，链接能不能打开。</span>robots.txt 也一样，按 RFC 9309 逐条判定，告诉你 GPTBot、ClaudeBot、百度到底被放行了什么。<span style="color:var(--ink)">哪里写错了，怎么改，一眼就知道。</span></p>
+</section>
+
+<section>
+ <div class="h1 stack" id="stack"><span>不收费。</span><span>不注册。</span><span>不装插件。</span><span>输入就查。</span></div>
+ <button class="more" aria-expanded="false" data-t="m1"><i>+</i>了解怎么检测</button>
+ <div class="more-body" id="m1">输入域名后，服务器按普通访客的方式抓取一次 robots.txt 和 llms.txt，按规则打分后把结果返回浏览器。生成器和校验器在浏览器本地运行，粘贴的内容不上传。</div>
+</section>
+
+<section class="alt">
+ <p class="eyebrow fade">AI 爬虫</p>
+ <h2 class="h2 fade">谁能读你的网站，<br>一目了然。</h2>
+ <p class="lead fade">22 个主流 AI 爬虫，训练、搜索、用户代理分开判定。以 bilibili.com 为例，没有为 AI 单独写规则，全部落到通配组。</p>
+ <div class="bots">
+  <div class="bot fade"><div><b>GPTBot</b><small>OpenAI · 训练</small></div><span class="st p">部分路径</span></div>
+  <div class="bot fade"><div><b>ClaudeBot</b><small>Anthropic · 训练</small></div><span class="st p">部分路径</span></div>
+  <div class="bot fade"><div><b>Google-Extended</b><small>Google · Gemini</small></div><span class="st p">部分路径</span></div>
+  <div class="bot fade"><div><b>OAI-SearchBot</b><small>OpenAI · 搜索</small></div><span class="st p">部分路径</span></div>
+  <div class="bot fade"><div><b>CCBot</b><small>Common Crawl · 训练</small></div><span class="st p">部分路径</span></div>
+  <div class="bot fade"><div><b>Baiduspider</b><small>百度 · 搜索</small></div><span class="st p">部分路径</span></div>
+ </div>
+ <button class="more" aria-expanded="false" data-t="m2"><i>+</i>只拦训练，保留引用？</button>
+ <div class="more-body" id="m2">给训练类爬虫单独写一组 <code>Disallow: /</code>，搜索类保持放行；或者加一行 <code>__usage_ai-training</code> 声明训练偏好。生成器里勾选就能得到完整的 robots.txt。</div>
+</section>
+
+<section>
+ <p class="eyebrow fade">1000 站普查 · 2026 年 11 月</p>
+ <h2 class="h2 fade">中文互联网，<br>还没准备好。</h2>
+ <div class="nums fade">
+  <div><b>38</b><span>家有真正的 llms.txt</span></div>
+  <div><b>47</b><span>家拦截训练类 AI 爬虫</span></div>
+  <div><b>80.8</b><span>llms.txt 平均分</span></div>
+ </div>
+ <p class="fade" style="margin-top:44px"><a href="#" style="font-size:19px">阅读完整报告 ›</a></p>
+</section>
+
+<section class="alt">
+ <h2 class="h2 fade">需要的工具，<br>都在这里。</h2>
+ <div class="tiles">
+  <div class="tile fade"><span class="k">生成器</span><h3>llms.txt</h3><p>填站名和几条链接，按规范排好。</p><div class="ill"># 你的网站
+&gt; 一句话介绍
+
+## 文档
+- [快速开始](/start)</div><a href="#">开始生成 ›</a></div>
+  <div class="tile fade"><span class="k">生成器</span><h3>robots.txt</h3><p>勾选要放行和拒绝的 AI 爬虫。</p><div class="ill">User-agent: GPTBot
+Disallow: /
+
+User-agent: OAI-SearchBot
+Allow: /</div><a href="#">开始生成 ›</a></div>
+  <div class="tile fade"><span class="k">校验器</span><h3>粘贴即查</h3><p>逐行检查，本地运行，不上传。</p><div class="ill">✓ H1 标题
+✓ 摘要引用块
+⚠ 第 14 行链接缺少描述</div><a href="#">去校验 ›</a></div>
+ </div>
+</section>
+
+<section>
+ <h2 class="h1 fade">现在就给你的网站<br>做一次体检。</h2>
+ <p class="lead fade">十秒出结果。</p>
+ <p class="fade" style="margin-top:30px"><a class="btn" href="#check">开始体检</a></p>
+</section>
+
+<footer><div class="in">数据来自 cetxt 对公开 robots.txt 与 llms.txt 的抓取，示例为 bilibili.com 实测。robots 判定依据 RFC 9309。<br>Copyright © 2026 cetxt · MIT 开源 · 概念稿，仅供选型</div></footer>
+<div class="tag">概念 D · 产品页叙事</div>
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.2});
+document.querySelectorAll('.fade,.doc,.stack').forEach(el=>io.observe(el));
+document.querySelectorAll('.more').forEach(b=>b.onclick=()=>{const o=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',o);document.getElementById(b.dataset.t).classList.toggle('open',o)});
+</script>
+</body></html>
