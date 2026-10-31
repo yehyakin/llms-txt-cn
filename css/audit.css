@@ -94,3 +94,14 @@
 .rg-warn{margin:10px 0 0; padding-left:18px; color:var(--amber)}
 .rg-ok{margin-top:10px; color:var(--acc)}
 #rgPreview{white-space:pre-wrap; word-break:break-all}
+
+/* 顶栏 4 个 tab：窄屏用短标签、去掉序号，避免挤断 */
+.tab .ts{display:none}
+@media (max-width:560px){
+  .tab .n, .tab .tl{display:none}
+  .tab .ts{display:inline}
+  .tab{padding:10px 7px}
+}
+@media (max-width:360px){ .tab{padding:10px 4px; letter-spacing:.02em} }
+.rg-row{flex-wrap:wrap}
+.audit, .au-block{min-width:0; overflow-wrap:anywhere}
