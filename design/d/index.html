@@ -107,24 +107,34 @@ background:linear-gradient(225deg,transparent 49%,#c9c9ce 50%,#ececef 70%,#dadad
 .step-nav{display:flex;gap:8px;margin-top:22px}.step-nav button{width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.06);color:var(--ink);font-size:18px;line-height:1;display:grid;place-items:center;transition:background .2s}.step-nav button:active{background:rgba(0,0,0,.14)}
 .phone{touch-action:pan-y}
 
-.phone{width:min(330px,72vw);aspect-ratio:9/19.4;margin:0 auto;border-radius:54px;padding:11px;position:relative;
-background:linear-gradient(145deg,#e2e2e6,#a8a8ad 28%,#ececf0 52%,#97979c 82%,#cfcfd4);box-shadow:0 0 0 1px rgba(0,0,0,.14),0 50px 90px -40px rgba(0,0,0,.5),inset 0 0 2px rgba(255,255,255,.9);transform:translateY(var(--py,0)) scale(calc(var(--ps,1) * var(--fit,1)));will-change:transform;flex:none}
-.phone::before,.phone::after{content:"";position:absolute;width:3px;border-radius:2px;background:#9d9da2}
-.phone::before{right:-3px;top:26%;height:11%}.phone::after{left:-3px;top:20%;height:6%;box-shadow:0 70px 0 #9d9da2}
-.screen{height:100%;border-radius:44px;background:#f2f2f7;overflow:hidden;position:relative}
-.island{position:absolute;left:50%;top:11px;transform:translateX(-50%);width:33%;height:30px;border-radius:20px;background:#000;z-index:5;transition:width .6s var(--spring),height .6s var(--spring)}
+/* iPhone 17 Pro-ish hardware: thin titanium band, black bezel, glass */
+.phone{width:min(330px,72vw);aspect-ratio:71.5/150;margin:0 auto;border-radius:56px;padding:3px;position:relative;
+background:linear-gradient(90deg,#6f6f73,#c9c9cd 6%,#8d8d92 14%,#9a9a9f 50%,#8d8d92 86%,#d4d4d8 94%,#6a6a6e);
+box-shadow:inset 0 0 0 .5px rgba(255,255,255,.55),0 0 0 .5px rgba(0,0,0,.35),0 2px 4px rgba(0,0,0,.12),0 40px 80px -30px rgba(0,0,0,.45),0 80px 120px -60px rgba(0,0,0,.35);
+transform:translateY(var(--py,0)) scale(calc(var(--ps,1) * var(--fit,1)));will-change:transform;flex:none}
+.phone::before,.phone::after{content:"";position:absolute;width:2.5px;border-radius:1.5px;background:linear-gradient(90deg,#5d5d61,#a9a9ae)}
+.phone::before{right:-2.5px;top:27%;height:12%;border-radius:0 2px 2px 0;background:linear-gradient(90deg,#a9a9ae,#6a6a6e)}
+.phone::after{left:-2.5px;top:18%;height:4.5%;border-radius:2px 0 0 2px;box-shadow:0 52px 0 #8d8d92,0 96px 0 #8d8d92}
+.screen{height:100%;border-radius:53px;background:#f2f2f7;overflow:hidden;position:relative;border:6px solid #050506;box-shadow:inset 0 0 0 .5px rgba(255,255,255,.08)}
+.screen::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:9;background:linear-gradient(115deg,rgba(255,255,255,.28) 0%,rgba(255,255,255,0) 32%,rgba(255,255,255,0) 70%,rgba(255,255,255,.08) 100%)}
+.tabbar{position:absolute;left:0;right:0;bottom:0;height:78px;padding:7px 0 0;display:flex;justify-content:space-around;background:rgba(249,249,251,.86);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:.5px solid rgba(0,0,0,.12);z-index:6}
+.tabbar span{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:500;color:#8e8e93;transition:color .3s}
+.tabbar span.on{color:#0071e3}.tabbar svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.homebar{position:absolute;left:50%;bottom:7px;width:36%;height:5px;margin-left:-18%;border-radius:3px;background:#111;z-index:7}
+.island{position:absolute;left:50%;top:10px;transform:translateX(-50%);width:34%;height:31px;border-radius:20px;background:#000;z-index:5;transition:width .6s var(--spring),height .6s var(--spring)}
 .island.busy{width:60%;height:34px}
 .sbar{transition:opacity .25s}.screen:has(.island.busy) .sbar{opacity:0}
 .island i{position:absolute;right:12px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;border:2px solid #30d158;border-top-color:transparent;opacity:0;transition:opacity .3s;animation:spin .8s linear infinite}
 .island.busy i{opacity:1}@keyframes spin{to{transform:rotate(360deg)}}
-.sbar{height:50px;display:flex;justify-content:space-between;align-items:flex-end;padding:0 26px 4px;font:600 14px var(--sans);position:relative;z-index:4}
+.sbar{height:51px;display:flex;justify-content:space-between;align-items:center;padding:0 28px 0 32px;font:600 15px var(--sans);letter-spacing:-.01em;position:relative;z-index:4}
 .sbar svg{fill:currentColor}
-.scr{position:absolute;inset:54px 0 0;padding:4px 15px 20px;opacity:0;transform:scale(.97);transition:opacity .5s var(--out),transform .6s var(--out);overflow:hidden}
+.scr{position:absolute;inset:54px 0 78px;padding:4px 15px 20px;opacity:0;transform:scale(.97);transition:opacity .5s var(--out),transform .6s var(--out);overflow:hidden}
 .scr.on{opacity:1;transform:none}
 .scr h4{font-size:30px;font-weight:700;letter-spacing:-.03em;margin:2px 2px 12px}
 .sf{background:#e3e3e8;border-radius:11px;padding:9px 12px;font-size:16px;color:#8e8e93;display:flex;gap:7px;align-items:center}
 .sf b{color:var(--ink);font-weight:400}.sf .caret{width:2px;height:19px;background:var(--acc);animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
+#sc0{bottom:0;z-index:8}
 .kbd{position:absolute;left:0;right:0;bottom:0;height:42%;background:#d1d3d9;padding:10px 4px;display:grid;grid-template-rows:repeat(4,1fr);gap:9px;transform:translateY(var(--kb,0));transition:transform .5s var(--out)}
 .kbd div{display:flex;gap:5px;justify-content:center}.kbd span{flex:1;max-width:30px;background:#fff;border-radius:5px;box-shadow:0 1px 0 #898a8d}
 .kbd .go{max-width:84px;background:var(--acc)}
@@ -301,6 +311,7 @@ footer .in{max-width:1024px;margin:0 auto;line-height:1.7}footer ol{padding-left
    <div class="scr" id="sc1"><h4>AI 爬虫</h4><div class="grp"><div class="hd"><span>bilibili.com</span><span>robots.txt 第 1 行</span></div></div></div>
    <div class="scr" id="sc2"><h4>llms.txt</h4></div>
    <div class="scr" id="sc3"><h4>生成器</h4></div>
+  <div class="tabbar" id="tabbar"><span class="on"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>体检</span><span><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>生成器</span><span><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>校验器</span></div><div class="homebar"></div>
   </div></div>
  </div>
 </section>
@@ -423,7 +434,7 @@ $('#sc2').insertAdjacentHTML('beforeend',ring(100,'优秀')+'<div class="grp">'+
 $('#sc3').insertAdjacentHTML('beforeend','<div class="grp" style="padding:12px 14px;font:12px/1.75 var(--mono);color:#6e6e73;text-align:left;white-space:pre"><span style="color:#0071e3"># 你的网站</span>\n&gt; 一句话介绍你是谁\n\n<span style="color:#0071e3">## 产品</span>\n- [首页](https://…): 说明\n- [文档](https://…): 说明</div><div class="grp">'+row('✓','#34c759','已复制到剪贴板','上传到网站根目录','','',0)+'</div><div style="margin-top:6px;background:#0071e3;color:#fff;border-radius:12px;padding:12px;text-align:center;font-weight:600;font-size:15px">再查一次</div>');
 let curStep=-1,typedT=null;const DEMO='bilibili.com';
 function setStep(i){if(i===curStep)return;curStep=i;steps.forEach((s,k)=>s.classList.toggle('on',k===i));dots.forEach((d,k)=>{d.classList.remove('on');d.classList.toggle('done',k<i)});void dots[i].offsetWidth;dots[i].classList.add('on');
- scr.forEach((s,k)=>{s.classList.remove('on');if(k===i){void s.offsetWidth;s.classList.add('on')}});
+ $$('#tabbar span').forEach((t,k)=>t.classList.toggle('on',k===(i===3?1:0)));scr.forEach((s,k)=>{s.classList.remove('on');if(k===i){void s.offsetWidth;s.classList.add('on')}});
  isl.classList.toggle('busy',i===1);if(i===1){setTimeout(()=>isl.classList.remove('busy'),1100)}
  clearInterval(typedT);const ty=$('#typed');if(i===0){ty.textContent='';$('#kbd').style.setProperty('--kb','0');let n=0;typedT=setInterval(()=>{ty.textContent=DEMO.slice(0,++n);buzz(2);if(n>=DEMO.length){clearInterval(typedT);setTimeout(()=>curStep===0&&$('#kbd').style.setProperty('--kb','110%'),500)}},110)}}
 setStep(0);
