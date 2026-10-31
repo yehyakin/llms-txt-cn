@@ -105,7 +105,7 @@ background:linear-gradient(225deg,transparent 49%,#c9c9ce 50%,#ececef 70%,#dadad
 .dots{display:flex;gap:8px;margin-top:28px}.dots i{width:8px;height:8px;border-radius:8px;background:#c7c7cc;transition:width .5s var(--out),background .4s}.dots i.on{width:28px;background:var(--ink)}
 
 .phone{width:min(330px,72vw);aspect-ratio:9/19.4;margin:0 auto;border-radius:54px;padding:11px;position:relative;
-background:linear-gradient(145deg,#e2e2e6,#a8a8ad 28%,#ececf0 52%,#97979c 82%,#cfcfd4);box-shadow:0 0 0 1px rgba(0,0,0,.14),0 50px 90px -40px rgba(0,0,0,.5),inset 0 0 2px rgba(255,255,255,.9);transform:translateY(var(--py,0)) scale(var(--ps,1));will-change:transform}
+background:linear-gradient(145deg,#e2e2e6,#a8a8ad 28%,#ececf0 52%,#97979c 82%,#cfcfd4);box-shadow:0 0 0 1px rgba(0,0,0,.14),0 50px 90px -40px rgba(0,0,0,.5),inset 0 0 2px rgba(255,255,255,.9);transform:translateY(var(--py,0)) scale(calc(var(--ps,1) * var(--fit,1)));will-change:transform;flex:none}
 .phone::before,.phone::after{content:"";position:absolute;width:3px;border-radius:2px;background:#9d9da2}
 .phone::before{right:-3px;top:26%;height:11%}.phone::after{left:-3px;top:20%;height:6%;box-shadow:0 70px 0 #9d9da2}
 .screen{height:100%;border-radius:44px;background:#f2f2f7;overflow:hidden;position:relative}
@@ -231,10 +231,12 @@ footer{background:var(--alt);font-size:12px;color:var(--mut2);padding:16px 22px 
 footer .in{max-width:1024px;margin:0 auto;line-height:1.7}footer ol{padding-left:16px;margin-bottom:14px;border-bottom:1px solid var(--line);padding-bottom:14px}
 .tag{position:fixed;left:12px;top:calc(104px + env(safe-area-inset-top));z-index:70;font:11px var(--mono);background:rgba(29,29,31,.82);color:#fff;border-radius:8px;padding:5px 9px;pointer-events:none}
 
-@media(max-width:833px){
+@media(max-width:833px) and (max-aspect-ratio:1/1){
  .story .pin{grid-template-columns:1fr;grid-template-rows:auto 1fr;gap:0;padding-top:64px}
  .steps{height:170px;order:-1;text-align:center}.step{align-items:center}.step h3{font-size:30px;margin-bottom:8px}.step p{font-size:16px}.step .n{margin-bottom:8px}.dots{justify-content:center;margin-top:14px}
- .phone{width:min(270px,64vw,calc((100svh - 300px) * .464));align-self:start}
+ .phone{width:270px;align-self:start;transform-origin:50% 0}}
+@media(max-width:833px) and (min-aspect-ratio:1/1){.story .pin{gap:24px;padding-top:52px}.step h3{font-size:28px}.step p{font-size:16px}.phone{width:270px}}
+@media(max-width:833px){
  .wheel-wrap,.builder{grid-template-columns:1fr}.wheel{margin:0 auto}.tiles{grid-template-columns:1fr}.wheel-wrap{gap:36px}}
 @media(max-width:734px){.gnav .ls,.lnav .s{display:none}section{padding:100px 20px}.field{padding-left:18px}.field .pre{display:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none;filter:none}.story{height:auto}.story .pin{position:static;height:auto;padding:100px 22px}.hl span{color:var(--ink)}}
@@ -404,7 +406,9 @@ stage.addEventListener('pointerup',release);stage.addEventListener('pointercance
 let t0=performance.now();
 
 /* ===== story ===== */
-const story=$('#how'),steps=$$('.step'),dots=$$('#dots i'),scr=[0,1,2,3].map(i=>$('#sc'+i)),isl=$('#isl'),phone=$('#phone');
+const pin=$('#how .pin'),story=$('#how'),steps=$$('.step'),dots=$$('#dots i'),scr=[0,1,2,3].map(i=>$('#sc'+i)),isl=$('#isl'),phone=$('#phone');
+function fitPhone(){const stacked=matchMedia('(max-width:833px) and (max-aspect-ratio:1/1)').matches,H=pin.clientHeight,ph=phone.offsetHeight;if(!ph)return;const avail=stacked?H-phone.offsetTop-20:H-(innerWidth<834?72:120);phone.style.setProperty('--fit',Math.max(.4,Math.min(1,avail/ph)).toFixed(3))}
+fitPhone();addEventListener('resize',fitPhone);addEventListener('orientationchange',()=>setTimeout(fitPhone,300));
 const BOTS=[['GPTBot','OpenAI · 训练','#10a37f'],['ClaudeBot','Anthropic · 训练','#d97757'],['Google-Extended','Gemini · 训练','#4285f4'],['OAI-SearchBot','ChatGPT · 搜索','#10a37f'],['PerplexityBot','Perplexity · 搜索','#20808d'],['Bytespider','字节跳动 · 训练','#325ab4'],['Baiduspider','百度 · 搜索','#2932e1']];
 const row=(ic,c,b,s,v,cls,i=0)=>'<div class="row" style="animation-delay:'+(i*.06)+'s"><span class="ico" style="background:'+c+'">'+esc(ic)+'</span><span class="tx"><b>'+esc(b)+'</b>'+(s?'<small>'+esc(s)+'</small>':'')+'</span><span class="v '+cls+'">'+esc(v)+'</span></div>';
 $('#sc1 .grp').insertAdjacentHTML('beforeend',BOTS.map((b,i)=>row(b[0].slice(0,2),b[2],b[0],b[1],'部分路径','p',i)).join(''));
