@@ -94,7 +94,7 @@ background:linear-gradient(225deg,transparent 49%,#c9c9ce 50%,#ececef 70%,#dadad
 .hl span.on.g{color:var(--acc)}
 
 /* ===== sticky phone story ===== */
-.story{padding:clamp(80px,12vw,140px) 0;background:var(--alt);overflow:hidden}
+.story{padding:clamp(80px,12vw,140px) 0;background:var(--alt);overflow:hidden;isolation:isolate}
 .story .pin{position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:center;max-width:1024px;margin:0 auto;padding:0 22px;gap:40px}
 .steps{position:relative;height:300px;text-align:left}
 .step{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;opacity:0;transform:translateY(24px);transition:opacity .6s var(--out),transform .8s var(--out);pointer-events:none}
@@ -114,6 +114,7 @@ background:linear-gradient(145deg,#e2e2e6,#a8a8ad 28%,#ececf0 52%,#97979c 82%,#c
 .screen{height:100%;border-radius:44px;background:#f2f2f7;overflow:hidden;position:relative}
 .island{position:absolute;left:50%;top:11px;transform:translateX(-50%);width:33%;height:30px;border-radius:20px;background:#000;z-index:5;transition:width .6s var(--spring),height .6s var(--spring)}
 .island.busy{width:60%;height:34px}
+.sbar{transition:opacity .25s}.screen:has(.island.busy) .sbar{opacity:0}
 .island i{position:absolute;right:12px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;border:2px solid #30d158;border-top-color:transparent;opacity:0;transition:opacity .3s;animation:spin .8s linear infinite}
 .island.busy i{opacity:1}@keyframes spin{to{transform:rotate(360deg)}}
 .sbar{height:50px;display:flex;justify-content:space-between;align-items:flex-end;padding:0 26px 4px;font:600 14px var(--sans);position:relative;z-index:4}
