@@ -1,0 +1,96 @@
+/* cetxt · AI 爬虫体检报告 / robots 生成器（延续 site.css 的变量与排印） */
+.audit{margin-top:24px}
+.au-meta{margin:0 0 18px}
+.au-tiles{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line-soft); border:1px solid var(--line-soft); margin-bottom:24px}
+.au-tile{background:var(--bg2); padding:22px 24px; text-decoration:none; display:flex; flex-direction:column; gap:6px; transition:background .3s var(--ease)}
+.au-tile:hover{background:var(--bg3)}
+.au-tile .k{font-family:var(--mono); font-size:11px; letter-spacing:.2em; color:var(--acc)}
+.au-tile b{font-family:var(--serif); font-size:clamp(28px,3.4vw,40px); font-weight:900; line-height:1.1}
+.au-tile b.t{font-size:clamp(20px,2.2vw,26px)}
+.au-tile b small{font-family:var(--mono); font-size:13px; color:var(--mut); font-weight:400; margin-left:4px}
+.au-tile .d{font-size:12.5px; color:var(--mut)}
+@media (max-width:720px){ .au-tiles{grid-template-columns:1fr} }
+
+.au-block{background:var(--bg2); border:1px solid var(--line-soft); padding:clamp(22px,3vw,36px); margin-bottom:24px}
+.au-block .sub{font-size:13px; color:var(--mut); margin:0 0 20px}
+.au-h3{font-family:var(--mono); font-size:11px; letter-spacing:.22em; color:var(--mut); text-transform:uppercase; margin:28px 0 10px; font-weight:500}
+.au-clean{padding:18px 0; color:var(--mut); font-size:14px; border-top:1px solid var(--line-soft)}
+
+.issue .msg .det{display:block; color:var(--ink); opacity:.82; font-size:13.5px; margin:4px 0 6px; line-height:1.7}
+.issue .msg .evi{display:flex; flex-wrap:wrap; gap:10px; margin-top:8px; align-items:center}
+.lns{display:inline-flex; flex-wrap:wrap; gap:4px}
+.lnk{font-family:var(--mono); font-size:11px; color:var(--acc); background:var(--acc-soft); border:1px solid rgba(210,255,0,.2); padding:1px 6px; border-radius:3px; text-decoration:none}
+.lnk:hover{background:rgba(210,255,0,.18)}
+.lnk.more{color:var(--mut); background:none; border-color:var(--line)}
+.refs{display:inline-flex; flex-wrap:wrap; gap:8px}
+.refs a{font-family:var(--mono); font-size:11px; color:var(--mut); text-decoration:none; border-bottom:1px dotted var(--line)}
+.refs a:hover{color:var(--acc)}
+
+.au-table{border-top:1px solid var(--line-soft); font-size:13.5px}
+.au-tr{display:grid; grid-template-columns:minmax(150px,1.3fr) .8fr .9fr .7fr 1.3fr; gap:12px; padding:10px 0; border-bottom:1px solid var(--line-soft); align-items:center}
+.au-th{font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; color:var(--dim); padding:8px 0}
+#au-train .au-tr, #rp-train .au-tr{grid-template-columns:.8fr 1.2fr .7fr 2.2fr 1fr}
+.au-tr .tok{font-size:12.5px; word-break:break-all}
+.au-tr .tok a{text-decoration:none; border-bottom:1px dotted var(--line)}
+.au-tr .tok a:hover{color:var(--acc)}
+.au-tr i{font-style:normal; display:block; font-size:11px; color:var(--amber); margin-top:2px}
+.au-tr i.unv{color:var(--amber)}
+.au-tr .rd{color:var(--mut); font-size:13px; line-height:1.6}
+.au-tr .src{color:var(--mut); font-size:12px; display:flex; flex-wrap:wrap; gap:6px; align-items:center}
+.st{font-family:var(--mono); font-size:11.5px; font-weight:500; padding:2px 8px; border-radius:3px; border:1px solid; white-space:nowrap}
+.st.allowed{color:var(--acc); background:var(--acc-soft); border-color:rgba(210,255,0,.3)}
+.st.partial{color:var(--amber); background:var(--amber-soft); border-color:rgba(255,176,32,.3)}
+.st.blocked{color:var(--red); background:var(--red-soft); border-color:rgba(255,107,107,.3)}
+@media (max-width:720px){
+  .au-tr, #au-train .au-tr, #rp-train .au-tr{grid-template-columns:1fr 1fr; row-gap:4px}
+  .au-th{display:none}
+}
+
+.au-aipref{border:1px solid var(--line); padding:20px 22px; margin-bottom:8px}
+.ap-state{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap}
+.ap-state .k{font-family:var(--mono); font-size:12px; color:var(--mut)}
+.ap-state b{font-family:var(--serif); font-size:24px; font-weight:900}
+.ap-state.disallow b,.ap-state.disallow_with_exceptions b{color:var(--red)}
+.ap-state.allow b,.ap-state.allow_with_exceptions b{color:var(--acc)}
+.ap-state.none b{color:var(--mut)}
+.ap-ex{font-size:13px; color:var(--mut); margin-top:10px; line-height:1.7}
+.ap-ex .mono{color:var(--ink); background:rgba(244,241,233,.06); padding:0 5px; border-radius:3px}
+.ap-cons{margin-top:16px; border-top:1px solid var(--line-soft)}
+.ap-cons > div{display:grid; grid-template-columns:90px 70px 1fr auto; gap:12px; padding:8px 0; border-bottom:1px solid var(--line-soft); font-size:13px; align-items:center}
+.ap-cons .v{font-weight:600}
+.ap-cons .s{font-family:var(--mono); font-size:11px; color:var(--amber)}
+.ap-cons .s.implementing{color:var(--acc)}
+.ap-cons .d{color:var(--mut)}
+@media (max-width:720px){ .ap-cons > div{grid-template-columns:1fr 1fr} }
+.ap-draft{font-size:12px; color:var(--dim); margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+
+.au-src{margin-top:8px; border:1px solid var(--line-soft); background:var(--bg2)}
+.au-src summary{cursor:pointer; padding:14px 18px; font-family:var(--mono); font-size:12px; color:var(--mut); letter-spacing:.08em}
+.au-src summary:hover{color:var(--acc)}
+.au-code{margin:0; padding:10px 0 16px; max-height:520px; overflow:auto; font-family:var(--mono); font-size:12.5px; line-height:1.75; white-space:pre}
+.au-code .cl{display:block; padding:0 18px 0 0}
+.au-code .cl i{display:inline-block; width:52px; text-align:right; padding-right:16px; color:var(--dim); font-style:normal; user-select:none}
+.au-code .cl.hl{background:var(--acc-soft); box-shadow:inset 2px 0 0 var(--acc)}
+
+/* ---------- robots 生成器 ---------- */
+.draft-note{display:flex; gap:14px; align-items:flex-start; border:1px solid rgba(255,176,32,.35); background:var(--amber-soft); padding:14px 18px; margin-bottom:24px; font-size:13px; line-height:1.7; color:var(--ink)}
+.draft-note b{color:var(--amber); white-space:nowrap; font-family:var(--mono); font-size:11px; letter-spacing:.14em; padding-top:2px}
+.draft-note .mono{color:var(--amber)}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:999px; padding:3px; gap:2px; flex-wrap:wrap}
+.seg button{all:unset; cursor:pointer; font-size:13px; padding:6px 14px; border-radius:999px; color:var(--mut); transition:background .2s, color .2s}
+.seg button:hover{color:var(--ink)}
+.seg button.on{background:var(--acc); color:var(--acc-ink); font-weight:600}
+.seg button:focus-visible{outline:2px solid var(--acc); outline-offset:2px}
+.seg.sm button{font-size:12px; padding:4px 10px}
+.rg-cat{margin:20px 0 6px}
+.rg-cat-h{font-family:var(--mono); font-size:11px; letter-spacing:.2em; color:var(--acc); margin-bottom:6px; display:flex; gap:10px; align-items:baseline}
+.rg-cat-h .hint{color:var(--dim); letter-spacing:0; font-family:var(--sans)}
+.rg-row{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:7px 0; border-bottom:1px solid var(--line-soft)}
+.rg-row .tok{font-size:12.5px}
+.rg-row .tok i{font-style:normal; color:var(--dim); margin-left:8px; font-family:var(--sans); font-size:12px}
+.rg-check{margin-top:20px; border-top:1px solid var(--line-soft); padding-top:16px; font-size:13px}
+.rg-sum{display:flex; gap:18px; flex-wrap:wrap; color:var(--mut)}
+.rg-sum b{color:var(--ink); font-family:var(--mono)}
+.rg-warn{margin:10px 0 0; padding-left:18px; color:var(--amber)}
+.rg-ok{margin-top:10px; color:var(--acc)}
+#rgPreview{white-space:pre-wrap; word-break:break-all}
