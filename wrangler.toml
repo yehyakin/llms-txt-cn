@@ -21,6 +21,7 @@ namespace_id = "20261031"
 simple = { limit = 20, period = 60 }
 
 # 只按天记 verdict（不记域名 / IP）
-[[analytics_engine_datasets]]
-binding = "STATS"
-dataset = "cetxt_verdicts"
+# 计数暂关（账户未开 Analytics Engine，方案待定）
+# [[analytics_engine_datasets]]
+# binding = "STATS"
+# dataset = "cetxt_verdicts"
