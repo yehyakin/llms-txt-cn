@@ -1,468 +1,520 @@
 <!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>概念 D · 产品页 · cetxt</title><meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
+<title>概念 D v3 · cetxt</title><meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
 <style>
-:root{--ink:#1d1d1f;--mut:#86868b;--mut2:#6e6e73;--alt:#f5f5f7;--acc:#0071e3;--ok:#30d158;--warn:#ff9f0a;--bad:#ff453a;
+:root{--ink:#1d1d1f;--mut:#86868b;--mut2:#6e6e73;--line:#d2d2d7;--alt:#f5f5f7;--acc:#0071e3;
 --sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
---mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--ease:cubic-bezier(.28,.11,.32,1);--spring:cubic-bezier(.34,1.56,.64,1)}
+--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--ease:cubic-bezier(.28,.11,.32,1);--out:cubic-bezier(.16,1,.3,1);--spring:cubic-bezier(.34,1.56,.64,1)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{background:#fff}
+html{background:#fff;scroll-behavior:smooth}
 body{color:var(--ink);font:17px/1.47 var(--sans);-webkit-font-smoothing:antialiased;letter-spacing:-.022em;overflow-x:hidden}
 a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
-button{font-family:inherit;color:inherit;border:0;background:none;cursor:pointer}
-sup{font-size:.55em;vertical-align:super;line-height:0;color:var(--mut2)}
+button,input{font-family:inherit;color:inherit;border:0;background:none}button{cursor:pointer}
+::selection{background:#b3d7ff}
 
-/* ---------- nav ---------- */
-.gnav{height:44px;background:rgba(250,250,252,.8);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);font-size:12px;position:relative;z-index:11}
+/* ===== nav ===== */
+.gnav{height:44px;font-size:12px;position:relative;z-index:12;background:rgba(250,250,252,.82);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
 .gnav .in{max-width:1024px;margin:0 auto;height:100%;display:flex;align-items:center;justify-content:space-between;padding:0 22px}
-.gnav a{color:#1d1d1f;opacity:.8;transition:opacity .3s}.gnav a:hover{opacity:1;text-decoration:none}.gnav .ls{display:flex;gap:34px}
+.gnav a{color:var(--ink);opacity:.8;transition:opacity .3s}.gnav a:hover{opacity:1;text-decoration:none}.gnav .ls{display:flex;gap:34px}
 .gnav .logo{font:700 15px var(--sans);letter-spacing:-.03em;opacity:1}
-.lnav{position:sticky;top:0;z-index:10;height:52px;transition:background .5s var(--ease),box-shadow .5s}
+.lnav{position:sticky;top:0;z-index:11;height:52px;transition:background .5s var(--ease),box-shadow .5s}
 .lnav.stuck{background:rgba(255,255,255,.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);box-shadow:0 1px 0 rgba(0,0,0,.08)}
 .lnav .in{max-width:1024px;margin:0 auto;height:100%;display:flex;align-items:center;padding:0 22px;gap:24px}
 .lnav .t{font-size:21px;font-weight:600;letter-spacing:-.02em;margin-right:auto}
-.lnav .s{font-size:12px;color:var(--ink);opacity:.82}.lnav .s.on{opacity:.45;pointer-events:none}
-.pill{display:inline-flex;align-items:center;justify-content:center;background:var(--acc);color:#fff;border-radius:980px;font-size:17px;padding:12px 23px;transition:background .2s,transform .25s var(--spring);user-select:none;-webkit-user-select:none}
-.pill:hover{background:#0077ed;text-decoration:none}.pill:active{transform:scale(.95)}
-.pill.sm{font-size:12px;padding:4px 11px}.pill.ghost{background:none;color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
-.pill.ghost:hover{background:var(--acc);color:#fff}
+.lnav .s{font-size:12px;color:var(--ink);opacity:.8}.lnav .s:hover{opacity:1;text-decoration:none}
 
-/* ---------- type ---------- */
-section{position:relative;padding:130px 22px;text-align:center}
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--acc);color:#fff;border-radius:980px;font-size:17px;padding:12px 23px;white-space:nowrap;transition:background .2s,transform .3s var(--spring);user-select:none;-webkit-user-select:none}
+.pill:hover{background:#0077ed;text-decoration:none}.pill:active{transform:scale(.94)}
+.pill.sm{font-size:12px;padding:4px 11px}.pill.dark{background:var(--ink)}.pill.dark:hover{background:#000}
+.lk{font-size:17px;display:inline-flex;align-items:center;gap:2px}.lk::after{content:"›";font-size:1.15em;transition:transform .3s var(--out)}.lk:hover::after{transform:translateX(3px)}
+
+/* ===== type ===== */
+section{position:relative;padding:140px 22px;text-align:center}
 .alt{background:var(--alt)}
-.h-hero{font-size:clamp(48px,9.6vw,96px);font-weight:700;line-height:1.04;letter-spacing:-.045em}
-.h1{font-size:clamp(40px,7vw,80px);font-weight:700;line-height:1.05;letter-spacing:-.04em}
-.h2{font-size:clamp(32px,5.4vw,56px);font-weight:700;line-height:1.07;letter-spacing:-.035em}
-.sub{font-size:clamp(21px,2.6vw,28px);font-weight:600;line-height:1.25;letter-spacing:-.025em}
+.eyebrow{font-size:clamp(19px,2.2vw,24px);font-weight:600;letter-spacing:-.02em;color:var(--mut2)}
+.hx{font-size:clamp(46px,9vw,96px);font-weight:700;line-height:1.04;letter-spacing:-.048em}
+.h1{font-size:clamp(40px,7vw,80px);font-weight:700;line-height:1.05;letter-spacing:-.042em}
+.h2{font-size:clamp(32px,5.4vw,56px);font-weight:700;line-height:1.08;letter-spacing:-.035em}
+.sub{font-size:clamp(19px,2.4vw,28px);font-weight:600;line-height:1.28;letter-spacing:-.022em}
 .mut{color:var(--mut)}
-.grad{background:linear-gradient(90deg,#0090f7,#ba62fc 50%,#f2416b);-webkit-background-clip:text;background-clip:text;color:transparent}
-.copy{max-width:692px;margin:0 auto;text-align:left;font-size:clamp(19px,2.2vw,24px);font-weight:600;line-height:1.42;color:var(--mut);letter-spacing:-.02em}
-.copy b{color:var(--ink);font-weight:600}
+.grad{background:linear-gradient(95deg,#0090f7 0%,#ba62fc 45%,#f2416b 75%,#f55600 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 
-/* reveal */
-.rv{opacity:0;transform:translate3d(0,48px,0);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
-.rv.in{opacity:1;transform:none}.rv.d1{transition-delay:.12s}.rv.d2{transition-delay:.24s}.rv.d3{transition-delay:.36s}
+/* reveal: rise + unblur */
+.rv{opacity:0;transform:translate3d(0,40px,0);filter:blur(6px);transition:opacity 1.2s var(--out),transform 1.2s var(--out),filter 1s var(--out)}
+.rv.in{opacity:1;transform:none;filter:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
 
-/* ---------- hero card (titanium) ---------- */
-.hero{padding:70px 22px 40px;overflow:hidden}
-.hero .ctas{display:flex;gap:16px;justify-content:center;margin-top:32px;flex-wrap:wrap}
-.stage{height:min(78vw,520px);perspective:1400px;margin-top:40px;display:grid;place-items:center;touch-action:pan-y}
-.card{--rx:58deg;--ry:0deg;--rz:-8deg;--s:.86;--lx:30%;--ly:20%;
-width:min(78vw,460px);aspect-ratio:1.586;border-radius:clamp(16px,3.4vw,24px);position:relative;transform-style:preserve-3d;
-transform:rotateX(var(--rx)) rotateY(var(--ry)) rotateZ(var(--rz)) scale(var(--s));will-change:transform}
-.face{position:absolute;inset:0;border-radius:inherit;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
-.front{background:
- radial-gradient(120% 90% at var(--lx) var(--ly),rgba(255,255,255,.95) 0%,rgba(255,255,255,0) 45%),
- repeating-linear-gradient(90deg,rgba(0,0,0,.018) 0 1px,rgba(255,255,255,.02) 1px 2px),
- linear-gradient(115deg,#e9e9ec 0%,#f7f7f9 30%,#dcdce1 55%,#f2f2f5 75%,#d6d6db 100%);
- box-shadow:inset 0 0 0 1px rgba(255,255,255,.7),inset 0 -1px 2px rgba(0,0,0,.08)}
-.front::after{content:"";position:absolute;inset:-40%;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.55) 50%,transparent 60%);transform:translateX(var(--sheen,-60%));transition:transform .2s linear;mix-blend-mode:soft-light}
-.etch{position:absolute;color:#b9b9be;text-shadow:0 1px 0 rgba(255,255,255,.9),0 -1px 0 rgba(0,0,0,.12)}
-.etch.logo{left:8.5%;top:11%;font:700 clamp(18px,4vw,26px) var(--sans);letter-spacing:-.04em}
-.etch.chip{right:8.5%;top:12%;width:13%;aspect-ratio:1.3;border-radius:5px;background:linear-gradient(135deg,#d9d9de,#f1f1f4 45%,#cfcfd5);box-shadow:inset 0 0 0 1px rgba(0,0,0,.06),0 1px 0 rgba(255,255,255,.8)}
-.etch.chip::before{content:"";position:absolute;inset:22% 18%;border:1px solid rgba(0,0,0,.09);border-radius:3px}
-.etch.name{left:8.5%;bottom:11%;font:600 clamp(11px,2.2vw,14px) var(--mono);letter-spacing:.12em;text-transform:uppercase}
-.etch.mark{right:8.5%;bottom:10%;font:600 clamp(10px,2vw,13px) var(--mono);letter-spacing:.06em}
-.back{transform:rotateY(180deg);background:linear-gradient(115deg,#2b2b2f,#3a3a3f 40%,#232326 70%,#323236)}
-.shadow{position:absolute;left:8%;right:8%;bottom:-14%;height:22%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.28),transparent);filter:blur(10px);transform:translateZ(-60px) rotateX(90deg);opacity:var(--sh,.5)}
-.hint-drag{font-size:12px;color:var(--mut);margin-top:6px;opacity:.9}
+/* ===== search field (conversion) ===== */
+.field{display:flex;align-items:center;gap:8px;max-width:520px;margin:0 auto;background:#fff;border-radius:980px;padding:6px 6px 6px 22px;
+box-shadow:0 0 0 1px var(--line),0 12px 40px -18px rgba(0,0,0,.25);transition:box-shadow .35s var(--ease),transform .35s var(--spring)}
+.field:focus-within{box-shadow:0 0 0 2px var(--acc),0 0 0 7px rgba(0,113,227,.14),0 16px 50px -18px rgba(0,113,227,.4)}
+.field .pre{font:17px var(--sans);color:var(--mut)}
+.field input{flex:1;min-width:0;outline:0;font:17px var(--sans);padding:10px 0}
+.field input::placeholder{color:#a1a1a6}
+.field .pill{padding:11px 22px}
+.field.shake{animation:shake .45s var(--ease)}
+@keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+.quick{margin-top:16px;font-size:14px;color:var(--mut2);display:flex;gap:6px 14px;justify-content:center;flex-wrap:wrap}
+.quick button{color:var(--acc);font-size:14px}.quick button:hover{text-decoration:underline}
 
-/* ---------- iPhone ---------- */
-.split{max-width:1024px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;text-align:left}
-.split .h2{margin-bottom:22px}
-.phone{width:min(340px,82vw);aspect-ratio:9/19.3;margin:0 auto;border-radius:56px;padding:12px;position:relative;
-background:linear-gradient(145deg,#d8d8dc,#a9a9ae 30%,#e6e6ea 55%,#9d9da2 85%);box-shadow:0 0 0 1px rgba(0,0,0,.15),0 40px 80px -30px rgba(0,0,0,.45),inset 0 0 2px rgba(255,255,255,.8)}
-.phone::before{content:"";position:absolute;right:-3px;top:24%;width:3px;height:12%;border-radius:0 2px 2px 0;background:#9d9da2}
-.screen{height:100%;border-radius:45px;background:#f2f2f7;overflow:hidden;position:relative;display:flex;flex-direction:column}
-.island{position:absolute;left:50%;top:11px;transform:translateX(-50%);width:32%;height:30px;border-radius:20px;background:#000;z-index:3;transition:width .5s var(--spring),height .5s var(--spring)}
-.island.busy{width:56%;height:34px}
-.island i{position:absolute;right:12px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;border:2px solid #30d158;border-top-color:transparent;opacity:0;animation:spin .8s linear infinite}
-.island.busy i{opacity:1}
-@keyframes spin{to{transform:rotate(360deg)}}
-.sbar{height:52px;flex:none;display:flex;justify-content:space-between;align-items:flex-end;padding:0 28px 6px;font:600 14px var(--sans)}
-.app{flex:1;overflow:auto;padding:6px 16px 20px;-webkit-overflow-scrolling:touch;scrollbar-width:none}.app::-webkit-scrollbar{display:none}
-.app h4{font-size:30px;font-weight:700;letter-spacing:-.03em;margin:4px 2px 12px}
-.mini{border-radius:14px;aspect-ratio:1.586;position:relative;overflow:hidden;margin-bottom:14px;
-background:linear-gradient(115deg,#e9e9ec,#f8f8fa 35%,#dcdce1 60%,#f2f2f5);box-shadow:0 8px 20px -10px rgba(0,0,0,.35)}
-.mini .etch.logo{font-size:16px}.mini .etch.name{font-size:10px}
-.mini .score{position:absolute;right:8%;bottom:9%;font:700 34px var(--sans);letter-spacing:-.05em;color:#2c2c2e;text-shadow:0 1px 0 rgba(255,255,255,.8)}
-.mini .score small{font-size:12px;color:#8e8e93;font-weight:600;letter-spacing:0}
-.grp{background:#fff;border-radius:12px;overflow:hidden;margin-bottom:14px}
-.grp .hd{display:flex;justify-content:space-between;padding:12px 14px 4px;font-size:13px;color:#8e8e93}
-.row{display:flex;align-items:center;gap:11px;padding:10px 14px;position:relative}
-.row+.row::before{content:"";position:absolute;left:52px;right:0;top:0;height:1px;background:#e5e5ea}
-.ico{width:28px;height:28px;border-radius:7px;flex:none;display:grid;place-items:center;font:700 12px var(--sans);color:#fff}
-.row .tx{flex:1;min-width:0}.row b{display:block;font:600 14px var(--sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row small{font-size:12px;color:#8e8e93}
-.row .v{font:600 14px var(--sans);white-space:nowrap}
+/* ===== hero ===== */
+.hero{padding:64px 22px 0;overflow:hidden}
+.hero .hx{margin-top:6px}
+.hero .lead{margin:20px auto 34px;max-width:620px;color:var(--mut2)}
+.stage{height:min(130vw,640px);perspective:1600px;display:grid;place-items:center;margin-top:20px;touch-action:pan-y;position:relative}
+.glow{position:absolute;width:70%;height:60%;border-radius:50%;background:radial-gradient(closest-side,rgba(186,98,252,.18),rgba(0,144,247,.10) 50%,transparent);filter:blur(30px);top:22%;opacity:var(--g,0)}
+.doc{--rx:62deg;--ry:-18deg;--rz:-14deg;--s:.78;--lx:30%;--ly:20%;
+width:min(64vw,330px);aspect-ratio:.72;position:relative;transform-style:preserve-3d;
+transform:translateY(var(--ty,0px)) rotateX(var(--rx)) rotateY(var(--ry)) rotateZ(var(--rz)) scale(var(--s));will-change:transform}
+.slab{position:absolute;inset:0;border-radius:22px;clip-path:polygon(0 0,78% 0,100% 16%,100% 100%,0 100%)}
+.slab.e{background:linear-gradient(90deg,#a7a7ad,#c8c8cd 50%,#9c9ca2)}
+.slab.f{background:
+ radial-gradient(110% 80% at var(--lx) var(--ly),rgba(255,255,255,1) 0%,rgba(255,255,255,0) 50%),
+ repeating-linear-gradient(90deg,rgba(0,0,0,.022) 0 1px,rgba(255,255,255,.03) 1px 2px),
+ linear-gradient(125deg,#e3e3e7 0%,#f7f7f9 28%,#d5d5da 52%,#f0f0f3 74%,#cfcfd4 100%);overflow:hidden}
+.slab.f::after{content:"";position:absolute;inset:-50%;background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.75) 50%,transparent 58%);transform:translateX(var(--sheen,-70%));mix-blend-mode:soft-light}
+.fold{position:absolute;right:0;top:0;width:22%;aspect-ratio:1/.727;border-radius:0 0 0 10px;transform:translateZ(.5px);
+background:linear-gradient(225deg,transparent 49%,#c9c9ce 50%,#ececef 70%,#dadade);box-shadow:-2px 3px 6px -2px rgba(0,0,0,.18)}
+.eng{position:absolute;inset:0;padding:15% 12% 0;transform:translateZ(.6px);text-align:left}
+.eng *{color:#ababb1;text-shadow:0 1px 0 rgba(255,255,255,.95),0 -1px 0 rgba(0,0,0,.14)}
+.eng .nm{font:600 clamp(11px,2.6vw,13px) var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.eng .ttl{font:700 clamp(26px,6.8vw,40px) var(--sans);letter-spacing:-.04em;margin:14% 0 8%;color:#a4a4aa}
+.bar{height:clamp(6px,1.4vw,8px);border-radius:6px;margin:0 0 9%;background:linear-gradient(#cacace,#e2e2e6);box-shadow:inset 0 1px 1px rgba(0,0,0,.12),0 1px 0 rgba(255,255,255,.9);transform-origin:left;transform:scaleX(var(--k,0));transition:transform 1.1s var(--out)}
+.bar.h{height:clamp(8px,1.9vw,11px);width:46%}
+.eng .ok{position:absolute;left:12%;bottom:9%;display:flex;align-items:baseline;gap:6px}
+.eng .ok b{font:700 clamp(34px,8vw,50px) var(--sans);letter-spacing:-.05em;color:#a0a0a6;font-variant-numeric:tabular-nums}
+.eng .ok small{font:600 12px var(--mono);letter-spacing:.08em}
+.doc .back{transform:rotateY(180deg) translateZ(1px);background:linear-gradient(125deg,#cfcfd4,#e9e9ec 40%,#c4c4c9)}
+.floor{position:absolute;left:5%;right:5%;bottom:-16%;height:18%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.28),transparent);filter:blur(12px);transform:translateZ(-80px) rotateX(90deg);opacity:var(--fl,.3)}
+.hint{position:absolute;bottom:3%;left:0;right:0;font-size:12px;color:var(--mut);transition:opacity .6s}
+
+/* ===== char highlight ===== */
+.hl{max-width:780px;margin:0 auto;text-align:left;font-size:clamp(26px,4.2vw,44px);font-weight:700;line-height:1.24;letter-spacing:-.035em}
+.hl span{color:#d2d2d7;transition:color .25s linear}.hl span.on{color:var(--ink)}
+.hl span.on.g{color:var(--acc)}
+
+/* ===== sticky phone story ===== */
+.story{height:420vh;padding:0;background:var(--alt)}
+.story .pin{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;max-width:1024px;margin:0 auto;padding:0 22px;gap:40px}
+.steps{position:relative;height:300px;text-align:left}
+.step{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;opacity:0;transform:translateY(24px);transition:opacity .6s var(--out),transform .8s var(--out);pointer-events:none}
+.step.on{opacity:1;transform:none;pointer-events:auto}
+.step .n{font:600 14px var(--mono);color:var(--acc);margin-bottom:14px;letter-spacing:.06em}
+.step h3{font-size:clamp(32px,4.6vw,48px);font-weight:700;letter-spacing:-.035em;line-height:1.1;margin-bottom:16px}
+.step p{font-size:19px;color:var(--mut2);max-width:400px}
+.dots{display:flex;gap:8px;margin-top:28px}.dots i{width:8px;height:8px;border-radius:8px;background:#c7c7cc;transition:width .5s var(--out),background .4s}.dots i.on{width:28px;background:var(--ink)}
+
+.phone{width:min(330px,72vw);aspect-ratio:9/19.4;margin:0 auto;border-radius:54px;padding:11px;position:relative;
+background:linear-gradient(145deg,#e2e2e6,#a8a8ad 28%,#ececf0 52%,#97979c 82%,#cfcfd4);box-shadow:0 0 0 1px rgba(0,0,0,.14),0 50px 90px -40px rgba(0,0,0,.5),inset 0 0 2px rgba(255,255,255,.9);transform:translateY(var(--py,0)) scale(var(--ps,1));will-change:transform}
+.phone::before,.phone::after{content:"";position:absolute;width:3px;border-radius:2px;background:#9d9da2}
+.phone::before{right:-3px;top:26%;height:11%}.phone::after{left:-3px;top:20%;height:6%;box-shadow:0 70px 0 #9d9da2}
+.screen{height:100%;border-radius:44px;background:#f2f2f7;overflow:hidden;position:relative}
+.island{position:absolute;left:50%;top:11px;transform:translateX(-50%);width:33%;height:30px;border-radius:20px;background:#000;z-index:5;transition:width .6s var(--spring),height .6s var(--spring)}
+.island.busy{width:60%;height:34px}
+.island i{position:absolute;right:12px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;border:2px solid #30d158;border-top-color:transparent;opacity:0;transition:opacity .3s;animation:spin .8s linear infinite}
+.island.busy i{opacity:1}@keyframes spin{to{transform:rotate(360deg)}}
+.sbar{height:50px;display:flex;justify-content:space-between;align-items:flex-end;padding:0 26px 4px;font:600 14px var(--sans);position:relative;z-index:4}
+.sbar svg{fill:currentColor}
+.scr{position:absolute;inset:54px 0 0;padding:4px 15px 20px;opacity:0;transform:scale(.97);transition:opacity .5s var(--out),transform .6s var(--out);overflow:hidden}
+.scr.on{opacity:1;transform:none}
+.scr h4{font-size:30px;font-weight:700;letter-spacing:-.03em;margin:2px 2px 12px}
+.sf{background:#e3e3e8;border-radius:11px;padding:9px 12px;font-size:16px;color:#8e8e93;display:flex;gap:7px;align-items:center}
+.sf b{color:var(--ink);font-weight:400}.sf .caret{width:2px;height:19px;background:var(--acc);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.kbd{position:absolute;left:0;right:0;bottom:0;height:42%;background:#d1d3d9;padding:10px 4px;display:grid;grid-template-rows:repeat(4,1fr);gap:9px;transform:translateY(var(--kb,0));transition:transform .5s var(--out)}
+.kbd div{display:flex;gap:5px;justify-content:center}.kbd span{flex:1;max-width:30px;background:#fff;border-radius:5px;box-shadow:0 1px 0 #898a8d}
+.kbd .go{max-width:84px;background:var(--acc)}
+.grp{background:#fff;border-radius:12px;overflow:hidden;margin-bottom:12px}
+.grp .hd{display:flex;justify-content:space-between;padding:11px 14px 3px;font-size:13px;color:#8e8e93}
+.row{display:flex;align-items:center;gap:11px;padding:9px 14px;position:relative}
+.row+.row::before{content:"";position:absolute;left:51px;right:0;top:0;height:1px;background:#e5e5ea}
+.ico{width:27px;height:27px;border-radius:7px;flex:none;display:grid;place-items:center;font:700 11px var(--sans);color:#fff}
+.row .tx{flex:1;min-width:0;text-align:left}.row b{display:block;font:600 14px var(--sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row small{font-size:12px;color:#8e8e93;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .v{font:600 13px var(--sans);white-space:nowrap}
 .v.ok{color:#248a3d}.v.p{color:#c93400}.v.n{color:#d70015}
-.sk{height:12px;border-radius:6px;background:linear-gradient(90deg,#e5e5ea 25%,#f2f2f7 50%,#e5e5ea 75%);background-size:200% 100%;animation:sk 1.2s infinite}
-@keyframes sk{to{background-position:-200% 0}}
-.try{margin-top:28px;display:flex;gap:10px;max-width:440px;background:#fff;border-radius:14px;padding:6px;box-shadow:0 0 0 1px #d2d2d7;transition:box-shadow .3s}
-.try:focus-within{box-shadow:0 0 0 2px var(--acc),0 0 0 6px rgba(0,113,227,.15)}
-.try input{flex:1;min-width:0;border:0;outline:0;font:17px var(--sans);padding:8px 12px;background:transparent;color:var(--ink)}
-.chips{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-.chip{font-size:14px;padding:6px 14px;border-radius:980px;background:#fff;box-shadow:inset 0 0 0 1px #d2d2d7;transition:transform .2s var(--spring),box-shadow .2s}
-.chip:active{transform:scale(.93)}.chip:hover{box-shadow:inset 0 0 0 1px var(--ink)}
-.err{color:#d70015;font-size:14px;margin-top:10px;min-height:20px}
+.scr.on .row{animation:rowin .55s var(--out) backwards}
+@keyframes rowin{from{opacity:0;transform:translateY(10px)}}
+.ring{width:150px;height:150px;margin:6px auto 12px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:13}.ring .bg{stroke:#e5e5ea}.ring .fg{stroke:url(#rg);stroke-linecap:round;stroke-dasharray:377;stroke-dashoffset:377;transition:stroke-dashoffset 1.6s var(--out)}
+.scr.on .ring .fg{stroke-dashoffset:var(--off,0)}
+.ring .c{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.ring .c b{font-size:46px;font-weight:700;letter-spacing:-.05em;line-height:1}.ring .c small{display:block;font-size:12px;color:#8e8e93;font-weight:600}
 
-/* ---------- sticky word scrub ---------- */
-.scrub{height:280vh;padding:0}
-.scrub .pin{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:0 22px}
-.scrub .w{display:block;font-size:clamp(56px,13vw,150px);font-weight:700;line-height:1.02;letter-spacing:-.05em;color:#1d1d1f;opacity:.08;transition:opacity .25s linear}
-.scrub .w.on{opacity:1}
-.scrub .more{position:absolute;bottom:9vh}
+/* ===== marquee ===== */
+.mq{overflow:hidden;margin-top:56px;mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.mq .tr{display:flex;gap:12px;width:max-content;animation:mq 60s linear infinite;padding:6px 0}
+.mq.r .tr{animation-direction:reverse;animation-duration:70s}
+.mq:hover .tr{animation-play-state:paused}
+@keyframes mq{to{transform:translateX(-50%)}}
+.site{display:flex;align-items:center;gap:10px;background:#fff;border-radius:980px;padding:8px 8px 8px 18px;box-shadow:0 0 0 1px #e8e8ed;font-size:15px;white-space:nowrap;transition:transform .3s var(--spring),box-shadow .3s}
+.site:hover{box-shadow:0 0 0 1px var(--ink)}.site:active{transform:scale(.95)}
+.site em{font-style:normal;font:600 13px var(--sans);font-variant-numeric:tabular-nums;border-radius:980px;padding:3px 9px;background:#e8f5ec;color:#248a3d}
+.site em.m{background:#fff4e5;color:#c93400}.site em.l{background:#ffeceb;color:#d70015}
 
-/* expand "+" */
-.more{display:inline-flex;align-items:center;gap:12px;font-size:17px;font-weight:600;padding:6px 6px 6px 6px;border-radius:980px;transition:transform .25s var(--spring)}
-.more:active{transform:scale(.95)}
-.more i{width:36px;height:36px;border-radius:50%;background:#1d1d1f;color:#fff;display:grid;place-items:center;transition:transform .5s var(--spring),background .3s}
-.more i svg{width:14px;height:14px}
-.more:hover i{background:#333336}
-.sheet{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:24px;visibility:hidden}
-.sheet .bg{position:absolute;inset:0;background:rgba(0,0,0,.42);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);opacity:0;transition:opacity .45s var(--ease)}
-.sheet .box{position:relative;max-width:640px;width:100%;max-height:82vh;overflow:auto;background:#fff;border-radius:28px;padding:56px 44px 44px;text-align:left;
-transform:translate3d(0,40px,0) scale(.96);opacity:0;transition:transform .55s var(--spring),opacity .35s var(--ease)}
-.sheet.open{visibility:visible}.sheet.open .bg{opacity:1}.sheet.open .box{transform:none;opacity:1}
-.sheet h3{font-size:32px;font-weight:700;letter-spacing:-.03em;margin-bottom:18px;line-height:1.1}
-.sheet p{font-size:17px;line-height:1.6;color:#333336;margin-bottom:14px}.sheet code{font:14px var(--mono);background:var(--alt);padding:2px 6px;border-radius:6px}
-.sheet .x{position:absolute;right:18px;top:18px;width:36px;height:36px;border-radius:50%;background:#e8e8ed;display:grid;place-items:center;transition:transform .2s var(--spring)}
-.sheet .x:active{transform:scale(.9)}
-
-/* ---------- score wheel ---------- */
-.wheel-wrap{display:grid;grid-template-columns:auto 1fr;gap:64px;max-width:900px;margin:64px auto 0;align-items:center;text-align:left}
-.wheel{width:min(340px,76vw);aspect-ratio:1;position:relative}
+/* ===== wheel ===== */
+.wheel-wrap{display:grid;grid-template-columns:auto 1fr;gap:64px;max-width:880px;margin:64px auto 0;align-items:center;text-align:left}
+.wheel{width:min(320px,74vw);aspect-ratio:1;position:relative}
 .wheel svg{width:100%;height:100%;transform:rotate(-90deg);overflow:visible}
-.wheel .seg{fill:none;stroke-width:30;stroke-linecap:butt;cursor:pointer;transition:stroke-dashoffset 1.4s var(--ease),opacity .4s,stroke-width .3s var(--spring)}
-.wheel .seg:hover{stroke-width:36}.wheel .seg.off{opacity:.13}
+.seg{fill:none;stroke-width:30;cursor:pointer;transition:stroke-dashoffset 1.6s var(--out),opacity .45s,stroke-width .35s var(--spring)}
+.seg:hover{stroke-width:36}.seg.off{opacity:.12}
 .wheel .c{position:absolute;inset:0;display:grid;place-items:center;text-align:center;pointer-events:none}
-.wheel .c b{font-size:clamp(64px,13vw,96px);font-weight:700;letter-spacing:-.06em;line-height:1;font-variant-numeric:tabular-nums}
-.wheel .c small{display:block;font-size:15px;color:var(--mut2);font-weight:600;margin-top:6px}
+.wheel .c b{font-size:clamp(64px,13vw,92px);font-weight:700;letter-spacing:-.06em;line-height:1;font-variant-numeric:tabular-nums}
+.wheel .c small{display:block;font-size:15px;color:var(--mut2);font-weight:600;margin-top:6px;transition:color .3s}
 .legend{list-style:none}
-.legend li{display:flex;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid #d2d2d7;cursor:pointer;user-select:none;-webkit-user-select:none;transition:opacity .3s}
-.legend li.off{opacity:.38}.legend li:last-child{border:0}
-.legend .dot{width:14px;height:14px;border-radius:50%;flex:none}
-.legend b{font-size:19px;flex:1}.legend span{font:600 17px var(--sans);color:var(--mut2);font-variant-numeric:tabular-nums}
-.wnote{margin-top:18px;font-size:17px;color:var(--mut2);min-height:52px}
+.legend li{display:flex;gap:14px;align-items:center;padding:15px 0;border-bottom:1px solid var(--line);cursor:pointer;user-select:none;-webkit-user-select:none;transition:opacity .35s}
+.legend li:last-child{border:0}.legend li.off{opacity:.35}
+.legend .dot{width:14px;height:14px;border-radius:50%;flex:none;transition:transform .35s var(--spring)}.legend li:active .dot{transform:scale(.7)}
+.legend b{font-size:19px;flex:1}.legend span{font:600 17px var(--sans);color:var(--mut2)}
+.wnote{margin-top:16px;font-size:17px;color:var(--mut2);min-height:52px}
 
-/* ---------- robots builder ---------- */
+/* ===== builder ===== */
 .builder{max-width:1024px;margin:60px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:24px;text-align:left}
-.panel{background:#fff;border-radius:28px;padding:28px}
-.alt .panel{background:#fff}
-.tog{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid #e8e8ed}
-.tog:last-child{border:0}
+.panel{background:#fff;border-radius:28px;padding:10px 28px}
+.tog{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid #e8e8ed}.tog:last-child{border:0}
 .tog b{font:600 15px var(--mono)}.tog small{display:block;font-size:13px;color:var(--mut)}
 .sw{width:51px;height:31px;border-radius:31px;background:#e9e9ea;position:relative;flex:none;transition:background .3s}
-.sw::after{content:"";position:absolute;left:2px;top:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.16);transition:transform .35s var(--spring),width .2s}
-.sw:active::after{width:33px}
-.sw[aria-checked=true]{background:#34c759}.sw[aria-checked=true]::after{transform:translateX(20px)}
-.sw[aria-checked=true]:active::after{transform:translateX(14px)}
-.code{background:#1d1d1f;color:#f5f5f7;border-radius:28px;padding:28px;font:14px/1.75 var(--mono);white-space:pre;overflow:auto;position:relative;min-height:100%}
+.sw::after{content:"";position:absolute;left:2px;top:2px;width:27px;height:27px;border-radius:14px;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.16);transition:transform .4s var(--spring),width .2s var(--ease)}
+.sw:active::after{width:33px}.sw[aria-checked=true]{background:#34c759}.sw[aria-checked=true]::after{transform:translateX(20px)}.sw[aria-checked=true]:active::after{transform:translateX(14px)}
+.code{background:#1d1d1f;color:#f5f5f7;border-radius:28px;padding:28px;font:14px/1.75 var(--mono);white-space:pre;overflow:auto;position:relative}
 .code .cm{color:#86868b}.code .k{color:#ff7ab2}.code .vv{color:#9ef0a5}
-.code .flash{animation:fl 1s var(--ease)}@keyframes fl{0%{background:rgba(48,209,88,.35)}100%{background:transparent}}
-.code .copy-btn{position:absolute;right:18px;top:18px;font:600 12px var(--sans);color:#f5f5f7;background:rgba(255,255,255,.12);border-radius:980px;padding:6px 12px;transition:background .2s}
-.code .copy-btn:hover{background:rgba(255,255,255,.22)}
+.code .fl{display:inline-block;animation:fl 1.1s var(--out)}@keyframes fl{0%{background:rgba(48,209,88,.35);transform:translateX(6px)}100%{background:transparent}}
+.cp{position:absolute;right:16px;top:16px;font:600 12px var(--sans);color:#f5f5f7;background:rgba(255,255,255,.14);border-radius:980px;padding:6px 13px;transition:background .2s,transform .3s var(--spring)}
+.cp:hover{background:rgba(255,255,255,.24)}.cp:active{transform:scale(.92)}
 
-/* ---------- dark titanium ---------- */
+/* ===== dark stat ===== */
 .dark{background:#000;color:#f5f5f7;overflow:hidden}
 .dark .mut{color:#86868b}
-.bigcard{width:min(90vw,820px);aspect-ratio:1.586;margin:70px auto 0;border-radius:clamp(20px,4vw,40px);position:relative;overflow:hidden;
-background:radial-gradient(80% 60% at var(--bx,50%) 0%,rgba(255,255,255,.22),transparent 60%),repeating-linear-gradient(90deg,rgba(255,255,255,.015) 0 1px,transparent 1px 3px),linear-gradient(120deg,#3a3a3e,#1f1f22 45%,#2e2e32 70%,#18181a);
-box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 60px 120px -40px rgba(120,120,140,.35);transform:scale(var(--bs,.9));transition:transform .1s linear}
-.bigcard pre{position:absolute;left:7%;top:12%;font:clamp(11px,1.9vw,17px)/1.9 var(--mono);color:#58585d;text-shadow:0 1px 0 rgba(255,255,255,.07),0 -1px 0 rgba(0,0,0,.6);text-align:left}
-.bigcard pre em{font-style:normal;color:#8a8a90}
-.bigcard .rfc{position:absolute;right:7%;bottom:11%;font:600 clamp(11px,1.8vw,15px) var(--mono);letter-spacing:.16em;color:#5a5a5f;text-shadow:0 1px 0 rgba(255,255,255,.07)}
+.mega{font-size:clamp(120px,30vw,340px);font-weight:700;letter-spacing:-.07em;line-height:.9;margin:40px 0 10px;transform:scale(var(--ms,.8));opacity:var(--mo,.2);
+background:linear-gradient(180deg,#fff 20%,#6e6e73);-webkit-background-clip:text;background-clip:text;color:transparent;font-variant-numeric:tabular-nums}
+.facts{display:flex;justify-content:center;gap:clamp(30px,8vw,100px);margin-top:70px;flex-wrap:wrap}
+.facts b{display:block;font-size:clamp(48px,7vw,72px);font-weight:700;letter-spacing:-.05em;line-height:1}
+.facts span{display:block;color:#a1a1a6;font-size:17px;margin-top:10px;font-weight:600}
+.dark a{color:#2997ff}
 
-/* ---------- numbers ---------- */
-.nums{display:flex;justify-content:center;gap:clamp(30px,8vw,110px);margin-top:70px;flex-wrap:wrap}
-.nums div{min-width:160px}
-.nums b{display:block;font-size:clamp(64px,10vw,112px);font-weight:700;letter-spacing:-.06em;line-height:1;font-variant-numeric:tabular-nums}
-.nums span{display:block;color:var(--mut2);font-size:17px;margin-top:12px;font-weight:600}
+.tri span{display:block;transition:color .5s}
+.tiles{max-width:1024px;margin:64px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.tile{background:var(--alt);border-radius:28px;overflow:hidden;display:flex;flex-direction:column;color:inherit;transition:transform .6s var(--out),box-shadow .6s var(--out)}
+.tile:hover{text-decoration:none;transform:translateY(-6px);box-shadow:0 30px 60px -30px rgba(0,0,0,.28)}
+.tile .tt{padding:40px 28px 0}.tile h3{font-size:28px;font-weight:700;letter-spacing:-.03em}.tile p{font-size:19px;margin:6px 0 14px;line-height:1.3}
+.tile .art{margin-top:auto;height:200px;position:relative;overflow:hidden}
+.art pre{position:absolute;left:12%;right:-10%;top:22px;bottom:-20px;background:#fff;border-radius:18px 0 0 0;padding:18px;font:12px/1.75 var(--mono);color:#6e6e73;text-align:left;box-shadow:0 0 0 1px #e8e8ed;transition:transform .8s var(--out)}
+.tile:hover .art pre{transform:translate(-10px,-10px)}.art i{font-style:normal;color:var(--acc)}.art u{text-decoration:none;color:#c93400}
 
-/* ---------- triple statement ---------- */
-.tri span{display:block}
-.tri span:nth-child(2){color:var(--mut)}.tri span:nth-child(3){color:#d2d2d7}
+/* ===== sticky CTA bar ===== */
+.dock{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));z-index:40;width:min(560px,calc(100% - 24px));
+transform:translate(-50%,140%);transition:transform .7s var(--spring);display:flex;align-items:center;gap:8px;padding:6px 6px 6px 20px;border-radius:980px;
+background:rgba(255,255,255,.78);backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);box-shadow:0 0 0 1px rgba(0,0,0,.08),0 20px 50px -20px rgba(0,0,0,.35)}
+.dock.show{transform:translate(-50%,0)}
+.dock input{flex:1;min-width:0;outline:0;font:16px var(--sans);padding:9px 0}
+.dock .pill{padding:10px 18px;font-size:15px}
 
-/* ---------- routers ---------- */
-.tiles{max-width:1024px;margin:64px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center}
-.tile{background:#fff;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
-.tile:hover{transform:translateY(-6px);box-shadow:0 30px 60px -30px rgba(0,0,0,.25)}
-.tile .tt{padding:40px 28px 0}.tile h3{font-size:28px;font-weight:700;letter-spacing:-.03em}.tile p{font-size:19px;color:var(--ink);margin:6px 0 14px;line-height:1.3}
-.tile .art{margin-top:auto;height:210px;position:relative;overflow:hidden}
-.art pre{position:absolute;left:12%;right:-10%;top:24px;bottom:-20px;background:#f5f5f7;border-radius:18px 0 0 0;padding:18px;font:12px/1.7 var(--mono);color:#6e6e73;text-align:left;box-shadow:0 0 0 1px #e8e8ed;transition:transform .7s var(--ease)}
-.tile:hover .art pre{transform:translate(-8px,-8px)}
-.art pre i{font-style:normal;color:#0071e3}.art pre u{text-decoration:none;color:#c93400}
+/* ===== result sheet ===== */
+.sheet{position:fixed;inset:0;z-index:60;visibility:hidden}
+.sheet .bg{position:absolute;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:0;transition:opacity .5s var(--ease)}
+.sheet .box{position:absolute;left:50%;bottom:0;width:min(680px,100%);max-height:92vh;overflow:auto;background:#f5f5f7;border-radius:28px 28px 0 0;padding:14px 22px calc(28px + env(safe-area-inset-bottom));
+transform:translate(-50%,100%);transition:transform .65s var(--out);overscroll-behavior:contain}
+@media(min-width:735px){.sheet .box{bottom:50%;border-radius:28px;transform:translate(-50%,calc(50% + 60px)) scale(.96);opacity:0;transition:transform .6s var(--spring),opacity .35s}.sheet.open .box{transform:translate(-50%,50%);opacity:1}}
+.sheet.open{visibility:visible}.sheet.open .bg{opacity:1}.sheet.open .box{transform:translate(-50%,0)}
+.grab{width:36px;height:5px;border-radius:3px;background:#c7c7cc;margin:0 auto 14px}
+.sheet .x{position:absolute;right:16px;top:16px;width:32px;height:32px;border-radius:50%;background:#e3e3e8;display:grid;place-items:center;transition:transform .3s var(--spring)}.sheet .x:active{transform:scale(.88)}
+.res-h{text-align:center;margin:6px 0 4px}.res-h small{font:600 13px var(--mono);color:var(--mut2);letter-spacing:.04em}
+.res-h h3{font-size:30px;font-weight:700;letter-spacing:-.03em;margin-top:4px}
+.res .ring{width:170px;height:170px}.res .ring .fg{stroke-dashoffset:var(--off,377)}
+.issue{display:flex;gap:10px;padding:11px 14px;text-align:left;font-size:14px;line-height:1.45}
+.issue+.issue{border-top:1px solid #e5e5ea}.issue i{font-style:normal;font-weight:700;width:18px;flex:none}
+.next{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.next .pill{width:100%;font-size:15px;padding:13px}
+.next .pill.w{background:#fff;color:var(--acc);box-shadow:inset 0 0 0 1px #d2d2d7}
+.sk{height:12px;border-radius:6px;margin:12px 14px;background:linear-gradient(90deg,#e5e5ea 25%,#f2f2f7 50%,#e5e5ea 75%);background-size:200% 100%;animation:sk 1.2s infinite}@keyframes sk{to{background-position:-200% 0}}
 
-footer{background:var(--alt);font-size:12px;color:var(--mut2);padding:16px 22px calc(40px + env(safe-area-inset-bottom))}
-footer .in{max-width:1024px;margin:0 auto;line-height:1.7}
-footer ol{padding-left:16px;margin-bottom:14px;border-bottom:1px solid #d2d2d7;padding-bottom:14px}
-.tag{position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:60;font:12px var(--mono);background:rgba(29,29,31,.85);color:#fff;border-radius:8px;padding:6px 10px;backdrop-filter:blur(8px)}
+footer{background:var(--alt);font-size:12px;color:var(--mut2);padding:16px 22px calc(96px + env(safe-area-inset-bottom))}
+footer .in{max-width:1024px;margin:0 auto;line-height:1.7}footer ol{padding-left:16px;margin-bottom:14px;border-bottom:1px solid var(--line);padding-bottom:14px}
+.tag{position:fixed;right:12px;top:calc(56px + env(safe-area-inset-top));z-index:70;font:11px var(--mono);background:rgba(29,29,31,.82);color:#fff;border-radius:8px;padding:5px 9px;pointer-events:none}
 
-@media(max-width:833px){.split,.wheel-wrap,.builder{grid-template-columns:1fr}.split{gap:40px;text-align:center}.try,.chips{margin-left:auto;margin-right:auto;justify-content:center}.wheel{margin:0 auto}.tiles{grid-template-columns:1fr}}
-@media(max-width:734px){.gnav .ls{display:none}.lnav .s{display:none}section{padding:96px 20px}.sheet .box{padding:52px 26px 30px;border-radius:24px}.phone{border-radius:50px}.screen{border-radius:40px}}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none}.scrub{height:auto}.scrub .pin{position:static;height:auto;padding:110px 22px}.scrub .w{opacity:1}}
+@media(max-width:833px){
+ .story .pin{grid-template-columns:1fr;grid-template-rows:auto 1fr;gap:0;padding-top:64px}
+ .steps{height:170px;order:-1;text-align:center}.step{align-items:center}.step h3{font-size:30px;margin-bottom:8px}.step p{font-size:16px}.step .n{margin-bottom:8px}.dots{justify-content:center;margin-top:14px}
+ .phone{width:min(270px,64vw);align-self:start}
+ .wheel-wrap,.builder{grid-template-columns:1fr}.wheel{margin:0 auto}.tiles{grid-template-columns:1fr}.wheel-wrap{gap:36px}}
+@media(max-width:734px){.gnav .ls,.lnav .s{display:none}section{padding:100px 20px}.field{padding-left:18px}.field .pre{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none;filter:none}.story{height:auto}.story .pin{position:static;height:auto;padding:100px 22px}.hl span{color:var(--ink)}}
 </style></head><body>
+<svg width="0" height="0" style="position:absolute"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0090f7"/><stop offset=".5" stop-color="#ba62fc"/><stop offset="1" stop-color="#f2416b"/></linearGradient></defs></svg>
 
-<div class="gnav"><div class="in"><a class="logo" href="#">cetxt</a><div class="ls"><a href="#">在线体检</a><a href="#">生成器</a><a href="#">校验器</a><a href="#">调查报告</a><a href="#">指南</a><a href="#">FAQ</a></div><a href="#">GitHub</a></div></div>
-<nav class="lnav" id="lnav"><div class="in"><span class="t">llms.txt 体检</span><a class="s on">概览</a><a class="s" href="#robots">robots 生成</a><a class="s" href="#score">评分规则</a><a class="s" href="#survey">调查</a><a class="pill sm" href="#try">开始体检</a></div></nav>
+<div class="gnav"><div class="in"><a class="logo" href="#">cetxt</a><div class="ls"><a href="#">在线体检</a><a href="#">生成器</a><a href="#">校验器</a><a href="/survey/">调查报告</a><a href="#">指南</a><a href="#">FAQ</a></div><a href="#">GitHub</a></div></div>
+<nav class="lnav" id="lnav"><div class="in"><span class="t">AI 体检</span><a class="s" href="#how">怎么查</a><a class="s" href="#score">评分</a><a class="s" href="#robots">robots</a><a class="s" href="#data">数据</a><a class="pill sm" href="#top" data-focus>免费体检</a></div></nav>
 
 <!-- HERO -->
-<section class="hero">
- <h1 class="h-hero rv">cetxt</h1>
- <p class="sub rv d1" style="margin-top:10px">把你的网站，<br>好好介绍给 AI。</p>
- <div class="ctas rv d2"><a class="pill" href="#try">开始体检</a><a class="pill ghost" href="#robots">生成 robots.txt</a></div>
+<section class="hero" id="top">
+ <p class="eyebrow rv">cetxt AI 体检</p>
+ <h1 class="hx rv d1">让 AI 读懂<br>你的网站。</h1>
+ <p class="sub lead rv d2">一次查清 robots.txt 和 llms.txt：谁能来读，读到的介绍好不好。</p>
+ <form class="field rv d3" data-check><span class="pre">https://</span><input name="d" placeholder="输入你的域名" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" enterkeyhint="go" aria-label="域名"><button class="pill">免费体检</button></form>
+ <p class="quick rv d4">试试 <button data-try="bilibili.com">bilibili.com</button><button data-try="gitee.com">gitee.com</button><button data-try="ctrip.com">ctrip.com</button></p>
  <div class="stage" id="stage">
-  <div class="card" id="card">
-   <div class="face front"><span class="etch logo">cetxt</span><span class="etch chip"></span><span class="etch name">llms.txt · robots.txt</span><span class="etch mark">AI READY</span></div>
-   <div class="face back"></div>
-   <div class="shadow"></div>
+  <div class="glow" id="glow"></div>
+  <div class="doc" id="doc">
+   <div class="slab e" style="transform:translateZ(-4px)"></div><div class="slab e" style="transform:translateZ(-3px)"></div><div class="slab e" style="transform:translateZ(-2px)"></div><div class="slab e" style="transform:translateZ(-1px)"></div>
+   <div class="slab back" style="clip-path:polygon(0 0,78% 0,100% 16%,100% 100%,0 100%);transform:translateZ(-4.5px) rotateY(180deg)"></div>
+   <div class="slab f"></div>
+   <div class="fold"></div>
+   <div class="eng">
+    <div class="nm">llms.txt</div>
+    <div class="ttl"># 你的网站</div>
+    <div class="bar" style="width:78%"></div><div class="bar" style="width:58%"></div>
+    <div class="bar h" style="margin-top:12%"></div><div class="bar" style="width:84%"></div><div class="bar" style="width:66%"></div>
+    <div class="ok"><b id="docScore">0</b><small>/ 100</small></div>
+   </div>
+   <div class="floor"></div>
   </div>
- </div>
- <p class="hint-drag">拖动卡片看看</p>
-</section>
-
-<section style="padding-top:60px">
- <p class="copy rv">AI 读网站的方式，和人不一样。它先看 robots.txt 决定能不能进门，再看 llms.txt 了解你是谁。<b>cetxt 把这两份文件一次查清：</b>哪些 AI 爬虫被放行，你的介绍写得好不好，哪里写错、怎么改。<b>输入域名，十秒出结果。</b></p>
-</section>
-
-<!-- LIVE CHECK -->
-<section class="alt" id="try">
- <div class="split">
-  <div>
-   <p class="sub mut rv" style="margin-bottom:8px">真实体检，不是演示。</p>
-   <h2 class="h2 rv d1">结果放在手心里，<br>一眼看懂。</h2>
-   <p class="rv d2" style="font-size:19px;color:var(--mut2);max-width:440px">22 个 AI 爬虫逐一判定，llms.txt 按规则打分。手机上看，和电脑上一样清楚。</p>
-   <form class="try rv d2" id="f"><input id="dom" value="bilibili.com" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" aria-label="域名"><button class="pill" style="padding:9px 20px">体检</button></form>
-   <div class="chips rv d3"><button class="chip" data-d="bilibili.com">bilibili.com</button><button class="chip" data-d="gitee.com">gitee.com</button><button class="chip" data-d="zhihu.com">zhihu.com</button></div>
-   <p class="err" id="err"></p>
-  </div>
-  <div class="rv d1">
-   <div class="phone"><div class="screen">
-    <div class="island" id="island"><i></i></div>
-    <div class="sbar"><span id="clock">9:41</span><span style="display:flex;gap:5px;align-items:center"><svg width="18" height="11" viewBox="0 0 18 11"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="6" rx="1"/><rect x="10" y="2.5" width="3" height="8.5" rx="1"/><rect x="15" y="0" width="3" height="11" rx="1"/></svg><svg width="26" height="12" viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="19" height="8" rx="2"/><rect x="24" y="4" width="1.5" height="4" rx=".7" opacity=".4"/></svg></span></div>
-    <div class="app" id="app"></div>
-   </div></div>
-  </div>
+  <p class="hint" id="hint">左右拖动，看看背面</p>
  </div>
 </section>
 
-<!-- SCRUB -->
-<section class="scrub" id="scrub">
+<section style="padding-top:110px">
+ <p class="hl" id="hl" data-text="AI 读网站，先看 robots.txt 决定能不能进门，再看 llms.txt 认识你是谁。|这两份文件写错一行，AI 就会绕开你，|或者把你介绍错。"></p>
+</section>
+
+<!-- STORY -->
+<section class="story" id="how">
  <div class="pin">
-  <span class="w">不收费。</span><span class="w">不注册。</span><span class="w">不装</span><span class="w">插件。</span>
-  <button class="more" data-sheet="s1"><i><svg viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></i>了解检测方式</button>
+  <div>
+   <div class="steps">
+    <div class="step on"><span class="n">01 · 输入</span><h3>只要一个域名。</h3><p>不用注册，不用装插件，也不用改你网站的任何东西。</p></div>
+    <div class="step"><span class="n">02 · 判定</span><h3>22 个 AI 爬虫，<br>逐个过一遍。</h3><p>按 RFC 9309 解析 robots.txt，放行、部分路径还是拒绝，每条都对回行号。</p></div>
+    <div class="step"><span class="n">03 · 打分</span><h3>差在哪，<br>直接告诉你。</h3><p>llms.txt 满分 100，拆成四项。哪项扣了分，怎么补，写得清清楚楚。</p></div>
+    <div class="step"><span class="n">04 · 修好</span><h3>一键生成，<br>复制上线。</h3><p>生成器帮你写好 llms.txt 和 robots.txt，改完再查一次，看分数涨上去。</p></div>
+   </div>
+   <div class="dots" id="dots"><i class="on"></i><i></i><i></i><i></i></div>
+  </div>
+  <div class="phone" id="phone"><div class="screen">
+   <div class="island" id="isl"><i></i></div>
+   <div class="sbar"><span class="clk">9:41</span><span style="display:flex;gap:5px;align-items:center"><svg width="17" height="11" viewBox="0 0 17 11"><rect y="7" width="3" height="4" rx="1"/><rect x="4.7" y="5" width="3" height="6" rx="1"/><rect x="9.4" y="2.5" width="3" height="8.5" rx="1"/><rect x="14" width="3" height="11" rx="1"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x=".5" y=".5" width="21" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".35"/><rect x="2" y="2" width="18" height="8" rx="2"/><rect x="23" y="4" width="1.5" height="4" rx=".7" opacity=".4"/></svg></span></div>
+   <div class="scr on" id="sc0"><h4>体检</h4><div class="sf">🔍 <b id="typed"></b><span class="caret"></span></div><div class="kbd" id="kbd"><div><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div><span style="max-width:150px"></span><span class="go"></span></div></div></div>
+   <div class="scr" id="sc1"><h4>AI 爬虫</h4><div class="grp"><div class="hd"><span>bilibili.com</span><span>robots.txt 第 1 行</span></div></div></div>
+   <div class="scr" id="sc2"><h4>llms.txt</h4></div>
+   <div class="scr" id="sc3"><h4>生成器</h4></div>
+  </div></div>
  </div>
 </section>
 
-<!-- SCORE WHEEL -->
+<!-- PROOF -->
+<section style="padding-bottom:110px">
+ <p class="eyebrow rv">已经准备好的中文站</p>
+ <h2 class="h2 rv d1">他们写了 llms.txt。<br><span class="mut">你的网站呢？</span></h2>
+ <p class="rv d2" style="margin-top:18px;color:var(--mut2);font-size:17px">点任意一个，看它的完整体检。</p>
+ <div class="mq rv"><div class="tr" id="mq1"></div></div>
+ <div class="mq r rv d1"><div class="tr" id="mq2"></div></div>
+</section>
+
+<!-- WHEEL -->
 <section class="alt" id="score">
  <h2 class="h1 rv">第一个告诉你<br><span class="grad">差在哪</span>的评分。</h2>
- <p class="sub mut rv d1" style="max-width:720px;margin:22px auto 0">100 分拆成四块。点一下任意一块，看看少了它会怎样。</p>
+ <p class="sub mut rv d1" style="max-width:680px;margin:22px auto 0">100 分拆成四块。点任意一块，看看少了它会怎样。</p>
  <div class="wheel-wrap">
-  <div class="wheel rv"><svg viewBox="0 0 200 200" id="wsvg"></svg><div class="c"><div><b id="wnum">0</b><small id="wgrade">优秀</small></div></div></div>
-  <div class="rv d1"><ul class="legend" id="legend"></ul><p class="wnote" id="wnote">bilibili.com 的 llms.txt 四项全满：一个 H1、一句摘要、6 个分组、52 条带说明的链接。</p></div>
+  <div class="wheel rv" id="wheel"><svg viewBox="0 0 200 200" id="wsvg"></svg><div class="c"><div><b id="wnum">0</b><small id="wgrade">优秀</small></div></div></div>
+  <div class="rv d1"><ul class="legend" id="legend"></ul><p class="wnote" id="wnote">四项全满，就是 100 分。bilibili.com 就是这样。</p></div>
  </div>
- <p class="rv" style="margin-top:44px"><button class="more" data-sheet="s2"><i><svg viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></i>完整评分规则</button></p>
 </section>
 
-<!-- ROBOTS BUILDER -->
+<!-- ROBOTS -->
 <section id="robots">
- <p class="sub mut rv">robots.txt 生成</p>
+ <p class="eyebrow rv">robots.txt 生成</p>
  <h2 class="h1 rv d1">只拦训练，<br>保留引用。</h2>
- <p class="sub mut rv d2" style="max-width:720px;margin:22px auto 0">打开的开关表示放行。训练类关掉，搜索类留着，AI 回答里照样能引用你。</p>
- <div class="builder">
-  <div class="panel rv" id="toggles"></div>
-  <div class="code rv d1" id="code"></div>
+ <p class="sub mut rv d2" style="max-width:700px;margin:22px auto 0">打开表示放行。训练类关掉，搜索类留着，AI 回答里照样能引用你。</p>
+ <div class="builder"><div class="panel rv" id="tg"></div><div class="code rv d1" id="code"></div></div>
+</section>
+
+<!-- DATA -->
+<section class="dark" id="data">
+ <p class="eyebrow rv" style="color:#a1a1a6">1000 个大型中文站 · 2026 年 11 月重测</p>
+ <div class="mega" id="mega">4.7%</div>
+ <h2 class="h2 rv">只有 47 个站<br>拦了 AI 训练。</h2>
+ <div class="facts">
+  <div class="rv"><b class="cnt" data-to="38">0</b><span>有真正的 llms.txt</span></div>
+  <div class="rv d1"><b class="cnt" data-to="170">0</b><span>把首页 HTML 当 llms.txt</span></div>
+  <div class="rv d2"><b class="cnt" data-to="0">0</b><span>用了 AI 训练偏好新提案</span></div>
  </div>
+ <p class="rv" style="margin-top:56px"><a class="lk" href="/survey/">阅读完整报告</a></p>
 </section>
 
-<!-- DARK -->
-<section class="dark" id="dark">
- <h2 class="h1 rv">告别猜测。<br>你好，规范。</h2>
- <p class="sub mut rv d1" style="max-width:760px;margin:22px auto 0">每一条判定都能对回 robots.txt 的具体行号，规则依据 RFC 9309<sup>1</sup>，llms.txt 依据 llmstxt.org 规范<sup>2</sup>。</p>
- <div class="bigcard rv" id="bigcard">
-  <pre><em>User-agent:</em> *
-<em>Disallow:</em> /medialist/detail/
-<em>Disallow:</em> /index.html
+<section class="alt"><h2 class="h1 tri" id="tri"><span>你的网站。</span><span>你的规则。</span><span>你说了算。</span></h2></section>
 
-<em>#</em> GPTBot → 部分路径 · 第 1 行
-<em>#</em> ClaudeBot → 部分路径 · 第 1 行</pre>
-  <span class="rfc">RFC 9309</span>
- </div>
-</section>
-
-<!-- SURVEY -->
-<section id="survey">
- <p class="sub mut rv">1000 站普查 · 2026 年 11 月</p>
- <h2 class="h1 rv d1">中文互联网，<br>还没准备好。</h2>
- <div class="nums">
-  <div class="rv"><b class="cnt" data-to="38">0</b><span>家有真正的 llms.txt</span></div>
-  <div class="rv d1"><b class="cnt grad" data-to="170">0</b><span>家把首页当 llms.txt 返回</span></div>
-  <div class="rv d2"><b class="cnt" data-to="47">0</b><span>家拦截训练类 AI 爬虫</span></div>
- </div>
- <p class="rv" style="margin-top:50px"><a href="/survey/" style="font-size:19px">阅读完整报告 ›</a></p>
-</section>
-
-<section class="alt">
- <h2 class="h1 tri rv"><span>你的网站。</span><span>你的规则。</span><span>你说了算。</span></h2>
-</section>
-
-<!-- ROUTERS -->
 <section>
  <h2 class="h2 rv">需要的工具，<br>都在这里。</h2>
  <div class="tiles">
-  <a class="tile rv" href="#" style="background:var(--alt);color:inherit;text-decoration:none"><div class="tt"><h3>llms.txt 生成器</h3><p>填好站名和链接，<br>自动排好格式。</p><span style="color:var(--acc)">开始生成 ›</span></div><div class="art"><pre><i># 你的网站</i>
+  <a class="tile rv" href="#"><div class="tt"><h3>llms.txt 生成器</h3><p>填好站名和链接，<br>格式自动排好。</p><span class="lk">开始生成</span></div><div class="art"><pre><i># 你的网站</i>
 &gt; 一句话介绍
 
 <i>## 文档</i>
 - [快速开始](/start): 五分钟上手
 - [API](/api): 接口说明</pre></div></a>
-  <a class="tile rv d1" href="#" style="background:var(--alt);color:inherit;text-decoration:none"><div class="tt"><h3>校验器</h3><p>粘贴内容，<br>逐行指出问题。</p><span style="color:var(--acc)">去校验 ›</span></div><div class="art"><pre>✓ 1 个 H1 标题
+  <a class="tile rv d1" href="#"><div class="tt"><h3>校验器</h3><p>粘贴内容，<br>逐行指出问题。</p><span class="lk">去校验</span></div><div class="art"><pre>✓ 1 个 H1 标题
 ✓ 摘要引用块
 ✓ 6 个分组
 <u>! 第 14 行链接缺少说明</u></pre></div></a>
-  <a class="tile rv d2" href="/survey/" style="background:var(--alt);color:inherit;text-decoration:none"><div class="tt"><h3>调查报告</h3><p>1000 个中文站点，<br>谁准备好了。</p><span style="color:var(--acc)">阅读报告 ›</span></div><div class="art"><pre>真文件      38
-HTML 伪装  170
-无文件      513
-未能判定    273</pre></div></a>
+  <a class="tile rv d2" href="/survey/"><div class="tt"><h3>调查报告</h3><p>1000 个中文站，<br>谁准备好了。</p><span class="lk">阅读报告</span></div><div class="art"><pre>真文件        38
+HTML 伪装    170
+无文件        513
+未能判定      273</pre></div></a>
  </div>
 </section>
 
-<section class="alt" style="padding-bottom:150px">
- <h2 class="h1 rv">现在就给你的网站<br>做一次体检。</h2>
- <p class="rv d1" style="margin-top:34px"><a class="pill" href="#try">开始体检</a></p>
+<section class="alt" id="end" style="padding-bottom:160px">
+ <h2 class="hx rv">十秒钟，<br>看看 AI 怎么看你。</h2>
+ <form class="field rv d1" data-check style="margin-top:40px"><span class="pre">https://</span><input name="d" placeholder="输入你的域名" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" enterkeyhint="go" aria-label="域名"><button class="pill">免费体检</button></form>
 </section>
 
-<footer><div class="in"><ol><li>robots.txt 判定依据 RFC 9309（Robots Exclusion Protocol），按最长匹配原则计算 Allow / Disallow。</li><li>llms.txt 依据 llmstxt.org 规范；评分为 cetxt 自定规则：H1 30 分、摘要 20 分、分组 30 分、链接 20 分，有错误项时最高 59 分。</li><li>普查数据为 cetxt 对 1000 个中文站点的抓取结果，2026 年 11 月。</li></ol>Copyright © 2026 cetxt · MIT 开源 · 概念稿，仅供选型</div></footer>
+<footer><div class="in"><ol><li>robots.txt 判定依据 RFC 9309（Robots Exclusion Protocol），按最长匹配原则计算 Allow / Disallow。</li><li>llms.txt 依据 llmstxt.org 规范；评分为 cetxt 自定规则：H1 30 分、摘要 20 分、分组 30 分、链接 20 分，有错误项时最高 59 分。</li><li>普查为 cetxt 对 1000 个大型中文站的 robots.txt 与 llms.txt 抓取，2026 年 11 月重测；名单与方法见调查报告。</li></ol>Copyright © 2026 cetxt · MIT 开源 · 概念稿，仅供选型</div></footer>
 
-<div class="sheet" id="sheet"><div class="bg"></div><div class="box"><button class="x" aria-label="关闭"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 1l10 10M11 1L1 11" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round"/></svg></button><div id="sheetBody"></div></div></div>
-<template id="s1"><h3>怎么检测的</h3><p>输入域名后，服务器以普通访客的方式各抓一次 <code>/robots.txt</code> 和 <code>/llms.txt</code>，跟随最多 5 次跳转。</p><p>robots.txt 按 RFC 9309 解析，为 22 个 AI 爬虫分别找到它们落入的规则组，判定为放行、部分路径或拒绝，并标出对应行号。</p><p>llms.txt 先识别是否真文件（很多站会把首页 HTML 当作 llms.txt 返回），再交给浏览器里的校验引擎打分。生成器和校验器完全在本地运行，粘贴的内容不上传。</p></template>
-<template id="s2"><h3>评分规则</h3><p><b>H1 标题，30 分。</b>有且只有一个 <code># 标题</code>。</p><p><b>摘要，20 分。</b>H1 后一行 <code>&gt; 一句话介绍</code>；空摘要给 10 分。</p><p><b>分组，30 分。</b>每个非空 <code>## 分组</code> 10 分，最多 30。</p><p><b>链接，20 分。</b>绝对地址占比和带说明占比各 10 分。</p><p>出现错误级问题（比如 script 标签、没有 H1）时，总分封顶 59，先修再谈分数。</p></template>
+<form class="dock" id="dock" data-check><input name="d" placeholder="输入域名，免费体检" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" enterkeyhint="go" aria-label="域名"><button class="pill">体检</button></form>
 
-<div class="tag">概念 D v2 · 产品页</div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true"><div class="bg"></div><div class="box"><div class="grab"></div><button class="x" aria-label="关闭"><svg width="11" height="11" viewBox="0 0 12 12"><path d="M1 1l10 10M11 1L1 11" stroke="#1d1d1f" stroke-width="2.2" stroke-linecap="round"/></svg></button><div id="res" class="res"></div></div></div>
+<div class="tag">概念 D v3</div>
+
 <script src="/llms.js"></script>
 <script>
 (()=>{
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),lerp=(a,b,t)=>a+(b-a)*t,ease=t=>1-Math.pow(1-t,3);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const tick=(el,to,ms=1200,from=0)=>{const t0=performance.now();(function f(t){const p=clamp((t-t0)/ms,0,1);el.textContent=Math.round(lerp(from,to,ease(p)));if(p<1)requestAnimationFrame(f)})(t0)};
+const buzz=n=>navigator.vibrate&&navigator.vibrate(n);
+const d0=new Date();$$('.clk').forEach(c=>c.textContent=d0.getHours()+':'+String(d0.getMinutes()).padStart(2,'0'));
 
-/* reveal + counters */
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target);
- e.target.querySelectorAll('.cnt').forEach(countUp);if(e.target.classList.contains('wheel'))drawWheel(true)}),{threshold:.18,rootMargin:'0px 0px -6% 0px'});
+/* reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const t=e.target;t.classList.add('in');io.unobserve(t);
+ t.querySelectorAll('.cnt').forEach(c=>tick(c,+c.dataset.to,1500));if(t.id==='wheel')drawWheel(true)}),{threshold:.15,rootMargin:'0px 0px -8% 0px'});
 $$('.rv').forEach(el=>io.observe(el));
-function countUp(el){const to=+el.dataset.to,t0=performance.now(),d=1400;(function f(t){const p=clamp((t-t0)/d,0,1);el.textContent=Math.round(to*ease(p));if(p<1)requestAnimationFrame(f)})(t0)}
 
-/* sticky nav */
-const lnav=$('#lnav');
+/* char highlight */
+const hl=$('#hl');hl.innerHTML=hl.dataset.text.split('|').map((seg,si)=>[...seg].map(ch=>'<span'+(si===2?' class="g"':'')+'>'+esc(ch)+'</span>').join('')).join('');
+const chars=$$('#hl span');
 
-/* hero card: scroll + drag */
-const card=$('#card'),stage=$('#stage');let drag=null,dx=0,dy=0,vx=0,spinY=0;
-stage.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,sy:spinY};stage.setPointerCapture(e.pointerId)});
-stage.addEventListener('pointermove',e=>{const r=stage.getBoundingClientRect();
- const lx=(e.clientX-r.left)/r.width*100,ly=(e.clientY-r.top)/r.height*100;card.style.setProperty('--lx',lx+'%');card.style.setProperty('--ly',ly+'%');
- if(drag){const nx=e.clientX-drag.x;vx=nx-dx;dx=nx;spinY=drag.sy+nx*.6}else if(e.pointerType==='mouse'){dy=(ly-50)*-.12;dx=0;card.dataset.hx=(lx-50)*.2}});
-stage.addEventListener('pointerup',()=>{drag=null;const snap=Math.round(spinY/180)*180;animateTo(snap)});
-stage.addEventListener('pointerleave',()=>{card.dataset.hx=0;dy=0});
-function animateTo(target){const from=spinY,t0=performance.now();(function f(t){const p=clamp((t-t0)/700,0,1);
- const k=1+2.2*Math.pow(p-1,3)+1.2*Math.pow(p-1,2);spinY=lerp(from,target,k);if(p<1&&!drag)requestAnimationFrame(f)})(t0)}
+/* ===== hero doc ===== */
+const doc=$('#doc'),stage=$('#stage'),glow=$('#glow'),hint=$('#hint'),bars=$$('.bar');let spin=0,drag=null,tx=0,ty=0,scored=false;
+stage.addEventListener('pointerdown',e=>{drag={x:e.clientX,s:spin};stage.setPointerCapture(e.pointerId);hint.style.opacity=0});
+stage.addEventListener('pointermove',e=>{const r=stage.getBoundingClientRect(),lx=(e.clientX-r.left)/r.width,ly=(e.clientY-r.top)/r.height;
+ doc.style.setProperty('--lx',lx*100+'%');doc.style.setProperty('--ly',ly*100+'%');
+ if(drag)spin=drag.s+(e.clientX-drag.x)*.55;else if(e.pointerType==='mouse'){tx=(lx-.5)*14;ty=(ly-.5)*-10}});
+const release=()=>{if(!drag)return;drag=null;const from=spin,to=Math.round(spin/180)*180,t0=performance.now();
+ (function f(t){const p=clamp((t-t0)/900,0,1),c1=1.4,k=1+(c1+1)*Math.pow(p-1,3)+c1*Math.pow(p-1,2);spin=lerp(from,to,k);if(p<1&&!drag)requestAnimationFrame(f)})(t0)};
+stage.addEventListener('pointerup',release);stage.addEventListener('pointercancel',release);stage.addEventListener('pointerleave',()=>{tx=ty=0});
+/* idle float */
+let t0=performance.now();
 
-/* scrub words */
-const scrub=$('#scrub'),words=$$('#scrub .w');
-const big=$('#bigcard'),dark=$('#dark');
+/* ===== story ===== */
+const story=$('#how'),steps=$$('.step'),dots=$$('#dots i'),scr=[0,1,2,3].map(i=>$('#sc'+i)),isl=$('#isl'),phone=$('#phone');
+const BOTS=[['GPTBot','OpenAI · 训练','#10a37f'],['ClaudeBot','Anthropic · 训练','#d97757'],['Google-Extended','Gemini · 训练','#4285f4'],['OAI-SearchBot','ChatGPT · 搜索','#10a37f'],['PerplexityBot','Perplexity · 搜索','#20808d'],['Bytespider','字节跳动 · 训练','#325ab4'],['Baiduspider','百度 · 搜索','#2932e1']];
+const row=(ic,c,b,s,v,cls,i=0)=>'<div class="row" style="animation-delay:'+(i*.06)+'s"><span class="ico" style="background:'+c+'">'+esc(ic)+'</span><span class="tx"><b>'+esc(b)+'</b>'+(s?'<small>'+esc(s)+'</small>':'')+'</span><span class="v '+cls+'">'+esc(v)+'</span></div>';
+$('#sc1 .grp').insertAdjacentHTML('beforeend',BOTS.map((b,i)=>row(b[0].slice(0,2),b[2],b[0],b[1],'部分路径','p',i)).join(''));
+$('#sc1').insertAdjacentHTML('beforeend','<div class="grp">'+row('!','#ff9f0a','禁止 2 条路径','/medialist/detail/、/index.html','','',7)+'</div>');
+const ring=(score,label)=>'<div class="ring" style="--off:'+(377*(1-score/100))+'"><svg viewBox="0 0 150 150"><circle class="bg" cx="75" cy="75" r="60"/><circle class="fg" cx="75" cy="75" r="60"/></svg><div class="c"><div><b>'+score+'</b><small>'+esc(label)+'</small></div></div></div>';
+$('#sc2').insertAdjacentHTML('beforeend',ring(100,'优秀')+'<div class="grp">'+row('H1','#0a84ff','Bilibili / 哔哩哔哩','标题 · 30 / 30','✓','ok',0)+row('>','#bf5af2','一句话摘要','20 / 20','✓','ok',1)+row('§','#ff375f','6 个分组','30 / 30','✓','ok',2)+row('⛓','#ff9f0a','52 条链接','20 / 20','✓','ok',3)+'</div>');
+$('#sc3').insertAdjacentHTML('beforeend','<div class="grp" style="padding:12px 14px;font:12px/1.75 var(--mono);color:#6e6e73;text-align:left;white-space:pre"><span style="color:#0071e3"># 你的网站</span>\n&gt; 一句话介绍你是谁\n\n<span style="color:#0071e3">## 产品</span>\n- [首页](https://…): 说明\n- [文档](https://…): 说明</div><div class="grp">'+row('✓','#34c759','已复制到剪贴板','上传到网站根目录','','',0)+'</div><div style="margin-top:6px;background:#0071e3;color:#fff;border-radius:12px;padding:12px;text-align:center;font-weight:600;font-size:15px">再查一次</div>');
+let curStep=-1,typedT=null;const DEMO='bilibili.com';
+function setStep(i){if(i===curStep)return;curStep=i;steps.forEach((s,k)=>s.classList.toggle('on',k===i));dots.forEach((d,k)=>d.classList.toggle('on',k===i));
+ scr.forEach((s,k)=>{s.classList.remove('on');if(k===i){void s.offsetWidth;s.classList.add('on')}});
+ isl.classList.toggle('busy',i===1);if(i===1){setTimeout(()=>isl.classList.remove('busy'),1100)}
+ clearInterval(typedT);const ty=$('#typed');if(i===0){ty.textContent='';$('#kbd').style.setProperty('--kb','0');let n=0;typedT=setInterval(()=>{ty.textContent=DEMO.slice(0,++n);buzz(2);if(n>=DEMO.length){clearInterval(typedT);setTimeout(()=>curStep===0&&$('#kbd').style.setProperty('--kb','110%'),500)}},110)}}
+setStep(0);
 
-function frame(){
- const vh=innerHeight,y=scrollY;
- lnav.classList.toggle('stuck',y>44);
- // hero card: lies back -> stands up as you scroll
- const r=stage.getBoundingClientRect();const p=RM?1:clamp(1-(r.top+r.height*.2)/(vh*.85),0,1);const e=ease(p);
- const hx=+(card.dataset.hx||0);
- card.style.setProperty('--rx',(lerp(58,6,e)+dy)+'deg');
- card.style.setProperty('--rz',lerp(-8,0,e)+'deg');
- card.style.setProperty('--ry',(spinY+hx+lerp(-14,0,e))+'deg');
- card.style.setProperty('--s',lerp(.82,1,e));
- card.querySelector('.front').style.setProperty('--sheen',(lerp(-70,70,e)+spinY*.3)+'%');
- // words
- const sr=scrub.getBoundingClientRect(),sp=clamp(-sr.top/(sr.height-vh),0,1);
- words.forEach((w,i)=>w.classList.toggle('on',RM||sp>i/words.length*.85+.04));
- // dark card
- const dr=dark.getBoundingClientRect(),dp=clamp(1-dr.top/vh,0,1.4);
- big.style.setProperty('--bs',lerp(.86,1,clamp(dp,0,1)));big.style.setProperty('--bx',lerp(20,80,clamp(dp/1.4,0,1))+'%');
+/* ===== marquee ===== */
+const SITES=[['bilibili.com','哔哩哔哩',100],['shein.com','SHEIN',100],['gitee.com','码云',100],['huanqiu.com','环球网',100],['taptap.cn','TapTap',100],['modelscope.cn','魔搭',100],['made-in-china.com','中国制造网',100],['ifeng.com','凤凰网',99],['qiniu.com','七牛云',99],['klook.com','Klook',97],['storm.mg','风传媒',97],['bt.cn','宝塔',95],['eslite.com','诚品',90],['logitech.com.cn','罗技',80],['ctrip.com','携程',70],['thinkphp.cn','ThinkPHP',60],['tvb.com','TVB',50],['coze.cn','扣子',50],['nvidia.cn','NVIDIA',30],['moegirl.org.cn','萌娘百科',30]];
+const chip=s=>'<button class="site" data-try="'+s[0]+'">'+esc(s[0])+'<em class="'+(s[2]>=90?'':s[2]>=60?'m':'l')+'">'+s[2]+'</em></button>';
+const half=Math.ceil(SITES.length/2),A=SITES.slice(0,half),B=SITES.slice(half);
+$('#mq1').innerHTML=(A.concat(A)).map(chip).join('');$('#mq2').innerHTML=(B.concat(B)).map(chip).join('');
+
+/* ===== wheel ===== */
+const SEG=[['H1 标题',30,'#0a84ff','没有 H1，AI 不知道你叫什么。这是错误级问题，总分会被封顶在 59。'],['一句话摘要',20,'#bf5af2','没有摘要，AI 只能自己猜你是做什么的。少 20 分。'],['内容分组',30,'#ff375f','没有分组，链接堆成一团。每个非空分组 10 分，最多 30。'],['链接质量',20,'#ff9f0a','链接要用绝对地址、带一句说明，各占 10 分。']];
+const on=SEG.map(()=>true),R=80,C=2*Math.PI*R,svg=$('#wsvg'),legend=$('#legend');let acc=0,shown=0;
+SEG.forEach((s,i)=>{const len=C*s[1]/100,c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+ [['cx',100],['cy',100],['r',R],['stroke',s[2]],['stroke-dasharray',(len-2)+' '+(C-len+2)],['stroke-dashoffset',-acc+len]].forEach(([k,v])=>c.setAttribute(k,v));
+ c.dataset.o=-acc;c.classList.add('seg');c.onclick=()=>toggle(i);svg.appendChild(c);acc+=len;
+ const li=document.createElement('li');li.innerHTML='<span class="dot" style="background:'+s[2]+'"></span><b>'+s[0]+'</b><span>'+s[1]+' 分</span>';li.onclick=()=>toggle(i);legend.appendChild(li)});
+function drawWheel(first){$$('#wsvg .seg').forEach((c,i)=>{if(first){c.style.transitionDelay=(i*.15)+'s';requestAnimationFrame(()=>c.setAttribute('stroke-dashoffset',c.dataset.o))}c.classList.toggle('off',!on[i])});
+ $$('#legend li').forEach((l,i)=>l.classList.toggle('off',!on[i]));
+ let sc=SEG.reduce((a,s,i)=>a+(on[i]?s[1]:0),0);if(!on[0]&&sc>59)sc=59;
+ const g=!on[0]?'不合规':sc>=90?'优秀':sc>=75?'良好':sc>=60?'可用':'待改进',gs=$('#wgrade');gs.textContent=g;gs.style.color=!on[0]?'#d70015':'';
+ tick($('#wnum'),sc,first?1800:600,shown);shown=sc}
+function toggle(i){on[i]=!on[i];buzz(8);drawWheel();$('#wnote').textContent=on.every(Boolean)?'四项全满，就是 100 分。':on[i]?'补回来了，分数也回来了。':SEG[i][3]}
+
+/* ===== robots builder ===== */
+const RB=[['GPTBot','OpenAI · 训练',false],['ClaudeBot','Anthropic · 训练',false],['Google-Extended','Google · Gemini 训练',false],['CCBot','Common Crawl · 训练',false],['OAI-SearchBot','OpenAI · ChatGPT 搜索',true],['Claude-SearchBot','Anthropic · 搜索',true],['PerplexityBot','Perplexity · 搜索',true]];
+const tg=$('#tg'),code=$('#code');
+RB.forEach(b=>{const d=document.createElement('div');d.className='tog';d.innerHTML='<div><b>'+b[0]+'</b><small>'+b[1]+'</small></div><button class="sw" role="switch" aria-checked="'+b[2]+'" aria-label="'+b[0]+'"></button>';
+ d.querySelector('.sw').onclick=e=>{b[2]=!b[2];e.currentTarget.setAttribute('aria-checked',b[2]);buzz(6);paint(b[0])};tg.appendChild(d)});
+function paint(ch){const blk=b=>{const s='<span class="k">User-agent:</span> '+b[0]+'\n<span class="k">'+(b[2]?'Allow':'Disallow')+':</span> <span class="vv">/</span>';return (b[0]===ch?'<span class="fl">'+s+'</span>':s)+'\n\n'};
+ code.innerHTML='<button class="cp" id="cp">拷贝</button><span class="cm"># robots.txt · cetxt 生成</span>\n\n'+RB.filter(b=>!b[2]).map(blk).join('')+RB.filter(b=>b[2]).map(blk).join('')+'<span class="k">User-agent:</span> *\n<span class="k">Allow:</span> <span class="vv">/</span>';
+ $('#cp').onclick=()=>{const t=code.innerText.replace(/^拷贝\s*/,'').trim();(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{$('#cp').textContent='已拷贝 ✓';buzz(10);setTimeout(()=>{const c=$('#cp');c&&(c.textContent='拷贝')},1600)}).catch(()=>{})}}
+paint();
+
+/* ===== scroll loop ===== */
+const lnav=$('#lnav'),dock=$('#dock'),heroField=$('.hero .field'),endSec=$('#end'),mega=$('#mega'),dataSec=$('#data'),tri=$$('#tri span');
+let heroGone=false,endIn=false;
+new IntersectionObserver(([e])=>{heroGone=!e.isIntersecting&&e.boundingClientRect.top<0;dockUpd()}).observe(heroField);
+new IntersectionObserver(([e])=>{endIn=e.isIntersecting;dockUpd()},{threshold:.2}).observe(endSec);
+function dockUpd(){dock.classList.toggle('show',heroGone&&!endIn&&!sheet.classList.contains('open'))}
+function frame(now){
+ const vh=innerHeight,y=scrollY;lnav.classList.toggle('stuck',y>44);
+ // hero doc
+ const r=stage.getBoundingClientRect(),p=RM?1:clamp(1-(r.top+r.height*.15)/(vh*.9),0,1),e=ease(p);
+ const fl=RM?0:Math.sin((now-t0)/1400)*6;
+ doc.style.setProperty('--rx',(lerp(62,4,e)+ty)+'deg');doc.style.setProperty('--rz',lerp(-14,0,e)+'deg');
+ doc.style.setProperty('--ry',(spin+tx+lerp(-18,0,e))+'deg');doc.style.setProperty('--s',lerp(.78,1,e));doc.style.setProperty('--ty',fl+'px');
+ doc.querySelector('.slab.f').style.setProperty('--sheen',(lerp(-80,80,e)+((spin%360)+360)%360*.25)+'%');
+ glow.style.setProperty('--g',e);
+ bars.forEach((b,i)=>b.style.setProperty('--k',p>.25+i*.08?1:0));
+ if(p>.7&&!scored){scored=true;tick($('#docScore'),100,1400)}
+ // char highlight
+ const hr=hl.getBoundingClientRect(),hp=clamp((vh*.85-hr.top)/(hr.height+vh*.35),0,1),n=Math.floor(hp*chars.length*1.05);
+ chars.forEach((c,i)=>c.classList.toggle('on',RM||i<n));
+ // story
+ const sr=story.getBoundingClientRect(),sp=clamp(-sr.top/(sr.height-vh),0,.9999);
+ if(!RM){setStep(Math.floor(sp*4));phone.style.setProperty('--ps',lerp(.94,1,ease(clamp(sp*4,0,1))))}
+ // mega
+ const dr=dataSec.getBoundingClientRect(),dp=clamp((vh-dr.top)/(vh*.9),0,1);mega.style.setProperty('--ms',lerp(.7,1,ease(dp)));mega.style.setProperty('--mo',lerp(.1,1,dp));
+ // tri
+ const trr=tri[0].parentNode.getBoundingClientRect(),tp=clamp((vh*.8-trr.top)/(trr.height+vh*.2),0,1);
+ tri.forEach((s,i)=>s.style.color=(RM||tp>i/3+.08)?'var(--ink)':'#d2d2d7');
  requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
 
-/* sheet */
-const sheet=$('#sheet'),sb=$('#sheetBody');let lastFocus;
-$$('[data-sheet]').forEach(b=>b.onclick=()=>{lastFocus=b;sb.innerHTML=$('#'+b.dataset.sheet).innerHTML;sheet.classList.add('open');document.body.style.overflow='hidden';sheet.querySelector('.x').focus()});
-const close=()=>{sheet.classList.remove('open');document.body.style.overflow='';lastFocus&&lastFocus.focus()};
-sheet.querySelector('.bg').onclick=close;sheet.querySelector('.x').onclick=close;addEventListener('keydown',e=>e.key==='Escape'&&close());
-
-/* ---------- live check in phone ---------- */
-const app=$('#app'),island=$('#island'),err=$('#err');
-const d=new Date();$('#clock').textContent=d.getHours()+':'+String(d.getMinutes()).padStart(2,'0');
-const SHOW=[['GPTBot','OpenAI 训练','#10a37f'],['ClaudeBot','Anthropic 训练','#d97757'],['Google-Extended','Gemini 训练','#4285f4'],['OAI-SearchBot','ChatGPT 搜索','#10a37f'],['PerplexityBot','Perplexity 搜索','#20808d'],['Bytespider','字节跳动 训练','#325ab4'],['Baiduspider','百度 搜索','#2932e1']];
+/* ===== result sheet (conversion) ===== */
+const sheet=$('#sheet'),res=$('#res');
 const ST={allowed:['放行','ok'],partial:['部分路径','p'],blocked:['拒绝','n'],none:['未写规则','ok'],unknown:['未能判定','p']};
-const SAMPLE={domain:'bilibili.com',name:'Bilibili / 哔哩哔哩',score:100,grade:'优秀',kb:'10.7',secs:6,links:52,bots:Object.fromEntries(SHOW.map(s=>[s[0],'partial']))};
-function render(r,loading){
- if(loading){app.innerHTML='<h4>体检</h4><div class="mini"><span class="etch logo">cetxt</span><span class="etch name">'+esc(r)+'</span></div><div class="grp" style="padding:14px">'+'<div class="sk" style="width:70%;margin:6px 0 14px"></div><div class="sk" style="width:90%;margin-bottom:14px"></div><div class="sk" style="width:55%"></div></div><div class="grp" style="padding:14px"><div class="sk" style="width:80%;margin:6px 0 14px"></div><div class="sk" style="width:60%"></div></div>';return}
- const sc=r.score==null?'—':r.score;
- let h='<h4>体检</h4><div class="mini"><span class="etch logo">cetxt</span><span class="etch name">'+esc(r.domain)+'</span><span class="score"><span id="ms">0</span><small> /100</small></span></div>';
- h+='<div class="grp"><div class="hd"><span>llms.txt</span><span>'+esc(r.grade)+'</span></div>';
- if(r.score==null)h+=row('?','#8e8e93',r.note||'没有找到 llms.txt','','—','n');
- else{h+=row('H1','#1d1d1f',r.name||'—','标题','✓','ok')+row('§','#5e5ce6',r.secs+' 个分组 · '+r.links+' 条链接','结构','✓','ok')+row('KB','#8e8e93',r.kb+' KB','大小','','')}
- h+='</div><div class="grp"><div class="hd"><span>AI 爬虫</span><span>robots.txt</span></div>';
- SHOW.forEach(([t,lab,c])=>{const s=ST[r.bots[t]]||['—',''];h+=row(t.slice(0,2),c,t,lab,s[0],s[1])});
- h+='</div>';app.innerHTML=h;app.scrollTop=0;
- if(typeof sc==='number'){const el=$('#ms'),t0=performance.now();(function f(t){const p=clamp((t-t0)/900,0,1);el.textContent=Math.round(sc*ease(p));if(p<1)requestAnimationFrame(f)})(t0)}else $('#ms').textContent='—';
- $$('#app .row').forEach((x,i)=>{x.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'none'}],{duration:450,delay:i*45,easing:'cubic-bezier(.28,.11,.32,1)',fill:'backwards'})});
-}
-function row(ic,c,b,s,v,cls){return '<div class="row"><span class="ico" style="background:'+c+'">'+esc(ic)+'</span><span class="tx"><b>'+esc(b)+'</b>'+(s?'<small>'+esc(s)+'</small>':'')+'</span><span class="v '+cls+'">'+esc(v)+'</span></div>'}
-function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
-render(SAMPLE);
+function openSheet(){sheet.classList.add('open');document.body.style.overflow='hidden';dockUpd()}
+function closeSheet(){sheet.classList.remove('open');document.body.style.overflow='';dockUpd()}
+sheet.querySelector('.bg').onclick=closeSheet;sheet.querySelector('.x').onclick=closeSheet;addEventListener('keydown',e=>e.key==='Escape'&&closeSheet());
+/* swipe down to close */
+(()=>{const box=sheet.querySelector('.box');let y0=null,dy=0;box.addEventListener('touchstart',e=>{if(box.scrollTop<=0)y0=e.touches[0].clientY},{passive:true});
+ box.addEventListener('touchmove',e=>{if(y0==null)return;dy=Math.max(0,e.touches[0].clientY-y0);box.style.transition='none';box.style.transform='translate(-50%,'+dy+'px)'},{passive:true});
+ box.addEventListener('touchend',()=>{if(y0==null)return;box.style.transition='';box.style.transform='';if(dy>110)closeSheet();y0=null;dy=0})})();
 async function check(dom){
- dom=dom.trim().replace(/^https?:\/\//,'').replace(/\/.*$/,'').toLowerCase();if(!dom)return;
- err.textContent='';island.classList.add('busy');render(dom,true);
- try{const res=await fetch('/api/check?domain='+encodeURIComponent(dom));const j=await res.json();if(!res.ok||j.error)throw new Error(j.reason||j.error||'检测失败');
-  const L=j.llms||j,out={domain:dom,bots:{}};
-  if((L.verdict==='real'||L.verdict==='nonstandard')&&L.text&&window.LLMS){const v=LLMS.validateLLMS(L.text),p=LLMS.parseLLMS(L.text);
-   Object.assign(out,{score:v.score,grade:v.grade,kb:(v.stats.bytes/1024).toFixed(1),secs:v.stats.sections,links:v.stats.links,name:p.h1s[0]?p.h1s[0].text:''})}
-  else Object.assign(out,{score:null,grade:'未通过',note:L.verdict==='html_spoof'?'返回的是网页，不是 llms.txt':L.verdict==='missing'?'没有找到 llms.txt':'这次没能读到 llms.txt'});
-  ((j.robots&&j.robots.analysis&&j.robots.analysis.access)||[]).forEach(a=>out.bots[a.token]=a.status);
-  render(out);
- }catch(e){err.textContent='没能查到 '+dom+'：'+e.message+'。';render(SAMPLE)}
- finally{island.classList.remove('busy')}
+ dom=String(dom||'').trim().replace(/^https?:\/\//i,'').replace(/[\/?#].*$/,'').toLowerCase();
+ if(!/^[a-z0-9.-]+\.[a-z]{2,}$/.test(dom)){const f=document.activeElement&&document.activeElement.closest('form')||$('.hero .field');f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake');buzz([10,40,10]);return}
+ res.innerHTML='<div class="res-h"><small>'+esc(dom)+'</small><h3>正在体检…</h3></div><div class="ring"><svg viewBox="0 0 150 150"><circle class="bg" cx="75" cy="75" r="60"/></svg></div><div class="grp"><div class="sk" style="width:60%"></div><div class="sk"></div><div class="sk" style="width:75%"></div></div><div class="grp"><div class="sk" style="width:70%"></div><div class="sk" style="width:50%"></div></div>';
+ openSheet();
+ try{const r=await fetch('/api/check?domain='+encodeURIComponent(dom)),j=await r.json();if(!r.ok||j.error)throw new Error(j.reason||j.error||'检测失败');
+  const L=j.llms||j,acc=(j.robots&&j.robots.analysis&&j.robots.analysis.access)||[],bots={};acc.forEach(a=>bots[a.token]=a.status);
+  let v=null,p=null;if((L.verdict==='real'||L.verdict==='nonstandard')&&L.text&&window.LLMS){v=LLMS.validateLLMS(L.text);p=LLMS.parseLLMS(L.text)}
+  const blocked=acc.filter(a=>a.status==='blocked').length,open=acc.filter(a=>a.status==='allowed'||a.status==='none').length;
+  let h='<div class="res-h"><small>'+esc(dom)+'</small><h3>'+(v?(v.score>=90?'AI 能好好读懂你。':v.score>=60?'能读，但还能更好。':'AI 读起来很吃力。'):'AI 还不认识你。')+'</h3></div>';
+  h+=v?ring(v.score,v.grade):ring(0,L.verdict==='html_spoof'?'返回了网页':'没有 llms.txt');
+  if(v){const top=v.issues.filter(x=>x.sev!=='info').slice(0,3);/* sev: error/warn/suggest */
+   h+='<div class="grp"><div class="hd"><span>llms.txt</span><span>'+v.stats.sections+' 个分组 · '+v.stats.links+' 条链接</span></div>'+(top.length?top.map(x=>'<div class="issue"><i style="color:'+(x.sev==='error'?'#d70015':x.sev==='warn'?'#c93400':'#0071e3')+'">'+(x.sev==='error'?'×':'!')+'</i><div><b>'+esc(x.msg||x.title||'')+'</b><br><span style="color:#6e6e73">'+esc(x.fix||'')+'</span></div></div>').join(''):'<div class="issue"><i style="color:#248a3d">✓</i><div>没有发现问题。</div></div>')+'</div>'}
+  else h+='<div class="grp"><div class="issue"><i style="color:#d70015">×</i><div><b>'+(L.verdict==='html_spoof'?'/llms.txt 返回的是网页 HTML':L.verdict==='missing'?'网站根目录没有 llms.txt':'这次没能读到 llms.txt')+'</b><br><span style="color:#6e6e73">用生成器三分钟写一份，放到根目录就行。</span></div></div></div>';
+  h+='<div class="grp"><div class="hd"><span>AI 爬虫 · '+acc.length+' 个</span><span>'+open+' 放行 · '+blocked+' 拒绝</span></div>'+BOTS.map((b,i)=>{const s=ST[bots[b[0]]]||['—',''];return row(b[0].slice(0,2),b[2],b[0],b[1],s[0],s[1],i)}).join('')+'</div>';
+  h+='<div class="next"><a class="pill" href="#">'+(v?'优化 llms.txt':'生成 llms.txt')+'</a><a class="pill w" href="#robots" data-close>调整 robots.txt</a></div>';
+  res.innerHTML=h;{const rg=res.querySelector('.ring'),off=rg.style.getPropertyValue('--off');rg.style.setProperty('--off','377');void rg.offsetWidth;requestAnimationFrame(()=>requestAnimationFrame(()=>rg.style.setProperty('--off',off)))}
+  const rb=res.querySelector('.ring b');rb&&tick(rb,+rb.textContent,1400);
+  res.querySelectorAll('[data-close]').forEach(a=>a.onclick=closeSheet);buzz(12);
+ }catch(e){res.innerHTML='<div class="res-h"><small>'+esc(dom)+'</small><h3>这次没查到。</h3></div><div class="grp"><div class="issue"><i style="color:#d70015">×</i><div>'+esc(e.message)+'。检查一下域名，再试一次。</div></div></div>'}
 }
-$('#f').onsubmit=e=>{e.preventDefault();$('#dom').blur();check($('#dom').value)};
-$$('.chip').forEach(c=>c.onclick=()=>{$('#dom').value=c.dataset.d;check(c.dataset.d)});
-
-/* ---------- wheel ---------- */
-const SEG=[['H1 标题',30,'#0a84ff','少了 H1，AI 不知道你叫什么。这是错误级问题，总分会被封顶在 59。'],['一句话摘要',20,'#bf5af2','少了摘要，AI 只能自己猜你是做什么的。扣 20 分。'],['内容分组',30,'#ff375f','没有分组，链接堆成一团。每个非空分组 10 分，最多 30。'],['链接质量',20,'#ff9f0a','链接要用绝对地址、带一句说明，各占 10 分。']];
-const on=SEG.map(()=>true),R=80,C=2*Math.PI*R,svg=$('#wsvg'),legend=$('#legend');
-let acc=0;SEG.forEach((s,i)=>{const len=C*s[1]/100,gap=1.6;const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
- Object.entries({cx:100,cy:100,r:R,stroke:s[2],'stroke-dasharray':(len-gap)+' '+(C-len+gap),'stroke-dashoffset':-acc}).forEach(([k,v])=>c.setAttribute(k,v));
- c.classList.add('seg');c.style.opacity=0;c.dataset.off=-acc;c.onclick=()=>toggle(i);svg.appendChild(c);acc+=len;
- const li=document.createElement('li');li.innerHTML='<span class="dot" style="background:'+s[2]+'"></span><b>'+s[0]+'</b><span>'+s[1]+' 分</span>';li.onclick=()=>toggle(i);legend.appendChild(li)});
-let shown=0;
-function drawWheel(first){const segs=$$('#wsvg .seg');segs.forEach((c,i)=>{c.style.transitionDelay=first?(i*.18)+'s':'0s';c.style.opacity='';c.classList.toggle('off',!on[i])});
- $$('#legend li').forEach((l,i)=>l.classList.toggle('off',!on[i]));
- let sc=SEG.reduce((a,s,i)=>a+(on[i]?s[1]:0),0);if(!on[0]&&sc>59)sc=59;
- const g=!on[0]?'不合规':sc>=90?'优秀':sc>=75?'良好':sc>=60?'可用':'待改进';$('#wgrade').textContent=g;
- const from=shown,t0=performance.now(),el=$('#wnum');(function f(t){const p=clamp((t-t0)/(first?1600:600),0,1);el.textContent=Math.round(lerp(from,sc,ease(p)));if(p<1)requestAnimationFrame(f)})(t0);shown=sc}
-function toggle(i){on[i]=!on[i];drawWheel();$('#wnote').textContent=on.every(Boolean)?'四项全满，就是 100 分。':on[i]?'加回来了。':SEG[i][3];if(navigator.vibrate)navigator.vibrate(8)}
-
-/* ---------- robots builder ---------- */
-const BOTS=[['GPTBot','OpenAI · 训练',false],['ClaudeBot','Anthropic · 训练',false],['Google-Extended','Google · Gemini 训练',false],['CCBot','Common Crawl · 训练',false],['OAI-SearchBot','OpenAI · ChatGPT 搜索',true],['Claude-SearchBot','Anthropic · 搜索',true],['PerplexityBot','Perplexity · 搜索',true]];
-const tg=$('#toggles'),code=$('#code');let last={};
-BOTS.forEach((b,i)=>{const d=document.createElement('div');d.className='tog';d.innerHTML='<div><b>'+b[0]+'</b><small>'+b[1]+'</small></div><button class="sw" role="switch" aria-checked="'+b[2]+'" aria-label="'+b[0]+'"></button>';
- d.querySelector('.sw').onclick=e=>{b[2]=!b[2];e.currentTarget.setAttribute('aria-checked',b[2]);if(navigator.vibrate)navigator.vibrate(6);paint(b[0])};tg.appendChild(d)});
-function paint(changed){
- const deny=BOTS.filter(b=>!b[2]),allow=BOTS.filter(b=>b[2]);
- let h='<button class="copy-btn" id="cp">拷贝</button><span class="cm"># robots.txt · 由 cetxt 生成</span>\n\n';
- deny.forEach(b=>h+=line(b[0],'<span class="k">User-agent:</span> '+b[0]+'\n<span class="k">Disallow:</span> <span class="vv">/</span>\n\n'));
- allow.forEach(b=>h+=line(b[0],'<span class="k">User-agent:</span> '+b[0]+'\n<span class="k">Allow:</span> <span class="vv">/</span>\n\n'));
- h+='<span class="k">User-agent:</span> *\n<span class="k">Allow:</span> <span class="vv">/</span>';
- function line(n,s){return n===changed?'<span class="flash">'+s+'</span>':s}
- code.innerHTML=h;$('#cp').onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(code.innerText.replace(/^拷贝/,'').trim()).then(()=>{$('#cp').textContent='已拷贝 ✓';setTimeout(()=>$('#cp')&&($('#cp').textContent='拷贝'),1600)})}}
-paint();
+$$('form[data-check]').forEach(f=>f.onsubmit=e=>{e.preventDefault();const i=f.querySelector('input');i.blur();check(i.value)});
+document.addEventListener('click',e=>{const t=e.target.closest('[data-try]');if(t){e.preventDefault();$$('form[data-check] input').forEach(i=>i.value=t.dataset.try);check(t.dataset.try)}
+ const f=e.target.closest('[data-focus]');if(f){e.preventDefault();scrollTo({top:0,behavior:'smooth'});setTimeout(()=>$('.hero .field input').focus({preventScroll:true}),500)}});
 })();
 </script>
 </body></html>
