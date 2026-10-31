@@ -40,7 +40,7 @@ section{position:relative;padding:140px 22px;text-align:center}
 .grad{background:linear-gradient(95deg,#0090f7 0%,#ba62fc 45%,#f2416b 75%,#f55600 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 
 /* reveal: rise + unblur */
-.rv{opacity:0;transform:translate3d(0,40px,0);filter:blur(6px);transition:opacity 1.2s var(--out),transform 1.2s var(--out),filter 1s var(--out)}
+.rv{opacity:0;transform:translate3d(0,40px,0);transition:opacity 1.1s var(--out),transform 1.1s var(--out)}
 .rv.in{opacity:1;transform:none;filter:none}
 .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
 
@@ -94,15 +94,18 @@ background:linear-gradient(225deg,transparent 49%,#c9c9ce 50%,#ececef 70%,#dadad
 .hl span.on.g{color:var(--acc)}
 
 /* ===== sticky phone story ===== */
-.story{height:420vh;padding:0;background:var(--alt)}
-.story .pin{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;max-width:1024px;margin:0 auto;padding:0 22px;gap:40px}
+.story{padding:clamp(80px,12vw,140px) 0;background:var(--alt);overflow:hidden}
+.story .pin{position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:center;max-width:1024px;margin:0 auto;padding:0 22px;gap:40px}
 .steps{position:relative;height:300px;text-align:left}
 .step{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;opacity:0;transform:translateY(24px);transition:opacity .6s var(--out),transform .8s var(--out);pointer-events:none}
 .step.on{opacity:1;transform:none;pointer-events:auto}
 .step .n{font:600 14px var(--mono);color:var(--acc);margin-bottom:14px;letter-spacing:.06em}
 .step h3{font-size:clamp(32px,4.6vw,48px);font-weight:700;letter-spacing:-.035em;line-height:1.1;margin-bottom:16px}
 .step p{font-size:19px;color:var(--mut2);max-width:400px}
-.dots{display:flex;gap:8px;margin-top:28px}.dots i{width:8px;height:8px;border-radius:8px;background:#c7c7cc;transition:width .5s var(--out),background .4s}.dots i.on{width:28px;background:var(--ink)}
+.dots{display:flex;gap:10px;margin-top:28px}.dots i{position:relative;width:8px;height:8px;border-radius:8px;background:#c7c7cc;transition:width .5s var(--out);overflow:hidden;cursor:pointer}.dots i.on{width:44px}
+.dots i::after{content:"";position:absolute;inset:0;background:var(--ink);transform:scaleX(0);transform-origin:left}.dots i.done::after{transform:scaleX(1)}.dots i.on::after{transform:scaleX(1);transition:transform var(--dur,5s) linear}.story.paused .dots i.on::after{transition:none}
+.step-nav{display:flex;gap:8px;margin-top:22px}.step-nav button{width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.06);color:var(--ink);font-size:18px;line-height:1;display:grid;place-items:center;transition:background .2s}.step-nav button:active{background:rgba(0,0,0,.14)}
+.phone{touch-action:pan-y}
 
 .phone{width:min(330px,72vw);aspect-ratio:9/19.4;margin:0 auto;border-radius:54px;padding:11px;position:relative;
 background:linear-gradient(145deg,#e2e2e6,#a8a8ad 28%,#ececf0 52%,#97979c 82%,#cfcfd4);box-shadow:0 0 0 1px rgba(0,0,0,.14),0 50px 90px -40px rgba(0,0,0,.5),inset 0 0 2px rgba(255,255,255,.9);transform:translateY(var(--py,0)) scale(calc(var(--ps,1) * var(--fit,1)));will-change:transform;flex:none}
@@ -234,12 +237,12 @@ footer .in{max-width:1024px;margin:0 auto;line-height:1.7}footer ol{padding-left
 @media(max-width:833px) and (max-aspect-ratio:1/1){
  .story .pin{grid-template-columns:1fr;grid-template-rows:auto 1fr;gap:0;padding-top:64px}
  .steps{height:170px;order:-1;text-align:center}.step{align-items:center}.step h3{font-size:30px;margin-bottom:8px}.step p{font-size:16px}.step .n{margin-bottom:8px}.dots{justify-content:center;margin-top:14px}
- .phone{width:270px;align-self:start;transform-origin:50% 0}}
+ .phone{width:270px;align-self:start;transform-origin:50% 0;margin-top:20px}.step-nav{justify-content:center;margin-top:14px}}
 @media(max-width:833px) and (min-aspect-ratio:1/1){.story .pin{gap:24px;padding-top:52px}.step h3{font-size:28px}.step p{font-size:16px}.phone{width:270px}}
 @media(max-width:833px){
  .wheel-wrap,.builder{grid-template-columns:1fr}.wheel{margin:0 auto}.tiles{grid-template-columns:1fr}.wheel-wrap{gap:36px}}
 @media(max-width:734px){.gnav .ls,.lnav .s{display:none}section{padding:100px 20px}.field{padding-left:18px}.field .pre{display:none}}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none;filter:none}.story{height:auto}.story .pin{position:static;height:auto;padding:100px 22px}.hl span{color:var(--ink)}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none;filter:none}.hl span{color:var(--ink)}}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0090f7"/><stop offset=".5" stop-color="#ba62fc"/><stop offset="1" stop-color="#f2416b"/></linearGradient></defs></svg>
 
@@ -287,7 +290,8 @@ footer .in{max-width:1024px;margin:0 auto;line-height:1.7}footer ol{padding-left
     <div class="step"><span class="n">03 · 打分</span><h3>差在哪，<br>直接告诉你。</h3><p>llms.txt 满分 100，拆成四项。哪项扣了分，怎么补，写得清清楚楚。</p></div>
     <div class="step"><span class="n">04 · 修好</span><h3>一键生成，<br>复制上线。</h3><p>生成器帮你写好 llms.txt 和 robots.txt，改完再查一次，看分数涨上去。</p></div>
    </div>
-   <div class="dots" id="dots"><i class="on"></i><i></i><i></i><i></i></div>
+   <div class="dots" id="dots"><i class="on" role="tab"></i><i role="tab"></i><i role="tab"></i><i role="tab"></i></div>
+   <div class="step-nav"><button data-d="-1" aria-label="上一步">‹</button><button data-d="1" aria-label="下一步">›</button></div>
   </div>
   <div class="phone" id="phone"><div class="screen">
    <div class="island" id="isl"><i></i></div>
@@ -407,7 +411,7 @@ let t0=performance.now();
 
 /* ===== story ===== */
 const pin=$('#how .pin'),story=$('#how'),steps=$$('.step'),dots=$$('#dots i'),scr=[0,1,2,3].map(i=>$('#sc'+i)),isl=$('#isl'),phone=$('#phone');
-function fitPhone(){const stacked=matchMedia('(max-width:833px) and (max-aspect-ratio:1/1)').matches,H=pin.clientHeight,ph=phone.offsetHeight;if(!ph)return;const avail=stacked?H-phone.offsetTop-20:H-(innerWidth<834?72:120);phone.style.setProperty('--fit',Math.max(.4,Math.min(1,avail/ph)).toFixed(3))}
+function fitPhone(){const stacked=matchMedia('(max-width:833px) and (max-aspect-ratio:1/1)').matches,ph=phone.offsetHeight;if(!ph)return;const avail=innerHeight-(stacked?300:110);phone.style.setProperty('--fit',Math.max(.4,Math.min(1,avail/ph)).toFixed(3))}
 fitPhone();addEventListener('resize',fitPhone);addEventListener('orientationchange',()=>setTimeout(fitPhone,300));
 const BOTS=[['GPTBot','OpenAI · 训练','#10a37f'],['ClaudeBot','Anthropic · 训练','#d97757'],['Google-Extended','Gemini · 训练','#4285f4'],['OAI-SearchBot','ChatGPT · 搜索','#10a37f'],['PerplexityBot','Perplexity · 搜索','#20808d'],['Bytespider','字节跳动 · 训练','#325ab4'],['Baiduspider','百度 · 搜索','#2932e1']];
 const row=(ic,c,b,s,v,cls,i=0)=>'<div class="row" style="animation-delay:'+(i*.06)+'s"><span class="ico" style="background:'+c+'">'+esc(ic)+'</span><span class="tx"><b>'+esc(b)+'</b>'+(s?'<small>'+esc(s)+'</small>':'')+'</span><span class="v '+cls+'">'+esc(v)+'</span></div>';
@@ -417,11 +421,22 @@ const ring=(score,label)=>'<div class="ring" style="--off:'+(377*(1-score/100))+
 $('#sc2').insertAdjacentHTML('beforeend',ring(100,'优秀')+'<div class="grp">'+row('H1','#0a84ff','Bilibili / 哔哩哔哩','标题 · 30 / 30','✓','ok',0)+row('>','#bf5af2','一句话摘要','20 / 20','✓','ok',1)+row('§','#ff375f','6 个分组','30 / 30','✓','ok',2)+row('⛓','#ff9f0a','52 条链接','20 / 20','✓','ok',3)+'</div>');
 $('#sc3').insertAdjacentHTML('beforeend','<div class="grp" style="padding:12px 14px;font:12px/1.75 var(--mono);color:#6e6e73;text-align:left;white-space:pre"><span style="color:#0071e3"># 你的网站</span>\n&gt; 一句话介绍你是谁\n\n<span style="color:#0071e3">## 产品</span>\n- [首页](https://…): 说明\n- [文档](https://…): 说明</div><div class="grp">'+row('✓','#34c759','已复制到剪贴板','上传到网站根目录','','',0)+'</div><div style="margin-top:6px;background:#0071e3;color:#fff;border-radius:12px;padding:12px;text-align:center;font-weight:600;font-size:15px">再查一次</div>');
 let curStep=-1,typedT=null;const DEMO='bilibili.com';
-function setStep(i){if(i===curStep)return;curStep=i;steps.forEach((s,k)=>s.classList.toggle('on',k===i));dots.forEach((d,k)=>d.classList.toggle('on',k===i));
+function setStep(i){if(i===curStep)return;curStep=i;steps.forEach((s,k)=>s.classList.toggle('on',k===i));dots.forEach((d,k)=>{d.classList.remove('on');d.classList.toggle('done',k<i)});void dots[i].offsetWidth;dots[i].classList.add('on');
  scr.forEach((s,k)=>{s.classList.remove('on');if(k===i){void s.offsetWidth;s.classList.add('on')}});
  isl.classList.toggle('busy',i===1);if(i===1){setTimeout(()=>isl.classList.remove('busy'),1100)}
  clearInterval(typedT);const ty=$('#typed');if(i===0){ty.textContent='';$('#kbd').style.setProperty('--kb','0');let n=0;typedT=setInterval(()=>{ty.textContent=DEMO.slice(0,++n);buzz(2);if(n>=DEMO.length){clearInterval(typedT);setTimeout(()=>curStep===0&&$('#kbd').style.setProperty('--kb','110%'),500)}},110)}}
 setStep(0);
+
+/* chapter player: auto-advance while visible, tap dots / swipe */
+const DUR=[4200,5200,5200,4600];let playT=null,inView=false;
+function go(i,user){i=(i+4)%4;curStep=-1;setStep(i);story.style.setProperty('--dur',DUR[i]+'ms');sched();if(user)buzz(6)}
+function sched(){clearTimeout(playT);if(!inView||RM||document.hidden){story.classList.add('paused');return}story.classList.remove('paused');playT=setTimeout(()=>go(curStep+1),DUR[curStep])}
+dots.forEach((d,k)=>d.onclick=()=>go(k,1));
+$$('.step-nav button').forEach(b=>b.onclick=()=>go(curStep+(+b.dataset.d),1));
+(()=>{let x0=null,y0=0;pin.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
+ pin.addEventListener('touchend',e=>{if(x0==null)return;const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;x0=null;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.5)go(curStep+(dx<0?1:-1),1)},{passive:true})})();
+new IntersectionObserver(([e])=>{const was=inView;inView=e.isIntersecting;if(inView&&!was){fitPhone();go(curStep<0?0:curStep)}else sched()},{threshold:.45}).observe(phone);
+document.addEventListener('visibilitychange',sched);
 
 /* ===== marquee ===== */
 const SITES=[['bilibili.com','哔哩哔哩',100],['shein.com','SHEIN',100],['gitee.com','码云',100],['huanqiu.com','环球网',100],['taptap.cn','TapTap',100],['modelscope.cn','魔搭',100],['made-in-china.com','中国制造网',100],['ifeng.com','凤凰网',99],['qiniu.com','七牛云',99],['klook.com','Klook',97],['storm.mg','风传媒',97],['bt.cn','宝塔',95],['eslite.com','诚品',90],['logitech.com.cn','罗技',80],['ctrip.com','携程',70],['thinkphp.cn','ThinkPHP',60],['tvb.com','TVB',50],['coze.cn','扣子',50],['nvidia.cn','NVIDIA',30],['moegirl.org.cn','萌娘百科',30]];
@@ -460,25 +475,25 @@ new IntersectionObserver(([e])=>{heroGone=!e.isIntersecting&&e.boundingClientRec
 new IntersectionObserver(([e])=>{endIn=e.isIntersecting;dockUpd()},{threshold:.2}).observe(endSec);
 new IntersectionObserver(([e])=>{storyIn=e.isIntersecting;dockUpd()},{rootMargin:'-30% 0px -30% 0px'}).observe(story);
 function dockUpd(){dock.classList.toggle('show',heroGone&&!endIn&&!storyIn&&!sheet.classList.contains('open'))}
+let lastN=-1;
 function frame(now){
  const vh=innerHeight,y=scrollY;lnav.classList.toggle('stuck',y>44);
  // hero doc
- const r=stage.getBoundingClientRect(),p=RM?1:clamp(1-(r.top+r.height*.15)/(vh*.9),0,1),e=ease(p);
+ const r=stage.getBoundingClientRect();
+ if(r.bottom>-50&&r.top<vh){const p=RM?1:clamp(1-(r.top+r.height*.15)/(vh*.9),0,1),e=ease(p);
  const fl=RM?0:Math.sin((now-t0)/1400)*6;
  doc.style.setProperty('--rx',(lerp(62,4,e)+ty)+'deg');doc.style.setProperty('--rz',lerp(-14,0,e)+'deg');
  doc.style.setProperty('--ry',(spin+tx+lerp(-18,0,e))+'deg');doc.style.setProperty('--s',lerp(.78,1,e));doc.style.setProperty('--ty',fl+'px');
  doc.querySelector('.slab.f').style.setProperty('--sheen',(lerp(-80,80,e)+((spin%360)+360)%360*.25)+'%');
  glow.style.setProperty('--g',e);
  bars.forEach((b,i)=>b.style.setProperty('--k',p>.25+i*.08?1:0));
- if(p>.7&&!scored){scored=true;tick($('#docScore'),100,1400)}
+ if(p>.7&&!scored){scored=true;tick($('#docScore'),100,1400)}}
  // char highlight
- const hr=hl.getBoundingClientRect(),hp=clamp((vh*.85-hr.top)/(hr.height+vh*.35),0,1),n=Math.floor(hp*chars.length*1.05);
- chars.forEach((c,i)=>c.classList.toggle('on',RM||i<n));
+ const hr=hl.getBoundingClientRect(),hp=clamp((vh*.85-hr.top)/(hr.height+vh*.35),0,1),n=RM?1e9:Math.floor(hp*chars.length*1.05);
+ if(n!==lastN){chars.forEach((c,i)=>c.classList.toggle('on',i<n));lastN=n}
  // story
- const sr=story.getBoundingClientRect(),sp=clamp(-sr.top/(sr.height-vh),0,.9999);
- if(!RM){setStep(Math.floor(sp*4));phone.style.setProperty('--ps',lerp(.94,1,ease(clamp(sp*4,0,1))))}
  // mega
- const dr=dataSec.getBoundingClientRect(),dp=clamp((vh-dr.top)/(vh*.9),0,1);mega.style.setProperty('--ms',lerp(.7,1,ease(dp)));mega.style.setProperty('--mo',lerp(.1,1,dp));
+ const dr=dataSec.getBoundingClientRect();if(dr.top<vh&&dr.bottom>0){const dp=clamp((vh-dr.top)/(vh*.9),0,1);mega.style.setProperty('--ms',lerp(.7,1,ease(dp)));mega.style.setProperty('--mo',lerp(.1,1,dp))}
  // tri
  const trr=tri[0].parentNode.getBoundingClientRect(),tp=clamp((vh*.8-trr.top)/(trr.height+vh*.2),0,1);
  tri.forEach((s,i)=>s.style.color=(RM||tp>i/3+.08)?'var(--ink)':'#d2d2d7');
