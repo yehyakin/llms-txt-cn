@@ -1,0 +1,11 @@
+{
+  "name": "cetxt",
+  "private": true,
+  "description": "cetxt.com — AI 爬虫与训练规则检测（robots.txt / __usage_ai-training / llms.txt）",
+  "license": "MIT",
+  "scripts": {
+    "test": "node test.js && node tests/robots.test.js && node tests/worker.test.mjs",
+    "build:worker": "node scripts/build-worker.mjs",
+    "deploy:preview": "python3 scripts/deploy_preview.py --embed --no-stats"
+  }
+}

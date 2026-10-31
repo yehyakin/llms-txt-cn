@@ -1,0 +1,216 @@
+{
+  "version": "2026-10-31",
+  "note": "每条用途、是否遵守 robots 均来自 docs_url 官方文档原文（verified_on 当日 web_fetch 核对）。verification=verified 表示用途与 robots 立场均有原文；partial 表示部分字段官方未写明；unverified 表示官方没有可核对的说明。category：training 训练 / training_control 训练用途控制 token（不单独抓取）/ search 搜索索引 / user 用户触发抓取 / dataset 开放数据集。",
+  "crawlers": [
+    {
+      "token": "GPTBot", "vendor": "OpenAI", "category": "training", "purposes": ["training"],
+      "respects_robots": "yes",
+      "summary_zh": "抓取可能用于训练 OpenAI 生成式基础模型的内容；禁止 GPTBot = 表示内容不应用于训练。",
+      "quote": "Disallowing GPTBot indicates a site's content should not be used in training generative AI foundation models.",
+      "block_consequence_zh": "内容不会被 OpenAI 用于训练生成式基础模型；不影响 ChatGPT 搜索展示（那由 OAI-SearchBot 控制）。",
+      "docs_url": "https://platform.openai.com/docs/bots", "verified_on": "2026-10-31", "verification": "verified"
+    },
+    {
+      "token": "OAI-SearchBot", "vendor": "OpenAI", "category": "search", "purposes": ["search"],
+      "respects_robots": "yes",
+      "summary_zh": "用于在 ChatGPT 搜索功能中展示网站；与 GPTBot 相互独立。",
+      "quote": "Sites that are opted out of OAI-SearchBot will not be shown in ChatGPT search answers, though can still appear as navigational links.",
+      "block_consequence_zh": "网站不会出现在 ChatGPT 搜索答案中（仍可能以导航链接出现）。",
+      "docs_url": "https://platform.openai.com/docs/bots", "verified_on": "2026-10-31", "verification": "verified"
+    },
+    {
+      "token": "ChatGPT-User", "vendor": "OpenAI", "category": "user", "purposes": ["user"],
+      "respects_robots": "partial",
+      "summary_zh": "ChatGPT / Custom GPT 中由用户操作触发的访问，不做自动爬取；官方称 robots.txt 规则可能不适用。",
+      "quote": "Because these actions are initiated by a user, robots.txt rules may not apply.",
+      "block_consequence_zh": "官方说明 robots.txt 对用户触发请求可能不生效；它也不决定能否出现在 ChatGPT 搜索中。",
+      "docs_url": "https://platform.openai.com/docs/bots", "verified_on": "2026-10-31", "verification": "verified"
+    },
+    {
+      "token": "ClaudeBot", "vendor": "Anthropic", "category": "training", "purposes": ["training"],
+      "respects_robots": "yes",
+      "summary_zh": "收集可能用于训练 Anthropic 生成式模型的网页内容；限制 ClaudeBot = 今后的内容不进入训练数据集。",
+      "quote": "When a site restricts ClaudeBot access, it signals that the site's future materials should be excluded from our AI model training datasets.",
+      "block_consequence_zh": "今后的内容会被排除在 Anthropic 模型训练数据之外。",
+      "docs_url": "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler", "verified_on": "2026-10-31", "verification": "verified"
+    },
+    {
+      "token": "Claude-SearchBot", "vendor": "Anthropic", "category": "search", "purposes": ["search"],
+      "respects_robots": "yes",
+      "summary_zh": "为提升 Claude 搜索结果质量而索引网页。",
+      "quote": "Disabling Claude-SearchBot on your site prevents our system from indexing your content for search optimization, which may reduce your site's visibility and accuracy in user search results.",
+      "block_consequence_zh": "内容不会被 Claude 搜索索引，可能降低你在 Claude 搜索结果中的可见度。",
+      "docs_url": "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler", "verified_on": "2026-10-31", "verification": "verified"
+    },
+    {
+      "token": "Claude-User", "vendor": "Anthropic", "category": "user", "purposes": ["user"],
+      "respects_robots": "yes",
+      "summary_zh": "用户向 Claude 提问时代为访问网页；站长可用 robots.txt 控制。",
+      "quote": "Disabling Claude-User on your site prevents our system from retrieving your content in response to a user query, which may reduce your site's visibility for user-directed web search.",
+      "block_consequence_zh": "Claude 无法在回答用户问题时读取你的页面，可能降低在用户主动搜索中的可见度。",
+      "docs_url": "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler", "verified_on": "2026-10-31", "verification": "verified"
+    },
+    {
+      "token": "Google-Extended", "vendor": "Google", "category": "training_control", "purposes": ["training", "grounding"],
+      "respects_robots": "yes", "control_only": true,
+      "summary_zh": "独立的控制 token，不单独发请求：控制 Google 抓到的内容能否用于训练未来的 Gemini 模型，以及用于 Gemini Apps / Vertex AI 的 grounding。不影响 Google 搜索收录与排名。",
+      "quote": "Google-Extended is a standalone product token that web publishers can use to manage whether content Google crawls from their sites may be used for training future generations of Gemini models ... and for grounding ... in Gemini Apps and Grounding with Google Search on Vertex AI. Google-Extended does not impact a site's inclusion in Google Search nor is it used as a ranking signal in Google Search.",
+      "block_consequence_zh": "内容不用于训练后续 Gemini 模型，同时也不会用于 Gemini Apps 与 Vertex AI 的 grounding（即不会在这些回答里被引用、带来点击）；Google 搜索不受影响。",
+      "docs_url": "https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers", "verified_on": "2026-10-31", "verification": "verified"
+    },
+    {
+      "token": "Googlebot", "vendor": "Google", "category": "search", "purposes": ["search"],
+      "respects_robots": "yes",
+      "summary_zh": "Google 搜索主爬虫，自动抓取时总是遵守 robots.txt。",
+      "quote": "Crawling preferences addressed to the Googlebot user agent affect Google Search (including Discover and all Google Search features), as well as other products such as Google Images, Video mode, Google News, and Discover.",
+      "block_consequence_zh": "会影响 Google 搜索（含 Discover、图片、新闻等）。如果目的是拒绝 AI 训练，应该禁止 Google-Extended，而不是 Googlebot。",
+      "docs_url": "https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers", "verified_on": "2026-10-31", "verification": "verified"
+    },
+    {
+      "token": "Applebot", "vendor": "Apple", "category": "search", "purposes": ["search", "training_source"],
+      "respects_robots": "yes", "fallback_tokens": ["Googlebot"],
+      "summary_zh": "Apple 搜索爬虫（Spotlight、Siri、Safari）；抓到的数据也可能用于训练 Apple 基础模型，训练用途由 Applebot-Extended 控制。没有 Applebot 专属组但有 Googlebot 组时，Applebot 按 Googlebot 规则执行。",
+      "quote": "If robots instructions don't mention Applebot but mention Googlebot, the Apple robot will follow Googlebot instructions.",
+      "block_consequence_zh": "网站不会出现在 Spotlight、Siri、Safari 等 Apple 搜索功能中。只想拒绝训练应禁止 Applebot-Extended。",
+      "docs_url": "https://support.apple.com/en-us/119829", "verified_on": "2026-10-31", "verification": "verified"
+    },
+    {
+      "token": "Applebot-Extended", "vendor": "Apple", "category": "training_control", "purposes": ["training"],
+      "respects_robots": "yes", "control_only": true,
+      "summary_zh": "不抓取网页，只决定 Applebot 抓到的数据能否用于训练 Apple 的通用基础模型；禁止它不影响 Apple 搜索收录。",
+      "quote": "Applebot-Extended does not crawl webpages. Webpages that disallow Applebot-Extended can still be included in search results.",
+      "block_consequence_zh": "内容不用于训练 Apple Intelligence 等生成式功能背后的基础模型；Apple 搜索收录不受影响。",
+      "docs_url": "https://support.apple.com/en-us/119829", "verified_on": "2026-10-31", "verification": "verified"
+    },
+    {
+      "token": "PerplexityBot", "vendor": "Perplexity", "category": "search", "purposes": ["search"],
+      "respects_robots": "yes",
+      "summary_zh": "用于在 Perplexity 搜索结果中展示并链接网站，不用于抓取 AI 基础模型训练内容。",
+      "quote": "PerplexityBot is designed to surface and link websites in search results on Perplexity. It is not used to crawl content for AI foundation models.",
+      "block_consequence_zh": "网站不会在 Perplexity 搜索结果中被展示和链接。",
+      "docs_url": "https://docs.perplexity.ai/guides/bots", "verified_on": "2026-10-31", "verification": "verified"
+    },
+    {
+      "token": "Perplexity-User", "vendor": "Perplexity", "category": "user", "purposes": ["user"],
+      "respects_robots": "no",
+      "summary_zh": "用户在 Perplexity 提问时代为访问页面；官方称一般忽略 robots.txt。",
+      "quote": "Since a user requested the fetch, this fetcher generally ignores robots.txt rules.",
+      "block_consequence_zh": "官方说明它一般忽略 robots.txt，写禁止规则大概率拦不住，需要 WAF 层处理。",
+      "docs_url": "https://docs.perplexity.ai/guides/bots", "verified_on": "2026-10-31", "verification": "verified"
+    },
+    {
+      "token": "Bingbot", "vendor": "Microsoft", "category": "search", "purposes": ["search"],
+      "respects_robots": "yes",
+      "summary_zh": "Bing 标准爬虫，负责绝大部分抓取；可用 robots.txt 控制。Bing 的结果也为 Copilot 等 AI 体验提供 grounding。",
+      "quote": "Bingbot is our standard crawler and handles most of our crawling needs each day.",
+      "block_consequence_zh": "网站会从 Bing 搜索消失，也就进不了依赖 Bing 索引的 AI 体验。只想拒绝训练应使用 __usage_ai-training（Microsoft 自 2027-02-01 起执行）。",
+      "docs_url": "https://www.bing.com/webmasters/help/which-crawlers-does-bing-use-8c184ec0", "verified_on": "2026-10-31", "verification": "verified"
+    },
+    {
+      "token": "CCBot", "vendor": "Common Crawl", "category": "dataset", "purposes": ["dataset"],
+      "respects_robots": "yes",
+      "summary_zh": "非营利组织 Common Crawl 的爬虫，产出任何人都可获取的公开网页数据集。官方页面没有直接写“用于 AI 训练”，但该数据集被广泛用作训练语料（此为业界共识，非官方表述）。",
+      "quote": "To prevent Common Crawl from crawling your website, include the following in your robots.txt: User-agent: CCBot Disallow: /",
+      "block_consequence_zh": "今后的页面不会进入 Common Crawl 公开数据集（已有快照不会撤回）。",
+      "docs_url": "https://commoncrawl.org/ccbot", "verified_on": "2026-10-31", "verification": "partial",
+      "unverified_fields": ["training_use"]
+    },
+    {
+      "token": "Bytespider", "vendor": "ByteDance", "category": "search", "purposes": ["search"],
+      "respects_robots": "unverified",
+      "summary_zh": "官方文档称其为头条搜索爬虫（建立搜索索引）。是否用于 AI 训练、是否遵守 robots.txt，本页官方文档均未写明。",
+      "quote": "头条搜索的爬虫UA为“Bytespider”",
+      "block_consequence_zh": "会影响头条搜索收录；是否能阻止 AI 训练用途，官方没有说明。",
+      "docs_url": "https://zhanzhang.toutiao.com/docs/intro/26899", "verified_on": "2026-10-31", "verification": "partial",
+      "unverified_fields": ["training_use", "respects_robots"]
+    },
+    {
+      "token": "meta-externalagent", "vendor": "Meta", "category": "training", "purposes": ["training", "indexing"],
+      "respects_robots": "yes",
+      "summary_zh": "用于训练基础 AI 模型或直接索引内容以改进产品等用途。",
+      "quote": "The Meta-ExternalAgent crawler crawls the web for use cases such as training foundation AI models or improving products by indexing content directly.",
+      "block_consequence_zh": "内容不再被 Meta-ExternalAgent 抓取，用于训练 Meta 基础模型等用途。",
+      "docs_url": "https://developers.facebook.com/docs/sharing/webmasters/web-crawlers", "verified_on": "2026-10-31", "verification": "verified"
+    },
+    {
+      "token": "meta-webindexer", "vendor": "Meta", "category": "search", "purposes": ["search"],
+      "respects_robots": "unverified",
+      "summary_zh": "为提升 Meta AI 搜索结果质量而索引网页，允许它有助于 Meta AI 回答中引用并链接你的内容。官方页面的 robots 示例未单独提到它。",
+      "quote": "Allowing Meta-WebIndexer in your robots.txt file helps us cite and link to your content in Meta AI's responses.",
+      "block_consequence_zh": "Meta AI 回答中可能不再引用、链接你的内容。",
+      "docs_url": "https://developers.facebook.com/docs/sharing/webmasters/web-crawlers", "verified_on": "2026-10-31", "verification": "partial",
+      "unverified_fields": ["respects_robots"]
+    },
+    {
+      "token": "meta-externalfetcher", "vendor": "Meta", "category": "user", "purposes": ["user"],
+      "respects_robots": "no",
+      "summary_zh": "按用户请求抓取单个链接，可能绕过 robots.txt。",
+      "quote": "The Meta-ExternalFetcher crawler may bypass robots.txt because it performs fetches that were requested by the user.",
+      "block_consequence_zh": "官方说明它可能绕过 robots.txt。",
+      "docs_url": "https://developers.facebook.com/docs/sharing/webmasters/web-crawlers", "verified_on": "2026-10-31", "verification": "verified"
+    },
+    {
+      "token": "Amazonbot", "vendor": "Amazon", "category": "training", "purposes": ["training", "product"],
+      "respects_robots": "yes",
+      "summary_zh": "用于改进 Amazon 产品与服务，可能用于训练 Amazon AI 模型。不支持 crawl-delay。",
+      "quote": "Amazonbot is used to improve our products and services. This helps us provide more accurate information to customers and may be used to train Amazon AI models.",
+      "block_consequence_zh": "内容不再被 Amazonbot 抓取（包括可能的 AI 训练用途）；Alexa 等搜索体验由 Amzn-SearchBot 单独控制。",
+      "docs_url": "https://developer.amazon.com/amazonbot", "verified_on": "2026-10-31", "verification": "verified"
+    },
+    {
+      "token": "Amzn-SearchBot", "vendor": "Amazon", "category": "search", "purposes": ["search"],
+      "respects_robots": "yes",
+      "summary_zh": "用于 Alexa 等 Amazon 搜索体验，不抓取生成式 AI 训练内容。",
+      "quote": "Amzn-SearchBot does not crawl content for generative AI model training.",
+      "block_consequence_zh": "内容无法出现在 Alexa 等 Amazon 搜索体验中。",
+      "docs_url": "https://developer.amazon.com/amazonbot", "verified_on": "2026-10-31", "verification": "verified"
+    },
+    {
+      "token": "DuckAssistBot", "vendor": "DuckDuckGo", "category": "search", "purposes": ["search"],
+      "respects_robots": "yes",
+      "summary_zh": "为 DuckDuckGo 的 AI 辅助答案实时抓取页面（答案会显著标注来源），数据不用于训练 AI 模型。",
+      "quote": "DuckAssistBot is a web crawler for DuckDuckGo Search that crawls pages in real-time for our AI-assisted answers ... This data is not used in any way to train AI models.",
+      "block_consequence_zh": "不再作为 DuckDuckGo AI 辅助答案的来源；不影响自然搜索排名。",
+      "docs_url": "https://duckduckgo.com/duckduckgo-help-pages/results/duckassistbot", "verified_on": "2026-10-31", "verification": "verified"
+    },
+    {
+      "token": "Baiduspider", "vendor": "百度", "category": "search", "purposes": ["search"],
+      "respects_robots": "yes",
+      "summary_zh": "百度搜索引擎爬虫，遵守 robots 协议。百度没有公开独立的“AI 训练用途”控制 token（未找到官方说明）。",
+      "quote": "Baiduspider遵守互联网robots协议……禁止Baiduspider访问您的网站，将使您的网站上的网页，在百度搜索引擎以及所有百度提供搜索引擎服务的搜索引擎中无法被搜索到。",
+      "block_consequence_zh": "网页在百度及所有使用百度搜索服务的搜索引擎中都搜不到。",
+      "docs_url": "https://help.baidu.com/question?prod_id=99&class=476&id=2996", "verified_on": "2026-10-31", "verification": "verified"
+    }
+  ],
+  "vendor_training_tokens": {
+    "OpenAI": "GPTBot", "Anthropic": "ClaudeBot", "Google": "Google-Extended", "Apple": "Applebot-Extended",
+    "Meta": "meta-externalagent", "Amazon": "Amazonbot", "Common Crawl": "CCBot"
+  },
+  "policy_tokens": [
+    {
+      "token": "__usage_ai-training",
+      "spec": "draft-kelley-aipref-training-preference-signal-00",
+      "spec_url": "https://datatracker.ietf.org/doc/draft-kelley-aipref-training-preference-signal/",
+      "status_zh": "IETF 个人草案（individual Internet-Draft），未经 IETF 认可、无正式标准地位",
+      "published": "2026-10-30", "expires": "2027-05-03",
+      "semantics_zh": [
+        "User-agent: * 组不匹配该 token（§4.2）",
+        "文件里没有 User-agent: __usage_ai-training 组 = 未表达任何训练偏好（§4.2）",
+        "它不是抓取指令；限制抓取仍要写爬虫自己的 token（§4.4）",
+        "更具体的表达应优先，厂商可声明其专有 token 比它更具体（§4.5）"
+      ],
+      "consumers": [
+        { "vendor": "Anthropic", "status": "implementing", "status_zh": "已开始实现（会逐步覆盖各服务）", "date": null,
+          "source_url": "https://mailarchive.ietf.org/arch/msg/ai-control/mddjatOxSR0h6GmLRBWlc839c7w/" },
+        { "vendor": "OpenAI", "status": "planned", "status_zh": "计划在未来几个月内实现（coming months），现有 GPTBot 等控制继续有效", "date": null,
+          "source_url": "https://openai.com/index/helping-websites-express-ai-training-preferences/" },
+        { "vendor": "Microsoft", "status": "planned", "status_zh": "2027-02-01 起在抓取时执行；另有页面级 AI Grounding 偏好", "date": "2027-02-01",
+          "source_url": "https://blogs.bing.com/search/2026/10/your-content-your-choice-clearer-preferences-for-training-and-grounding/" },
+        { "vendor": "Google", "status": "planned", "status_zh": "计划 2027 年初支持；用它拒绝训练且未显式写 Google-Extended 时，视同禁止 Google-Extended", "date": "2027 年初",
+          "source_url": "https://developers.google.com/search/blog/2026/10/ai-training-control",
+          "source_url_2": "https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers" }
+      ],
+      "verified_on": "2026-10-31"
+    }
+  ]
+}
