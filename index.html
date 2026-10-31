@@ -67,7 +67,7 @@
   --maxw:1200px;
 }
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth; scroll-padding-top:118px}
 html,body{margin:0; padding:0}
 body{
   background:var(--bg); color:var(--ink);
@@ -120,7 +120,7 @@ a{color:inherit}
 }
 body.has-ann .announce{display:block}
 .announce-in{
-  max-width:var(--maxw); margin:0 auto; padding:0 28px; height:38px;
+  max-width:var(--maxw); margin:0 auto; padding:0 max(28px, env(safe-area-inset-right)) 0 max(28px, env(safe-area-inset-left)); height:38px;
   display:flex; align-items:center; justify-content:center; gap:10px;
   font-family:var(--mono); font-size:12px; letter-spacing:.06em; font-weight:500;
   white-space:nowrap; overflow:hidden;
@@ -136,7 +136,7 @@ body.has-ann .announce{display:block}
 body.has-ann .topbar{top:38px}
 body.has-ann main{padding-top:102px}
 @media (max-width:720px){
-  .announce-in{padding:0 40px 0 16px; font-size:11px}
+  .announce-in{padding:0 max(40px, env(safe-area-inset-right)) 0 max(16px, env(safe-area-inset-left)); font-size:11px}
   .announce .desk{display:none}
   .announce .mobi{display:inline}
 }
@@ -145,7 +145,7 @@ body.has-ann main{padding-top:102px}
   backdrop-filter:saturate(160%) blur(18px); -webkit-backdrop-filter:saturate(160%) blur(18px);
   background:rgba(12,12,14,.72); border-bottom:1px solid var(--line-soft);
 }
-.topbar-in{max-width:var(--maxw); margin:0 auto; padding:0 28px; height:64px; display:flex; align-items:center; gap:28px}
+.topbar-in{max-width:var(--maxw); margin:0 auto; padding:0 max(28px, env(safe-area-inset-right)) 0 max(28px, env(safe-area-inset-left)); height:64px; display:flex; align-items:center; gap:28px}
 .brand{display:flex; align-items:baseline; gap:10px; text-decoration:none; cursor:pointer}
 .brand b{font-family:var(--serif); font-weight:900; font-size:24px; letter-spacing:-.02em}
 .brand b em{font-style:normal; color:var(--acc)}
@@ -177,7 +177,7 @@ body.has-ann main{padding-top:102px}
 }
 .gh:hover{color:var(--acc)}
 @media (max-width:720px){
-  .topbar-in{padding:0 16px; gap:14px}
+  .topbar-in{padding:0 max(16px, env(safe-area-inset-right)) 0 max(16px, env(safe-area-inset-left)); gap:14px}
   .brand span,.kbd-hint{display:none}
   .tab{padding:10px 8px}
 }
@@ -185,8 +185,8 @@ body.has-ann main{padding-top:102px}
 <style>
 /* ---------- 主体骨架 ---------- */
 .stage{position:relative; z-index:1; background:var(--bg)}
-.wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px}
-@media (max-width:720px){ .wrap{padding:0 16px} }
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 max(28px, env(safe-area-inset-right)) 0 max(28px, env(safe-area-inset-left))}
+@media (max-width:720px){ .wrap{padding:0 max(16px, env(safe-area-inset-right)) 0 max(16px, env(safe-area-inset-left))} }
 main{padding-top:64px}
 
 /* ---------- 行遮罩揭示 ---------- */
@@ -250,7 +250,7 @@ main{padding-top:64px}
 #tabGen,#tabVal{transition:opacity .4s var(--ease), transform .4s var(--ease)}
 #tabGen.switching,#tabVal.switching{opacity:0; transform:translateY(16px)}
 .grid2{display:grid; grid-template-columns:1fr 1fr; gap:clamp(20px,3vw,44px); align-items:start}
-@media (max-width:960px){ .grid2{grid-template-columns:1fr} }
+@media (max-width:840px){ .grid2{grid-template-columns:1fr} }
 
 .card{
   background:var(--bg2); border:1px solid var(--line-soft); border-radius:18px;
@@ -332,7 +332,7 @@ select{appearance:none; -webkit-appearance:none; cursor:pointer;
 
 /* ---------- 预览：印刷品 ---------- */
 .preview-wrap{position:sticky; top:88px}
-@media (max-width:960px){ .preview-wrap{position:static} }
+@media (max-width:840px){ .preview-wrap{position:static} }
 .doc{
   background:var(--bg); border:1px solid var(--line); border-radius:14px; overflow:hidden;
 }
@@ -587,6 +587,19 @@ footer{
 @keyframes tkIn{from{opacity:0; transform:scale(.5)} to{opacity:1; transform:scale(1)}}
 /* 高频交互反馈提速（Kowalski：日用交互 0–120ms 级） */
 .chip,.btn-sec,.tab,.gh,.kbd-hint,.iconbtn,.pal-item{transition-duration:.18s}
+/* 顶栏窄屏防挤断（2026-10-26 Duo 真机反馈）：tab 禁换行禁压缩，GitHub 先图标化再隐藏 */
+@media (max-width:720px){
+  .brand{flex-shrink:0}
+  .tabs{margin-left:0}
+  .tab{white-space:nowrap; flex-shrink:0; padding:10px 7px; letter-spacing:.08em}
+  .top-actions{flex-shrink:0}
+  .gh{font-size:0; padding:8px 6px}
+}
+@media (max-width:560px){
+  .gh{display:none}
+  .topbar-in{gap:10px}
+  .tab{padding:10px 6px}
+}
 </style>
 <script defer src="https://umami.kin3.net/script.js" data-website-id="3a06af3f-999b-4956-a6af-8760b6a03ed3"></script>
 </head>

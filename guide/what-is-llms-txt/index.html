@@ -38,7 +38,7 @@
   :root{ --bg:#0c0c0e; --bg2:#121214; --ink:#f4f1e9; --mut:#97958d; --line:rgba(244,241,233,.13); --acc:#d2ff00; --acc-ink:#0c0c0e; }
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:var(--bg);color:var(--ink);font-family:"Noto Sans SC",sans-serif;font-size:17px;line-height:1.9;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:720px;margin:0 auto;padding:0 24px}
+  .wrap{max-width:720px;margin:0 auto;padding:0 max(24px, env(safe-area-inset-right)) 0 max(24px, env(safe-area-inset-left))}
   .topbar{display:flex;justify-content:space-between;align-items:center;padding:22px 0;border-bottom:1px solid var(--line);font-size:14px}
   .topbar a{color:var(--mut);text-decoration:none}
   .topbar a:hover{color:var(--acc)}
