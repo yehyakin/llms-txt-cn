@@ -73,7 +73,7 @@ transform:translateY(var(--ty,0px)) rotateX(var(--rx)) rotateY(var(--ry)) rotate
  repeating-linear-gradient(90deg,rgba(0,0,0,.022) 0 1px,rgba(255,255,255,.03) 1px 2px),
  linear-gradient(125deg,#e3e3e7 0%,#f7f7f9 28%,#d5d5da 52%,#f0f0f3 74%,#cfcfd4 100%);overflow:hidden}
 .slab.f::after{content:"";position:absolute;inset:-50%;background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.75) 50%,transparent 58%);transform:translateX(var(--sheen,-70%));mix-blend-mode:soft-light}
-.fold{position:absolute;right:0;top:0;width:22%;aspect-ratio:1/.727;border-radius:0 0 0 10px;transform:translateZ(.5px);
+.fold{position:absolute;right:0;top:0;width:22%;height:16%;border-radius:0 0 0 10px;transform:translateZ(.5px);
 background:linear-gradient(225deg,transparent 49%,#c9c9ce 50%,#ececef 70%,#dadade);box-shadow:-2px 3px 6px -2px rgba(0,0,0,.18)}
 .eng{position:absolute;inset:0;padding:15% 12% 0;transform:translateZ(.6px);text-align:left}
 .eng *{color:#ababb1;text-shadow:0 1px 0 rgba(255,255,255,.95),0 -1px 0 rgba(0,0,0,.14)}
@@ -214,8 +214,8 @@ background:rgba(255,255,255,.78);backdrop-filter:saturate(180%) blur(24px);-webk
 .sheet .bg{position:absolute;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:0;transition:opacity .5s var(--ease)}
 .sheet .box{position:absolute;left:50%;bottom:0;width:min(680px,100%);max-height:92vh;overflow:auto;background:#f5f5f7;border-radius:28px 28px 0 0;padding:14px 22px calc(28px + env(safe-area-inset-bottom));
 transform:translate(-50%,100%);transition:transform .65s var(--out);overscroll-behavior:contain}
-@media(min-width:735px){.sheet .box{bottom:50%;border-radius:28px;transform:translate(-50%,calc(50% + 60px)) scale(.96);opacity:0;transition:transform .6s var(--spring),opacity .35s}.sheet.open .box{transform:translate(-50%,50%);opacity:1}}
 .sheet.open{visibility:visible}.sheet.open .bg{opacity:1}.sheet.open .box{transform:translate(-50%,0)}
+@media(min-width:735px){.sheet .box{bottom:50%;border-radius:28px;transform:translate(-50%,calc(50% + 60px)) scale(.96);opacity:0;transition:transform .6s var(--spring),opacity .35s}.sheet.open .box{transform:translate(-50%,50%);opacity:1}}
 .grab{width:36px;height:5px;border-radius:3px;background:#c7c7cc;margin:0 auto 14px}
 .sheet .x{position:absolute;right:16px;top:16px;width:32px;height:32px;border-radius:50%;background:#e3e3e8;display:grid;place-items:center;transition:transform .3s var(--spring)}.sheet .x:active{transform:scale(.88)}
 .res-h{text-align:center;margin:6px 0 4px}.res-h small{font:600 13px var(--mono);color:var(--mut2);letter-spacing:.04em}
@@ -229,12 +229,12 @@ transform:translate(-50%,100%);transition:transform .65s var(--out);overscroll-b
 
 footer{background:var(--alt);font-size:12px;color:var(--mut2);padding:16px 22px calc(96px + env(safe-area-inset-bottom))}
 footer .in{max-width:1024px;margin:0 auto;line-height:1.7}footer ol{padding-left:16px;margin-bottom:14px;border-bottom:1px solid var(--line);padding-bottom:14px}
-.tag{position:fixed;right:12px;top:calc(56px + env(safe-area-inset-top));z-index:70;font:11px var(--mono);background:rgba(29,29,31,.82);color:#fff;border-radius:8px;padding:5px 9px;pointer-events:none}
+.tag{position:fixed;left:12px;top:calc(104px + env(safe-area-inset-top));z-index:70;font:11px var(--mono);background:rgba(29,29,31,.82);color:#fff;border-radius:8px;padding:5px 9px;pointer-events:none}
 
 @media(max-width:833px){
  .story .pin{grid-template-columns:1fr;grid-template-rows:auto 1fr;gap:0;padding-top:64px}
  .steps{height:170px;order:-1;text-align:center}.step{align-items:center}.step h3{font-size:30px;margin-bottom:8px}.step p{font-size:16px}.step .n{margin-bottom:8px}.dots{justify-content:center;margin-top:14px}
- .phone{width:min(270px,64vw);align-self:start}
+ .phone{width:min(270px,64vw,calc((100svh - 300px) * .464));align-self:start}
  .wheel-wrap,.builder{grid-template-columns:1fr}.wheel{margin:0 auto}.tiles{grid-template-columns:1fr}.wheel-wrap{gap:36px}}
 @media(max-width:734px){.gnav .ls,.lnav .s{display:none}section{padding:100px 20px}.field{padding-left:18px}.field .pre{display:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none;filter:none}.story{height:auto}.story .pin{position:static;height:auto;padding:100px 22px}.hl span{color:var(--ink)}}
@@ -370,7 +370,6 @@ HTML 伪装    170
 <form class="dock" id="dock" data-check><input name="d" placeholder="输入域名，免费体检" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" enterkeyhint="go" aria-label="域名"><button class="pill">体检</button></form>
 
 <div class="sheet" id="sheet" role="dialog" aria-modal="true"><div class="bg"></div><div class="box"><div class="grab"></div><button class="x" aria-label="关闭"><svg width="11" height="11" viewBox="0 0 12 12"><path d="M1 1l10 10M11 1L1 11" stroke="#1d1d1f" stroke-width="2.2" stroke-linecap="round"/></svg></button><div id="res" class="res"></div></div></div>
-<div class="tag">概念 D v3</div>
 
 <script src="/llms.js"></script>
 <script>
@@ -452,10 +451,11 @@ paint();
 
 /* ===== scroll loop ===== */
 const lnav=$('#lnav'),dock=$('#dock'),heroField=$('.hero .field'),endSec=$('#end'),mega=$('#mega'),dataSec=$('#data'),tri=$$('#tri span');
-let heroGone=false,endIn=false;
+let heroGone=false,endIn=false,storyIn=false;
 new IntersectionObserver(([e])=>{heroGone=!e.isIntersecting&&e.boundingClientRect.top<0;dockUpd()}).observe(heroField);
 new IntersectionObserver(([e])=>{endIn=e.isIntersecting;dockUpd()},{threshold:.2}).observe(endSec);
-function dockUpd(){dock.classList.toggle('show',heroGone&&!endIn&&!sheet.classList.contains('open'))}
+new IntersectionObserver(([e])=>{storyIn=e.isIntersecting;dockUpd()},{rootMargin:'-30% 0px -30% 0px'}).observe(story);
+function dockUpd(){dock.classList.toggle('show',heroGone&&!endIn&&!storyIn&&!sheet.classList.contains('open'))}
 function frame(now){
  const vh=innerHeight,y=scrollY;lnav.classList.toggle('stuck',y>44);
  // hero doc
@@ -499,13 +499,13 @@ async function check(dom){
  try{const r=await fetch('/api/check?domain='+encodeURIComponent(dom)),j=await r.json();if(!r.ok||j.error)throw new Error(j.reason||j.error||'检测失败');
   const L=j.llms||j,acc=(j.robots&&j.robots.analysis&&j.robots.analysis.access)||[],bots={};acc.forEach(a=>bots[a.token]=a.status);
   let v=null,p=null;if((L.verdict==='real'||L.verdict==='nonstandard')&&L.text&&window.LLMS){v=LLMS.validateLLMS(L.text);p=LLMS.parseLLMS(L.text)}
-  const blocked=acc.filter(a=>a.status==='blocked').length,open=acc.filter(a=>a.status==='allowed'||a.status==='none').length;
+  const cnt={};acc.forEach(a=>{const k=(ST[a.status]||['其他'])[0];cnt[k]=(cnt[k]||0)+1});const sum=Object.entries(cnt).map(([k,n])=>n+' '+k).join(' · ');
   let h='<div class="res-h"><small>'+esc(dom)+'</small><h3>'+(v?(v.score>=90?'AI 能好好读懂你。':v.score>=60?'能读，但还能更好。':'AI 读起来很吃力。'):'AI 还不认识你。')+'</h3></div>';
   h+=v?ring(v.score,v.grade):ring(0,L.verdict==='html_spoof'?'返回了网页':'没有 llms.txt');
-  if(v){const top=v.issues.filter(x=>x.sev!=='info').slice(0,3);/* sev: error/warn/suggest */
-   h+='<div class="grp"><div class="hd"><span>llms.txt</span><span>'+v.stats.sections+' 个分组 · '+v.stats.links+' 条链接</span></div>'+(top.length?top.map(x=>'<div class="issue"><i style="color:'+(x.sev==='error'?'#d70015':x.sev==='warn'?'#c93400':'#0071e3')+'">'+(x.sev==='error'?'×':'!')+'</i><div><b>'+esc(x.msg||x.title||'')+'</b><br><span style="color:#6e6e73">'+esc(x.fix||'')+'</span></div></div>').join(''):'<div class="issue"><i style="color:#248a3d">✓</i><div>没有发现问题。</div></div>')+'</div>'}
+  if(v){const seen={},top=[];v.issues.filter(x=>x.sev!=='info').forEach(x=>{if(seen[x.msg]){seen[x.msg].n++;return}seen[x.msg]=Object.assign({n:1},x);top.push(seen[x.msg])});top.splice(3);
+   h+='<div class="grp"><div class="hd"><span>llms.txt</span><span>'+v.stats.sections+' 个分组 · '+v.stats.links+' 条链接</span></div>'+(top.length?top.map(x=>'<div class="issue"><i style="color:'+(x.sev==='error'?'#d70015':x.sev==='warn'?'#c93400':'#0071e3')+'">'+(x.sev==='error'?'×':'!')+'</i><div><b>'+esc(x.msg||'')+(x.n>1?' · '+x.n+' 处':'')+'</b><br><span style="color:#6e6e73">'+esc(x.fix||'')+'</span></div></div>').join(''):'<div class="issue"><i style="color:#248a3d">✓</i><div>没有发现问题。</div></div>')+'</div>'}
   else h+='<div class="grp"><div class="issue"><i style="color:#d70015">×</i><div><b>'+(L.verdict==='html_spoof'?'/llms.txt 返回的是网页 HTML':L.verdict==='missing'?'网站根目录没有 llms.txt':'这次没能读到 llms.txt')+'</b><br><span style="color:#6e6e73">用生成器三分钟写一份，放到根目录就行。</span></div></div></div>';
-  h+='<div class="grp"><div class="hd"><span>AI 爬虫 · '+acc.length+' 个</span><span>'+open+' 放行 · '+blocked+' 拒绝</span></div>'+BOTS.map((b,i)=>{const s=ST[bots[b[0]]]||['—',''];return row(b[0].slice(0,2),b[2],b[0],b[1],s[0],s[1],i)}).join('')+'</div>';
+  h+='<div class="grp"><div class="hd"><span>AI 爬虫 · '+acc.length+' 个</span><span>'+esc(sum)+'</span></div>'+BOTS.map((b,i)=>{const s=ST[bots[b[0]]]||['—',''];return row(b[0].slice(0,2),b[2],b[0],b[1],s[0],s[1],i)}).join('')+'</div>';
   h+='<div class="next"><a class="pill" href="#">'+(v?'优化 llms.txt':'生成 llms.txt')+'</a><a class="pill w" href="#robots" data-close>调整 robots.txt</a></div>';
   res.innerHTML=h;{const rg=res.querySelector('.ring'),off=rg.style.getPropertyValue('--off');rg.style.setProperty('--off','377');void rg.offsetWidth;requestAnimationFrame(()=>requestAnimationFrame(()=>rg.style.setProperty('--off',off)))}
   const rb=res.querySelector('.ring b');rb&&tick(rb,+rb.textContent,1400);
