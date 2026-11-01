@@ -152,7 +152,7 @@ export function analyzePage(input) {
     const pt = strip(p && p.length > 2 ? p : '');
     if (pt.length >= 20 && width(pt) <= 700) { answered++; if (ex.length < 2) ex.push(h.text.slice(0, 60)); }
   });
-  add('answers', 'cite', !qs ? 'info' : answered / qs >= 0.6 ? 'pass' : 'warn', 'hypothesis', { questions: qs, answered, examples: ex });
+  add('answers', 'cite', !qs || (qs < 2 && !answered) ? 'info' : answered / qs >= 0.6 ? 'pass' : 'warn', 'hypothesis', { questions: qs, answered, examples: ex });
 
   const semantic = /<(main|article)\b/i.test(body);
   add('semantic', 'cite', semantic ? 'pass' : 'info', 'common', {});
