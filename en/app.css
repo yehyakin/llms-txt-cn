@@ -253,7 +253,8 @@ footer .fgrid>.fbrand>a.logo{display:inline-flex;align-items:center;margin:0}
 .zhtag{font-size:12px;font-weight:600;color:var(--mut);border:1px solid var(--line);border-radius:6px;padding:2px 6px;letter-spacing:0}
 
 /* SEO / AEO / GEO 两层检查 */
-.seo .seo-sub{margin:-4px 16px 6px;font-size:13px;color:#6e6e73}
+.panel.seo{margin-top:14px}
+.seo .seo-sub{margin:10px 16px 4px;font-size:13px;color:#6e6e73}
 .seo-skip{padding:4px 16px 14px;font-size:14px;color:#6e6e73}
 .seol{list-style:none;margin:0;padding:0}
 .seol li{display:grid;grid-template-columns:62px 1fr auto;gap:12px;align-items:start;padding:12px 16px;border-top:1px solid #f0f0f2}
