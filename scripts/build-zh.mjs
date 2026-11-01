@@ -6,6 +6,8 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { renderReport } from '../en/view.js';
 import { GRADE_VERSION } from '../en/grade.js';
+import { FIXTURES, LAB_SUFFIX } from '../worker/lab.js';
+const LAB = JSON.parse(readFileSync(new URL('../data/lab-results.json', import.meta.url), 'utf8'));
 import { GUIDES_ZH, RESEARCH_ZH, PRIVACY_ZH, TERMS_ZH, CONTACT_ZH, HOME_FAQ_ZH, PRICING_FAQ_ZH, EXAMPLES_ZH } from './zh-content.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -193,6 +195,7 @@ write('research/index.html', page({
   path: '/research/', title: RESEARCH_ZH.title, desc: RESEARCH_ZH.desc,
   body: `<main class="wrap doc">${crumbs([['/', '首页'], [null, '研究方法']])}<h1>${esc(RESEARCH_ZH.h1)}</h1><p class="upd">${esc(RESEARCH_ZH.upd)}</p>${RESEARCH_ZH.body}
 <p class="more">报告的三层评级怎么算：<a href="/research/grading/">评分方法 →</a></p>
+<p class="more">用来检验任何 AI 可达性工具的公开测试站：<a href="/research/lab/">对照测试集 →</a></p>
 <div style="margin-top:28px">${checkBox('检测你自己的网站')}</div></main>${CHECK_JS}`
 }));
 
@@ -407,7 +410,41 @@ write('404.html', page({
 }));
 
 /* ---------- sitemap ---------- */
-const urls = ['/', '/research/', '/research/grading/', '/pricing/', '/guides/', ...GUIDES_ZH.map((g) => `/guides/${g.slug}/`), '/bots/', ...crawlers.map((c) => `/bots/${slug(c.token)}/`), '/tools/', '/survey/', '/faq/', '/guide/what-is-llms-txt/', '/guide/how-to-write-llms-txt/', '/llms.txt', '/privacy/', '/terms/', '/contact/'];
+
+/* ---------- 对照测试集 ---------- */
+{
+  const byLab = Object.fromEntries(LAB.results.map((r) => [r.slug, r]));
+  const g3 = (a) => a.map((x) => x || '–').join(' / ');
+  const rows = FIXTURES.map((f) => { const r = byLab[f.slug] || {}; const d = f.slug + LAB_SUFFIX;
+    return `<tr><td><a href="https://${d}/" rel="nofollow">${d}</a></td><td>${esc(f.zh)}</td><td>${g3(f.expect)}</td><td>${r.got ? g3(r.got) + (r.ok ? ' ✓' : ' ✗') : '–'}</td><td><a href="/report/${d}">报告</a></td></tr>`; }).join('');
+  const nOk = LAB.results.filter((r) => r.ok).length;
+  write('research/lab/index.html', page({
+    path: '/research/lab/', title: 'VAKSEL 对照测试集：给 AI 可达性工具用的公开测试站 · VAKSEL',
+    desc: '19 个公开测试站，每个只改一处（防火墙 403、robots.txt 503、假 llms.txt、FAQ 标记与页面不符等），可以用来检验任何 AI 可达性工具，包括我们自己的。',
+    body: `<main class="wrap doc">${crumbs([['/', '首页'], ['/research/', '研究方法'], [null, '对照测试集']])}
+<h1>对照测试集</h1><p class="upd">最近一次运行 ${LAB.run_at.slice(0, 10)} · 规则版本 ${LAB.rules}</p>
+<p class="lead l">${FIXTURES.length} 个公开测试站，每个和对照组相比只改一处，用来看 AI 可达性工具能不能发现问题。任何工具都可以拿来测，包括我们自己的。</p>
+<h2>怎么用</h2>
+<ul><li>先测 <b>baseline${LAB_SUFFIX}</b>，正确的工具应该报告没有问题。</li>
+<li>再测其他站。每行写了改了什么、正确的工具应该给出什么结果。</li>
+<li>防火墙类测试站按 User-Agent 判断，和多数真实防火墙一样，对任何 IP 都给同样的响应。</li></ul>
+<h2>测试站</h2>
+<p>等级依次为能不能进 / 能不能读 / 能不能被引用，规则见<a href="/research/grading/">评分方法</a>。</p>
+<div class="tscroll" style="overflow-x:auto"><table class="tbl tg"><thead><tr><th>测试站</th><th>改了什么</th><th>应得</th><th>VAKSEL</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
+<p>最近一次运行，VAKSEL 结果与预期一致 ${nOk}/${LAB.results.length}。</p>
+<h2>它在我们自己的引擎里找到了什么</h2>
+<p>第一次运行只对了 3/19。测试集找出四个问题，现已修复：</p>
+<ul><li>爬虫名单里漏了华为 PetalBot，导致 robots.txt 全站禁止的站被评成 B 而不是 C。robots.txt 返回 503 的情况也被同一个问题掩盖。</li>
+<li>经备用服务器抓取时，响应头里的 X-Robots-Tag: noindex 没有读到。</li>
+<li>站点拒绝我们直接请求时，站点地图检查没有走备用服务器，被误报为缺失。</li>
+<li>页面里只是提到“Just a moment”，就被误判成验证页。我们改了测试站；真实的验证页判断仍结合页面大小。</li></ul>
+<h2>局限</h2>
+<p>测试站模拟的是常见配置，不能复现真实厂商的 IP 核验、需要浏览器执行的 JavaScript 验证或限频。“应得”等级按我们公开的规则给出，其他工具用不同的说法也可能是对的。</p>
+</main>`
+  }));
+}
+
+const urls = ['/', '/research/', '/research/grading/', '/research/lab/', '/pricing/', '/guides/', ...GUIDES_ZH.map((g) => `/guides/${g.slug}/`), '/bots/', ...crawlers.map((c) => `/bots/${slug(c.token)}/`), '/tools/', '/survey/', '/faq/', '/guide/what-is-llms-txt/', '/guide/how-to-write-llms-txt/', '/llms.txt', '/privacy/', '/terms/', '/contact/'];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${SITE}${u}</loc><lastmod>${UPDATED}</lastmod></url>`).join('\n')}\n</urlset>\n`);
 console.log('zh pages:', out.length);
 

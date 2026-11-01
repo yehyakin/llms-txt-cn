@@ -6,6 +6,8 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { renderReport } from '../en/view.js';
 import { GRADE_VERSION } from '../en/grade.js';
+import { FIXTURES, LAB_SUFFIX } from '../worker/lab.js';
+const LAB = JSON.parse(readFileSync(new URL('../data/lab-results.json', import.meta.url), 'utf8'));
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://vaksel.com';
@@ -514,6 +516,7 @@ out.push(write('en/research/index.html', page({
 <h2>Asian sites</h2>
 <p>We ran the same test on 1,000 popular Chinese-language sites. Silent blocks were rarer: 3.7% of reachable sites at step 1 and about 0.8% at step 2.</p>
 <p class="more">How the report’s three grades work: <a href="/en/research/grading/">Grading method →</a></p>
+<p class="more">Open test sites for checking any AI visibility tool: <a href="/en/research/lab/">VAKSEL Lab →</a></p>
 <div style="margin-top:28px">${checkBox('Test your own site')}</div>
 </main>${CHECK_JS}`
 })));
@@ -569,7 +572,41 @@ ct.addEventListener('submit',async e=>{e.preventDefault();const b=ct.querySelect
 write('en/site.webmanifest', JSON.stringify({ name: 'VAKSEL', short_name: 'VAKSEL', start_url: '/', display: 'browser', background_color: '#ffffff', theme_color: '#0C63F1', icons: [{ src: '/en/brand/icon-192.png', sizes: '192x192', type: 'image/png' }, { src: '/en/brand/icon-512.png', sizes: '512x512', type: 'image/png' }] }, null, 2) + '\n');
 
 /* ---------- sitemap ---------- */
-const urls = ['/en/', '/en/research/', '/en/research/grading/', '/en/pricing/', '/en/privacy/', '/en/terms/', '/en/contact/', '/en/guides/', ...GUIDES.map((g) => `/en/guides/${g.slug}/`), '/en/bots/', ...crawlers.map((c) => `/en/bots/${slug(c.token)}/`)];
+
+/* ---------- Lab: public single-variable test sites ---------- */
+{
+  const byLab = Object.fromEntries(LAB.results.map((r) => [r.slug, r]));
+  const g3 = (a) => a.map((x) => x || '–').join(' / ');
+  const rows = FIXTURES.map((f) => { const r = byLab[f.slug] || {}; const d = f.slug + LAB_SUFFIX;
+    return `<tr><td><a href="https://${d}/" rel="nofollow">${d}</a></td><td>${esc(f.en)}</td><td>${g3(f.expect)}</td><td>${r.got ? g3(r.got) + (r.ok ? ' ✓' : ' ✗') : '–'}</td><td><a href="/en/report/${d}">Report</a></td></tr>`; }).join('');
+  const nOk = LAB.results.filter((r) => r.ok).length;
+  out.push(write('en/research/lab/index.html', page({
+    path: '/en/research/lab/', title: 'VAKSEL Lab: open test sites for AI visibility tools · VAKSEL',
+    desc: 'Nineteen public test sites, each changing one thing (a firewall 403, a robots.txt 503, a fake llms.txt, mismatched FAQ markup). Use them to check any AI visibility tool, ours included.',
+    body: `<main class="wrap doc">${crumbs([['/en/', 'Home'], ['/en/research/', 'Research'], [null, 'Lab']])}
+<h1>VAKSEL Lab</h1><p class="upd">Last run ${LAB.run_at.slice(0, 10)} · rules ${LAB.rules}</p>
+<p class="lead l">${FIXTURES.length} public test sites. Each one changes exactly one thing from the control, so you can see whether an AI visibility tool notices. Point any tool at them, ours included.</p>
+<h2>How to use it</h2>
+<ul><li>Run your tool on <b>baseline${LAB_SUFFIX}</b> first. It should come back clean.</li>
+<li>Then run it on the others. Each row says what changed and what a correct tool should report.</li>
+<li>The firewall sites decide by user agent, the way most real firewalls do. They answer the same way to every IP address.</li></ul>
+<h2>The sites</h2>
+<p>Grades are Get in / Read / Cite, as described in <a href="/en/research/grading/">How we grade</a>.</p>
+<div class="tscroll" style="overflow-x:auto"><table class="tbl tg"><thead><tr><th>Site</th><th>What changes</th><th>Expected</th><th>VAKSEL</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
+<p>VAKSEL matches ${nOk} of ${LAB.results.length} on the latest run.</p>
+<h2>What it caught in our own engine</h2>
+<p>Our first run matched 3 of 19. The lab found four bugs, now fixed:</p>
+<ul><li>Huawei’s PetalBot wasn’t in our crawler list, so a site that blocked everyone in robots.txt was graded B instead of C. The same bug hid a robots.txt 503.</li>
+<li>An X-Robots-Tag: noindex header was missed when we fetched through our fallback server.</li>
+<li>When a site refused our direct request, its sitemap was reported missing, because the sitemap check had no fallback server.</li>
+<li>A page that merely mentioned “Just a moment” was mistaken for a challenge page. We changed the test site; real challenge detection still uses page size.</li></ul>
+<h2>Limits</h2>
+<p>The sites simulate common setups. They don’t reproduce IP-based verification by real vendors, JavaScript challenges that need a browser, or rate limits. Expected grades follow our published rules; another tool may use different labels and still be right.</p>
+</main>`
+  })));
+}
+
+const urls = ['/en/', '/en/research/', '/en/research/grading/', '/en/research/lab/', '/en/pricing/', '/en/privacy/', '/en/terms/', '/en/contact/', '/en/guides/', ...GUIDES.map((g) => `/en/guides/${g.slug}/`), '/en/bots/', ...crawlers.map((c) => `/en/bots/${slug(c.token)}/`)];
 write('en/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${canon(u)}</loc><lastmod>${UPDATED}</lastmod></url>`).join('\n')}\n</urlset>\n`);
 write('en/robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 

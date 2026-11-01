@@ -1,5 +1,5 @@
 {
- "run_at": "2026-11-01T21:52:23.634Z",
+ "run_at": "2026-11-01T22:01:05.345Z",
  "rules": "2026-11-02.1",
  "api": "https://cetxt-preview.kin3.workers.dev",
  "results": [
@@ -13,10 +13,10 @@
    ],
    "got": [
     "S",
-    "A",
+    "S",
     "S"
    ],
-   "ok": false,
+   "ok": true,
    "why": {
     "access": [
      {
@@ -25,12 +25,7 @@
       "total": 8
      }
     ],
-    "read": [
-     {
-      "id": "sitemap",
-      "status": "warn"
-     }
-    ],
+    "read": [],
     "cite": []
    },
    "error": null
@@ -44,35 +39,20 @@
     "S"
    ],
    "got": [
-    "B",
-    "A",
+    "C",
+    "S",
     "S"
    ],
-   "ok": false,
+   "ok": true,
    "why": {
     "access": [
      {
-      "id": "some_blocked",
-      "status": "warn",
-      "n": 7,
-      "total": 8,
-      "bots": [
-       "OAI-SearchBot",
-       "ChatGPT-User",
-       "PerplexityBot",
-       "Perplexity-User",
-       "Claude-SearchBot",
-       "Claude-User",
-       "Bytespider"
-      ]
+      "id": "all_blocked",
+      "status": "fail",
+      "n": 8
      }
     ],
-    "read": [
-     {
-      "id": "sitemap",
-      "status": "warn"
-     }
-    ],
+    "read": [],
     "cite": []
    },
    "error": null
@@ -87,10 +67,10 @@
    ],
    "got": [
     "B",
-    "A",
+    "S",
     "S"
    ],
-   "ok": false,
+   "ok": true,
    "why": {
     "access": [
      {
@@ -103,12 +83,7 @@
       ]
      }
     ],
-    "read": [
-     {
-      "id": "sitemap",
-      "status": "warn"
-     }
-    ],
+    "read": [],
     "cite": []
    },
    "error": null
@@ -123,10 +98,10 @@
    ],
    "got": [
     "S",
-    "A",
+    "S",
     "S"
    ],
-   "ok": false,
+   "ok": true,
    "why": {
     "access": [
      {
@@ -135,12 +110,7 @@
       "total": 8
      }
     ],
-    "read": [
-     {
-      "id": "sitemap",
-      "status": "warn"
-     }
-    ],
+    "read": [],
     "cite": []
    },
    "error": null
@@ -154,35 +124,25 @@
     "S"
    ],
    "got": [
-    "B",
-    "A",
+    "C",
+    "S",
     "S"
    ],
-   "ok": false,
+   "ok": true,
    "why": {
     "access": [
      {
-      "id": "some_blocked",
-      "status": "warn",
-      "n": 7,
-      "total": 8,
-      "bots": [
-       "OAI-SearchBot",
-       "ChatGPT-User",
-       "PerplexityBot",
-       "Perplexity-User",
-       "Claude-SearchBot",
-       "Claude-User",
-       "Bytespider"
-      ]
-     }
-    ],
-    "read": [
+      "id": "robots_5xx",
+      "status": "fail",
+      "http": 503
+     },
      {
-      "id": "sitemap",
-      "status": "warn"
+      "id": "all_blocked",
+      "status": "fail",
+      "n": 8
      }
     ],
+    "read": [],
     "cite": []
    },
    "error": null
@@ -197,10 +157,10 @@
    ],
    "got": [
     "S",
-    "A",
+    "S",
     "S"
    ],
-   "ok": false,
+   "ok": true,
    "why": {
     "access": [
      {
@@ -209,12 +169,7 @@
       "total": 8
      }
     ],
-    "read": [
-     {
-      "id": "sitemap",
-      "status": "warn"
-     }
-    ],
+    "read": [],
     "cite": []
    },
    "error": null
@@ -229,10 +184,10 @@
    ],
    "got": [
     "C",
-    "A",
+    "S",
     "S"
    ],
-   "ok": false,
+   "ok": true,
    "why": {
     "access": [
      {
@@ -249,12 +204,7 @@
       ]
      }
     ],
-    "read": [
-     {
-      "id": "sitemap",
-      "status": "warn"
-     }
-    ],
+    "read": [],
     "cite": []
    },
    "error": null
@@ -269,10 +219,10 @@
    ],
    "got": [
     "A",
-    "A",
+    "S",
     "S"
    ],
-   "ok": false,
+   "ok": true,
    "why": {
     "access": [
      {
@@ -291,12 +241,7 @@
       ]
      }
     ],
-    "read": [
-     {
-      "id": "sitemap",
-      "status": "warn"
-     }
-    ],
+    "read": [],
     "cite": []
    },
    "error": null
@@ -311,10 +256,10 @@
    ],
    "got": [
     "C",
-    "A",
+    "S",
     "S"
    ],
-   "ok": false,
+   "ok": true,
    "why": {
     "access": [
      {
@@ -323,12 +268,7 @@
       "n": 8
      }
     ],
-    "read": [
-     {
-      "id": "sitemap",
-      "status": "warn"
-     }
-    ],
+    "read": [],
     "cite": []
    },
    "error": null
@@ -342,24 +282,28 @@
     "S"
    ],
    "got": [
-    "A",
-    "A",
+    "C",
+    "S",
     "S"
    ],
-   "ok": false,
+   "ok": true,
    "why": {
     "access": [
      {
-      "id": "robots_only",
-      "status": "info"
+      "id": "silent",
+      "status": "fail",
+      "n": 6,
+      "bots": [
+       "OAI-SearchBot",
+       "ChatGPT-User",
+       "PerplexityBot",
+       "Perplexity-User",
+       "Claude-SearchBot",
+       "Claude-User"
+      ]
      }
     ],
-    "read": [
-     {
-      "id": "sitemap",
-      "status": "warn"
-     }
-    ],
+    "read": [],
     "cite": []
    },
    "error": null
@@ -374,10 +318,10 @@
    ],
    "got": [
     "A",
-    "A",
+    "S",
     "S"
    ],
-   "ok": false,
+   "ok": true,
    "why": {
     "access": [
      {
@@ -394,12 +338,7 @@
       ]
      }
     ],
-    "read": [
-     {
-      "id": "sitemap",
-      "status": "warn"
-     }
-    ],
+    "read": [],
     "cite": []
    },
    "error": null
@@ -429,14 +368,6 @@
      {
       "id": "indexable",
       "status": "fail"
-     },
-     {
-      "id": "description",
-      "status": "warn"
-     },
-     {
-      "id": "sitemap",
-      "status": "warn"
      }
     ],
     "cite": []
@@ -453,10 +384,10 @@
    ],
    "got": [
     "C",
-    "A",
+    "C",
     "S"
    ],
-   "ok": false,
+   "ok": true,
    "why": {
     "access": [
      {
@@ -466,8 +397,8 @@
     ],
     "read": [
      {
-      "id": "sitemap",
-      "status": "warn"
+      "id": "indexable",
+      "status": "fail"
      }
     ],
     "cite": []
@@ -500,14 +431,6 @@
      {
       "id": "indexable",
       "status": "fail"
-     },
-     {
-      "id": "description",
-      "status": "warn"
-     },
-     {
-      "id": "sitemap",
-      "status": "warn"
      }
     ],
     "cite": []
@@ -542,14 +465,6 @@
       "status": "fail"
      },
      {
-      "id": "description",
-      "status": "warn"
-     },
-     {
-      "id": "sitemap",
-      "status": "warn"
-     },
-     {
       "id": "links",
       "status": "warn"
      }
@@ -568,10 +483,10 @@
    ],
    "got": [
     "S",
-    "A",
+    "S",
     "S"
    ],
-   "ok": false,
+   "ok": true,
    "why": {
     "access": [
      {
@@ -580,12 +495,7 @@
       "total": 8
      }
     ],
-    "read": [
-     {
-      "id": "sitemap",
-      "status": "warn"
-     }
-    ],
+    "read": [],
     "cite": []
    },
    "error": null
@@ -600,10 +510,10 @@
    ],
    "got": [
     "S",
-    "A",
+    "S",
     "B"
    ],
-   "ok": false,
+   "ok": true,
    "why": {
     "access": [
      {
@@ -612,12 +522,7 @@
       "total": 8
      }
     ],
-    "read": [
-     {
-      "id": "sitemap",
-      "status": "warn"
-     }
-    ],
+    "read": [],
     "cite": [
      {
       "id": "faq",
@@ -637,10 +542,10 @@
    ],
    "got": [
     "S",
-    "A",
+    "S",
     "B"
    ],
-   "ok": false,
+   "ok": true,
    "why": {
     "access": [
      {
@@ -649,12 +554,7 @@
       "total": 8
      }
     ],
-    "read": [
-     {
-      "id": "sitemap",
-      "status": "warn"
-     }
-    ],
+    "read": [],
     "cite": [
      {
       "id": "jsonld",
@@ -678,10 +578,10 @@
    ],
    "got": [
     "S",
-    "B",
+    "A",
     "S"
    ],
-   "ok": false,
+   "ok": true,
    "why": {
     "access": [
      {
@@ -693,10 +593,6 @@
     "read": [
      {
       "id": "canonical",
-      "status": "warn"
-     },
-     {
-      "id": "sitemap",
       "status": "warn"
      }
     ],
