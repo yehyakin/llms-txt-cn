@@ -362,3 +362,29 @@ write('404.html', page({
 const urls = ['/', '/research/', '/pricing/', '/guides/', ...GUIDES_ZH.map((g) => `/guides/${g.slug}/`), '/bots/', ...crawlers.map((c) => `/bots/${slug(c.token)}/`), '/tools/', '/survey/', '/faq/', '/guide/what-is-llms-txt/', '/guide/how-to-write-llms-txt/', '/llms.txt', '/privacy/', '/terms/', '/contact/'];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${SITE}${u}</loc><lastmod>${UPDATED}</lastmod></url>`).join('\n')}\n</urlset>\n`);
 console.log('zh pages:', out.length);
+
+/* ---------- 旧页面换壳：只换导航、页脚、图标和标题后缀，正文与网址不动（幂等） ---------- */
+const LEGACY = [['tools/index.html', 'tools', '/'], ['survey/index.html', 'survey', '/research/'], ['faq/index.html', '', '/'], ['guide/what-is-llms-txt/index.html', '', '/'], ['guide/how-to-write-llms-txt/index.html', '', '/']];
+for (const [rel, active, enPath] of LEGACY) {
+  const abs = join(root, rel);
+  let h = readFileSync(abs, 'utf8');
+  h = h.replace(/<!--VXS-NAV-->[\s\S]*?<!--\/VXS-NAV-->\n?/, '').replace(/<!--VXS-FOOT-->[\s\S]*?<!--\/VXS-FOOT-->\n?/, '');
+  h = h.replace(/ · cetxt<\/title>/, ' · VAKSEL</title>').replace(/(<meta property="og:title" content="[^"]*?) · cetxt"/, '$1 · VAKSEL"').replace(/<meta property="og:site_name" content="[^"]*">/, '<meta property="og:site_name" content="VAKSEL">');
+  h = h.replace('<link rel="icon" type="image/svg+xml" href="/favicon.svg">', '<link rel="icon" type="image/svg+xml" href="/en/brand/vaksel-favicon.svg">').replace('<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">', '<link rel="icon" href="/en/brand/favicon.ico" sizes="16x16 32x32 48x48">').replace('<link rel="apple-touch-icon" href="/apple-touch-icon.png">', '<link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">');
+  if (!h.includes('/en/shell.css')) h = h.replace('</head>', '<link rel="stylesheet" href="/en/shell.css">\n</head>');
+  // 去掉旧的“← cetxt.com”顶栏和旧页脚
+  h = h.replace(/\n\s*<div class="topbar">(?:<span>[^<]*<\/span>)?<a href="\/">← cetxt\.com<\/a>(?:<a href="\/survey\/">调查报告<\/a>)?<\/div>\n/, '\n');
+  h = h.replace(/\n\s*<div class="foot"><span>cetxt\.com — 给 AI 的网站说明书<\/span><a href="\/">回首页<\/a><\/div>\n/, '\n');
+  h = h.replace(/\n\s*<footer>\s*<span>CETXT\.COM 出品 · 数据备查<\/span>[\s\S]*?<\/footer>\n/, '\n');
+  h = h.replace(/\n<footer>\n  <div class="foot-in">[\s\S]*?<\/footer>\n/, '\n');
+  h = h.replace('<a class="brand" id="brandHome"><b>ce<em>txt</em></b><span>AI 爬虫与训练规则检测</span></a>', '<a class="brand" id="brandHome"><b>llms<em>.txt</em></b><span>生成 · 校验 · robots 规则</span></a>');
+  const nav = '<!--VXS-NAV--><div class="vxs' + (rel.startsWith('tools/') ? '' : ' top') + '">' + NAV(active, enPath) + '</div><!--/VXS-NAV-->\n';
+  const foot = '<!--VXS-FOOT--><div class="vxs">' + FOOT(enPath) + '</div><!--/VXS-FOOT-->\n';
+  h = h.replace(/<body([^>]*)>\n?/, (m) => m.trimEnd() + '\n' + nav);
+  const i = h.lastIndexOf('</body>');
+  // 页脚放在页面脚本之前（tools 的脚本紧跟原页脚）
+  const j = rel.startsWith('tools/') ? h.indexOf('<script src="/llms.js"></script>') : i;
+  h = h.slice(0, j) + foot + h.slice(j);
+  writeFileSync(abs, h);
+}
+console.log('legacy reshelled:', LEGACY.length);

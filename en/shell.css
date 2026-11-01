@@ -1,0 +1,30 @@
+/* shell.css — 旧中文页（/tools/ /survey/ /faq/ /guide/*）套用 VAKSEL 中文版导航与页脚，全部限定在 .vxs 内，不影响旧页正文样式 */
+.vxs{--ink:#1d1d1f;--mut:#6e6e73;--line:#e5e5ea;--acc:#0C63F1;font:15px/1.5 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;text-align:left}
+.vxs *{box-sizing:border-box;margin:0;padding:0}
+.vxs a{color:var(--acc);text-decoration:none}.vxs a:hover{text-decoration:underline}
+.vxs button{font:inherit;background:none;border:0;cursor:pointer;color:inherit}
+.vxs .wrap{max-width:1080px;margin:0 auto;padding:0 24px;width:auto}
+.vxs.top{position:sticky;top:0;z-index:100}
+.vxs .skip{position:absolute;left:12px;top:-60px;z-index:50;background:var(--ink);color:#fff;border-radius:8px;padding:8px 12px;font-size:14px}.vxs .skip:focus{top:10px}
+.vxs .nav{height:52px;background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08);position:relative}
+.vxs .nav .wrap{height:100%;display:flex;align-items:center;gap:22px}
+.vxs .logo{margin-right:auto;display:flex;align-items:center;gap:8px;color:var(--ink)}.vxs .logo img{display:block;height:31px;width:auto}
+.vxs .zhtag{font-size:12px;font-weight:600;color:var(--mut);border:1px solid var(--line);border-radius:6px;padding:2px 6px}
+.vxs .nav .links{display:flex;align-items:center;gap:22px}
+.vxs .nav a.n{color:var(--ink);opacity:.75;font-size:13px}.vxs .nav a.n:hover{opacity:1;text-decoration:none}.vxs .nav a.n.on{opacity:1;font-weight:600}
+.vxs .lang{font-size:12px;border:1px solid var(--line);border-radius:99px;padding:3px 10px;color:var(--mut)!important}
+.vxs .menu{display:none;width:36px;height:36px;border-radius:10px;position:relative}
+.vxs .menu span{position:absolute;left:9px;right:9px;height:1.6px;background:var(--ink);border-radius:2px;transition:transform .3s,top .3s}
+.vxs .menu span:first-child{top:14px}.vxs .menu span:last-child{top:21px}
+.vxs .nav.open .menu span:first-child{top:17.5px;transform:rotate(45deg)}.vxs .nav.open .menu span:last-child{top:17.5px;transform:rotate(-45deg)}
+@media (max-width:860px){.vxs .menu{display:block}.vxs .nav .links{position:absolute;top:52px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:#fff;box-shadow:0 20px 40px -20px rgba(0,0,0,.25);border-bottom:1px solid var(--line);padding:6px 24px 14px;display:none}
+.vxs .nav.open{background:#fff}.vxs .nav.open .links{display:flex}.vxs .nav .links a.n{font-size:17px;padding:12px 0;border-bottom:1px solid #f0f0f2;opacity:1}.vxs .nav .links a.lang{align-self:flex-start;margin-top:12px;font-size:13px;padding:3px 10px}}
+.vxs footer{padding:28px 0 40px;color:var(--mut);font-size:12px;border-top:1px solid var(--line);margin-top:40px;background:#fff}
+.vxs footer a{color:var(--mut)}
+.vxs footer .fgrid{display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:24px}
+.vxs footer h2.fh{font-size:12px;color:var(--ink);margin-bottom:8px;font-weight:600;line-height:1.4;letter-spacing:0;font-family:inherit}
+.vxs footer .fgrid>div>a{display:block;line-height:24px;margin:2px 0}
+.vxs footer .fgrid>.fbrand>a.logo{display:inline-flex;margin:0}
+.vxs .fbrand img{height:24px;width:auto}.vxs .fbrand p{margin-top:10px;max-width:280px;line-height:1.5}
+.vxs .fsmall{grid-column:1/-1;display:flex;gap:18px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px;line-height:24px}
+@media (max-width:700px){.vxs footer .fgrid{grid-template-columns:1fr 1fr}.vxs .fbrand{grid-column:1/-1}}
