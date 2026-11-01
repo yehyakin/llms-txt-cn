@@ -5,7 +5,24 @@
 import { ROBOTS, AIAUDIT } from './_libs.js';
 import { EMBED } from './_assets.js';
 import { createApi, makeDohResolver } from './check.js';
-import { handleReport } from './report.js';
+import { handleReport, rebase } from './report.js';
+
+/* 品牌域名：根目录直接是英文版（站内文件仍放在 /en/ 下） */
+const BRAND_HOSTS = new Set(['vaksel.com', 'www.vaksel.com']);
+export function isBrandHost(h) { return BRAND_HOSTS.has((h || '').toLowerCase()); }
+
+async function brandRewrite(resp) {
+  if (resp.headers.get('x-rebased') === '1') return resp;
+  const h = new Headers(resp.headers);
+  const loc = h.get('location');
+  if (loc) h.set('location', loc.replace(/^(https?:\/\/[^/]+)?\/en(\/|$)/, (m0, o) => (o || '') + '/'));
+  if (/^text\/html/.test(h.get('content-type') || '') && resp.body) {
+    const t = rebase(await resp.text(), '');
+    h.delete('content-length'); h.delete('etag');
+    return new Response(t, { status: resp.status, statusText: resp.statusText, headers: h });
+  }
+  return new Response(resp.body, { status: resp.status, statusText: resp.statusText, headers: h });
+}
 
 const api = createApi({ ROBOTS, AIAUDIT });
 
@@ -45,6 +62,22 @@ function serveEmbedded(request) {
 
 export default {
   async fetch(request, env, ctx) {
+    const brand = isBrandHost(new URL(request.url).hostname);
+    if (brand) {
+      const u0 = new URL(request.url);
+      if (u0.hostname.startsWith('www.')) { u0.hostname = u0.hostname.slice(4); return Response.redirect(u0.toString(), 301); }
+      if (u0.pathname === '/en' || u0.pathname.startsWith('/en/')) { u0.pathname = u0.pathname.slice(3) || '/'; return Response.redirect(u0.toString(), 301); }
+      if (!u0.pathname.startsWith('/api/')) {
+        u0.pathname = '/en' + u0.pathname;
+        const r = await route(new Request(u0.toString(), request), env, ctx, '');
+        return brandRewrite(r);
+      }
+    }
+    return route(request, env, ctx, '/en');
+  }
+};
+
+async function route(request, env, ctx, base) {
     const url = new URL(request.url);
     const f = (u, init) => fetch(u, init);
     const relay = env.RELAY_URL && env.RELAY_KEY ? { url: env.RELAY_URL, key: env.RELAY_KEY } : null;
@@ -57,7 +90,8 @@ export default {
           return t.text();
         },
         api: (req) => api(req, env, ctx, apiDeps),
-        index: env.INDEX_REPORTS === '1'
+        index: env.INDEX_REPORTS === '1',
+        base
       }, ctx);
       if (r) return r;
     }
@@ -68,5 +102,5 @@ export default {
     }
     if (EMBED) return secure(serveEmbedded(request));
     return new Response('no assets', { status: 500 });
-  }
-};
+}
+

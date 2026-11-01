@@ -1,6 +1,7 @@
 /* /en/report/<domain> SSR 测试：node tests/report.test.mjs */
 import { readFileSync } from 'node:fs';
-import { handleReport, isPreviewBot, headFor } from '../worker/report.js';
+import { handleReport, isPreviewBot, headFor, rebase } from '../worker/report.js';
+import worker from '../worker/index.js';
 import { renderReport, cleanDomain } from '../en/view.js';
 const TPL = readFileSync(new URL('../en/report/index.html', import.meta.url), 'utf8');
 const FIX = JSON.parse(readFileSync(new URL('./fixture-toyota.json', import.meta.url), 'utf8'));
@@ -29,4 +30,13 @@ await t('访客流式：加载动画在报告之前，报告在同一响应里',
 await t('429 显示提示且不渲染报告', async () => { const h = await (await handleReport(req('/en/report/toyota.com', 'Slackbot'), deps(429, { error: 'rate_limited' }))).text(); ok(h.includes('Too many checks')); ok(!h.includes('class="verdict')); });
 await t('域名与结果都转义', async () => { const bad = JSON.parse(JSON.stringify(FIX)); bad.access.target = '"><script>x</script>'; const h = await (await handleReport(req('/en/report/toyota.com', 'Slackbot'), deps(200, bad))).text(); ok(!h.includes('<script>x</script>')); });
 await t('headFor 默认 noindex', () => { ok(headFor('a.com', 'https://o').includes('noindex')); });
+await t('rebase 把 /en/ 链接改成根路径', () => { ok(rebase('<a href="/en/x">', '') === '<a href="/x">'); ok(rebase("f('/en/view.js')", '') === "f('/view.js')"); ok(rebase('href="https://cetxt.com/"', '') === 'href="https://cetxt.com/"'); });
+await t('品牌域名报告：规范地址不带 /en', async () => { const h = await (await handleReport(req('/en/report/toyota.com', 'Slackbot'), deps(200, FIX, { base: '' }))).text(); ok(h.includes('href="https://x.test/report/toyota.com"')); ok(!h.includes('"/en/')); });
+const ASSETS = { fetch: async (r) => { const u = new URL(r.url); if (u.pathname === '/en/') return new Response('<a href="/en/report/">x</a><link href="/en/app.css">', { headers: { 'content-type': 'text/html' } }); if (u.pathname === '/en/report') return new Response(null, { status: 307, headers: { location: '/en/report/' } }); return new Response('nf', { status: 404, headers: { 'content-type': 'text/plain' } }); } };
+const wreq = (u) => new Request(u, { headers: { 'user-agent': 'Mozilla/5.0' } });
+await t('vaksel.com/ 直接是英文首页，链接去掉 /en', async () => { const r = await worker.fetch(wreq('https://vaksel.com/'), { ASSETS }, {}); const h = await r.text(); ok(h.includes('href="/report/"') && h.includes('href="/app.css"'), h); });
+await t('vaksel.com/en/... 301 到根路径', async () => { const r = await worker.fetch(wreq('https://vaksel.com/en/report/a.com'), { ASSETS }, {}); ok(r.status === 301); ok(r.headers.get('location') === 'https://vaksel.com/report/a.com'); });
+await t('www.vaksel.com 301 到裸域', async () => { const r = await worker.fetch(wreq('https://www.vaksel.com/x'), { ASSETS }, {}); ok(r.status === 301 && r.headers.get('location') === 'https://vaksel.com/x'); });
+await t('品牌域名的跳转 Location 去掉 /en', async () => { const r = await worker.fetch(wreq('https://vaksel.com/report'), { ASSETS }, {}); ok(r.headers.get('location') === '/report/', r.headers.get('location')); });
+await t('其他域名不受影响', async () => { const r = await worker.fetch(wreq('https://cetxt-preview.x.dev/en/'), { ASSETS }, {}); ok((await r.text()).includes('href="/en/report/"')); });
 console.log(`\n${pass} 通过，${fail} 失败`); if (fail) process.exit(1);

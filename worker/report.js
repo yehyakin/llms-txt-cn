@@ -6,6 +6,9 @@ import { renderReport, cleanDomain, esc } from '../en/view.js';
 
 const BOT_UA = /bot|crawl|spider|slurp|preview|facebookexternalhit|embedly|slack|discord|telegram|whatsapp|linkedin|skype|pinterest|vkshare|quora|redditbot|applebot|bingpreview|google-inspectiontool|chatgpt|perplexity|claude/i;
 
+/* 品牌域名（vaksel.com）根目录就是英文版：把页面里的 /en/ 链接改成根路径 */
+export function rebase(html, base) { return html.replace(/(["'(])\/en\//g, '$1' + base + '/'); }
+
 export function isPreviewBot(ua) { return BOT_UA.test(ua || ''); }
 
 function cut(tpl, name) {
@@ -17,15 +20,14 @@ function fill(tpl, name, html) { const [x, y] = cut(tpl, name); return x + html 
 
 export function headFor(domain, origin, opts) {
   const o = opts || {};
-  const url = origin + '/en/report/' + domain;
-  const title = o.title ? domain + ': ' + o.title + ' · cetxt' : domain + ' AI crawler access report · cetxt';
+  const url = origin + (o.base == null ? '/en' : o.base) + '/report/' + domain;
+  const title = o.title ? domain + ': ' + o.title + ' · VAKSEL' : domain + ' AI crawler access report · VAKSEL';
   const desc = o.summary || ('Can ChatGPT, Perplexity and Claude reach ' + domain + '? Live robots.txt, firewall and page checks for 10 AI crawlers.');
   return '<title>' + esc(title) + '</title>\n<meta name="description" content="' + esc(desc) + '">\n' +
     '<meta name="robots" content="' + (o.index ? 'index,follow' : 'noindex') + '">\n<link rel="canonical" href="' + esc(url) + '">\n' +
-    '<meta property="og:type" content="website"><meta property="og:site_name" content="cetxt">\n' +
+    '<meta property="og:type" content="website"><meta property="og:site_name" content="VAKSEL">\n' +
     '<meta property="og:title" content="' + esc(title) + '"><meta property="og:description" content="' + esc(desc) + '">\n' +
-    '<meta property="og:url" content="' + esc(url) + '"><meta property="og:image" content="' + esc(origin) + '/og.png">\n' +
-    '<meta name="twitter:card" content="summary_large_image">';
+    '<meta property="og:url" content="' + esc(url) + '">\n<meta name="twitter:card" content="summary">';
 }
 
 function errorText(status, j) {
@@ -52,13 +54,15 @@ export async function handleReport(request, deps, ctx) {
   try { raw = decodeURIComponent(raw); } catch (e) {}
   const domain = cleanDomain(raw);
   if (!domain) return null;
-  if (m[1] !== domain) return Response.redirect(url.origin + '/en/report/' + domain, 301);
+  const base = deps.base == null ? '/en' : deps.base;
+  if (m[1] !== domain) return Response.redirect(url.origin + base + '/report/' + domain, 301);
 
-  const tpl0 = await deps.template();
+  let tpl0 = await deps.template();
+  if (base !== '/en') tpl0 = rebase(tpl0, base);
   const tpl = fill(tpl0, 'DOM', esc(domain));
   const now = deps.now || (() => new Date().toISOString());
-  const headers = { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store', 'x-content-type-options': 'nosniff', 'referrer-policy': 'strict-origin-when-cross-origin' };
-  const shareUrl = url.origin + '/en/report/' + domain;
+  const headers = { 'x-rebased': '1', 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store', 'x-content-type-options': 'nosniff', 'referrer-policy': 'strict-origin-when-cross-origin' };
+  const shareUrl = url.origin + base + '/report/' + domain;
 
   const renderInto = (res) => {
     if (res.status !== 200 || !res.j || res.j.error) return { meta: '', html: '<div class="loading">' + esc(errorText(res.status, res.j)) + '</div>', head: null };
@@ -71,14 +75,14 @@ export async function handleReport(request, deps, ctx) {
   if (isPreviewBot(request.headers.get('user-agent'))) {
     const res = await runCheck(deps.api, request, domain);
     const o = renderInto(res);
-    let page = fill(tpl, 'HEAD', headFor(domain, url.origin, { title: o.title, summary: o.summary, index: deps.index && res.status === 200 }));
+    let page = fill(tpl, 'HEAD', headFor(domain, url.origin, { base, title: o.title, summary: o.summary, index: deps.index && res.status === 200 }));
     page = fill(page, 'META', o.meta);
     page = fill(page, 'OUT', o.html);
     return new Response(page, { status: res.status === 429 ? 429 : 200, headers });
   }
 
   // 访客：流式。先发到加载动画为止，再续写结果和余下模板。
-  let page = fill(tpl, 'HEAD', headFor(domain, url.origin, { index: deps.index }));
+  let page = fill(tpl, 'HEAD', headFor(domain, url.origin, { base, index: deps.index }));
   page = fill(page, 'META', '');
   const [before, after] = cut(page, 'OUT');
   const loader = '<div class="loading" id="ld"><div class="spin"></div>Requesting the homepage as 13 different clients…<div class="steps">robots.txt · firewall · page content</div></div>';
@@ -93,7 +97,7 @@ export async function handleReport(request, deps, ctx) {
       let tail = '<style>#ld{display:none}</style>' + o.html;
       const js = [];
       if (o.meta) js.push('document.getElementById("meta").innerHTML=' + JSON.stringify(o.meta).replace(/</g, '\\u003c') + ';');
-      if (o.title) js.push('document.title=' + JSON.stringify(domain + ': ' + o.title + ' · cetxt').replace(/</g, '\\u003c') + ';');
+      if (o.title) js.push('document.title=' + JSON.stringify(domain + ': ' + o.title + ' · VAKSEL').replace(/</g, '\\u003c') + ';');
       if (js.length) tail += '<script>' + js.join('') + '</script>';
       await w.write(enc.encode(tail + after));
     } catch (e) {
