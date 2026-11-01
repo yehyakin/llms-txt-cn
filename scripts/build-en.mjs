@@ -28,7 +28,7 @@ export const NAV = (active) => `<a class="skip" href="#main">Skip to content</a>
 
 export const FOOT = `<footer><div class="wrap fgrid">
   <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
-  <div><h2 class="fh">Product</h2><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/#data">Research</a></div>
+  <div><h2 class="fh">Product</h2><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/research/">Research</a></div>
   <div><h2 class="fh">Fix guides</h2><a href="/en/guides/cloudflare/">Cloudflare</a><a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/en/guides/wordpress/">WordPress</a><a href="/en/guides/shopify/">Shopify</a></div>
   <div><h2 class="fh">AI crawlers</h2><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a></div>
   <div class="fsmall"><span>© 2026 VAKSEL</span><a href="/en/privacy/">Privacy</a><a href="/en/terms/">Terms</a><a href="/en/contact/">Contact</a><a href="https://cetxt.com/" hreflang="zh" lang="zh">中文版 cetxt.com</a><span>We don't store the domains you check or your IP address.</span></div>
@@ -326,6 +326,7 @@ out.push(write('en/pricing/index.html', page({
 <section class="sec tight"><h2>Questions</h2><div class="faq">${FAQ.map(([q, a], i) => `<details${i ? '' : ' open'}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div></section>
 </main>
 <script>
+{const q=new URLSearchParams(location.search),st=q.get('site'),pl=q.get('plan');if(st)document.querySelector('#wl [name=site]').value=st;if(pl==='agency'||pl==='pro')document.querySelector('#wl [name=plan]').value=pl}
 document.querySelectorAll('[data-plan]').forEach(a=>a.addEventListener('click',()=>{document.querySelector('#wl [name=plan]').value=a.dataset.plan}));
 const wl=document.getElementById('wl'),msg=document.getElementById('wlmsg');
 wl.addEventListener('submit',async e=>{e.preventDefault();const b=wl.querySelector('button');b.disabled=true;msg.textContent='';
@@ -363,7 +364,7 @@ const HOME_FAQ = [
 const homeBody = `<header class="hero"><div class="wrap">
   <span class="eyebrow"><b></b>Free · no sign-up · results in seconds</span>
   <h1>Can AI search <span class="grad">actually reach</span> your site?</h1>
-  <p class="lead">Your robots.txt may say yes while your firewall says no. We request your page as ChatGPT, Perplexity and Claude, and show you exactly what they get.</p>
+  <p class="lead">Your robots.txt may say yes while your firewall says no. We request your page with the user agents of ChatGPT, Perplexity and Claude, compare against a browser and Googlebot, and show you what each one got back.</p>
   <form class="field" id="f" autocomplete="off" role="search">
     <input id="d" name="d" placeholder="yourdomain.com" inputmode="url" autocapitalize="off" spellcheck="false" aria-label="Your domain">
     <button class="btn" type="submit">Check access</button>
@@ -399,7 +400,7 @@ const homeBody = `<header class="hero"><div class="wrap">
     <div class="card" style="padding:26px">
       <h3 style="margin-top:0;font-size:19px">Found in our sample</h3>
       <ul class="ex">${EXAMPLES.map(([d, t, c, w]) => `<li><a href="/en/report/${d}"><b>${d}</b><span class="tag ${c === 'v-bad' ? 't-bad' : 't-warn'}">${t}</span></a><p>${w}</p></li>`).join('')}</ul>
-      <p class="note" style="margin-top:8px">Results from November 1, 2026. Each link runs a fresh check.</p>
+      <p class="note" style="margin-top:8px">Results from November 1, 2026. Each link runs a fresh check. <a href="/en/research/">How we measured this →</a></p>
     </div>
   </div>
 </div></section>
@@ -431,6 +432,40 @@ out.push(write('en/index.html', page({
   path: '/en/', title: 'Can AI search reach your site? Free AI crawler access check · VAKSEL',
   desc: 'Test whether ChatGPT, Perplexity and Claude search crawlers can actually reach your site: robots.txt, firewall and CDN blocks, noindex and JavaScript-only pages. Free, no sign-up.',
   body: homeBody, ld: homeLd, type: 'website'
+})));
+
+
+/* ---------- 研究方法 ---------- */
+out.push(write('en/research/index.html', page({
+  path: '/en/research/', title: 'How often do firewalls silently block AI search crawlers? November 2026 sample · VAKSEL',
+  desc: '362 reachable sites from a random 600 of the Tranco top 20k: 45 rejected AI search crawler user agents that robots.txt allowed; 13 did so in a way aimed at AI crawlers specifically. Method, definitions and limits.',
+  body: `<main class="wrap doc">${crumbs([['/en/', 'Home'], [null, 'Research']])}
+<h1>How often do firewalls silently block AI search crawlers?</h1><p class="upd">Sample run November 1, 2026</p>
+<p class="lead l">In a random sample of popular sites, about 1 in 28 reachable sites rejected AI search crawler user agents at the firewall in a way aimed at AI crawlers specifically, while robots.txt allowed them.</p>
+<div class="facts"><div><span>Sampled</span><b>600 sites</b></div><div><span>Reachable</span><b>362</b></div><div><span>Rejected at least one AI search UA</span><b>45 (12.4%)</b></div><div><span>Aimed at AI crawlers</span><b>13 (3.6%)</b></div></div>
+<h2>Sample</h2>
+<p>600 domains drawn at random from the Tranco top-20,000 list. A site counted as <b>reachable</b> when a normal browser request to its homepage returned HTTP 200 from our server: 362 of 600. The other 238 were excluded because even the browser request didn't get a normal page: 125 failed to connect or timed out (many are CDN, ad or API domains with no public website), 80 returned 403/401/503 or a challenge, and 33 returned another status such as 404. For those, nothing can be said about crawlers specifically.</p>
+<h2>Step 1: user-agent requests</h2>
+<p>For each reachable site we fetched robots.txt and requested the homepage with the user agents of four AI search and user-triggered crawlers: OAI-SearchBot, ChatGPT-User, PerplexityBot and Claude-SearchBot. A request counted as <b>rejected</b> when it got a 4xx/5xx status or a challenge page while the browser request got 200.</p>
+<p>45 sites (12.4% of reachable) rejected at least one of the four while their robots.txt allowed it. We call this a <b>silent block</b>: nothing in robots.txt warns the site owner. 26 of the 45 were served by Cloudflare.</p>
+<h2>Step 2: control groups</h2>
+<p>We re-tested the 45 the same day with two controls: a request using Googlebot's user agent, and a request from an unknown bot. This separates three different causes:</p>
+<table class="tbl"><thead><tr><th>What the controls showed</th><th>Likely cause</th><th>Sites</th></tr></thead><tbody>
+<tr><td>Googlebot user agent rejected too</td><td>The site verifies crawler IP addresses and rejects anyone claiming a crawler name from the wrong network. The real AI crawlers may well get through.</td><td>29</td></tr>
+<tr><td>Unknown bot rejected, Googlebot allowed</td><td>A general bot rule</td><td>1</td></tr>
+<tr><td>Not reproduced on re-test</td><td>Rate limiting or a transient rule</td><td>2</td></tr>
+<tr><td>Browser, Googlebot and unknown bot allowed; AI search UA rejected</td><td>A rule aimed at AI crawlers</td><td><b>13</b></td></tr>
+</tbody></table>
+<p>The 13 are 3.6% of reachable sites, about 1 in 28. Examples include toyota.com, smithsonianmag.com and torontosun.com; 7 of the 13 were served by Cloudflare.</p>
+<h2>Limits</h2>
+<ul><li>All requests came from one data-center server. Real crawlers come from their operators' own IP ranges, which no outside tester can use. A rule that allows verified crawler IPs would let the real crawler through even when our request was rejected; the control groups exist to flag those cases, but can't rule them out completely.</li>
+<li>We tested the homepage only. A site can treat other paths differently.</li>
+<li>Rules change. A result describes the site on November 1, 2026; the links on our homepage run a fresh check.</li>
+<li>600 is a small sample. Treat 12.4% and 3.6% as estimates with a margin of a few percentage points.</li></ul>
+<h2>Asian sites</h2>
+<p>We ran the same test on 1,000 popular Chinese-language sites. Silent blocks were rarer: 3.7% of reachable sites at step 1 and about 0.8% at step 2.</p>
+<div style="margin-top:28px">${checkBox('Test your own site')}</div>
+</main>${CHECK_JS}`
 })));
 
 /* ---------- 隐私 / 条款 / 联系 ---------- */
@@ -484,7 +519,7 @@ ct.addEventListener('submit',async e=>{e.preventDefault();const b=ct.querySelect
 write('en/site.webmanifest', JSON.stringify({ name: 'VAKSEL', short_name: 'VAKSEL', start_url: '/', display: 'browser', background_color: '#ffffff', theme_color: '#0C63F1', icons: [{ src: '/en/brand/icon-192.png', sizes: '192x192', type: 'image/png' }, { src: '/en/brand/icon-512.png', sizes: '512x512', type: 'image/png' }] }, null, 2) + '\n');
 
 /* ---------- sitemap ---------- */
-const urls = ['/en/', '/en/pricing/', '/en/privacy/', '/en/terms/', '/en/contact/', '/en/guides/', ...GUIDES.map((g) => `/en/guides/${g.slug}/`), '/en/bots/', ...crawlers.map((c) => `/en/bots/${slug(c.token)}/`)];
+const urls = ['/en/', '/en/research/', '/en/pricing/', '/en/privacy/', '/en/terms/', '/en/contact/', '/en/guides/', ...GUIDES.map((g) => `/en/guides/${g.slug}/`), '/en/bots/', ...crawlers.map((c) => `/en/bots/${slug(c.token)}/`)];
 write('en/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${canon(u)}</loc><lastmod>${UPDATED}</lastmod></url>`).join('\n')}\n</urlset>\n`);
 write('en/robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 

@@ -2,7 +2,7 @@
 export const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function cleanDomain(v){v=(v||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0].replace(/\.$/,'');return /^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v)?v:null}
 export function summary(r){const a=(r&&r.access)||{};const bots=a.bots||[];const s=bots.filter(b=>b.category==='search'||b.category==='user');const reach=s.filter(b=>b.effective!=='blocked').length;const v=V[a.verdict]||V.unknown;return v[2]+(s.length?'. '+reach+' of '+s.length+' AI search crawlers can reach it':'')+'.'}
-export function bindReport(root){root.querySelectorAll('tr.row').forEach(tr=>tr.onclick=()=>{const e=root.querySelector('tr[data-e="'+tr.dataset.i+'"]');if(e)e.hidden=!e.hidden});root.querySelectorAll('.copy').forEach(b=>b.onclick=()=>{navigator.clipboard.writeText(b.parentNode.textContent.replace(/^Copy/,''));b.textContent='Copied'});const cp=root.querySelector('#cp');if(cp){const sl=root.querySelector('#sl');if(sl&&!sl.value)sl.value=location.href;cp.onclick=()=>{navigator.clipboard.writeText(sl.value);cp.textContent='Copied'}}root.querySelectorAll('time[datetime]').forEach(t=>{const d=new Date(t.getAttribute('datetime'));if(!isNaN(d))t.textContent=d.toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'})})}
+export function bindReport(root){const tg=(id,force)=>{const e=root.querySelector('#ev-'+id),b=root.querySelector('[aria-controls="ev-'+id+'"]');if(!e)return;const open=force!=null?force:e.hidden;e.hidden=!open;if(b){b.setAttribute('aria-expanded',open);b.textContent=open?'Hide':'Details'}};root.querySelectorAll('tr.row').forEach(tr=>tr.onclick=e=>{if(e.target.closest('a,button'))return;tg(tr.dataset.i)});root.querySelectorAll('button.evb').forEach(b=>b.onclick=()=>tg(b.getAttribute('aria-controls').slice(3)));root.querySelectorAll('.copy').forEach(b=>b.onclick=()=>{navigator.clipboard.writeText(b.parentNode.textContent.replace(/^Copy/,''));b.textContent='Copied'});const cp=root.querySelector('#cp');if(cp){const sl=root.querySelector('#sl');if(sl&&!sl.value)sl.value=location.href;cp.onclick=()=>{navigator.clipboard.writeText(sl.value);cp.textContent='Copied'}}root.querySelectorAll('time[datetime]').forEach(t=>{const d=new Date(t.getAttribute('datetime'));if(!isNaN(d))t.textContent=d.toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'})})}
 const PURPOSE={search:'AI search',user:'User-triggered',training:'Training',dataset:'Dataset',unknown:'Other'};
 /* 传统搜索引擎爬虫：不算“AI 搜索”，robots-only 回落时不列入 */
 export const CLASSIC=new Set(['Googlebot','Bingbot','Applebot','Baiduspider']);
@@ -13,8 +13,8 @@ const V={
   warn:['v-warn','!','Reachable, with caveats','Nothing is clearly blocked, but some requests were challenged or got a thinner page. See the rows marked “check”.'],
   js_only:['v-warn','!','Reachable, but the page is nearly empty without JavaScript','Most AI crawlers don’t run JavaScript, so they see very little text.'],
   partly_blocked:['v-warn','!','Some AI search crawlers are blocked','robots.txt or the firewall shuts out part of the AI search crawlers listed below.'],
-  silent_block:['v-bad','✕','Silent block: the firewall rejects AI search crawlers','robots.txt says they’re welcome, but live requests as these crawlers were rejected while a browser and Googlebot got through.'],
-  all_blocked:['v-bad','✕','AI search crawlers are blocked','Every AI search crawler we tested was blocked by robots.txt or the firewall. This site is unlikely to be cited in AI answers.'],
+  silent_block:['v-bad','✕','Silent block: requests as AI search crawlers are rejected','robots.txt says they’re welcome, but our requests with their user agents were rejected while a browser and a Googlebot request got through. Open a row for what we saw and how to confirm it.'],
+  all_blocked:['v-bad','✕','AI search crawlers are blocked','Every AI search crawler we tested was disallowed by robots.txt or rejected in our live requests. Open a row for the evidence and its confidence.'],
   noindex:['v-bad','✕','The homepage asks not to be indexed','A noindex directive keeps it out of search and AI answers, whatever robots.txt says.'],
   inconclusive:['v-gray','?','Inconclusive','The site blocked even our normal browser request, so we can’t tell AI crawlers apart from everyone else.'],
   unknown:['v-gray','?','We couldn’t complete the live test','robots.txt results are still shown below.']
@@ -28,13 +28,22 @@ function liveTag(b){
   return '<span class="tag t-ok">'+(b.status||200)+' OK</span>';
 }
 function resultTag(b){return b.effective==='blocked'?'<span class="tag t-bad">'+(b.silent?'Silent block':'Blocked')+'</span>':b.effective==='warn'?'<span class="tag t-warn">Check</span>':'<span class="tag t-ok">Reachable</span>'}
-function evidence(b,a){
-  if(b.firewall==='untested')return 'The live test was inconclusive for this site, so only robots.txt was evaluated: <b>'+esc(b.robots)+'</b>.';
-  const c=a.controls||{};
-  if(b.firewall==='blocked')return 'Request as <b>'+esc(b.token)+'</b> got <code>'+esc(b.reason)+'</code>. Same URL as a browser: 200. As Googlebot: '+(c.googlebot_spoof_blocked?'blocked':'200')+'. As an unknown bot: '+(c.unknown_bot_blocked?'blocked':'200')+'. '+(b.confidence==='high'?'<b>High confidence</b>: the rule targets AI crawlers specifically.':'<b>Medium confidence</b>: unknown bots are blocked too, so this may be a general bot rule.');
-  if(b.firewall==='unverified')return 'Got <code>'+esc(b.reason)+'</code>, but a spoofed Googlebot was blocked too. The site likely verifies crawler IPs, so the real crawler from its official IP range probably gets through. <b>Low confidence.</b>';
-  if(b.firewall==='degraded')return 'Got 200, but far less readable text than a browser. The site may serve crawlers a stripped or interstitial page.';
-  return 'Got the same page a browser gets. robots.txt: '+esc(b.robots)+'.';
+const VNAME={OpenAI:'OpenAI',Anthropic:'Anthropic',Perplexity:'Perplexity'};
+function evidence(b,a,B){
+  const c=a.controls||{};const url=esc(a.target||'the homepage');const tok=esc(b.token);const ven=esc(b.vendor||'the operator');
+  const page='<a href="'+B+'/bots/'+botSlug(b.token)+'/">'+tok+' page</a>';
+  const col=(h,t)=>'<div><h4>'+h+'</h4><p>'+t+'</p></div>';
+  const ctl='Same URL as a browser: <b>200</b> · with a Googlebot user agent: <b>'+(c.googlebot_spoof_blocked?'blocked':'200')+'</b> · as an unknown bot: <b>'+(c.unknown_bot_blocked?'blocked':'200')+'</b>.';
+  const confirm='In your CDN or WAF logs, look for '+tok+' requests coming from '+ven+'’s published IP ranges (linked on the '+page+') and check which rule they hit.';
+  let o,s2,k;
+  if(b.firewall==='untested'){o='Our normal browser request was blocked too, so the live test couldn’t separate crawlers from other visitors. robots.txt: <b>'+esc(b.robots)+'</b>.';s2='We can only report what robots.txt says. The firewall’s treatment of '+tok+' is unknown.';k=confirm}
+  else if(b.firewall==='blocked'){o='GET '+url+' with the '+tok+' user agent returned <code>'+esc(b.reason)+'</code>. '+ctl;
+    s2=b.confidence==='high'?'The rejection follows the '+tok+' user agent, not bots in general: most likely a rule aimed at AI crawlers. <b>High confidence.</b>':'Unknown bots are rejected too, so this is probably a general bot rule that also catches '+tok+'. <b>Medium confidence.</b>';k=confirm}
+  else if(b.firewall==='unverified'){o='GET '+url+' with the '+tok+' user agent returned <code>'+esc(b.reason)+'</code>. '+ctl;
+    s2='A request claiming to be Googlebot was rejected too, so the site probably verifies crawler IP addresses. The real '+tok+', from '+ven+'’s own network, may well get through. <b>Low confidence.</b>';k=confirm}
+  else if(b.firewall==='degraded'){o='GET '+url+' with the '+tok+' user agent returned 200, but with far less readable text than a browser got.';s2='The site may serve crawlers a stripped or interstitial page.';k='Fetch the page with the '+tok+' user agent yourself (for example with curl -A) and compare it with what a browser shows.'}
+  else{o='GET '+url+' with the '+tok+' user agent got the same page a browser gets. robots.txt: <b>'+esc(b.robots)+'</b>.';s2='No sign of a block for this crawler.';k=''}
+  return '<div class="evg">'+col('What we observed',o)+col('What it suggests',s2)+(k?col('How to confirm',k):'')+'</div>';
 }
 function fixFor(a,B){
   const blocked=(a.bots||[]).filter(b=>b.firewall==='blocked');
@@ -76,7 +85,7 @@ export function renderReport(r,opt){
   const robots=r.robots||{};
   const meta=(a.target?esc(a.target)+' · ':'')+'checked <time datetime="'+esc(when)+'">'+esc(when.slice(0,16).replace('T',' '))+' UTC</time>'+(a.cdn?' · served by '+esc(a.cdn):'');
   let rows='';
-  const grp=(t,list)=>{if(!list.length)return;rows+='<tr class="grp"><td colspan="5">'+t+'</td></tr>';list.forEach((b,i)=>{rows+='<tr class="row" data-i="'+b.token+'"><td><div class="bot"><a href="'+B+'/bots/'+botSlug(b.token)+'/">'+esc(b.token)+'</a></div><div class="vd">'+esc(b.vendor||'')+'</div></td><td class="hide-s">'+PURPOSE[b.category]+'</td><td>'+robotsTag(b.robots)+'</td><td class="hide-s">'+liveTag(b)+'</td><td>'+resultTag(b)+'</td></tr><tr class="ev" data-e="'+b.token+'" hidden><td colspan="5">'+evidence(b,a)+'</td></tr>'})};
+  const grp=(t,list)=>{if(!list.length)return;rows+='<tr class="grp"><td colspan="5">'+t+'</td></tr>';list.forEach((b,i)=>{rows+='<tr class="row" data-i="'+b.token+'"><td><div class="bot"><a href="'+B+'/bots/'+botSlug(b.token)+'/">'+esc(b.token)+'</a></div><div class="vd">'+esc(b.vendor||'')+'</div></td><td class="hide-s">'+PURPOSE[b.category]+'</td><td>'+robotsTag(b.robots)+'</td><td class="hide-s">'+liveTag(b)+'</td><td><div class="rcell">'+resultTag(b)+'<button type="button" class="evb" aria-expanded="false" aria-controls="ev-'+b.token+'">Details</button></div></td></tr><tr class="ev" id="ev-'+b.token+'" hidden><td colspan="5">'+evidence(b,a,B)+'</td></tr>'})};
   grp('AI search & user-triggered',search);grp('AI training',train);
   const page=a.page||{};
   const fix=fixFor(a,B);
@@ -84,15 +93,16 @@ export function renderReport(r,opt){
   const robotsState=robots.http_status===404?['Not found (all allowed)','t-gray']:robots.http_status===200?['Found','t-ok']:['Unreachable','t-warn'];
   const llmsState=llm.verdict==='real'?['Valid','t-ok']:llm.verdict==='missing'?['None','t-gray']:llm.verdict==='html_spoof'?['Serves HTML','t-warn']:llm.verdict==='nonstandard'?['Non-standard','t-warn']:['Unknown','t-gray'];
   const html='<div class="fade">'+
-   '<div class="verdict '+v[0]+'"><div class="vi">'+v[1]+'</div><div><h2>'+v[2]+'</h2><p>'+v[3]+'</p></div></div>'+
+   '<div class="verdict '+v[0]+'"><div class="vi" aria-hidden="true">'+v[1]+'</div><div><h2>'+v[2]+'</h2><p>'+v[3]+'</p></div></div>'+
+   (r.domain?'<a class="monbar" href="'+B+'/pricing/?site='+encodeURIComponent(r.domain)+'#join"><span><b>Watch '+esc(r.domain)+'</b> · get an email if AI crawler access changes</span><span class="mb2">Early access →</span></a>':'')+
    '<div class="kpis"><div class="kpi"><div class="k">AI search crawlers '+(untested?'allowed by robots.txt':'reachable')+'</div><div class="v">'+(search.length?reach+'<small> / '+search.length+'</small>':'–')+'</div></div>'+
    '<div class="kpi"><div class="k">Silent firewall blocks</div><div class="v">'+(untested?'–':((a.counts&&a.counts.silent)||0))+'</div></div>'+
    '<div class="kpi"><div class="k">Training crawlers blocked</div><div class="v">'+train.filter(b=>b.effective==='blocked').length+'<small> / '+train.length+'</small></div></div>'+
    '<div class="kpi"><div class="k">Text without JavaScript</div><div class="v">'+(page.text_chars!=null?page.text_chars.toLocaleString():'–')+'<small> chars</small></div></div></div>'+
    '<div class="cols"><div>'+
-    (bots.length?'<div class="panel"><h3>Crawler by crawler <span>Tap a row for evidence</span></h3><table><thead><tr><th>Crawler</th><th class="hide-s">Purpose</th><th>robots.txt</th><th class="hide-s">Live request</th><th>Result</th></tr></thead><tbody>'+rows+'</tbody></table></div>':'')+
+    (bots.length?'<div class="panel"><h3>Crawler by crawler <span>Open Details for the evidence</span></h3><table><thead><tr><th>Crawler</th><th class="hide-s">Purpose</th><th>robots.txt</th><th class="hide-s">Live request</th><th>Result</th></tr></thead><tbody>'+rows+'</tbody></table></div>':'')+
     (fix?'<div class="panel fix"><h3>How to fix</h3><div class="body">'+fix+'</div></div>':'')+
-    '<p class="note">How we test: we request your homepage from a data-center IP as a normal browser, as Googlebot, as an unknown bot, and as each AI crawler. Real crawlers come from their own IP ranges, so a site that verifies crawler IPs may treat them differently; the control groups are how we tell a targeted AI block (high confidence) from a verified-bot rule (low confidence).</p>'+
+    '<div class="method"><h4>How we test, and what it can’t tell you</h4><p>We request your homepage from a data-center IP as a normal browser, with a Googlebot user agent, as an unknown bot, and with each AI crawler’s user agent. We don’t come from the crawlers’ own networks, so a site that verifies crawler IP addresses may treat the real crawler differently. The control groups separate a rule aimed at AI crawlers (high confidence) from a general bot rule (medium) or an IP-verification rule (low). To be certain, check your CDN or WAF logs for requests from the crawler’s published IP ranges. <a href="'+B+'/research/">Methodology</a></p></div>'+
    '</div><div class="side">'+
     '<div class="panel"><h3>Page checks</h3><ul class="checks">'+
       chk('Page title',page.title?'Present':(page.text_chars==null?'n/a':'Missing'),page.title?'t-ok':(page.text_chars==null?'t-gray':'t-warn'))+

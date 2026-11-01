@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>How often do firewalls silently block AI search crawlers? November 2026 sample · VAKSEL</title>
+<meta name="description" content="362 reachable sites from a random 600 of the Tranco top 20k: 45 rejected AI search crawler user agents that robots.txt allowed; 13 did so in a way aimed at AI crawlers specifically. Method, definitions and limits.">
+<meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://vaksel.com/research/">
+<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="How often do firewalls silently block AI search crawlers? November 2026 sample · VAKSEL"><meta property="og:description" content="362 reachable sites from a random 600 of the Tranco top 20k: 45 rejected AI search crawler user agents that robots.txt allowed; 13 did so in a way aimed at AI crawlers specifically. Method, definitions and limits."><meta property="og:url" content="https://vaksel.com/research/"><meta property="og:image" content="https://vaksel.com/og/site.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/en/apple-touch-icon.png"><link rel="manifest" href="/en/site.webmanifest">
+<link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/en/app.css">
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" aria-label="Main"><div class="wrap">
+  <a class="logo" href="/en/" aria-label="VAKSEL home"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"></a>
+  <div class="links" id="navlinks">
+    <a class="n" href="/en/guides/">Fix guides</a>
+    <a class="n" href="/en/bots/">AI crawlers</a>
+    <a class="n" href="/en/pricing/">Pricing</a>
+    <a class="n lang" href="https://cetxt.com/" hreflang="zh" lang="zh">中文</a>
+  </div>
+  <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
+</div></nav>
+<script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
+<main id="main" tabindex="-1" class="wrap doc"><div class="crumb"><a href="/en/">Home</a> <span>/</span> Research</div>
+<h1>How often do firewalls silently block AI search crawlers?</h1><p class="upd">Sample run November 1, 2026</p>
+<p class="lead l">In a random sample of popular sites, about 1 in 28 reachable sites rejected AI search crawler user agents at the firewall in a way aimed at AI crawlers specifically, while robots.txt allowed them.</p>
+<div class="facts"><div><span>Sampled</span><b>600 sites</b></div><div><span>Reachable</span><b>362</b></div><div><span>Rejected at least one AI search UA</span><b>45 (12.4%)</b></div><div><span>Aimed at AI crawlers</span><b>13 (3.6%)</b></div></div>
+<h2>Sample</h2>
+<p>600 domains drawn at random from the Tranco top-20,000 list. A site counted as <b>reachable</b> when a normal browser request to its homepage returned HTTP 200 from our server: 362 of 600. The other 238 were excluded because even the browser request didn't get a normal page: 125 failed to connect or timed out (many are CDN, ad or API domains with no public website), 80 returned 403/401/503 or a challenge, and 33 returned another status such as 404. For those, nothing can be said about crawlers specifically.</p>
+<h2>Step 1: user-agent requests</h2>
+<p>For each reachable site we fetched robots.txt and requested the homepage with the user agents of four AI search and user-triggered crawlers: OAI-SearchBot, ChatGPT-User, PerplexityBot and Claude-SearchBot. A request counted as <b>rejected</b> when it got a 4xx/5xx status or a challenge page while the browser request got 200.</p>
+<p>45 sites (12.4% of reachable) rejected at least one of the four while their robots.txt allowed it. We call this a <b>silent block</b>: nothing in robots.txt warns the site owner. 26 of the 45 were served by Cloudflare.</p>
+<h2>Step 2: control groups</h2>
+<p>We re-tested the 45 the same day with two controls: a request using Googlebot's user agent, and a request from an unknown bot. This separates three different causes:</p>
+<table class="tbl"><thead><tr><th>What the controls showed</th><th>Likely cause</th><th>Sites</th></tr></thead><tbody>
+<tr><td>Googlebot user agent rejected too</td><td>The site verifies crawler IP addresses and rejects anyone claiming a crawler name from the wrong network. The real AI crawlers may well get through.</td><td>29</td></tr>
+<tr><td>Unknown bot rejected, Googlebot allowed</td><td>A general bot rule</td><td>1</td></tr>
+<tr><td>Not reproduced on re-test</td><td>Rate limiting or a transient rule</td><td>2</td></tr>
+<tr><td>Browser, Googlebot and unknown bot allowed; AI search UA rejected</td><td>A rule aimed at AI crawlers</td><td><b>13</b></td></tr>
+</tbody></table>
+<p>The 13 are 3.6% of reachable sites, about 1 in 28. Examples include toyota.com, smithsonianmag.com and torontosun.com; 7 of the 13 were served by Cloudflare.</p>
+<h2>Limits</h2>
+<ul><li>All requests came from one data-center server. Real crawlers come from their operators' own IP ranges, which no outside tester can use. A rule that allows verified crawler IPs would let the real crawler through even when our request was rejected; the control groups exist to flag those cases, but can't rule them out completely.</li>
+<li>We tested the homepage only. A site can treat other paths differently.</li>
+<li>Rules change. A result describes the site on November 1, 2026; the links on our homepage run a fresh check.</li>
+<li>600 is a small sample. Treat 12.4% and 3.6% as estimates with a margin of a few percentage points.</li></ul>
+<h2>Asian sites</h2>
+<p>We ran the same test on 1,000 popular Chinese-language sites. Silent blocks were rarer: 3.7% of reachable sites at step 1 and about 0.8% at step 2.</p>
+<div style="margin-top:28px">
+<div class="cta mini"><div><h3>Test your own site</h3><p>Free, no sign-up. We request your homepage as 13 different clients and show what each one gets.</p></div>
+<form class="field inv" data-check autocomplete="off"><input placeholder="yourdomain.com" aria-label="Domain" spellcheck="false" autocapitalize="off"><button class="btn">Check</button></form></div></div>
+</main><script>
+document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();let v=(f.querySelector('input').value||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0];if(/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v))location.href='/en/report/'+v;else{f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake')}}));
+</script>
+<footer><div class="wrap fgrid">
+  <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
+  <div><h2 class="fh">Product</h2><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/research/">Research</a></div>
+  <div><h2 class="fh">Fix guides</h2><a href="/en/guides/cloudflare/">Cloudflare</a><a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/en/guides/wordpress/">WordPress</a><a href="/en/guides/shopify/">Shopify</a></div>
+  <div><h2 class="fh">AI crawlers</h2><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a></div>
+  <div class="fsmall"><span>© 2026 VAKSEL</span><a href="/en/privacy/">Privacy</a><a href="/en/terms/">Terms</a><a href="/en/contact/">Contact</a><a href="https://cetxt.com/" hreflang="zh" lang="zh">中文版 cetxt.com</a><span>We don't store the domains you check or your IP address.</span></div>
+</div></footer>
+</body></html>

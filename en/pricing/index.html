@@ -47,6 +47,7 @@
 <section class="sec tight"><h2>Questions</h2><div class="faq"><details open><summary>What does monitoring check?</summary><p>The same three layers as the free check (robots.txt, live requests as each AI search crawler with control groups, and page readability) on a daily schedule. You get an email when a result changes, for example when a CDN update starts blocking OAI-SearchBot.</p></details><details><summary>When does it launch?</summary><p>Monitoring is in early access. Join the list and we will email you when your account is ready. You pay nothing until then.</p></details><details><summary>Why would my site start blocking AI crawlers by itself?</summary><p>CDN defaults change (Cloudflare changed its AI bot controls on September 15, 2026), security plugins update their bot lists, and robots.txt gets edited during redesigns. None of these tell you.</p></details><details><summary>Do you test from the crawlers’ real IP addresses?</summary><p>No one outside those companies can. We test from a data center with each crawler’s user agent and compare against a normal browser, Googlebot and an unknown bot. That tells a targeted AI block apart from a general bot-verification rule, and the report shows the confidence for each result.</p></details></div></section>
 </main>
 <script>
+{const q=new URLSearchParams(location.search),st=q.get('site'),pl=q.get('plan');if(st)document.querySelector('#wl [name=site]').value=st;if(pl==='agency'||pl==='pro')document.querySelector('#wl [name=plan]').value=pl}
 document.querySelectorAll('[data-plan]').forEach(a=>a.addEventListener('click',()=>{document.querySelector('#wl [name=plan]').value=a.dataset.plan}));
 const wl=document.getElementById('wl'),msg=document.getElementById('wlmsg');
 wl.addEventListener('submit',async e=>{e.preventDefault();const b=wl.querySelector('button');b.disabled=true;msg.textContent='';
@@ -59,7 +60,7 @@ wl.addEventListener('submit',async e=>{e.preventDefault();const b=wl.querySelect
 </script>
 <footer><div class="wrap fgrid">
   <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
-  <div><h2 class="fh">Product</h2><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/#data">Research</a></div>
+  <div><h2 class="fh">Product</h2><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/research/">Research</a></div>
   <div><h2 class="fh">Fix guides</h2><a href="/en/guides/cloudflare/">Cloudflare</a><a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/en/guides/wordpress/">WordPress</a><a href="/en/guides/shopify/">Shopify</a></div>
   <div><h2 class="fh">AI crawlers</h2><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a></div>
   <div class="fsmall"><span>© 2026 VAKSEL</span><a href="/en/privacy/">Privacy</a><a href="/en/terms/">Terms</a><a href="/en/contact/">Contact</a><a href="https://cetxt.com/" hreflang="zh" lang="zh">中文版 cetxt.com</a><span>We don't store the domains you check or your IP address.</span></div>
