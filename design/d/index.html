@@ -4,7 +4,7 @@
 <style>
 :root{--ink:#1d1d1f;--mut:#86868b;--mut2:#6e6e73;--line:#d2d2d7;--alt:#f5f5f7;--acc:#0071e3;
 --sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
---mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--ease:cubic-bezier(.28,.11,.32,1);--out:cubic-bezier(.16,1,.3,1);--spring:cubic-bezier(.34,1.56,.64,1)}
+--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--ease:cubic-bezier(.28,.11,.32,1);--out:cubic-bezier(.16,1,.3,1);--spring:cubic-bezier(.34,1.56,.64,1);--apl:cubic-bezier(.5,1,.89,1)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{background:#fff;scroll-behavior:smooth}
 body{color:var(--ink);font:17px/1.47 var(--sans);-webkit-font-smoothing:antialiased;letter-spacing:-.022em;overflow-x:hidden}
@@ -40,7 +40,7 @@ section{position:relative;padding:140px 22px;text-align:center}
 .grad{background:linear-gradient(95deg,#0090f7 0%,#ba62fc 45%,#f2416b 75%,#f55600 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 
 /* reveal: rise + unblur */
-.rv{opacity:0;transform:translate3d(0,40px,0);transition:opacity 1.1s var(--out),transform 1.1s var(--out)}
+.rv{opacity:0;transform:translate3d(0,50px,0);transition:opacity 1s var(--apl),transform 1s var(--apl)}
 .rv.in{opacity:1;transform:none;filter:none}
 .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
 
@@ -167,7 +167,14 @@ box-shadow:0 0 0 .5px rgba(0,0,0,.18),0 2px 6px rgba(0,0,0,.06),0 30px 70px -20p
 .wheel-wrap{display:grid;grid-template-columns:auto 1fr;gap:64px;max-width:880px;margin:64px auto 0;align-items:center;text-align:left}
 .wheel{width:min(320px,74vw);aspect-ratio:1;position:relative}
 .wheel svg{width:100%;height:100%;transform:rotate(-90deg);overflow:visible}
-.seg{fill:none;stroke-width:30;cursor:pointer;transition:stroke-dashoffset 1.6s var(--out),opacity .45s,stroke-width .35s var(--spring)}
+.seg{fill:none;stroke-width:30;cursor:pointer;transition:opacity .45s,stroke-width .35s var(--spring)}
+.wheel.rv{opacity:1;transform:none}
+.wheel .c small{opacity:0;transform:translateY(6px);transition:opacity .6s var(--apl),transform .6s var(--apl),color .3s}.wheel.done .c small{opacity:1;transform:none}
+.legend li{opacity:0;transform:translateY(24px);transition:opacity .875s ease-in-out,transform .875s ease-in-out}
+.wheel-wrap.go .legend li{opacity:1;transform:none}.wheel-wrap.go .legend li.off{opacity:.35}
+.wheel-wrap.go .legend li:nth-child(1){transition-delay:.35s}.wheel-wrap.go .legend li:nth-child(2){transition-delay:.7s}.wheel-wrap.go .legend li:nth-child(3){transition-delay:1.05s}.wheel-wrap.go .legend li:nth-child(4){transition-delay:1.4s}
+.wheel-wrap.settled .legend li{transition:opacity .35s;transition-delay:0s!important}
+.wnote{opacity:0;transition:opacity .8s var(--apl) 1.9s}.wheel-wrap.go .wnote{opacity:1}
 .seg:hover{stroke-width:36}.seg.off{opacity:.12}
 .wheel .c{position:absolute;inset:0;display:grid;place-items:center;text-align:center;pointer-events:none}
 .wheel .c b{font-size:clamp(64px,13vw,92px);font-weight:700;letter-spacing:-.06em;line-height:1;font-variant-numeric:tabular-nums}
@@ -403,7 +410,7 @@ const d0=new Date();$$('.clk').forEach(c=>c.textContent=d0.getHours()+':'+String
 
 /* reveal */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const t=e.target;t.classList.add('in');io.unobserve(t);
- t.querySelectorAll('.cnt').forEach(c=>tick(c,+c.dataset.to,1500));if(t.id==='wheel')drawWheel(true)}),{threshold:.15,rootMargin:'0px 0px -8% 0px'});
+ t.querySelectorAll('.cnt').forEach(c=>tick(c,+c.dataset.to,1500));}),{threshold:.15,rootMargin:'0px 0px -8% 0px'});
 $$('.rv').forEach(el=>io.observe(el));
 
 /* char highlight */
@@ -457,11 +464,22 @@ $('#mq1').innerHTML=(A.concat(A)).map(chip).join('');$('#mq2').innerHTML=(B.conc
 /* ===== wheel ===== */
 const SEG=[['H1 标题',30,'#0a84ff','没有 H1，AI 不知道你叫什么。这是错误级问题，总分会被封顶在 59。'],['一句话摘要',20,'#bf5af2','没有摘要，AI 只能自己猜你是做什么的。少 20 分。'],['内容分组',30,'#ff375f','没有分组，链接堆成一团。每个非空分组 10 分，最多 30。'],['链接质量',20,'#ff9f0a','链接要用绝对地址、带一句说明，各占 10 分。']];
 const on=SEG.map(()=>true),R=80,C=2*Math.PI*R,svg=$('#wsvg'),legend=$('#legend');let acc=0,shown=0;
+svg.insertAdjacentHTML('afterbegin','<circle cx="100" cy="100" r="'+R+'" fill="none" stroke="rgba(0,0,0,.06)" stroke-width="30"/>');
 SEG.forEach((s,i)=>{const len=C*s[1]/100,c=document.createElementNS('http://www.w3.org/2000/svg','circle');
- [['cx',100],['cy',100],['r',R],['stroke',s[2]],['stroke-dasharray',(len-2)+' '+(C-len+2)],['stroke-dashoffset',-acc+len]].forEach(([k,v])=>c.setAttribute(k,v));
+ [['cx',100],['cy',100],['r',R],['stroke',s[2]],['stroke-dasharray','0 '+C],['stroke-dashoffset',-acc]].forEach(([k,v])=>c.setAttribute(k,v));
  c.dataset.o=-acc;c.classList.add('seg');c.onclick=()=>toggle(i);svg.appendChild(c);acc+=len;
  const li=document.createElement('li');li.innerHTML='<span class="dot" style="background:'+s[2]+'"></span><b>'+s[0]+'</b><span>'+s[1]+' 分</span>';li.onclick=()=>toggle(i);legend.appendChild(li)});
-function drawWheel(first){$$('#wsvg .seg').forEach((c,i)=>{if(first){c.style.transitionDelay=(i*.15)+'s';requestAnimationFrame(()=>c.setAttribute('stroke-dashoffset',c.dataset.o))}c.classList.toggle('off',!on[i])});
+/* Apple-style choreography: wait until the wheel is fully on screen, then one continuous clockwise sweep at full opacity, score counting with it; legend rows rise in one by one */
+const bez=(x1,y1,x2,y2)=>t=>{let a=0,b=1,u=t;for(let k=0;k<24;k++){u=(a+b)/2;const x=3*(1-u)*(1-u)*u*x1+3*(1-u)*u*u*x2+u*u*u;if(x<t)a=u;else b=u}return 3*(1-u)*(1-u)*u*y1+3*(1-u)*u*u*y2+u*u*u};
+const aplE=bez(.42,0,.2,1);let swept=false;
+function sweep(){if(swept)return;swept=true;const segs=$$('#wsvg .seg'),wh=$('#wheel'),ww=$('.wheel-wrap'),num=$('#wnum');
+ const lens=SEG.map(x=>C*x[1]/100),st=[];lens.reduce((a,l,i)=>(st[i]=a,a+l),0);const MS=RM?0:2000,t0=performance.now()+(RM?0:250);ww.classList.add('go');
+ (function f(t){const p=MS?clamp((t-t0)/MS,0,1):1,e=aplE(p),d=e*C;
+  segs.forEach((c,i)=>{const v=clamp(d-st[i],0,lens[i]);c.setAttribute('stroke-dasharray',Math.max(0,v-2)+' '+(C-Math.max(0,v-2)));c.setAttribute('stroke-dashoffset',-st[i])});
+  num.textContent=Math.round(e*100);
+  if(p<1)requestAnimationFrame(f);else{segs.forEach((c,i)=>{c.setAttribute('stroke-dasharray',(lens[i]-2)+' '+(C-lens[i]+2))});wh.classList.add('done');shown=100;buzz(12);setTimeout(()=>ww.classList.add('settled'),2000)}})(performance.now())}
+new IntersectionObserver(([e])=>{if(e.isIntersecting)sweep()},{threshold:.92,rootMargin:'0px 0px -90px 0px'}).observe($('#wheel'));
+function drawWheel(first){if(!swept)return;$$('#wsvg .seg').forEach((c,i)=>{c.classList.toggle('off',!on[i])});
  $$('#legend li').forEach((l,i)=>l.classList.toggle('off',!on[i]));
  let sc=SEG.reduce((a,s,i)=>a+(on[i]?s[1]:0),0);if(!on[0]&&sc>59)sc=59;
  const g=!on[0]?'不合规':sc>=90?'优秀':sc>=75?'良好':sc>=60?'可用':'待改进',gs=$('#wgrade');gs.textContent=g;gs.style.color=!on[0]?'#d70015':'';
@@ -480,11 +498,12 @@ paint();
 
 /* ===== scroll loop ===== */
 const lnav=$('#lnav'),dock=$('#dock'),heroField=$('.hero .field'),endSec=$('#end'),mega=$('#mega'),dataSec=$('#data'),tri=$$('#tri span');
-let heroGone=false,endIn=false,storyIn=false;
+let heroGone=false,endIn=false,storyIn=false,scoreIn=false;
 new IntersectionObserver(([e])=>{heroGone=!e.isIntersecting&&e.boundingClientRect.top<0;dockUpd()}).observe(heroField);
 new IntersectionObserver(([e])=>{endIn=e.isIntersecting;dockUpd()},{threshold:.2}).observe(endSec);
 new IntersectionObserver(([e])=>{storyIn=e.isIntersecting;dockUpd()},{rootMargin:'-30% 0px -30% 0px'}).observe(story);
-function dockUpd(){dock.classList.toggle('show',heroGone&&!endIn&&!storyIn&&!sheet.classList.contains('open'))}
+new IntersectionObserver(([e])=>{scoreIn=e.isIntersecting;dockUpd()},{rootMargin:'-20% 0px -20% 0px'}).observe($('#wheel'));
+function dockUpd(){dock.classList.toggle('show',heroGone&&!endIn&&!storyIn&&!scoreIn&&!sheet.classList.contains('open'))}
 let lastN=-1;
 function frame(now){
  const vh=innerHeight,y=scrollY;lnav.classList.toggle('stuck',y>44);
