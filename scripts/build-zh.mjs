@@ -38,17 +38,17 @@ const HEADX = `<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/
 <link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/app.css">`;
 
-function page({ path, title, desc, body, active, ld, en, type = 'article' }) {
+function page({ path, title, desc, body, active, ld, en, type = 'article', head = '', robots = 'noindex' }) {
   const enPath = en === undefined ? path : en;
   return `<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
-<meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
+<meta name="robots" content="${robots}"><meta name="theme-color" content="#ffffff">
 <link rel="canonical" href="${SITE}${path}">
 ${enPath ? `<link rel="alternate" hreflang="zh-CN" href="${SITE}${path}"><link rel="alternate" hreflang="en" href="${EN}${enPath}">` : ''}
 <meta property="og:type" content="${type}"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${SITE}${path}"><meta property="og:image" content="${SITE}/og.png"><meta name="twitter:card" content="summary_large_image">
-${HEADX}${ld ? `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>` : ''}
+${HEADX}${head ? '\n' + head : ''}${ld ? `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>` : ''}
 </head><body class="zh">
 ${NAV(active, enPath)}
 ${body.includes('<main') ? body.replace('<main ', '<main id="main" tabindex="-1" ') : '<main id="main" tabindex="-1">' + body + '</main>'}
@@ -363,12 +363,71 @@ const urls = ['/', '/research/', '/pricing/', '/guides/', ...GUIDES_ZH.map((g) =
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${SITE}${u}</loc><lastmod>${UPDATED}</lastmod></url>`).join('\n')}\n</urlset>\n`);
 console.log('zh pages:', out.length);
 
+/* ---------- 旧文字页迁入新模板（11-02）：源文件在 legacy/，正文原样保留，旧样式转浅色并限定在 .lg 内 ---------- */
+export function lightCss(css) {
+  const a = (r, g, b) => (m, x) => `rgba(${r},${g},${b},${x})`;
+  return css
+    .replace(/rgba\(244,\s*241,\s*233,\s*([\d.]+)\)/g, (m, x) => `rgba(0,0,0,${Math.min(1, +x * 0.7).toFixed(3)})`)
+    .replace(/rgba\(210,\s*255,\s*0,\s*([\d.]+)\)/g, a(12, 99, 241))
+    .replace(/rgba\(255,\s*107,\s*107,\s*([\d.]+)\)/g, a(215, 0, 21))
+    .replace(/rgba\(255,\s*176,\s*32,\s*([\d.]+)\)/g, a(178, 106, 0))
+    .replace(/rgba\(12,\s*12,\s*14,\s*\.72\)/g, 'rgba(255,255,255,.82)').replace(/rgba\(8,\s*8,\s*10,\s*\.7\)/g, 'rgba(255,255,255,.78)')
+    .replace(/rgba\(0,0,0,\.55\)/g, 'rgba(0,0,0,.14)').replace(/rgba\(0,0,0,\.4\)/g, 'rgba(0,0,0,.12)')
+    .replace(/#0c0c0e\b/gi, '#ffffff').replace(/#121214\b/gi, '#f5f5f7').replace(/#17171a\b/gi, '#ececf0').replace(/#08080a\b/gi, '#fafafa')
+    .replace(/#f4f1e9\b/gi, '#1d1d1f').replace(/#d8d5cc\b/gi, '#333336').replace(/#97958d\b/gi, '#6e6e73').replace(/#85837c\b/gi, '#86868b')
+    .replace(/#d2ff00\b/gi, '#0C63F1').replace(/#ff6b6b\b|#ff8080\b/gi, '#d70015').replace(/#ffb020\b/gi, '#b26a00')
+    .replace(/"Noto Serif SC",\s*"Songti SC",\s*serif|"Noto Serif SC",\s*serif/g, '"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif')
+    .replace(/"Noto Sans SC",\s*sans-serif/g, '"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif')
+    .replace(/"JetBrains Mono",\s*(ui-monospace,)?/g, 'ui-monospace,')
+    .replace(/font-weight:\s*900/g, 'font-weight:700');
+}
+function scopeCss(css, sc) {
+  const sel = (s) => s.split(',').map((x) => { x = x.trim(); if (!x) return x;
+    if (x === ':root' || x === 'body' || x === 'html') return sc;
+    if (/^(html|body)\b/.test(x)) return sc + x.replace(/^(html|body)/, '');
+    return sc + ' ' + x; }).join(',');
+  let out = '', i = 0;
+  while (i < css.length) {
+    const b = css.indexOf('{', i); if (b < 0) break;
+    const head = css.slice(i, b).trim();
+    if (head.startsWith('@media') || head.startsWith('@supports')) {
+      let d = 1, j = b + 1; while (j < css.length && d) { if (css[j] === '{') d++; else if (css[j] === '}') d--; j++; }
+      out += head + '{' + scopeCss(css.slice(b + 1, j - 1), sc) + '}\n'; i = j; continue;
+    }
+    const e = css.indexOf('}', b);
+    if (head.startsWith('@')) out += head + '{' + css.slice(b + 1, e) + '}\n';
+    else out += sel(head.replace(/\/\*[\s\S]*?\*\//g, '')) + '{' + css.slice(b + 1, e) + '}\n';
+    i = e + 1;
+  }
+  return out;
+}
+const fixLinks = (h) => h.replace(/href="\/#check"/g, 'href="/"').replace(/href="\/#(gen|val|robots)"/g, 'href="/tools/#$1"').replace(/>去 cetxt\.com 测一下 →</g, '>免费检测我的网站 →<');
+const LEGACY_TEXT = [['faq/index.html', '/faq/'], ['guide/what-is-llms-txt/index.html', '/guide/what-is-llms-txt/'], ['guide/how-to-write-llms-txt/index.html', '/guide/how-to-write-llms-txt/'], ['survey/index.html', '/survey/']];
+for (const [rel, path] of LEGACY_TEXT) {
+  const src = readFileSync(join(root, 'legacy', rel), 'utf8');
+  const title = src.match(/<title>([^<]*)<\/title>/)[1].replace(/ · cetxt$/, ' · VAKSEL');
+  const desc = (src.match(/<meta name="description" content="([^"]*)"/) || [, ''])[1];
+  const style = src.match(/<style>([\s\S]*?)<\/style>/)[1];
+  const lds = [...src.matchAll(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g)].map((m) => m[0].replace(/"name": "cetxt"/g, '"name": "VAKSEL 中文版"')).join('\n');
+  const umami = (src.match(/<script defer src="https:\/\/umami[^>]*><\/script>/) || [''])[0];
+  let body = src.slice(src.indexOf('<body>') + 6, src.lastIndexOf('</body>'));
+  body = body.replace(/\s*<div class="topbar">[\s\S]*?<\/div>\n/, '\n')
+    .replace(/\s*<div class="foot">[\s\S]*?<\/div>\n/, '\n')
+    .replace(/\s*<footer>[\s\S]*?<\/footer>\n/, '\n');
+  body = fixLinks(body);
+  const css = scopeCss(lightCss(style), '.lg') + '.lg{background:#fff;padding-bottom:24px}.lg a:hover{text-decoration:none}\n';
+  const fixed = readFileSync(join(root, rel), 'utf8');
+  write(rel, page({ path, title, desc, active: rel.startsWith('survey') ? 'survey' : '', en: rel.startsWith('survey') ? '/research/' : '/',
+    robots: 'index,follow', head: `<style>${css}</style>\n${lds}\n${umami}`, body: `<main class="lg">${body}</main>` }));
+}
+
 /* ---------- 旧页面换壳：只换导航、页脚、图标和标题后缀，正文与网址不动（幂等） ---------- */
-const LEGACY = [['tools/index.html', 'tools', '/'], ['survey/index.html', 'survey', '/research/'], ['faq/index.html', '', '/'], ['guide/what-is-llms-txt/index.html', '', '/'], ['guide/how-to-write-llms-txt/index.html', '', '/']];
+const LEGACY = [['tools/index.html', 'tools', '/']];
 for (const [rel, active, enPath] of LEGACY) {
   const abs = join(root, rel);
   let h = readFileSync(abs, 'utf8');
   h = h.replace(/<!--VXS-NAV-->[\s\S]*?<!--\/VXS-NAV-->\n?/, '').replace(/<!--VXS-FOOT-->[\s\S]*?<!--\/VXS-FOOT-->\n?/, '');
+  h = h.replace('href="/css/site.css"', 'href="/css/site-light.css"').replace('href="/css/audit.css"', 'href="/css/audit-light.css"').replace('<meta name="theme-color" content="#0c0c0e">', '<meta name="theme-color" content="#ffffff">').replace(/<link href="https:\/\/fonts\.googleapis\.com[^>]*>\n?/, '').replace(/<link rel="preconnect" href="https:\/\/fonts\.(googleapis|gstatic)\.com"( crossorigin)?>\n?/g, '').replace(/cetxt · 给 AI 的网站说明书/g, 'llms.txt 中文生成器与校验器 · VAKSEL');
   h = h.replace(/ · cetxt<\/title>/, ' · VAKSEL</title>').replace(/(<meta property="og:title" content="[^"]*?) · cetxt"/, '$1 · VAKSEL"').replace(/<meta property="og:site_name" content="[^"]*">/, '<meta property="og:site_name" content="VAKSEL">');
   h = h.replace('<link rel="icon" type="image/svg+xml" href="/favicon.svg">', '<link rel="icon" type="image/svg+xml" href="/en/brand/vaksel-favicon.svg">').replace('<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">', '<link rel="icon" href="/en/brand/favicon.ico" sizes="16x16 32x32 48x48">').replace('<link rel="apple-touch-icon" href="/apple-touch-icon.png">', '<link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">');
   if (!h.includes('/en/shell.css')) h = h.replace('</head>', '<link rel="stylesheet" href="/en/shell.css">\n</head>');
@@ -388,4 +447,5 @@ for (const [rel, active, enPath] of LEGACY) {
   h = h.slice(0, j) + foot + h.slice(j);
   writeFileSync(abs, h);
 }
+for (const c of ['site', 'audit']) writeFileSync(join(root, `css/${c}-light.css`), '/* 由 build-zh.mjs 从 ' + c + '.css 自动生成的浅色版，勿手改 */\n' + lightCss(readFileSync(join(root, `css/${c}.css`), 'utf8')));
 console.log('legacy reshelled:', LEGACY.length);

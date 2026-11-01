@@ -1,153 +1,138 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>中文大站 AI 爬虫与 llms.txt 普查：1000 站里只有 47 个拦了 AI 训练 · VAKSEL</title>
 <meta name="description" content="2026-11 重测 1000 个大型中文站：47 个（4.7%）拦了至少一个 AI 训练爬虫，用 __usage_ai-training 的 0 个；真正的 llms.txt 38 个（3.8%）。数据、方法、名单全公开。">
+<meta name="robots" content="index,follow"><meta name="theme-color" content="#ffffff">
 <link rel="canonical" href="https://cetxt.com/survey/">
-<link rel="describedby" href="/llms.txt">
-<meta name="theme-color" content="#0c0c0e">
-<link rel="icon" type="image/svg+xml" href="/en/brand/vaksel-favicon.svg">
-    <link rel="icon" href="/en/brand/favicon.ico" sizes="16x16 32x32 48x48">
-    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
-    <link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">
-<meta property="og:type" content="article">
-<meta property="og:site_name" content="VAKSEL">
-<meta property="og:title" content="中文大站 AI 爬虫与 llms.txt 普查：1000 站里只有 47 个拦了 AI 训练">
-<meta property="og:description" content="1000 个大型中文站：47 个拦了 AI 训练爬虫，0 个用 __usage_ai-training，38 个有真正的 llms.txt。">
-<meta property="og:url" content="https://cetxt.com/survey/">
-<meta property="og:image" content="https://cetxt.com/survey/og-survey.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="中文大站 AI 爬虫与 llms.txt 普查：1000 站里只有 47 个拦了 AI 训练">
-<meta name="twitter:description" content="47 站拦 AI 训练、0 站用 __usage_ai-training、38 站有 llms.txt。数据、方法、名单全公开。">
-<meta name="twitter:image" content="https://cetxt.com/survey/og-survey.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#0c0c0e; --bg2:#121214; --ink:#f4f1e9; --mut:#97958d;
-  --line:rgba(244,241,233,.14); --acc:#d2ff00;
-  --serif:"Noto Serif SC",serif; --mono:"JetBrains Mono",monospace;
+<link rel="alternate" hreflang="zh-CN" href="https://cetxt.com/survey/"><link rel="alternate" hreflang="en" href="https://vaksel.com/research/">
+<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="中文大站 AI 爬虫与 llms.txt 普查：1000 站里只有 47 个拦了 AI 训练 · VAKSEL"><meta property="og:description" content="2026-11 重测 1000 个大型中文站：47 个（4.7%）拦了至少一个 AI 训练爬虫，用 __usage_ai-training 的 0 个；真正的 llms.txt 38 个（3.8%）。数据、方法、名单全公开。"><meta property="og:url" content="https://cetxt.com/survey/"><meta property="og:image" content="https://cetxt.com/og.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">
+<link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/en/app.css">
+<style>.lg{
+  --bg:#ffffff; --bg2:#f5f5f7; --ink:#1d1d1f; --mut:#6e6e73;
+  --line:rgba(0,0,0,0.098); --acc:#0C63F1;
+  --serif:"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; --mono:ui-monospace,monospace;
 }
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:var(--serif);line-height:1.8;
+.lg *{margin:0;padding:0;box-sizing:border-box}
+.lg{scroll-behavior:smooth}
+.lg{background:var(--bg);color:var(--ink);font-family:var(--serif);line-height:1.8;
   -webkit-font-smoothing:antialiased;overflow-x:hidden}
-::selection{background:var(--acc);color:#0c0c0e}
-.wrap{max-width:880px;margin:0 auto;padding:0 max(24px, env(safe-area-inset-right)) 0 max(24px, env(safe-area-inset-left))}
-.topbar{display:flex;justify-content:space-between;align-items:center;
+.lg ::selection{background:var(--acc);color:#ffffff}
+.lg .wrap{max-width:880px;margin:0 auto;padding:0 max(24px, env(safe-area-inset-right)) 0 max(24px, env(safe-area-inset-left))}
+.lg .topbar{display:flex;justify-content:space-between;align-items:center;
   padding:20px 0;border-bottom:1px solid var(--line);
   font-family:var(--mono);font-size:12px;letter-spacing:.25em;color:var(--mut)}
-.topbar a{color:var(--ink);text-decoration:none}
-.topbar a:hover{color:var(--acc)}
-.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--acc);
+.lg .topbar a{color:var(--ink);text-decoration:none}
+.lg .topbar a:hover{color:var(--acc)}
+.lg .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--acc);
   margin:72px 0 28px}
-h1{font-size:clamp(38px,7vw,72px);font-weight:900;line-height:1.3;letter-spacing:.01em}
-h1 .acc{color:var(--acc)}
-.lede{margin:32px 0 0;font-size:clamp(17px,2.4vw,21px);color:var(--ink);max-width:36em}
-.lede b{color:var(--acc);font-weight:900}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+.lg h1{font-size:clamp(38px,7vw,72px);font-weight:700;line-height:1.3;letter-spacing:.01em}
+.lg h1 .acc{color:var(--acc)}
+.lg .lede{margin:32px 0 0;font-size:clamp(17px,2.4vw,21px);color:var(--ink);max-width:36em}
+.lg .lede b{color:var(--acc);font-weight:700}
+.lg .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
   border:1px solid var(--line);margin:64px 0 0}
-.stat{background:var(--bg);padding:28px 20px}
-.stat .n{font-size:clamp(34px,5vw,52px);font-weight:900;color:var(--acc);line-height:1.1}
-.stat .n small{font-size:.45em;color:var(--mut);font-weight:600}
-.stat .k{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mut);margin-top:10px}
-.cap{font-family:var(--mono);font-size:11px;letter-spacing:.15em;color:var(--mut);margin:14px 0 0}
-section{margin:88px 0}
-.sec-head{display:flex;align-items:baseline;gap:18px;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:32px}
-.sec-head .idx{font-family:var(--mono);font-size:12px;letter-spacing:.25em;color:var(--acc)}
-.sec-head h2{font-size:clamp(24px,4vw,34px);font-weight:900}
-.sec-head .tag{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mut)}
-table{width:100%;border-collapse:collapse;font-size:15px}
-th{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mut);
+.lg .stat{background:var(--bg);padding:28px 20px}
+.lg .stat .n{font-size:clamp(34px,5vw,52px);font-weight:700;color:var(--acc);line-height:1.1}
+.lg .stat .n small{font-size:.45em;color:var(--mut);font-weight:600}
+.lg .stat .k{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mut);margin-top:10px}
+.lg .cap{font-family:var(--mono);font-size:11px;letter-spacing:.15em;color:var(--mut);margin:14px 0 0}
+.lg section{margin:88px 0}
+.lg .sec-head{display:flex;align-items:baseline;gap:18px;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:32px}
+.lg .sec-head .idx{font-family:var(--mono);font-size:12px;letter-spacing:.25em;color:var(--acc)}
+.lg .sec-head h2{font-size:clamp(24px,4vw,34px);font-weight:700}
+.lg .sec-head .tag{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mut)}
+.lg table{width:100%;border-collapse:collapse;font-size:15px}
+.lg th{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mut);
   text-align:left;padding:12px 8px;border-bottom:1px solid var(--line);font-weight:500}
-td{padding:14px 8px;border-bottom:1px solid var(--line);vertical-align:top}
-td.num{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--acc);white-space:nowrap}
-td.pct{font-family:var(--mono);color:var(--mut)}
-.note{font-size:14px;color:var(--mut);margin-top:16px}
-.bars{margin:8px 0}
-.bar-row{display:grid;grid-template-columns:88px 1fr 44px;gap:14px;align-items:center;margin:12px 0;font-size:14px}
-.bar-row .lab{font-family:var(--mono);font-size:12px;color:var(--mut)}
-.bar{height:10px;background:rgba(244,241,233,.08);position:relative}
-.bar i{position:absolute;inset:0 auto 0 0;background:var(--acc)}
-.bar-row .c{font-family:var(--mono);text-align:right}
-.eg{border:1px solid var(--line);padding:24px;margin:16px 0;background:var(--bg2)}
-.eg .dom{font-family:var(--mono);font-size:15px;color:var(--acc)}
-.eg .sc{font-family:var(--mono);font-size:12px;color:var(--mut);margin-left:12px}
-.eg p{font-size:15px;color:var(--ink);margin-top:10px}
-.eg p.dim{color:var(--mut)}
-ol.prob{list-style:none;counter-reset:p}
-ol.prob li{counter-increment:p;display:flex;gap:18px;padding:18px 0;border-bottom:1px solid var(--line);font-size:15px}
-ol.prob li::before{content:counter(p,decimal-leading-zero);font-family:var(--mono);
+.lg td{padding:14px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.lg td.num{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--acc);white-space:nowrap}
+.lg td.pct{font-family:var(--mono);color:var(--mut)}
+.lg .note{font-size:14px;color:var(--mut);margin-top:16px}
+.lg .bars{margin:8px 0}
+.lg .bar-row{display:grid;grid-template-columns:88px 1fr 44px;gap:14px;align-items:center;margin:12px 0;font-size:14px}
+.lg .bar-row .lab{font-family:var(--mono);font-size:12px;color:var(--mut)}
+.lg .bar{height:10px;background:rgba(0,0,0,0.056);position:relative}
+.lg .bar i{position:absolute;inset:0 auto 0 0;background:var(--acc)}
+.lg .bar-row .c{font-family:var(--mono);text-align:right}
+.lg .eg{border:1px solid var(--line);padding:24px;margin:16px 0;background:var(--bg2)}
+.lg .eg .dom{font-family:var(--mono);font-size:15px;color:var(--acc)}
+.lg .eg .sc{font-family:var(--mono);font-size:12px;color:var(--mut);margin-left:12px}
+.lg .eg p{font-size:15px;color:var(--ink);margin-top:10px}
+.lg .eg p.dim{color:var(--mut)}
+.lg ol.prob{list-style:none;counter-reset:p}
+.lg ol.prob li{counter-increment:p;display:flex;gap:18px;padding:18px 0;border-bottom:1px solid var(--line);font-size:15px}
+.lg ol.prob li::before{content:counter(p,decimal-leading-zero);font-family:var(--mono);
   color:var(--acc);font-size:13px;padding-top:4px}
-ol.prob b{color:var(--acc)}
-.obs{border-left:2px solid var(--acc);padding:4px 0 4px 22px;margin:22px 0}
-.obs h3{font-size:18px;margin-bottom:6px}
-.obs p{font-size:15px;color:var(--mut)}
-.method{font-size:15px;color:var(--mut)}
-.method li{margin:10px 0;list-style:none;padding-left:24px;position:relative}
-.method li::before{content:"—";position:absolute;left:0;color:var(--acc);font-family:var(--mono)}
-.cta{border:1px solid var(--acc);padding:48px 32px;text-align:center;margin:88px 0}
-.cta h2{font-size:clamp(26px,4.5vw,40px);font-weight:900;margin-bottom:12px}
-.cta p{color:var(--mut);font-size:15px;margin-bottom:28px}
-.cta a{display:inline-block;background:var(--acc);color:#0c0c0e;text-decoration:none;
+.lg ol.prob b{color:var(--acc)}
+.lg .obs{border-left:2px solid var(--acc);padding:4px 0 4px 22px;margin:22px 0}
+.lg .obs h3{font-size:18px;margin-bottom:6px}
+.lg .obs p{font-size:15px;color:var(--mut)}
+.lg .method{font-size:15px;color:var(--mut)}
+.lg .method li{margin:10px 0;list-style:none;padding-left:24px;position:relative}
+.lg .method li::before{content:"—";position:absolute;left:0;color:var(--acc);font-family:var(--mono)}
+.lg .cta{border:1px solid var(--acc);padding:48px 32px;text-align:center;margin:88px 0}
+.lg .cta h2{font-size:clamp(26px,4.5vw,40px);font-weight:700;margin-bottom:12px}
+.lg .cta p{color:var(--mut);font-size:15px;margin-bottom:28px}
+.lg .cta a{display:inline-block;background:var(--acc);color:#ffffff;text-decoration:none;
   font-family:var(--mono);font-size:14px;letter-spacing:.15em;padding:16px 40px;font-weight:700}
-.cta a:hover{transform:translateY(-2px)}
-.bcards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:28px 0 6px}
-.bcard{border:1px solid var(--line);border-radius:10px;padding:13px 15px;background:rgba(244,241,233,.02)}
-.bcard .d{font-family:var(--mono);font-size:13px}
-.bcard .s{font-family:var(--mono);font-size:11.5px;margin-top:7px;letter-spacing:.06em}
-.bcard .s.good{color:var(--acc)} .bcard .s.bad{color:#ff8080}
-.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0 42px}
-.hero-cta a{text-decoration:none;font-family:var(--mono);font-size:14px;letter-spacing:.12em;padding:15px 34px;font-weight:700}
-.hero-cta a.p{background:var(--acc);color:#0c0c0e}
-.hero-cta a.s{border:1px solid var(--line);color:var(--ink)}
-@media(max-width:760px){.bcards{grid-template-columns:repeat(2,1fr)}}
-details.names{border:1px solid var(--line);margin:16px 0}
-details.names summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;
+.lg .cta a:hover{transform:translateY(-2px)}
+.lg .bcards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:28px 0 6px}
+.lg .bcard{border:1px solid var(--line);border-radius:10px;padding:13px 15px;background:rgba(0,0,0,0.014)}
+.lg .bcard .d{font-family:var(--mono);font-size:13px}
+.lg .bcard .s{font-family:var(--mono);font-size:11.5px;margin-top:7px;letter-spacing:.06em}
+.lg .bcard .s.good{color:var(--acc)}
+.lg .bcard .s.bad{color:#d70015}
+.lg .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0 42px}
+.lg .hero-cta a{text-decoration:none;font-family:var(--mono);font-size:14px;letter-spacing:.12em;padding:15px 34px;font-weight:700}
+.lg .hero-cta a.p{background:var(--acc);color:#ffffff}
+.lg .hero-cta a.s{border:1px solid var(--line);color:var(--ink)}
+@media(max-width:760px){.lg .bcards{grid-template-columns:repeat(2,1fr)}
+}
+.lg details.names{border:1px solid var(--line);margin:16px 0}
+.lg details.names summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;
   align-items:center;padding:18px 22px;font-family:var(--mono);font-size:13px;letter-spacing:.1em}
-details.names summary::-webkit-details-marker{display:none}
-details.names summary .cnt{color:var(--acc)}
-details.names ul{list-style:none;padding:6px 22px 22px;columns:2;column-gap:32px;font-size:13px}
-details.names li{padding:7px 0;border-bottom:1px dotted rgba(244,241,233,.08);
+.lg details.names summary::-webkit-details-marker{display:none}
+.lg details.names summary .cnt{color:var(--acc)}
+.lg details.names ul{list-style:none;padding:6px 22px 22px;columns:2;column-gap:32px;font-size:13px}
+.lg details.names li{padding:7px 0;border-bottom:1px dotted rgba(0,0,0,0.056);
   break-inside:avoid;font-family:var(--mono);display:flex;justify-content:space-between;gap:10px}
-details.names li .nm{color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:45%}
-details.names li .sco{color:var(--acc)}
-footer{border-top:1px solid var(--line);padding:36px 0 64px;display:flex;
+.lg details.names li .nm{color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:45%}
+.lg details.names li .sco{color:var(--acc)}
+.lg footer{border-top:1px solid var(--line);padding:36px 0 64px;display:flex;
   justify-content:space-between;gap:20px;flex-wrap:wrap;
   font-family:var(--mono);font-size:11px;letter-spacing:.15em;color:var(--mut)}
-footer a{color:var(--ink);text-decoration:none}
-@media(max-width:640px){
-  .stats{grid-template-columns:repeat(2,1fr)}
-  details.names ul{columns:1}
-  .kicker{margin-top:48px}
-  section{margin:64px 0}
+.lg footer a{color:var(--ink);text-decoration:none}
+@media(max-width:640px){.lg .stats{grid-template-columns:repeat(2,1fr)}
+.lg details.names ul{columns:1}
+.lg .kicker{margin-top:48px}
+.lg section{margin:64px 0}
 }
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-
-.browser{border:1px solid var(--line);margin:16px 0}
-.b-tools{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:14px}
-.b-tools input{background:transparent;border:1px solid var(--line);color:var(--ink);
+@media(prefers-reduced-motion:reduce){.lg{scroll-behavior:auto}
+}
+.lg .browser{border:1px solid var(--line);margin:16px 0}
+.lg .b-tools{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:14px}
+.lg .b-tools input{background:transparent;border:1px solid var(--line);color:var(--ink);
   font-family:var(--mono);font-size:16px;padding:12px 16px;width:100%;outline:none;border-radius:0}
-.b-tools input:focus{border-color:var(--acc)}
-.b-tools input::placeholder{color:var(--mut)}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chips button{background:transparent;border:1px solid var(--line);color:var(--mut);
+.lg .b-tools input:focus{border-color:var(--acc)}
+.lg .b-tools input::placeholder{color:var(--mut)}
+.lg .chips{display:flex;flex-wrap:wrap;gap:8px}
+.lg .chips button{background:transparent;border:1px solid var(--line);color:var(--mut);
   font-family:var(--mono);font-size:12px;letter-spacing:.05em;padding:8px 14px;cursor:pointer;border-radius:0}
-.chips button.on{border-color:var(--acc);color:var(--acc)}
-.chips button:hover{color:var(--ink)}
-.b-meta{padding:12px 22px;font-size:11px;letter-spacing:.15em;color:var(--mut);border-bottom:1px solid var(--line);font-family:var(--mono)}
-.b-list{list-style:none;max-height:520px;overflow:auto;padding:6px 22px 18px;margin:0}
-.b-list li{padding:9px 0;border-bottom:1px dotted rgba(244,241,233,.08);
+.lg .chips button.on{border-color:var(--acc);color:var(--acc)}
+.lg .chips button:hover{color:var(--ink)}
+.lg .b-meta{padding:12px 22px;font-size:11px;letter-spacing:.15em;color:var(--mut);border-bottom:1px solid var(--line);font-family:var(--mono)}
+.lg .b-list{list-style:none;max-height:520px;overflow:auto;padding:6px 22px 18px;margin:0}
+.lg .b-list li{padding:9px 0;border-bottom:1px dotted rgba(0,0,0,0.056);
   font-family:var(--mono);font-size:13px;display:flex;gap:12px;align-items:baseline}
-.b-list .d{color:var(--ink);white-space:nowrap}
-.b-list .n{color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
-.b-list .st{font-size:11px;letter-spacing:.08em;white-space:nowrap;color:var(--mut)}
-.b-list .st.ok{color:var(--acc)}
-.b-list .sc{color:var(--acc);white-space:nowrap}
+.lg .b-list .d{color:var(--ink);white-space:nowrap}
+.lg .b-list .n{color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
+.lg .b-list .st{font-size:11px;letter-spacing:.08em;white-space:nowrap;color:var(--mut)}
+.lg .b-list .st.ok{color:var(--acc)}
+.lg .b-list .sc{color:var(--acc);white-space:nowrap}
+.lg{background:#fff;padding-bottom:24px}.lg a:hover{text-decoration:none}
 </style>
 <script type="application/ld+json">
 {
@@ -157,7 +142,7 @@ footer a{color:var(--ink);text-decoration:none}
   "description": "1000 个大型中文站的 robots.txt AI 爬虫规则与 /llms.txt 检测数据（2026-11-01 重测）：47 个站拦了至少一个 AI 训练爬虫，38 个放置了真正的 llms.txt；另含 100 个中文独立站的 llms.txt 抽样（2026-10-04）。",
   "url": "https://cetxt.com/survey/",
   "inLanguage": "zh-CN",
-  "creator": { "@type": "Organization", "name": "cetxt", "url": "https://cetxt.com/" },
+  "creator": { "@type": "Organization", "name": "VAKSEL 中文版", "url": "https://cetxt.com/" },
   "datePublished": "2026-10-04",
   "dateModified": "2026-11-01",
   "keywords": ["llms.txt", "robots.txt", "AI 爬虫", "GPTBot", "__usage_ai-training", "中文网站", "调查数据"],
@@ -170,10 +155,8 @@ footer a{color:var(--ink);text-decoration:none}
 }
 </script>
 <script defer src="https://umami.kin3.net/script.js" data-website-id="3a06af3f-999b-4956-a6af-8760b6a03ed3"></script>
-<link rel="stylesheet" href="/en/shell.css">
-</head>
-<body>
-<!--VXS-NAV--><div class="vxs top"><a class="skip" href="#main">跳到正文</a>
+</head><body class="zh">
+<a class="skip" href="#main">跳到正文</a>
 <nav class="nav" aria-label="主导航"><div class="wrap">
   <a class="logo" href="/" aria-label="VAKSEL 中文版首页"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"><span class="zhtag">中文版</span></a>
   <div class="links" id="navlinks">
@@ -186,7 +169,8 @@ footer a{color:var(--ink);text-decoration:none}
   </div>
   <button class="menu" type="button" aria-label="菜单" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
 </div></nav>
-<script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script></div><!--/VXS-NAV-->
+<script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
+<main id="main" tabindex="-1" class="lg">
 <div class="wrap">
 
   <div class="kicker">cetxt 中文大站普查 · 2026-11-01 重测 · 大型站 1000 · robots.txt + llms.txt · 只读检测</div>
@@ -203,8 +187,8 @@ footer a{color:var(--ink);text-decoration:none}
     <div class="bcard"><div class="d">qq.com</div><div class="s good">AI 爬虫放行</div></div>
   </div>
   <div class="hero-cta">
-    <a class="p" href="/#check">查查我的站 →</a>
-    <a class="s" href="/#robots">生成 AI 爬虫规则</a>
+    <a class="p" href="/">查查我的站 →</a>
+    <a class="s" href="/tools/#robots">生成 AI 爬虫规则</a>
   </div>
 
   <div class="stats">
@@ -329,7 +313,7 @@ footer a{color:var(--ink);text-decoration:none}
   <div class="cta">
     <h2>你的站呢？</h2>
     <p>花 30 秒，看看你的 robots.txt 对 AI 爬虫怎么说、llms.txt 能拿几分。</p>
-    <a href="/#check">去 cetxt.com 测一下 →</a>
+    <a href="/">免费检测我的网站 →</a>
   </div>
 
   <section>
@@ -497,12 +481,12 @@ footer a{color:var(--ink);text-decoration:none}
   </section>
 
 </div>
-<!--VXS-FOOT--><div class="vxs"><footer><div class="wrap fgrid">
+</main>
+<footer><div class="wrap fgrid">
   <div class="fbrand"><a class="logo" href="/"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><span class="zhtag">中文版</span></a><p>AI 搜索到底能不能访问你的网站？免费检测 robots.txt、防火墙和 CDN 拦截。</p></div>
   <div><h2 class="fh">产品</h2><a href="/">可访问性检测</a><a href="/pricing/">监控（早期体验）</a><a href="/research/">研究方法</a><a href="/tools/">llms.txt 工具</a></div>
   <div><h2 class="fh">修复指南</h2><a href="/guides/cloudflare/">Cloudflare</a><a href="/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/guides/wordpress/">WordPress</a><a href="/guides/shopify/">Shopify</a></div>
   <div><h2 class="fh">资料</h2><a href="/bots/">AI 爬虫百科</a><a href="/survey/">中文大站普查</a><a href="/guide/what-is-llms-txt/">llms.txt 是什么</a><a href="/faq/">常见问题</a></div>
   <div class="fsmall"><span>© 2026 VAKSEL · cetxt.com 是 VAKSEL 中文版</span><a href="/privacy/">隐私</a><a href="/terms/">条款</a><a href="/contact/">联系</a><a href="https://vaksel.com/research/" hreflang="en" lang="en">English</a><span>我们不保存你检测的域名和 IP。</span></div>
-</div></footer></div><!--/VXS-FOOT-->
-</body>
-</html>
+</div></footer>
+</body></html>
