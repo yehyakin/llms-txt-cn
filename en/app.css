@@ -268,3 +268,4 @@ footer .fgrid>.fbrand>a.logo{display:inline-flex;align-items:center;margin:0}
 .seo-note{font-size:12.5px;line-height:1.6;color:#6e6e73;margin:4px 2px 18px}
 @media(max-width:640px){.seol li{grid-template-columns:1fr auto;gap:6px 10px}.seol li>div{grid-column:1/-1;order:3}.seol li .bs{justify-self:end}}
 @media print{.seol li{break-inside:avoid}}
+.cols>div{min-width:0}
