@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Can AI search reach your site? Free AI crawler access check · cetxt</title>
+<meta name="description" content="Test whether ChatGPT, Perplexity and Claude search crawlers can actually reach your site: robots.txt, firewall and CDN blocks, noindex and JavaScript-only pages. Free, no sign-up.">
+<meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/en/app.css">
+</head><body>
+<nav class="nav"><div class="wrap">
+  <a class="logo" href="/en/"><i></i>cetxt</a>
+  <a class="n hide-m" href="#checks">What we check</a>
+  <a class="n hide-m" href="#data">Research</a>
+  <a class="n hide-m" href="#monitor">Monitoring</a>
+  <a class="n lang" href="/">中文</a>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <span class="eyebrow"><b></b>Free · no sign-up · results in seconds</span>
+  <h1>Can AI search <span class="grad">actually reach</span> your site?</h1>
+  <p class="lead">Your robots.txt may say yes while your firewall says no. We request your page as ChatGPT, Perplexity and Claude, and show you exactly what they get.</p>
+  <form class="field" id="f" autocomplete="off">
+    <input id="d" name="d" placeholder="yourdomain.com" inputmode="url" autocapitalize="off" spellcheck="false" aria-label="Domain">
+    <button class="btn" type="submit">Check access</button>
+  </form>
+  <p class="hint">Try <button type="button" data-d="github.com">github.com</button>·<button type="button" data-d="nytimes.com">nytimes.com</button>·<button type="button" data-d="shopify.com">shopify.com</button></p>
+</div></header>
+
+<section class="sec" id="checks"><div class="wrap">
+  <h2>Three layers, tested for real</h2>
+  <p class="sub">Most checkers only read robots.txt. We also send live requests, with control groups so a bot-verification rule isn't mistaken for a block.</p>
+  <div class="grid3">
+    <div class="card c1"><div class="ic">R</div><h3>robots.txt rules</h3><p>Per-crawler verdict for 20+ AI agents, with search and training crawlers kept separate, so you can block training without vanishing from AI answers.</p></div>
+    <div class="card c2"><div class="ic">W</div><h3>Firewall &amp; CDN</h3><p>Live requests as OAI-SearchBot, PerplexityBot, Claude-SearchBot and more. We flag 403s and challenge pages from Cloudflare, CloudFront, Akamai and others.</p></div>
+    <div class="card c3"><div class="ic">P</div><h3>Page readability</h3><p>noindex and nosnippet directives, and whether your content exists without JavaScript, which most AI crawlers don't run.</p></div>
+  </div>
+</div></section>
+
+<section class="sec" id="data"><div class="wrap">
+  <div class="stat">
+    <div class="card dark" style="padding:30px">
+      <p style="font-size:13px;font-weight:600;color:#a1a1a6">Our November 2026 sample of popular sites</p>
+      <div class="big grad" style="margin:12px 0 10px">1 in 28</div>
+      <p style="font-size:16px;color:#f5f5f7">reachable sites silently block AI search crawlers at the firewall, while robots.txt allows them and Googlebot gets through.</p>
+      <p style="margin-top:10px;font-size:12px">362 reachable sites from a random 600 of the Tranco top 20k. Requests sent from a data-center IP with crawler user agents and control groups.</p>
+    </div>
+    <div class="card" style="padding:30px">
+      <h3 style="margin-top:0;font-size:20px">Why “silent”?</h3>
+      <p style="font-size:15px;margin-top:8px">Nothing in your CMS, sitemap or Search Console tells you. A default bot rule or a security plugin returns 403 to AI crawlers, and your pages quietly drop out of ChatGPT and Perplexity answers.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec" id="monitor"><div class="wrap">
+  <div class="cta">
+    <div><h3>Rules change. Get told when they do.</h3><p>Daily re-checks and alerts when a CDN update, plugin or robots.txt edit cuts off AI crawlers. Multi-site reports for agencies.</p></div>
+    <span class="btn" style="cursor:default">Coming soon</span>
+  </div>
+</div></section>
+
+<footer><div class="wrap"><span>© 2026 cetxt</span><a href="/">中文版</a><a href="/faq/">FAQ</a><span>We log the domains checked and the requesting IP for abuse prevention.</span></div></footer>
+
+<script>
+const f=document.getElementById('f'),d=document.getElementById('d');
+function clean(v){v=(v||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0].replace(/\.$/,'');return /^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v)?v:null}
+function go(v){const c=clean(v);if(!c){f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake');d.focus();return}location.href='/en/report/?d='+encodeURIComponent(c)}
+f.addEventListener('submit',e=>{e.preventDefault();go(d.value)});
+document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>go(b.dataset.d));
+</script>
+</body></html>
