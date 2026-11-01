@@ -5,6 +5,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { renderReport } from '../en/view.js';
+import { GRADE_VERSION } from '../en/grade.js';
 import { GUIDES_ZH, RESEARCH_ZH, PRIVACY_ZH, TERMS_ZH, CONTACT_ZH, HOME_FAQ_ZH, PRICING_FAQ_ZH, EXAMPLES_ZH } from './zh-content.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -194,6 +195,52 @@ write('research/index.html', page({
 <div style="margin-top:28px">${checkBox('检测你自己的网站')}</div></main>${CHECK_JS}`
 }));
 
+/* ---------- 评分方法 ---------- */
+write('research/grading/index.html', page({
+  path: '/research/grading/', title: '评分方法：能不能进、能不能读、能不能被引用 · VAKSEL',
+  desc: 'VAKSEL 体检报告的三层 S/A/B/C 评级规则：每条依据、封顶规则、哪些不计分，以及为什么不打总分。规则带版本号。',
+  body: `<main class="wrap doc">${crumbs([['/', '首页'], ['/research/', '研究方法'], [null, '评分方法']])}
+<h1>评分方法</h1><p class="upd">规则版本 ${GRADE_VERSION}</p>
+<p class="lead l">报告分三层评级：能不能进、能不能读、能不能被引用。每层 S、A、B、C 四档，不打总分。</p>
+<h2>为什么不打总分</h2>
+<p>一个数字会把最要紧的问题藏起来。一个把 AI 爬虫全挡在门外的网站，结构化数据做得再好，加权平均后也能拿到不错的分数。所以三层分开评，第一层不过关，后面再好也帮不上忙。</p>
+<h2>只计能验证的事实</h2>
+<ul><li>每条检查都标了依据：<b>官方文档</b>（搜索引擎或标准文件写明）、<b>业界常用</b>（普遍做法，有公开实测）、<b>推测</b>（没有官方说法）。</li>
+<li>只有“官方文档”和“业界常用”计分。“推测”和“提示”只展示，不影响评级。</li>
+<li>llms.txt 不计分。Google 写明出现在 AI 功能里不需要专门的 AI 文件或标记。</li>
+<li>训练爬虫（如 GPTBot、ClaudeBot、Google-Extended、CCBot）被拦不扣分。挡训练、放搜索是站长的正当选择。</li></ul>
+<h2>能不能进</h2>
+<table class="tbl"><thead><tr><th>等级</th><th>条件</th></tr></thead><tbody>
+<tr><td><b>S</b></td><td>实测所有 AI 搜索爬虫都能进，拿到的页面和浏览器一样</td></tr>
+<tr><td><b>A</b></td><td>都能进，但有爬虫遇到验证页或拿到的内容明显变少；或防火墙实测没完成，只能看 robots.txt（最高 A）</td></tr>
+<tr><td><b>B</b></td><td>部分 AI 搜索爬虫被 robots.txt 或防火墙拦</td></tr>
+<tr><td><b>C</b></td><td>全部被拦；或有高、中可信度的静默拦截（robots.txt 允许，防火墙却拦）；或首页 noindex</td></tr>
+</tbody></table>
+<p>robots.txt 返回 5xx 或打不开时，按 <a href="https://www.rfc-editor.org/rfc/rfc9309#section-2.3.1.4">RFC 9309 §2.3.1.4</a>，遵守规范的爬虫会当作全站禁止，所以归到 C。robots.txt 返回 404 等 4xx 时等于没有限制，不扣分。</p>
+<p>防火墙实测带两个对照组：伪装成 Googlebot 的请求和一个未知爬虫。伪装 Googlebot 也被拦，说明网站在核验爬虫 IP，真正的 AI 爬虫多半能过，这种情况只记低可信度，不判 C。我们的请求不是从各家官方 IP 发出的，结论是“很可能”，不是证明。</p>
+<h2>能不能读</h2>
+<table class="tbl"><thead><tr><th>等级</th><th>条件</th></tr></thead><tbody>
+<tr><td><b>S</b></td><td>官方和常用检查没有待改项</td></tr>
+<tr><td><b>A</b></td><td>1 项待改</td></tr>
+<tr><td><b>B</b></td><td>2–3 项待改，或有非关键问题（如多个 canonical）</td></tr>
+<tr><td><b>C</b></td><td>不能收录或不能显示摘要（noindex、nosnippet、max-snippet:0）；不执行 JavaScript 读不到正文；或 4 项以上待改</td></tr>
+</tbody></table>
+<p>检查项：页面标题、页面描述、允许收录和摘要、规范网址、不跑 JS 的正文、一级标题、站点地图、站内链接、图片 alt、多语言 hreflang、移动端适配。Google 在 <a href="https://developers.google.com/search/docs/appearance/ai-features">AI features and your website</a> 中写明，AI 概览只引用能被收录、能显示摘要的页面。</p>
+<h2>能不能被引用</h2>
+<table class="tbl"><thead><tr><th>等级</th><th>条件</th></tr></thead><tbody>
+<tr><td><b>S</b></td><td>5 个信号全有：结构化数据、机构信息、网站名称、分享卡片、语义标签</td></tr>
+<tr><td><b>A</b></td><td>4 个</td></tr>
+<tr><td><b>B</b></td><td>2–3 个</td></tr>
+<tr><td><b>C</b></td><td>0–1 个</td></tr>
+</tbody></table>
+<p>封顶：JSON-LD 解析失败，最高 B；FAQPage 标记的问题在页面上找不到，最高 B。Google 的<a href="https://developers.google.com/search/docs/appearance/structured-data/sd-policies">结构化数据通用规则</a>要求标记的内容对用户可见。</p>
+<p>这一层衡量的是“让引擎认出你”的信号，不保证一定被引用。有没有被 AI 回答提到，要靠实际查询，不在免费体检范围内。</p>
+<h2>规则更新记录</h2>
+<ul><li><b>2026-11-02.1</b>：首个公开版本。新增 robots.txt 5xx 视为全禁、FAQ 标记与页面不符封顶 B。</li></ul>
+<p>规则改动会加版本号，报告里会写明用的是哪一版，所以不同时间的评级可以对比。</p>
+<div style="margin-top:28px">${checkBox('检测你自己的网站')}</div></main>${CHECK_JS}`
+}));
+
 /* ---------- 隐私 / 条款 / 联系 ---------- */
 for (const [p, d] of [['/privacy/', PRIVACY_ZH], ['/terms/', TERMS_ZH]]) {
   write(p.slice(1) + 'index.html', page({ path: p, title: d.title, desc: d.desc, body: `<main class="wrap doc">${crumbs([['/', '首页'], [null, d.h1]])}<h1>${esc(d.h1)}</h1><p class="upd">最后更新：${UPDATED}</p>${d.body}</main>` }));
@@ -359,7 +406,7 @@ write('404.html', page({
 }));
 
 /* ---------- sitemap ---------- */
-const urls = ['/', '/research/', '/pricing/', '/guides/', ...GUIDES_ZH.map((g) => `/guides/${g.slug}/`), '/bots/', ...crawlers.map((c) => `/bots/${slug(c.token)}/`), '/tools/', '/survey/', '/faq/', '/guide/what-is-llms-txt/', '/guide/how-to-write-llms-txt/', '/llms.txt', '/privacy/', '/terms/', '/contact/'];
+const urls = ['/', '/research/', '/research/grading/', '/pricing/', '/guides/', ...GUIDES_ZH.map((g) => `/guides/${g.slug}/`), '/bots/', ...crawlers.map((c) => `/bots/${slug(c.token)}/`), '/tools/', '/survey/', '/faq/', '/guide/what-is-llms-txt/', '/guide/how-to-write-llms-txt/', '/llms.txt', '/privacy/', '/terms/', '/contact/'];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${SITE}${u}</loc><lastmod>${UPDATED}</lastmod></url>`).join('\n')}\n</urlset>\n`);
 console.log('zh pages:', out.length);
 

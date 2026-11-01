@@ -12,15 +12,24 @@
  *   C：indexable 或 text 为 fail（不能收录/摘要，或不跑 JS 读不到正文），或 待改 ≥ 4
  *   其他 fail 最高 B；0 项待改 S，1 项 A，2–3 项 B
  * 能不能被引用（cite）：5 个信号 jsonld、entity、sitename、og、semantic 中通过几个
- *   5 → S，4 → A，2–3 → B，0–1 → C；JSON-LD 解析失败最高 B。
+ *   5 → S，4 → A，2–3 → B，0–1 → C；JSON-LD 解析失败最高 B；FAQPage 标记的问题在页面上找不到，最高 B。
+ *   robots.txt 返回 5xx / 不可达：按 RFC 9309 视为全站禁止，归到“全部被拦”，并单独说明原因。
+ * 规则版本：GRADE_VERSION，改规则时加一。
  */
 const RANK = ['S', 'A', 'B', 'C'];
 const worse = (a, b) => RANK[Math.max(RANK.indexOf(a), RANK.indexOf(b))];
 const isSearch = (b) => b.category === 'search' || b.category === 'user';
 const CLASSIC = new Set(['Googlebot', 'Bingbot', 'Applebot', 'Baiduspider']);
+export const GRADE_VERSION = '2026-11-02.1';
 export const CITE_SIGNALS = ['jsonld', 'entity', 'sitename', 'og', 'semantic'];
 
+const robots5xx = (r) => !!(r && r.robots && r.robots.analysis && r.robots.analysis.fetch && r.robots.analysis.fetch.policy === 'disallow_all');
 export function gradeAccess(r) {
+  const g = gradeAccess0(r);
+  if (robots5xx(r) && g.grade === 'C') g.why.unshift({ id: 'robots_5xx', status: 'fail', http: r.robots.analysis.fetch.http_status });
+  return g;
+}
+function gradeAccess0(r) {
   const a = (r && r.access) || {};
   const live = a.bots && a.bots.length && a.verdict !== 'inconclusive' && a.verdict !== 'unknown';
   if (live) {
@@ -66,6 +75,7 @@ export function gradeCite(seo) {
   const n = passed.length;
   let g = n >= 5 ? 'S' : n === 4 ? 'A' : n >= 2 ? 'B' : 'C';
   if (by.jsonld && by.jsonld.status === 'fail') g = worse(g, 'B');
+  if (by.faq && by.faq.status === 'warn') { g = worse(g, 'B'); missing.push({ id: 'faq', status: 'warn' }); }
   return { grade: g, why: missing, passed: n, total: CITE_SIGNALS.length };
 }
 

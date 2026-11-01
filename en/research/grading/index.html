@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>How we grade: get in, read, cite · VAKSEL</title>
+<meta name="description" content="The rules behind VAKSEL’s three S/A/B/C grades: the basis for each check, the caps, what doesn’t count, and why there’s no overall score. Versioned.">
+<meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://vaksel.com/research/grading/">
+<link rel="alternate" hreflang="en" href="https://vaksel.com/research/grading/"><link rel="alternate" hreflang="zh-CN" href="https://cetxt.com/research/grading/">
+<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="How we grade: get in, read, cite · VAKSEL"><meta property="og:description" content="The rules behind VAKSEL’s three S/A/B/C grades: the basis for each check, the caps, what doesn’t count, and why there’s no overall score. Versioned."><meta property="og:url" content="https://vaksel.com/research/grading/"><meta property="og:image" content="https://vaksel.com/og/site.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/en/apple-touch-icon.png"><link rel="manifest" href="/en/site.webmanifest">
+<link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/en/app.css">
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" aria-label="Main"><div class="wrap">
+  <a class="logo" href="/en/" aria-label="VAKSEL home"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"></a>
+  <div class="links" id="navlinks">
+    <a class="n" href="/en/guides/">Fix guides</a>
+    <a class="n" href="/en/bots/">AI crawlers</a>
+    <a class="n" href="/en/pricing/">Pricing</a>
+    <a class="n lang" href="https://cetxt.com/research/grading/" hreflang="zh" lang="zh">中文</a>
+  </div>
+  <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
+</div></nav>
+<script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
+<main id="main" tabindex="-1" class="wrap doc"><div class="crumb"><a href="/en/">Home</a> <span>/</span> <a href="/en/research/">Research</a> <span>/</span> How we grade</div>
+<h1>How we grade</h1><p class="upd">Rules version 2026-11-02.1</p>
+<p class="lead l">Every report gets three grades: can AI crawlers get in, can they read the page, and can they cite it. Each is S, A, B or C. There’s no overall score.</p>
+<h2>Why no overall score</h2>
+<p>One number hides the problem that matters most. A site that turns every AI crawler away can still post a decent weighted average if its markup is tidy. So each layer is graded on its own: if crawlers can’t get in, nothing after that helps.</p>
+<h2>Only facts you can verify</h2>
+<ul><li>Every check is labelled by its basis: <b>Official docs</b> (a search engine or standard says so), <b>Common practice</b> (widely used, with public tests), or <b>Hypothesis</b> (no official statement).</li>
+<li>Only official and common checks count. Hypotheses and notes are shown but never affect a grade.</li>
+<li>llms.txt doesn’t count. Google says no special AI files or markup are needed to appear in its AI features.</li>
+<li>Blocking training crawlers (GPTBot, ClaudeBot, Google-Extended, CCBot and the like) costs nothing. Blocking training while allowing search is a legitimate choice.</li></ul>
+<h2>Can they get in</h2>
+<table class="tbl"><thead><tr><th>Grade</th><th>When</th></tr></thead><tbody>
+<tr><td><b>S</b></td><td>Every AI search crawler got in during the live test and received the same page as a browser</td></tr>
+<tr><td><b>A</b></td><td>All got in, but some hit a challenge or a noticeably thinner page; or the live test didn’t finish and only robots.txt was checked (A at most)</td></tr>
+<tr><td><b>B</b></td><td>Some AI search crawlers are blocked by robots.txt or the firewall</td></tr>
+<tr><td><b>C</b></td><td>All are blocked; or a high- or medium-confidence silent block was found (robots.txt allows, the firewall rejects); or the homepage is noindex</td></tr>
+</tbody></table>
+<p>A robots.txt that returns 5xx or can’t be reached counts as C: under <a href="https://www.rfc-editor.org/rfc/rfc9309#section-2.3.1.4">RFC 9309 §2.3.1.4</a>, compliant crawlers must then assume everything is disallowed. A 404 or other 4xx means no restrictions and costs nothing.</p>
+<p>The firewall test runs two controls: a request claiming to be Googlebot and one from an unknown bot. If the fake Googlebot is rejected too, the site is verifying crawler IP addresses and the real AI crawlers will likely get through, so we record low confidence and don’t grade it C. Our requests don’t come from the vendors’ own IP ranges, so a result means “likely”, not proof.</p>
+<h2>Can they read it</h2>
+<table class="tbl"><thead><tr><th>Grade</th><th>When</th></tr></thead><tbody>
+<tr><td><b>S</b></td><td>No official or common check needs work</td></tr>
+<tr><td><b>A</b></td><td>One item needs work</td></tr>
+<tr><td><b>B</b></td><td>Two or three items, or a non-critical problem such as several canonical tags</td></tr>
+<tr><td><b>C</b></td><td>Indexing or snippets are blocked (noindex, nosnippet, max-snippet:0); the text can’t be read without JavaScript; or four or more items need work</td></tr>
+</tbody></table>
+<p>Checks: title, meta description, indexing and snippets, canonical URL, text without JavaScript, H1, sitemap, internal links, image alt text, hreflang, viewport. Google’s <a href="https://developers.google.com/search/docs/appearance/ai-features">AI features and your website</a> says pages must be indexed and eligible for a snippet to appear in AI Overviews.</p>
+<h2>Can they cite it</h2>
+<table class="tbl"><thead><tr><th>Grade</th><th>When</th></tr></thead><tbody>
+<tr><td><b>S</b></td><td>All five signals: structured data, organization, site name, share card, semantic tags</td></tr>
+<tr><td><b>A</b></td><td>Four</td></tr>
+<tr><td><b>B</b></td><td>Two or three</td></tr>
+<tr><td><b>C</b></td><td>One or none</td></tr>
+</tbody></table>
+<p>Caps: a JSON-LD parse error, or FAQPage markup whose questions aren’t on the page, holds this grade at B. Google’s <a href="https://developers.google.com/search/docs/appearance/structured-data/sd-policies">structured data guidelines</a> require marked-up content to be visible to users.</p>
+<p>This layer measures the signals that help engines recognise you. It doesn’t promise citations. Whether AI answers actually mention you takes live queries, which the free check doesn’t run.</p>
+<h2>Changelog</h2>
+<ul><li><b>2026-11-02.1</b>: first public version. Adds robots.txt 5xx as “disallow everything” and caps cite at B for FAQ markup that doesn’t match the page.</li></ul>
+<p>Every rule change bumps the version, and each report says which version it used, so grades from different dates can be compared.</p>
+<div style="margin-top:28px">
+<div class="cta mini"><div><h3>Check your own site</h3><p>Free, no sign-up. We request your homepage as 13 different clients and show what each one gets.</p></div>
+<form class="field inv" data-check autocomplete="off"><input placeholder="yourdomain.com" aria-label="Domain" spellcheck="false" autocapitalize="off"><button class="btn">Check</button></form></div></div></main><script>
+document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();let v=(f.querySelector('input').value||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0];if(/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v))location.href='/en/report/'+v;else{f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake')}}));
+</script>
+<footer><div class="wrap fgrid">
+  <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
+  <div><h2 class="fh">Product</h2><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/research/">Research</a></div>
+  <div><h2 class="fh">Fix guides</h2><a href="/en/guides/cloudflare/">Cloudflare</a><a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/en/guides/wordpress/">WordPress</a><a href="/en/guides/shopify/">Shopify</a></div>
+  <div><h2 class="fh">AI crawlers</h2><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a></div>
+  <div class="fsmall"><span>© 2026 VAKSEL</span><a href="/en/privacy/">Privacy</a><a href="/en/terms/">Terms</a><a href="/en/contact/">Contact</a><a href="https://cetxt.com/" hreflang="zh" lang="zh">中文版 cetxt.com</a><span>We don't store the domains you check or your IP address.</span></div>
+</div></footer>
+</body></html>

@@ -129,6 +129,16 @@ export function analyzePage(input) {
     add('entity', 'cite', !name ? 'warn' : !visible ? 'warn' : (logo && org.url) ? 'pass' : 'info', 'official', { name: name.slice(0, 80), url: !!org.url, logo, sameAs: sameAs.length, visible: !!visible });
   } else add('entity', 'cite', 'info', 'official', { none: true });
 
+  /* FAQPage：问题必须在页面上看得到（Google 结构化数据通用规则：标记的内容要对用户可见） */
+  const faqs = ld.has(/^FAQPage$/i);
+  if (faqs.length) {
+    const norm = (x) => decodeEntities(String(x || '')).toLowerCase().replace(/[\s\p{P}\p{S}]+/gu, '');
+    const vis = norm(text);
+    const qs2 = faqs.flatMap((f) => [].concat(f.mainEntity || [])).map((q) => String((q && (q.name || q.text)) || '').trim()).filter(Boolean);
+    const miss = qs2.filter((q) => { const k = norm(q); return k.length >= 4 && !vis.includes(k); });
+    add('faq', 'cite', !qs2.length ? 'warn' : miss.length / qs2.length > 0.2 ? 'warn' : 'pass', 'official', { questions: qs2.length, missing: miss.length, examples: miss.slice(0, 2).map((q) => q.slice(0, 80)) });
+  }
+
   const site = ld.has(/^WebSite$/i)[0];
   const ogName = meta('og:site_name');
   add('sitename', 'cite', (site && site.name) || ogName ? 'pass' : 'info', 'official', { name: String((site && site.name) || ogName || '').slice(0, 80) });

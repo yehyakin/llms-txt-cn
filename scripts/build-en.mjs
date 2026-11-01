@@ -5,6 +5,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { renderReport } from '../en/view.js';
+import { GRADE_VERSION } from '../en/grade.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://vaksel.com';
@@ -437,6 +438,52 @@ out.push(write('en/index.html', page({
 })));
 
 
+/* ---------- Grading method ---------- */
+out.push(write('en/research/grading/index.html', page({
+  path: '/en/research/grading/', title: 'How we grade: get in, read, cite · VAKSEL',
+  desc: 'The rules behind VAKSEL’s three S/A/B/C grades: the basis for each check, the caps, what doesn’t count, and why there’s no overall score. Versioned.',
+  body: `<main class="wrap doc">${crumbs([['/en/', 'Home'], ['/en/research/', 'Research'], [null, 'How we grade']])}
+<h1>How we grade</h1><p class="upd">Rules version ${GRADE_VERSION}</p>
+<p class="lead l">Every report gets three grades: can AI crawlers get in, can they read the page, and can they cite it. Each is S, A, B or C. There’s no overall score.</p>
+<h2>Why no overall score</h2>
+<p>One number hides the problem that matters most. A site that turns every AI crawler away can still post a decent weighted average if its markup is tidy. So each layer is graded on its own: if crawlers can’t get in, nothing after that helps.</p>
+<h2>Only facts you can verify</h2>
+<ul><li>Every check is labelled by its basis: <b>Official docs</b> (a search engine or standard says so), <b>Common practice</b> (widely used, with public tests), or <b>Hypothesis</b> (no official statement).</li>
+<li>Only official and common checks count. Hypotheses and notes are shown but never affect a grade.</li>
+<li>llms.txt doesn’t count. Google says no special AI files or markup are needed to appear in its AI features.</li>
+<li>Blocking training crawlers (GPTBot, ClaudeBot, Google-Extended, CCBot and the like) costs nothing. Blocking training while allowing search is a legitimate choice.</li></ul>
+<h2>Can they get in</h2>
+<table class="tbl"><thead><tr><th>Grade</th><th>When</th></tr></thead><tbody>
+<tr><td><b>S</b></td><td>Every AI search crawler got in during the live test and received the same page as a browser</td></tr>
+<tr><td><b>A</b></td><td>All got in, but some hit a challenge or a noticeably thinner page; or the live test didn’t finish and only robots.txt was checked (A at most)</td></tr>
+<tr><td><b>B</b></td><td>Some AI search crawlers are blocked by robots.txt or the firewall</td></tr>
+<tr><td><b>C</b></td><td>All are blocked; or a high- or medium-confidence silent block was found (robots.txt allows, the firewall rejects); or the homepage is noindex</td></tr>
+</tbody></table>
+<p>A robots.txt that returns 5xx or can’t be reached counts as C: under <a href="https://www.rfc-editor.org/rfc/rfc9309#section-2.3.1.4">RFC 9309 §2.3.1.4</a>, compliant crawlers must then assume everything is disallowed. A 404 or other 4xx means no restrictions and costs nothing.</p>
+<p>The firewall test runs two controls: a request claiming to be Googlebot and one from an unknown bot. If the fake Googlebot is rejected too, the site is verifying crawler IP addresses and the real AI crawlers will likely get through, so we record low confidence and don’t grade it C. Our requests don’t come from the vendors’ own IP ranges, so a result means “likely”, not proof.</p>
+<h2>Can they read it</h2>
+<table class="tbl"><thead><tr><th>Grade</th><th>When</th></tr></thead><tbody>
+<tr><td><b>S</b></td><td>No official or common check needs work</td></tr>
+<tr><td><b>A</b></td><td>One item needs work</td></tr>
+<tr><td><b>B</b></td><td>Two or three items, or a non-critical problem such as several canonical tags</td></tr>
+<tr><td><b>C</b></td><td>Indexing or snippets are blocked (noindex, nosnippet, max-snippet:0); the text can’t be read without JavaScript; or four or more items need work</td></tr>
+</tbody></table>
+<p>Checks: title, meta description, indexing and snippets, canonical URL, text without JavaScript, H1, sitemap, internal links, image alt text, hreflang, viewport. Google’s <a href="https://developers.google.com/search/docs/appearance/ai-features">AI features and your website</a> says pages must be indexed and eligible for a snippet to appear in AI Overviews.</p>
+<h2>Can they cite it</h2>
+<table class="tbl"><thead><tr><th>Grade</th><th>When</th></tr></thead><tbody>
+<tr><td><b>S</b></td><td>All five signals: structured data, organization, site name, share card, semantic tags</td></tr>
+<tr><td><b>A</b></td><td>Four</td></tr>
+<tr><td><b>B</b></td><td>Two or three</td></tr>
+<tr><td><b>C</b></td><td>One or none</td></tr>
+</tbody></table>
+<p>Caps: a JSON-LD parse error, or FAQPage markup whose questions aren’t on the page, holds this grade at B. Google’s <a href="https://developers.google.com/search/docs/appearance/structured-data/sd-policies">structured data guidelines</a> require marked-up content to be visible to users.</p>
+<p>This layer measures the signals that help engines recognise you. It doesn’t promise citations. Whether AI answers actually mention you takes live queries, which the free check doesn’t run.</p>
+<h2>Changelog</h2>
+<ul><li><b>2026-11-02.1</b>: first public version. Adds robots.txt 5xx as “disallow everything” and caps cite at B for FAQ markup that doesn’t match the page.</li></ul>
+<p>Every rule change bumps the version, and each report says which version it used, so grades from different dates can be compared.</p>
+<div style="margin-top:28px">${checkBox('Check your own site')}</div></main>${CHECK_JS}`
+})));
+
 /* ---------- 研究方法 ---------- */
 out.push(write('en/research/index.html', page({
   path: '/en/research/', title: 'How often do firewalls silently block AI search crawlers? November 2026 sample · VAKSEL',
@@ -521,7 +568,7 @@ ct.addEventListener('submit',async e=>{e.preventDefault();const b=ct.querySelect
 write('en/site.webmanifest', JSON.stringify({ name: 'VAKSEL', short_name: 'VAKSEL', start_url: '/', display: 'browser', background_color: '#ffffff', theme_color: '#0C63F1', icons: [{ src: '/en/brand/icon-192.png', sizes: '192x192', type: 'image/png' }, { src: '/en/brand/icon-512.png', sizes: '512x512', type: 'image/png' }] }, null, 2) + '\n');
 
 /* ---------- sitemap ---------- */
-const urls = ['/en/', '/en/research/', '/en/pricing/', '/en/privacy/', '/en/terms/', '/en/contact/', '/en/guides/', ...GUIDES.map((g) => `/en/guides/${g.slug}/`), '/en/bots/', ...crawlers.map((c) => `/en/bots/${slug(c.token)}/`)];
+const urls = ['/en/', '/en/research/', '/en/research/grading/', '/en/pricing/', '/en/privacy/', '/en/terms/', '/en/contact/', '/en/guides/', ...GUIDES.map((g) => `/en/guides/${g.slug}/`), '/en/bots/', ...crawlers.map((c) => `/en/bots/${slug(c.token)}/`)];
 write('en/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${canon(u)}</loc><lastmod>${UPDATED}</lastmod></url>`).join('\n')}\n</urlset>\n`);
 write('en/robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 

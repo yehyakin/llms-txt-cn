@@ -49,5 +49,13 @@ t('empty html safe', analyzePage({ html: '', url: '' }).checks.length > 5);
 r = analyzePage({ html: '<html><head><title>Hreflang test page</title><link rel="alternate" hreflang="english" href="https://x.com/"></head><body>' + para + '</body></html>', url: 'https://x.com/' });
 t('bad hreflang code fail', get(r, 'hreflang').status === 'fail' && get(r, 'hreflang').data.bad[0] === 'english');
 
+
+const faqPage = (qs, body) => `<html><head><title>FAQ 测试页面标题</title><script type="application/ld+json">${JSON.stringify({ '@type': 'FAQPage', mainEntity: qs.map((q) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: 'x' } })) })}</script></head><body><main>${body}</main></body></html>`;
+r = analyzePage({ html: faqPage(['什么是对象存储？', 'How much does it cost?'], '<h2>什么是对象存储?</h2><p>说明</p><h3>How much does it COST</h3>'), url: 'https://e.com/' });
+t('faq: visible questions pass (punct/case-insensitive)', get(r, 'faq').status === 'pass' && get(r, 'faq').data.questions === 2);
+r = analyzePage({ html: faqPage(['什么是对象存储？', '页面上根本没有这个问题吗？'], '<h2>什么是对象存储？</h2>'), url: 'https://e.com/' });
+t('faq: hidden question warns', get(r, 'faq').status === 'warn' && get(r, 'faq').data.missing === 1 && get(r, 'faq').basis === 'official');
+r = analyzePage({ html: good, url: 'https://www.example.com/' });
+t('faq: absent when no FAQPage', !get(r, 'faq'));
 console.log(`seo: ${pass} 通过，${fail} 失败`);
 if (fail) process.exit(1);

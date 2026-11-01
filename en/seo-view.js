@@ -6,7 +6,7 @@ export const REFS = {
   canonical: G + 'crawling-indexing/consolidate-duplicate-urls', text: G + 'appearance/ai-features', sitemap: G + 'crawling-indexing/sitemaps/overview',
   links: G + 'crawling-indexing/links-crawlable', alt: G + 'appearance/google-images', hreflang: G + 'specialty/international/localized-versions',
   viewport: G + 'crawling-indexing/mobile/mobile-sites-mobile-first-indexing', jsonld: G + 'appearance/structured-data/sd-policies',
-  entity: G + 'appearance/structured-data/organization', sitename: G + 'appearance/site-names', dates: G + 'appearance/publication-dates'
+  entity: G + 'appearance/structured-data/organization', sitename: G + 'appearance/site-names', dates: G + 'appearance/publication-dates', faq: G + 'appearance/structured-data/sd-policies'
 };
 const ZH = {
   layers: { read: ['能不能读', 'AI 和搜索引擎拿到你的首页后，能不能读懂、能不能收录'], cite: ['能不能被引用', '让 AI 回答时更容易认出你、引用你的信号'] },
@@ -30,6 +30,7 @@ const ZH = {
     viewport: ['移动端适配', (s) => s === 'pass' ? '有 viewport 设置。' : '没有 viewport，手机上会按桌面版缩放。'],
     jsonld: ['结构化数据', (s, d) => d.errors ? `${d.blocks} 段 JSON-LD 里有 ${d.errors} 段解析失败，引擎会直接忽略。` : !d.blocks ? '没有 JSON-LD。不是必需的，但能帮引擎确认你是谁。' : `${d.blocks} 段，类型：${d.types.map(E).join('、') || '无'}。`],
     entity: ['机构信息', (s, d) => d.none ? '没有 Organization 标记。加上名称、网址、logo，能帮引擎把网站和品牌对上。' : !d.name ? 'Organization 没写 name。' : !d.visible ? `标记里的名称“${E(d.name)}”在页面上找不到。Google 要求结构化数据和页面可见内容一致。` : `“${E(d.name)}”${d.logo ? '，有 logo' : '，缺 logo'}${d.sameAs ? `，sameAs ${d.sameAs} 个` : ''}。`],
+    faq: ['FAQ 标记', (s, d) => !d.questions ? 'FAQPage 标记里没有问题。' : d.missing ? `FAQPage 标记了 ${d.questions} 个问题，其中 ${d.missing} 个在页面上找不到${d.examples && d.examples.length ? '（如“' + E(d.examples[0]) + '”）' : ''}。Google 要求标记的内容对用户可见，否则可能被当作违规。` : `FAQPage 标记的 ${d.questions} 个问题都在页面上。`],
     sitename: ['网站名称', (s, d) => d.name ? `“${E(d.name)}”。` : '没有 WebSite 标记或 og:site_name，搜索结果里的网站名只能由引擎猜。'],
     dates: ['发布与更新日期', (s, d) => d.published || d.modified ? `${d.published ? '发布 ' + E(d.published) : ''}${d.published && d.modified ? '，' : ''}${d.modified ? '更新 ' + E(d.modified) : ''}。` : d.timeTag ? '页面里有 &lt;time&gt;，但没有结构化的发布/更新日期。首页通常不需要，文章页需要。' : '首页没有日期信号。首页通常不需要，文章页需要。'],
     author: ['作者信息', (s, d) => d.author ? `“${E(d.author)}”。` : '首页没有作者信息。文章页建议写明作者。'],
@@ -61,6 +62,7 @@ const EN = {
     viewport: ['Mobile viewport', (s) => s === 'pass' ? 'Viewport is set.' : 'No viewport; phones will show a zoomed-out desktop page.'],
     jsonld: ['Structured data', (s, d) => d.errors ? `${d.errors} of ${d.blocks} JSON-LD blocks fail to parse and will be ignored.` : !d.blocks ? 'No JSON-LD. Not required, but it helps engines confirm who you are.' : `${d.blocks} block${d.blocks > 1 ? 's' : ''}: ${d.types.map(E).join(', ') || 'no types'}.`],
     entity: ['Organization', (s, d) => d.none ? 'No Organization markup. Name, URL and logo help engines tie the site to your brand.' : !d.name ? 'Organization has no name.' : !d.visible ? `The marked-up name “${E(d.name)}” doesn’t appear on the page. Google requires structured data to match visible content.` : `“${E(d.name)}”${d.logo ? ', with logo' : ', no logo'}${d.sameAs ? `, ${d.sameAs} sameAs` : ''}.`],
+    faq: ['FAQ markup', (s, d) => !d.questions ? 'The FAQPage markup has no questions.' : d.missing ? `${d.missing} of ${d.questions} FAQPage questions aren’t on the page${d.examples && d.examples.length ? ' (e.g. “' + E(d.examples[0]) + '”)' : ''}. Google requires marked-up content to be visible; hidden markup can be treated as spam.` : `All ${d.questions} FAQPage questions appear on the page.`],
     sitename: ['Site name', (s, d) => d.name ? `“${E(d.name)}”.` : 'No WebSite markup or og:site_name, so engines guess your site name.'],
     dates: ['Published and updated dates', (s, d) => d.published || d.modified ? `${d.published ? 'Published ' + E(d.published) : ''}${d.published && d.modified ? ', ' : ''}${d.modified ? 'updated ' + E(d.modified) : ''}.` : d.timeTag ? 'A &lt;time&gt; tag but no structured dates. Homepages rarely need them; articles do.' : 'No date signals. Homepages rarely need them; articles do.'],
     author: ['Author', (s, d) => d.author ? `“${E(d.author)}”.` : 'No author on the homepage. Name authors on articles.'],

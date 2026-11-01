@@ -45,5 +45,15 @@ const hz = renderGrades(r, 'zh'), he = renderGrades(r, 'en');
 t('render zh', hz.includes('能不能进') && hz.includes('待改：页面标题') && hz.includes('g-S'));
 t('render en', he.includes('Can they cite it') && he.includes('To improve: Page title'));
 t('render none', renderGrades({}, 'zh').includes('g-none'));
+
+const r5 = { access: { verdict: 'inconclusive' }, robots: { analysis: { fetch: { policy: 'disallow_all', http_status: 503 }, access: [{ token: 'X', category: 'search', status: 'blocked' }] } } };
+const g5 = gradeAccess(r5);
+t('robots 5xx -> C with reason', g5.grade === 'C' && g5.why[0].id === 'robots_5xx' && g5.why[0].http === 503);
+t('robots 5xx render', renderGrades(r5, 'zh').includes('返回 503') && renderGrades(r5, 'en').includes('RFC 9309'));
+const fq = seo([...all.map((id) => [id, 'cite', 'pass']), ['faq', 'cite', 'warn']]);
+t('faq mismatch caps cite at B', gradeCite(fq).grade === 'B');
+t('faq render', renderGrades({ seo: fq }, 'zh').includes('FAQ 标记与页面不符') && !renderGrades({ seo: fq }, 'zh').includes('缺FAQ'));
+t('faq pass no cap', gradeCite(seo([...all.map((id) => [id, 'cite', 'pass']), ['faq', 'cite', 'pass']])).grade === 'S');
+t('rules version shown', renderGrades({}, 'en').includes('Rules version') && renderGrades({}, 'zh').includes('/research/grading/'));
 console.log(`grade: ${pass} passed, ${fail} failed`);
 if (fail) process.exit(1);
