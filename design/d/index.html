@@ -215,14 +215,42 @@ background:linear-gradient(180deg,#fff 20%,#6e6e73);-webkit-background-clip:text
 .dark a{color:#2997ff}
 
 .tri span{display:block;transition:color .5s}
-.tiles{max-width:1024px;margin:64px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.tile{background:var(--alt);border-radius:28px;overflow:hidden;display:flex;flex-direction:column;color:inherit;transition:transform .6s var(--out),box-shadow .6s var(--out)}
-.tile:hover{text-decoration:none;transform:translateY(-6px);box-shadow:0 30px 60px -30px rgba(0,0,0,.28)}
-.tile .tt{padding:40px 28px 0}.tile h3{font-size:28px;font-weight:700;letter-spacing:-.03em}.tile p{font-size:19px;margin:6px 0 14px;line-height:1.3}
-.tile .art{margin-top:auto;height:200px;position:relative;overflow:hidden}
-.art pre{position:absolute;left:12%;right:-10%;top:22px;bottom:-20px;background:#fff;border-radius:18px 0 0 0;padding:18px;font:12px/1.75 var(--mono);color:#6e6e73;text-align:left;box-shadow:0 0 0 1px #e8e8ed;transition:transform .8s var(--out)}
-.tile:hover .art pre{transform:translate(-10px,-10px)}.art i{font-style:normal;color:var(--acc)}.art u{text-decoration:none;color:#c93400}
-
+.tiles{max-width:1024px;margin:64px auto 0;display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+/* Apple Card-style bento: each tile owns one gradient */
+.tile{--tc:#fff;border-radius:30px;overflow:hidden;display:flex;flex-direction:column;color:var(--tc);min-height:560px;position:relative;text-align:left;isolation:isolate;
+ transform:translateY(15vh);opacity:0;transition:transform 1s cubic-bezier(.39,.575,.565,1),opacity .8s var(--apl),box-shadow .6s var(--out)}
+.tile.in{transform:none;opacity:1}
+.tile:hover{text-decoration:none;box-shadow:0 30px 60px -30px rgba(0,0,0,.35)}
+.tile .tt{padding:44px 40px 0;position:relative;z-index:2}
+.tile h3{font-size:clamp(40px,5vw,56px);font-weight:700;letter-spacing:-.04em;line-height:1.05;opacity:0;transform:translateY(50px);transition:opacity 1s var(--apl) .25s,transform 1s var(--apl) .25s}
+.tile.in h3{opacity:1;transform:none}
+.tile p{font-size:19px;margin:14px 0 18px;line-height:1.35;opacity:.86}
+.tile .lk{color:inherit;font-weight:600}
+.tile .art{margin-top:auto;height:240px;position:relative;overflow:hidden}
+.art pre{position:absolute;left:40px;right:-10%;top:26px;bottom:-20px;border-radius:18px 0 0 0;padding:20px;font:13px/1.8 var(--mono);text-align:left;transition:transform .8s var(--out);
+ background:rgba(255,255,255,.18);color:rgba(255,255,255,.95);box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.tile:hover .art pre{transform:translate(-10px,-10px)}.art i{font-style:normal;font-weight:700}.art u{text-decoration:none;color:#fff;background:rgba(0,0,0,.18);border-radius:4px;padding:0 4px}
+.t-free{background:#fff;--tc:var(--ink);box-shadow:inset 0 0 0 1px #e8e8ed}
+.t-free h3{font-size:clamp(64px,8vw,92px);background:linear-gradient(135deg,#ff6a88 0%,#ff8a5b 45%,#ffb347 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;padding-bottom:.06em}
+.t-free p{color:var(--mut2);opacity:1}.t-free .lk{color:var(--acc)}
+.t-free .big{margin-top:auto;padding:0 40px 40px;font:700 15px var(--mono);color:#c7c7cc;letter-spacing:.06em}
+.t-gen{background:linear-gradient(160deg,#ffb36b 0%,#ff7aa2 48%,#a78bfa 100%)}
+.t-val{background:linear-gradient(160deg,#5aa8ff 0%,#38c6c9 52%,#6ad37a 100%)}
+.t-rep{background:#000}
+.t-rep p{color:#a1a1a6;opacity:1}
+.bars{margin-top:auto;height:230px;display:flex;align-items:flex-end;gap:16px;padding:0 40px 44px}
+.bars div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:10px}
+.bars b{width:100%;max-width:44px;border-radius:8px;height:0;transition:height 1.6s cubic-bezier(.34,1.3,.64,1)}
+.bars small{font:600 12px var(--sans);color:#86868b;white-space:nowrap}
+.bars em{font:700 15px var(--sans);font-style:normal;color:#fff;opacity:0;transition:opacity .6s}
+.t-rep.in .bars em{opacity:1;transition-delay:1.6s}
+.bars div:nth-child(1) b{background:linear-gradient(180deg,#4FBA4E,#97C030,#F5B926)}
+.bars div:nth-child(2) b{background:linear-gradient(180deg,#DC7ECB,#ED85BF,#F38979,#F5A53B)}
+.bars div:nth-child(3) b{background:linear-gradient(180deg,#A177FF,#7D83FF,#3197FF)}
+.bars div:nth-child(4) b{background:linear-gradient(180deg,#3996FA,#F4B82B,#F59548)}
+.t-rep.in .bars b{height:var(--h)}
+.t-rep.in .bars div:nth-child(2) b{transition-delay:.15s}.t-rep.in .bars div:nth-child(3) b{transition-delay:.3s}.t-rep.in .bars div:nth-child(4) b{transition-delay:.45s}
+.t-rep.in .bars b{transition-delay:1s}
 /* ===== sticky CTA bar ===== */
 .dock{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));z-index:40;width:min(560px,calc(100% - 24px));
 transform:translate(-50%,140%);transition:transform .7s var(--spring);display:flex;align-items:center;gap:8px;padding:6px 6px 6px 20px;border-radius:980px;
@@ -261,6 +289,7 @@ footer .in{max-width:1024px;margin:0 auto;line-height:1.7}footer ol{padding-left
  .cols,.gen{grid-template-columns:1fr;gap:10px}.duo{grid-template-columns:1fr;gap:6px}.duo .ring{margin:0 auto 8px;width:130px;height:130px}.duo .ring .c b{font-size:40px}
  #sc1 .cols .grp:last-child{display:none}.cols .row:nth-child(n+7){display:none}}
 @media(max-width:833px){
+ .tile{min-height:500px}.tile .tt{padding:36px 28px 0}.art pre{left:28px}.bars{padding:0 28px 36px;gap:10px}
  .wheel-wrap,.builder{grid-template-columns:1fr}.wheel{margin:0 auto}.tiles{grid-template-columns:1fr}.wheel-wrap{gap:36px}}
 @media(max-width:734px){.gnav .ls,.lnav .s{display:none}section{padding:100px 20px}.field{padding-left:18px}.field .pre{display:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none;filter:none}.hl span{color:var(--ink)}}
@@ -374,20 +403,19 @@ footer .in{max-width:1024px;margin:0 auto;line-height:1.7}footer ol{padding-left
 <section>
  <h2 class="h2 rv">需要的工具，<br>都在这里。</h2>
  <div class="tiles">
-  <a class="tile rv" href="#"><div class="tt"><h3>llms.txt 生成器</h3><p>填好站名和链接，<br>格式自动排好。</p><span class="lk">开始生成</span></div><div class="art"><pre><i># 你的网站</i>
+  <a class="tile t-free rv" href="#top"><div class="tt"><h3>不用<br>注册。</h3><p>输入域名就能查，<br>不装插件，不花钱。</p><span class="lk">立即体检</span></div><div class="big">0 元 · 0 步设置</div></a>
+  <a class="tile t-gen rv" href="#"><div class="tt"><h3>一键写好<br>llms.txt。</h3><p>填好站名和链接，格式自动排好。</p><span class="lk">开始生成</span></div><div class="art"><pre><i># 你的网站</i>
 &gt; 一句话介绍
 
 <i>## 文档</i>
 - [快速开始](/start): 五分钟上手
 - [API](/api): 接口说明</pre></div></a>
-  <a class="tile rv d1" href="#"><div class="tt"><h3>校验器</h3><p>粘贴内容，<br>逐行指出问题。</p><span class="lk">去校验</span></div><div class="art"><pre>✓ 1 个 H1 标题
+  <a class="tile t-val rv" href="#"><div class="tt"><h3>逐行<br>挑毛病。</h3><p>粘贴内容，校验器指出每个问题。</p><span class="lk">去校验</span></div><div class="art"><pre>✓ 1 个 H1 标题
 ✓ 摘要引用块
 ✓ 6 个分组
 <u>! 第 14 行链接缺少说明</u></pre></div></a>
-  <a class="tile rv d2" href="/survey/"><div class="tt"><h3>调查报告</h3><p>1000 个中文站，<br>谁准备好了。</p><span class="lk">阅读报告</span></div><div class="art"><pre>真文件        38
-HTML 伪装    170
-无文件        513
-未能判定      273</pre></div></a>
+  <a class="tile t-rep rv" href="/survey/"><div class="tt"><h3>1000 个<br>中文站，<br>谁准备好了。</h3><p>2026 年 11 月重测的完整报告。</p><span class="lk">阅读报告</span></div>
+   <div class="bars"><div><em>38</em><b style="--h:12%"></b><small>真文件</small></div><div><em>170</em><b style="--h:40%"></b><small>HTML 伪装</small></div><div><em>513</em><b style="--h:100%"></b><small>无文件</small></div><div><em>273</em><b style="--h:58%"></b><small>未能判定</small></div></div></a>
  </div>
 </section>
 
