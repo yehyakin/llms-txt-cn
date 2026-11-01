@@ -249,3 +249,4 @@ body.zh{letter-spacing:0}body.zh h1,body.zh h2{letter-spacing:-.01em}
   tr.ev[hidden]{display:table-row!important}.cols{grid-template-columns:1fr}.verdict{break-inside:avoid}
   a{color:inherit}.fade{animation:none}
 }
+footer .fgrid>.fbrand>a.logo{display:inline-flex;align-items:center;margin:0}
