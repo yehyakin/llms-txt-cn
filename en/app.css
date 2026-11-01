@@ -230,3 +230,22 @@ footer .fgrid{grid-template-columns:1fr 1fr}.fbrand{grid-column:1/-1}.facts{grid
 .rp-search{max-width:none}.panel{overflow-x:auto}td .bot{font-size:13px;white-space:nowrap}.tag{font-size:11px;padding:2px 6px}td,th{padding-left:10px!important;padding-right:8px!important}.verdict{align-items:flex-start}.verdict h2{font-size:18px}td,th{padding-left:12px;padding-right:12px}}
 @media (max-width:560px){.bgrid.g4{grid-template-columns:1fr}.wbody{max-height:520px}.wbody .kpis{grid-template-columns:1fr 1fr}}
 .nav.open{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none}
+
+/* zh brand + extras */
+.logo.zh{gap:8px;font-size:19px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}.logo.zh img{height:26px;width:26px}
+.fbrand .logo.zh img{height:22px;width:22px}
+body.zh{letter-spacing:0}body.zh h1,body.zh h2{letter-spacing:-.01em}
+.pp.tbd{font-size:24px;letter-spacing:0;padding:10px 0 6px;color:var(--mut)}.plan.hi .pp.tbd{color:#d1d1d6}
+.wlplug{flex-basis:100%;display:flex;gap:8px;align-items:flex-start;font-size:13.5px;color:#3a3a3d}.wlplug input{min-width:0;flex:none;margin-top:3px;box-shadow:none}
+.lsteps{list-style:none;margin:14px auto 0;display:inline-block;text-align:left;font-size:13.5px}
+.lsteps li{padding:3px 0 3px 22px;position:relative;opacity:.35;animation:lst .4s forwards}
+.lsteps li::before{content:"";position:absolute;left:2px;top:9px;width:9px;height:9px;border-radius:50%;border:2px solid var(--acc)}
+@keyframes lst{to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.lsteps li{animation:none;opacity:1}}
+.pdfb{margin-top:10px;width:100%;border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:12.5px;font-weight:600}
+@media print{
+  .nav,.skip,footer,.rp-search,.monbar,.share .row2,.pdfb,.evb,.copy,.cta,.hint{display:none!important}
+  body{font-size:12px}.wrap{max-width:none;padding:0}.panel{break-inside:avoid;border-color:#ccc}
+  tr.ev[hidden]{display:table-row!important}.cols{grid-template-columns:1fr}.verdict{break-inside:avoid}
+  a{color:inherit}.fade{animation:none}
+}

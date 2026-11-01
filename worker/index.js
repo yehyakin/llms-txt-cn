@@ -118,10 +118,11 @@ async function waitlist(request, env) {
   const plan = b.plan === 'agency' ? 'agency' : 'pro';
   const site = cleanDomain(String(b.site || '')) || '';
   const now = new Date().toISOString();
-  const rec = { email, plan, site, at: now, country: (request.cf && request.cf.country) || '', host: new URL(request.url).hostname };
+  const lang = b.lang === 'zh' ? 'zh' : 'en';
+  const rec = { email, plan, site, lang, plugin: !!b.plugin, at: now, country: (request.cf && request.cf.country) || '', host: new URL(request.url).hostname };
   const isNew = !(await env.WAITLIST.get('wl:' + email));
   await env.WAITLIST.put('wl:' + email, JSON.stringify(rec), { metadata: { plan, at: now } });
-  if (isNew && env.RESEND_KEY) { try { await sendMail(env, email, confirmEmail(plan, site)); } catch (e) {} }
+  if (isNew && env.RESEND_KEY) { try { await sendMail(env, email, confirmEmail(plan, site, lang)); } catch (e) {} }
   return J({ ok: true });
 }
 
@@ -147,7 +148,7 @@ async function contact(request, env) {
 /* 确认邮件：只有配置了 RESEND_KEY（wrangler secret）才发；发件域 mail.vaksel.com */
 export async function sendMail(env, to, m) {
   return fetch('https://api.resend.com/emails', { method: 'POST', headers: { authorization: 'Bearer ' + env.RESEND_KEY, 'content-type': 'application/json' },
-    body: JSON.stringify({ from: env.MAIL_FROM || 'VAKSEL <hello@mail.vaksel.com>', to: [to], subject: m.subject, text: m.text, html: m.html, reply_to: env.MAIL_REPLY_TO || undefined }) });
+    body: JSON.stringify({ from: m.from || env.MAIL_FROM || 'VAKSEL <hello@mail.vaksel.com>', to: [to], subject: m.subject, text: m.text, html: m.html, reply_to: env.MAIL_REPLY_TO || undefined }) });
 }
 
 async function route(request, env, ctx, base) {
@@ -158,12 +159,15 @@ async function route(request, env, ctx, base) {
     if (url.pathname === '/api/waitlist') return waitlist(request, env);
     if (url.pathname === '/api/contact') return contact(request, env);
     if (url.pathname.startsWith('/api/')) return api(request, env, ctx, apiDeps);
-    const og = url.pathname.match(/^\/en\/og\/([a-z0-9.-]+)\.png$/);
+    const og = url.pathname.match(/^\/(?:en\/)?og\/([a-z0-9.-]+)\.png$/);
     if (og && (request.method === 'GET' || request.method === 'HEAD')) return ogImage(og[1], request, env, ctx, apiDeps);
-    if (/^\/en\/report\/[^/]+\/?$/.test(url.pathname) && (request.method === 'GET' || request.method === 'HEAD')) {
+    const zhRep = /^\/report\/[^/]+\/?$/.test(url.pathname);
+    if ((zhRep || /^\/en\/report\/[^/]+\/?$/.test(url.pathname)) && (request.method === 'GET' || request.method === 'HEAD')) {
       const r = await handleReport(request, {
+        lang: zhRep ? 'zh' : 'en',
         template: async () => {
-          const t = env.ASSETS ? await env.ASSETS.fetch(new Request(new URL('/en/report/', url))) : embedResponse('/en/report/index.html', new Request(url));
+          const tp = zhRep ? '/report/' : '/en/report/';
+          const t = env.ASSETS ? await env.ASSETS.fetch(new Request(new URL(tp, url))) : embedResponse(tp + 'index.html', new Request(url));
           return t.text();
         },
         api: (req) => api(req, env, ctx, apiDeps),

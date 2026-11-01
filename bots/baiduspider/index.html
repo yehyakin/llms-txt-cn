@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Baiduspider 是什么？要不要屏蔽 · cetxt</title>
+<meta name="description" content="Baiduspider 是 百度 的搜索爬虫。网页在百度及所有使用百度搜索服务的搜索引擎中都搜不到。">
+<meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://cetxt.com/bots/baiduspider/">
+<link rel="alternate" hreflang="zh-CN" href="https://cetxt.com/bots/baiduspider/"><link rel="alternate" hreflang="en" href="https://vaksel.com/bots/baiduspider/">
+<meta property="og:type" content="article"><meta property="og:site_name" content="cetxt"><meta property="og:title" content="Baiduspider 是什么？要不要屏蔽 · cetxt"><meta property="og:description" content="Baiduspider 是 百度 的搜索爬虫。网页在百度及所有使用百度搜索服务的搜索引擎中都搜不到。"><meta property="og:url" content="https://cetxt.com/bots/baiduspider/"><meta property="og:image" content="https://cetxt.com/og.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/en/app.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Baiduspider 是什么，要不要屏蔽","dateModified":"2026-11-01","inLanguage":"zh-CN","citation":"https://help.baidu.com/question?prod_id=99&class=476&id=2996"}</script>
+</head><body class="zh">
+<a class="skip" href="#main">跳到正文</a>
+<nav class="nav" aria-label="主导航"><div class="wrap">
+  <a class="logo zh" href="/" aria-label="cetxt 首页"><img src="/favicon.svg" alt="" width="26" height="26"><span>cetxt</span></a>
+  <div class="links" id="navlinks">
+    <a class="n" href="/guides/">修复指南</a>
+    <a class="n on" href="/bots/" aria-current="page">AI 爬虫</a>
+    <a class="n" href="/tools/">llms.txt 工具</a>
+    <a class="n" href="/survey/">普查报告</a>
+    <a class="n" href="/pricing/">监控</a>
+    <a class="n lang" href="https://vaksel.com/bots/baiduspider/" hreflang="en" lang="en">EN</a>
+  </div>
+  <button class="menu" type="button" aria-label="菜单" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
+</div></nav>
+<script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
+<main id="main" tabindex="-1" class="wrap doc"><div class="crumb"><a href="/">首页</a> <span>/</span> <a href="/bots/">AI 爬虫</a> <span>/</span> Baiduspider</div>
+<h1>Baiduspider</h1>
+<div class="facts"><div><span>运营方</span><b>百度</b></div><div><span>用途</span><b>搜索</b></div><div><span>遵守 robots.txt</span><b>遵守</b></div><div><span>来源</span><b><a href="https://help.baidu.com/question?prod_id=99&amp;class=476&amp;id=2996" rel="nofollow noopener" target="_blank">官方文档 ↗</a></b></div></div>
+<p class="lead l">百度搜索引擎爬虫，遵守 robots 协议。百度没有公开独立的“AI 训练用途”控制 token（未找到官方说明）。</p>
+<h2>屏蔽后会怎样</h2><p>网页在百度及所有使用百度搜索服务的搜索引擎中都搜不到。</p>
+<h2>robots.txt 写法</h2>
+<p>屏蔽：</p><pre>User-agent: Baiduspider
+Disallow: /</pre><p>显式放行（当有更宽的规则拦了其他机器人时有用）：</p><pre>User-agent: Baiduspider
+Allow: /</pre>
+<h2>官方原文</h2><blockquote>Baiduspider遵守互联网robots协议……禁止Baiduspider访问您的网站，将使您的网站上的网页，在百度搜索引擎以及所有百度提供搜索引擎服务的搜索引擎中无法被搜索到。<cite><a href="https://help.baidu.com/question?prod_id=99&amp;class=476&amp;id=2996" rel="nofollow noopener" target="_blank">百度 文档</a>，核对于 2026-10-31</cite></blockquote>
+<h2>robots.txt 允许了，它就真能进来吗？</h2><p>即使 robots.txt 欢迎 Baiduspider，防火墙或 CDN 规则也可能拒绝它，而后台不会有任何提示。我们的检测会以 Baiduspider 的身份实际请求，同时用浏览器和 Googlebot 做对照，避免把爬虫 IP 核验误判成拦截。</p>
+
+<div style="margin-top:28px">
+<div class="cta mini"><div><h3>Baiduspider 能访问你的网站吗？</h3><p>免费，无需注册。我们以 13 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
+<form class="field inv" data-check autocomplete="off"><input placeholder="你的域名，例如 example.com" aria-label="域名" spellcheck="false" autocapitalize="off"><button class="btn">检测</button></form></div></div>
+</main><script>
+document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();let v=(f.querySelector('input').value||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0];if(/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v))location.href='/report/'+v;else{f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake')}}));
+</script>
+<footer><div class="wrap fgrid">
+  <div class="fbrand"><a class="logo zh" href="/"><img src="/favicon.svg" alt="" width="22" height="22" loading="lazy"><span>cetxt</span></a><p>AI 搜索到底能不能访问你的网站？免费检测 robots.txt、防火墙和 CDN 拦截。</p></div>
+  <div><h2 class="fh">产品</h2><a href="/">可访问性检测</a><a href="/pricing/">监控（早期体验）</a><a href="/research/">研究方法</a><a href="/tools/">llms.txt 工具</a></div>
+  <div><h2 class="fh">修复指南</h2><a href="/guides/cloudflare/">Cloudflare</a><a href="/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/guides/wordpress/">WordPress</a><a href="/guides/shopify/">Shopify</a></div>
+  <div><h2 class="fh">资料</h2><a href="/bots/">AI 爬虫百科</a><a href="/survey/">中文大站普查</a><a href="/guide/what-is-llms-txt/">llms.txt 是什么</a><a href="/faq/">常见问题</a></div>
+  <div class="fsmall"><span>© 2026 cetxt</span><a href="/privacy/">隐私</a><a href="/terms/">条款</a><a href="/contact/">联系</a><a href="https://vaksel.com/bots/baiduspider/" hreflang="en" lang="en">English · VAKSEL</a><span>我们不保存你检测的域名和 IP。</span></div>
+</div></footer>
+</body></html>

@@ -13,14 +13,14 @@ const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&':
 const slug = (t) => String(t).toLowerCase().replace(/[^a-z0-9]+/g, '-');
 const canon = (p) => SITE + p.replace(/^\/en/, '');
 
-export const NAV = (active) => `<a class="skip" href="#main">Skip to content</a>
+export const NAV = (active, path) => `<a class="skip" href="#main">Skip to content</a>
 <nav class="nav" aria-label="Main"><div class="wrap">
   <a class="logo" href="/en/" aria-label="VAKSEL home"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"></a>
   <div class="links" id="navlinks">
     <a class="n${active === 'guides' ? ' on' : ''}" href="/en/guides/"${active === 'guides' ? ' aria-current="page"' : ''}>Fix guides</a>
     <a class="n${active === 'bots' ? ' on' : ''}" href="/en/bots/"${active === 'bots' ? ' aria-current="page"' : ''}>AI crawlers</a>
     <a class="n${active === 'pricing' ? ' on' : ''}" href="/en/pricing/"${active === 'pricing' ? ' aria-current="page"' : ''}>Pricing</a>
-    <a class="n lang" href="https://cetxt.com/" hreflang="zh" lang="zh">中文</a>
+    <a class="n lang" href="https://cetxt.com${path && path !== '/en/404' ? path.replace(/^\/en/, '') : '/'}" hreflang="zh" lang="zh">中文</a>
   </div>
   <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
 </div></nav>
@@ -46,10 +46,11 @@ function page({ path, title, desc, body, active, ld, type = 'article' }) {
 <meta name="description" content="${esc(desc)}">
 <meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
 <link rel="canonical" href="${canon(path)}">
+<link rel="alternate" hreflang="en" href="${canon(path)}"><link rel="alternate" hreflang="zh-CN" href="https://cetxt.com${path.replace(/^\/en/, '') || '/'}">
 <meta property="og:type" content="${type}"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${canon(path)}"><meta property="og:image" content="${SITE}/og/site.png"><meta name="twitter:card" content="summary_large_image">
 ${HEADX}${ld ? `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>` : ''}
 </head><body>
-${NAV(active)}
+${NAV(active, path)}
 ${body.includes('<main') ? body.replace('<main ', '<main id="main" tabindex="-1" ') : '<main id="main" tabindex="-1">' + body + '</main>'}
 ${FOOT}
 </body></html>
@@ -319,6 +320,7 @@ out.push(write('en/pricing/index.html', page({
     <input type="email" name="email" required placeholder="you@company.com" aria-label="Email" autocomplete="email">
     <select name="plan" aria-label="Plan"><option value="pro">Pro · up to 10 sites</option><option value="agency">Agency · up to 50 sites</option></select>
     <input name="site" placeholder="Main site (optional)" aria-label="Main site (optional)" autocapitalize="off" spellcheck="false">
+    <label class="wlplug"><input type="checkbox" name="plugin" value="1"> I’d install a plugin or Worker snippet to see real AI crawler visits</label>
     <input name="hp" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
     <button class="btn">Join the list</button>
   </form><p class="wlmsg" id="wlmsg" role="status"></p></div>

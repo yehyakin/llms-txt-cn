@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>GPTBot 是什么？要不要屏蔽 · cetxt</title>
+<meta name="description" content="GPTBot 是 OpenAI 的训练爬虫。内容不会被 OpenAI 用于训练生成式基础模型；不影响 ChatGPT 搜索展示（那由 OAI-SearchBot 控制）。">
+<meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://cetxt.com/bots/gptbot/">
+<link rel="alternate" hreflang="zh-CN" href="https://cetxt.com/bots/gptbot/"><link rel="alternate" hreflang="en" href="https://vaksel.com/bots/gptbot/">
+<meta property="og:type" content="article"><meta property="og:site_name" content="cetxt"><meta property="og:title" content="GPTBot 是什么？要不要屏蔽 · cetxt"><meta property="og:description" content="GPTBot 是 OpenAI 的训练爬虫。内容不会被 OpenAI 用于训练生成式基础模型；不影响 ChatGPT 搜索展示（那由 OAI-SearchBot 控制）。"><meta property="og:url" content="https://cetxt.com/bots/gptbot/"><meta property="og:image" content="https://cetxt.com/og.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/en/app.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"GPTBot 是什么，要不要屏蔽","dateModified":"2026-11-01","inLanguage":"zh-CN","citation":"https://platform.openai.com/docs/bots"}</script>
+</head><body class="zh">
+<a class="skip" href="#main">跳到正文</a>
+<nav class="nav" aria-label="主导航"><div class="wrap">
+  <a class="logo zh" href="/" aria-label="cetxt 首页"><img src="/favicon.svg" alt="" width="26" height="26"><span>cetxt</span></a>
+  <div class="links" id="navlinks">
+    <a class="n" href="/guides/">修复指南</a>
+    <a class="n on" href="/bots/" aria-current="page">AI 爬虫</a>
+    <a class="n" href="/tools/">llms.txt 工具</a>
+    <a class="n" href="/survey/">普查报告</a>
+    <a class="n" href="/pricing/">监控</a>
+    <a class="n lang" href="https://vaksel.com/bots/gptbot/" hreflang="en" lang="en">EN</a>
+  </div>
+  <button class="menu" type="button" aria-label="菜单" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
+</div></nav>
+<script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
+<main id="main" tabindex="-1" class="wrap doc"><div class="crumb"><a href="/">首页</a> <span>/</span> <a href="/bots/">AI 爬虫</a> <span>/</span> GPTBot</div>
+<h1>GPTBot</h1>
+<div class="facts"><div><span>运营方</span><b>OpenAI</b></div><div><span>用途</span><b>训练</b></div><div><span>遵守 robots.txt</span><b>遵守</b></div><div><span>来源</span><b><a href="https://platform.openai.com/docs/bots" rel="nofollow noopener" target="_blank">官方文档 ↗</a></b></div></div>
+<p class="lead l">抓取可能用于训练 OpenAI 生成式基础模型的内容；禁止 GPTBot = 表示内容不应用于训练。</p>
+<h2>屏蔽后会怎样</h2><p>内容不会被 OpenAI 用于训练生成式基础模型；不影响 ChatGPT 搜索展示（那由 OAI-SearchBot 控制）。</p>
+<h2>robots.txt 写法</h2>
+<p>屏蔽：</p><pre>User-agent: GPTBot
+Disallow: /</pre><p>显式放行（当有更宽的规则拦了其他机器人时有用）：</p><pre>User-agent: GPTBot
+Allow: /</pre>
+<h2>官方原文</h2><blockquote>Disallowing GPTBot indicates a site&#39;s content should not be used in training generative AI foundation models.<cite><a href="https://platform.openai.com/docs/bots" rel="nofollow noopener" target="_blank">OpenAI 文档</a>，核对于 2026-10-31</cite></blockquote>
+
+<h2>OpenAI 的其他爬虫</h2><div class="bgrid s"><a class="bcard" href="/bots/oai-searchbot/"><div class="bt">OAI-SearchBot</div><div class="bv">OpenAI</div><p>用于在 ChatGPT 搜索功能中展示网站。</p></a><a class="bcard" href="/bots/chatgpt-user/"><div class="bt">ChatGPT-User</div><div class="bv">OpenAI</div><p>ChatGPT / Custom GPT 中由用户操作触发的访问，不做自动爬取。</p></a></div>
+<div style="margin-top:28px">
+<div class="cta mini"><div><h3>GPTBot 能访问你的网站吗？</h3><p>免费，无需注册。我们以 13 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
+<form class="field inv" data-check autocomplete="off"><input placeholder="你的域名，例如 example.com" aria-label="域名" spellcheck="false" autocapitalize="off"><button class="btn">检测</button></form></div></div>
+</main><script>
+document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();let v=(f.querySelector('input').value||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0];if(/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v))location.href='/report/'+v;else{f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake')}}));
+</script>
+<footer><div class="wrap fgrid">
+  <div class="fbrand"><a class="logo zh" href="/"><img src="/favicon.svg" alt="" width="22" height="22" loading="lazy"><span>cetxt</span></a><p>AI 搜索到底能不能访问你的网站？免费检测 robots.txt、防火墙和 CDN 拦截。</p></div>
+  <div><h2 class="fh">产品</h2><a href="/">可访问性检测</a><a href="/pricing/">监控（早期体验）</a><a href="/research/">研究方法</a><a href="/tools/">llms.txt 工具</a></div>
+  <div><h2 class="fh">修复指南</h2><a href="/guides/cloudflare/">Cloudflare</a><a href="/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/guides/wordpress/">WordPress</a><a href="/guides/shopify/">Shopify</a></div>
+  <div><h2 class="fh">资料</h2><a href="/bots/">AI 爬虫百科</a><a href="/survey/">中文大站普查</a><a href="/guide/what-is-llms-txt/">llms.txt 是什么</a><a href="/faq/">常见问题</a></div>
+  <div class="fsmall"><span>© 2026 cetxt</span><a href="/privacy/">隐私</a><a href="/terms/">条款</a><a href="/contact/">联系</a><a href="https://vaksel.com/bots/gptbot/" hreflang="en" lang="en">English · VAKSEL</a><span>我们不保存你检测的域名和 IP。</span></div>
+</div></footer>
+</body></html>
