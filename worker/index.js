@@ -5,6 +5,7 @@
 import { ROBOTS, AIAUDIT } from './_libs.js';
 import { EMBED } from './_assets.js';
 import { createApi, makeDohResolver } from './check.js';
+import { handleReport } from './report.js';
 
 const api = createApi({ ROBOTS, AIAUDIT });
 
@@ -45,10 +46,20 @@ function serveEmbedded(request) {
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    if (url.pathname.startsWith('/api/')) {
-      const f = (u, init) => fetch(u, init);
-      const relay = env.RELAY_URL && env.RELAY_KEY ? { url: env.RELAY_URL, key: env.RELAY_KEY } : null;
-      return api(request, env, ctx, { fetch: f, resolve: makeDohResolver(f), relay, assetsFetch: EMBED && !env.ASSETS ? (p) => embedResponse(p, request) : null });
+    const f = (u, init) => fetch(u, init);
+    const relay = env.RELAY_URL && env.RELAY_KEY ? { url: env.RELAY_URL, key: env.RELAY_KEY } : null;
+    const apiDeps = { fetch: f, resolve: makeDohResolver(f), relay, assetsFetch: EMBED && !env.ASSETS ? (p) => embedResponse(p, request) : null };
+    if (url.pathname.startsWith('/api/')) return api(request, env, ctx, apiDeps);
+    if (/^\/en\/report\/[^/]+\/?$/.test(url.pathname) && (request.method === 'GET' || request.method === 'HEAD')) {
+      const r = await handleReport(request, {
+        template: async () => {
+          const t = env.ASSETS ? await env.ASSETS.fetch(new Request(new URL('/en/report/', url))) : embedResponse('/en/report/index.html', new Request(url));
+          return t.text();
+        },
+        api: (req) => api(req, env, ctx, apiDeps),
+        index: env.INDEX_REPORTS === '1'
+      }, ctx);
+      if (r) return r;
     }
     if (request.method !== 'GET' && request.method !== 'HEAD') return new Response('Method Not Allowed', { status: 405 });
     if (env.ASSETS) {

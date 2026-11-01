@@ -62,7 +62,7 @@
 <script>
 const f=document.getElementById('f'),d=document.getElementById('d');
 function clean(v){v=(v||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0].replace(/\.$/,'');return /^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v)?v:null}
-function go(v){const c=clean(v);if(!c){f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake');d.focus();return}location.href='/en/report/?d='+encodeURIComponent(c)}
+function go(v){const c=clean(v);if(!c){f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake');d.focus();return}location.href='/en/report/'+c}
 f.addEventListener('submit',e=>{e.preventDefault();go(d.value)});
 document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>go(b.dataset.d));
 </script>
