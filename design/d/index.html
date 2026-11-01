@@ -213,6 +213,15 @@ background:linear-gradient(180deg,#fff 20%,#6e6e73);-webkit-background-clip:text
 .facts b{display:block;font-size:clamp(48px,7vw,72px);font-weight:700;letter-spacing:-.05em;line-height:1}
 .facts span{display:block;color:#a1a1a6;font-size:17px;margin-top:10px;font-weight:600}
 .dark a{color:#2997ff}
+/* Apple Card-style section cards */
+.cs{max-width:1100px;margin:20px auto;border-radius:34px;overflow:hidden;padding:110px 40px;
+ transform:translateY(15vh);opacity:0;transition:transform 1s cubic-bezier(.39,.575,.565,1),opacity .8s var(--apl)}
+.cs.in{transform:none;opacity:1}
+.cs-ti{background:linear-gradient(135deg,#f4f4f6 0%,#dcdce1 30%,#f7f7f9 55%,#cfcfd5 80%,#ececef 100%)}
+.cs-ti .panel{box-shadow:0 20px 40px -24px rgba(0,0,0,.25)}
+#data .mega{background:linear-gradient(to right,#e87157 0%,#e55a60 25%,#cd6694 50%,#986ea1 75%,#6882ba 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+#data .facts b{background:linear-gradient(180deg,#fff,#a1a1a6);-webkit-background-clip:text;background-clip:text;color:transparent}
+#data .facts div:nth-child(1) b{background-image:linear-gradient(180deg,#4FBA4E,#F5B926)}#data .facts div:nth-child(2) b{background-image:linear-gradient(180deg,#ED85BF,#F5A53B)}#data .facts div:nth-child(3) b{background-image:linear-gradient(180deg,#A177FF,#3197FF)}
 
 .tri span{display:block;transition:color .5s}
 .tiles{max-width:1024px;margin:64px auto 0;display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
@@ -292,7 +301,7 @@ footer .in{max-width:1024px;margin:0 auto;line-height:1.7}footer ol{padding-left
 @media(max-width:833px){
  .tile{min-height:500px}.t-rep{grid-template-columns:1fr}.t-rep .bars{height:230px;padding-top:0}.tile .tt{padding:36px 28px 0}.art pre{left:28px}.bars{padding:0 28px 36px;gap:10px}
  .wheel-wrap,.builder{grid-template-columns:1fr}.wheel{margin:0 auto}.tiles{grid-template-columns:1fr}.wheel-wrap{gap:36px}}
-@media(max-width:734px){.gnav .ls,.lnav .s{display:none}section{padding:100px 20px}.field{padding-left:18px}.field .pre{display:none}}
+@media(max-width:734px){.gnav .ls,.lnav .s{display:none}section{padding:100px 20px}.cs{margin:12px;padding:80px 18px;border-radius:28px}.field{padding-left:18px}.field .pre{display:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none;filter:none}.hl span{color:var(--ink)}}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0090f7"/><stop offset=".5" stop-color="#ba62fc"/><stop offset="1" stop-color="#f2416b"/></linearGradient></defs></svg>
@@ -369,7 +378,7 @@ footer .in{max-width:1024px;margin:0 auto;line-height:1.7}footer ol{padding-left
 </section>
 
 <!-- WHEEL -->
-<section class="alt" id="score">
+<section class="alt cs rv" id="score">
  <h2 class="h1 rv">第一个告诉你<br><span class="grad">差在哪</span>的评分。</h2>
  <p class="sub mut rv d1" style="max-width:680px;margin:22px auto 0">100 分拆成四块。点任意一块，看看少了它会怎样。</p>
  <div class="wheel-wrap">
@@ -379,7 +388,7 @@ footer .in{max-width:1024px;margin:0 auto;line-height:1.7}footer ol{padding-left
 </section>
 
 <!-- ROBOTS -->
-<section id="robots">
+<section class="cs cs-ti rv" id="robots">
  <p class="eyebrow rv">robots.txt 生成</p>
  <h2 class="h1 rv d1">只拦训练，<br>保留引用。</h2>
  <p class="sub mut rv d2" style="max-width:700px;margin:22px auto 0">打开表示放行。训练类关掉，搜索类留着，AI 回答里照样能引用你。</p>
@@ -387,7 +396,7 @@ footer .in{max-width:1024px;margin:0 auto;line-height:1.7}footer ol{padding-left
 </section>
 
 <!-- DATA -->
-<section class="dark" id="data">
+<section class="dark cs rv" id="data">
  <p class="eyebrow rv" style="color:#a1a1a6">1000 个大型中文站 · 2026 年 11 月重测</p>
  <div class="mega" id="mega">4.7%</div>
  <h2 class="h2 rv">只有 47 个站<br>拦了 AI 训练。</h2>
