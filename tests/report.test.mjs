@@ -64,4 +64,9 @@ await t('联系表单：存留言，拒空消息', async () => {
   ok((await worker.fetch(req({ email: 'x@y.co', message: ' ' }), WENV, {})).status === 400);
 });
 await t('隐私/条款/联系页与手机菜单', () => { for (const f of ['en/privacy/index.html', 'en/terms/index.html', 'en/contact/index.html']) ok(existsSync(f), f); const h = readFileSync('en/index.html', 'utf8'); ok(h.includes('class="menu"') && h.includes('/en/privacy/') && h.includes('apple-touch-icon') && h.includes('id="main"')); });
+await t('INDEX_SITE=1 只放开品牌域名内容页', async () => {
+  const A2 = { fetch: async () => new Response('<meta name="robots" content="noindex"><a href="/en/x/">', { headers: { 'content-type': 'text/html' } }) };
+  const h1 = await (await worker.fetch(wreq('https://vaksel.com/guides/'), { ASSETS: A2, INDEX_SITE: '1' }, {})).text(); ok(h1.includes('index,follow'), h1);
+  const h2 = await (await worker.fetch(wreq('https://vaksel.com/guides/'), { ASSETS: A2 }, {})).text(); ok(h2.includes('content="noindex"'));
+});
 console.log(`\n${pass} 通过，${fail} 失败`); if (fail) process.exit(1);

@@ -13,13 +13,14 @@ import { confirmEmail } from './mail.js';
 const BRAND_HOSTS = new Set(['vaksel.com', 'www.vaksel.com']);
 export function isBrandHost(h) { return BRAND_HOSTS.has((h || '').toLowerCase()); }
 
-async function brandRewrite(resp) {
+async function brandRewrite(resp, indexable) {
   if (resp.headers.get('x-rebased') === '1') return resp;
   const h = new Headers(resp.headers);
   const loc = h.get('location');
   if (loc) h.set('location', loc.replace(/^(https?:\/\/[^/]+)?\/en(\/|$)/, (m0, o) => (o || '') + '/'));
   if (/^text\/html/.test(h.get('content-type') || '') && resp.body) {
-    const t = rebase(await resp.text(), '');
+    let t = rebase(await resp.text(), '');
+    if (indexable && resp.status === 200) t = t.replace('<meta name="robots" content="noindex">', '<meta name="robots" content="index,follow">');
     h.delete('content-length'); h.delete('etag');
     return new Response(t, { status: resp.status, statusText: resp.statusText, headers: h });
   }
@@ -72,7 +73,8 @@ export default {
       if (!u0.pathname.startsWith('/api/')) {
         u0.pathname = '/en' + u0.pathname;
         const r = await route(new Request(u0.toString(), request), env, ctx, '');
-        return brandRewrite(r);
+        // INDEX_SITE=1：品牌域名的内容页放开收录（报告页仍由 INDEX_REPORTS 单独控制）
+        return brandRewrite(r, env.INDEX_SITE === '1' && !u0.pathname.startsWith('/en/report'));
       }
     }
     return route(request, env, ctx, '/en');
