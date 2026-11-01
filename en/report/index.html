@@ -85,7 +85,7 @@ function render(r){
   document.title=r.domain+' · AI crawler access report · cetxt';
   $('#meta').innerHTML=(a.target?esc(a.target)+' · ':'')+'checked '+new Date().toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'})+(a.cdn?' · served by '+esc(a.cdn):'');
   let rows='';
-  const grp=(t,list)=>{if(!list.length)return;rows+='<tr class="grp"><td colspan="5">'+t+'</td></tr>';list.forEach((b,i)=>{rows+='<tr class="row" data-i="'+b.token+'"><td><div class="bot">'+esc(b.token)+'</div><div class="vd">'+esc(b.vendor||'')+'</div></td><td class="hide-s">'+PURPOSE[b.category]+'</td><td>'+robotsTag(b.robots)+'</td><td>'+liveTag(b)+'</td><td>'+resultTag(b)+'</td></tr><tr class="ev" data-e="'+b.token+'" hidden><td colspan="5">'+evidence(b,a)+'</td></tr>'})};
+  const grp=(t,list)=>{if(!list.length)return;rows+='<tr class="grp"><td colspan="5">'+t+'</td></tr>';list.forEach((b,i)=>{rows+='<tr class="row" data-i="'+b.token+'"><td><div class="bot">'+esc(b.token)+'</div><div class="vd">'+esc(b.vendor||'')+'</div></td><td class="hide-s">'+PURPOSE[b.category]+'</td><td>'+robotsTag(b.robots)+'</td><td class="hide-s">'+liveTag(b)+'</td><td>'+resultTag(b)+'</td></tr><tr class="ev" data-e="'+b.token+'" hidden><td colspan="5">'+evidence(b,a)+'</td></tr>'})};
   grp('AI search & user-triggered',search);grp('AI training',train);
   const page=a.page||{};
   const fix=fixFor(a);
@@ -99,7 +99,7 @@ function render(r){
    '<div class="kpi"><div class="k">Training crawlers blocked</div><div class="v">'+((a.counts&&a.counts.training_blocked)||0)+'<small> / '+train.length+'</small></div></div>'+
    '<div class="kpi"><div class="k">Text without JavaScript</div><div class="v">'+(page.text_chars!=null?page.text_chars.toLocaleString():'–')+'<small> chars</small></div></div></div>'+
    '<div class="cols"><div>'+
-    (bots.length?'<div class="panel"><h3>Crawler by crawler <span>Tap a row for evidence</span></h3><table><thead><tr><th>Crawler</th><th class="hide-s">Purpose</th><th>robots.txt</th><th>Live request</th><th>Result</th></tr></thead><tbody>'+rows+'</tbody></table></div>':'')+
+    (bots.length?'<div class="panel"><h3>Crawler by crawler <span>Tap a row for evidence</span></h3><table><thead><tr><th>Crawler</th><th class="hide-s">Purpose</th><th>robots.txt</th><th class="hide-s">Live request</th><th>Result</th></tr></thead><tbody>'+rows+'</tbody></table></div>':'')+
     (fix?'<div class="panel fix"><h3>How to fix</h3><div class="body">'+fix+'</div></div>':'')+
     '<p class="note">How we test: we request your homepage from a data-center IP as a normal browser, as Googlebot, as an unknown bot, and as each AI crawler. Real crawlers come from their own IP ranges, so a site that verifies crawler IPs may treat them differently; the control groups are how we tell a targeted AI block (high confidence) from a verified-bot rule (low confidence).</p>'+
    '</div><div class="side">'+
