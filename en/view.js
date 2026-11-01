@@ -1,5 +1,6 @@
 /* en/view.js — 报告渲染（浏览器与 Worker 共用，纯字符串，无 DOM 依赖）。
  * 中英双语：renderReport(r, { lang: 'zh' }) 输出中文，默认英文。中文站 base 为 ''，英文站 '/en'（品牌域名 ''）。 */
+import {renderSeo} from './seo-view.js';
 export const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function cleanDomain(v){v=(v||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0].replace(/\.$/,'');return /^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v)?v:null}
 /* 传统搜索引擎爬虫：不算“AI 搜索”，robots-only 回落时不列入 */
@@ -206,6 +207,7 @@ export function renderReport(r,opt){
    '<div class="cols"><div>'+
     (bots.length?'<div class="panel"><h3>'+TB.title+' <span>'+TB.hint+'</span></h3><table><thead><tr><th>'+TB.cols[0]+'</th><th class="hide-s">'+TB.cols[1]+'</th><th>'+TB.cols[2]+'</th><th class="hide-s">'+TB.cols[3]+'</th><th>'+TB.cols[4]+'</th></tr></thead><tbody>'+rows+'</tbody></table></div>':'')+
     (fix?'<div class="panel fix"><h3>'+L.fixTitle+'</h3><div class="body">'+fix+'</div></div>':'')+
+    renderSeo(r.seo,opt.lang)+
     '<div class="method">'+L.method(B)+'</div>'+
    '</div><div class="side">'+
     '<div class="panel"><h3>'+C.title+'</h3><ul class="checks">'+

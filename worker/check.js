@@ -18,10 +18,13 @@ export const LIMITS = {
   rateN: 20,
   rateWindowMs: 60000,
   cacheTtlMs: 5 * 60 * 1000,
-  accessDeadlineMs: 45000
+  accessDeadlineMs: 45000,
+  pageMax: 1536 * 1024,
+  sitemapMax: 4096
 };
 export const UA = 'cetxt-check/2.0 (+https://cetxt.com/)';
 import { classifyAccess } from './access.js';
+import { analyzePage } from './seo.js';
 
 const HOST_RE = /^(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+(?:[a-z]{2,63}|xn--[a-z0-9-]{1,59})$/;
 const BLOCKED_SUFFIX = ['localhost', 'local', 'localdomain', 'internal', 'intranet', 'lan', 'home', 'corp', 'arpa', 'onion', 'test', 'invalid', 'example', 'home.arpa'];
@@ -195,7 +198,7 @@ export async function fetchLimited(startUrl, opts, deps) {
     }
     clearTimeout(timer);
     return { kind: 'response', status: resp.status, content_type: resp.headers.get('content-type') || '',
-      bytes: body.bytes, truncated: body.truncated, final_url: u.href, redirects };
+      bytes: body.bytes, truncated: body.truncated, final_url: u.href, redirects, x_robots: resp.headers.get('x-robots-tag') || '' };
   }
 }
 
@@ -266,7 +269,7 @@ export async function fetchViaRelay(url, opts, deps) {
     if (!j || !j.kind) return null;
     if (j.kind === 'response') {
       return { kind: 'response', status: j.status, content_type: j.content_type || '', bytes: b64ToBytes(j.body_b64),
-        truncated: !!j.truncated, final_url: j.final_url, redirects: j.redirects || 0, via: 'relay' };
+        truncated: !!j.truncated, final_url: j.final_url, redirects: j.redirects || 0, via: 'relay', x_robots: (j.headers && j.headers['x-robots-tag']) || '' };
     }
     return Object.assign({}, j, { via: 'relay' });
   } catch (e) { return null; }
@@ -314,6 +317,27 @@ export async function checkRobots(domain, deps, deadline) {
     out.bytes = r.bytes.length;
   }
   return out;
+}
+
+/* 首页 HTML：给 seo.js 做“能不能读 / 能不能被引用”检查 */
+export async function checkPage(domain, deps, deadline) {
+  const r = await fetchHttpsFirst(domain, '/', { maxBytes: LIMITS.pageMax, accept: 'text/html,application/xhtml+xml,*/*;q=0.8', deadline }, deps);
+  if (r.kind !== 'response') return { ok: false, code: r.code || r.kind };
+  if (r.status !== 200) return { ok: false, code: 'http_' + r.status, http_status: r.status, final_url: r.final_url };
+  const ct = (r.content_type || '').toLowerCase();
+  if (ct && !/html|xml/.test(ct)) return { ok: false, code: 'not_html', final_url: r.final_url };
+  return { ok: true, html: decodeBody(r.bytes, r.content_type), final_url: r.final_url, truncated: r.truncated, x_robots: r.x_robots || '', via: r.via };
+}
+/* sitemap：robots.txt 里声明的第一个，没有就试 /sitemap.xml；只读开头 4KB 判断是不是 XML 站点地图 */
+export async function checkSitemap(domain, robotsText, deps, deadline) {
+  const m = /^\s*sitemap\s*:\s*(\S+)/im.exec(robotsText || '');
+  let url = m ? m[1] : 'https://' + domain + '/sitemap.xml';
+  try { url = new URL(url).href; } catch (e) { return { ok: false, declared: !!m, url, status: 'bad_url' }; }
+  const r = await fetchLimited(url, { maxBytes: LIMITS.sitemapMax, accept: 'application/xml,text/xml,*/*', deadline }, deps);
+  if (r.kind !== 'response') return { ok: false, declared: !!m, url, status: r.code || r.kind };
+  const head = decodeBody(r.bytes, r.content_type).slice(0, 2000);
+  const ok = r.status === 200 && (/<(urlset|sitemapindex)\b/i.test(head) || (/^\s*https?:\/\//.test(head) && /text\/plain/i.test(r.content_type)) || /gzip/i.test(r.content_type));
+  return { ok, declared: !!m, url: r.final_url || url, status: r.status };
 }
 
 /* ---------------- 限频 / 缓存 ---------------- */
@@ -391,8 +415,15 @@ export function createApi(libs) {
     const t0 = Date.now();
     const deadline = t0 + LIMITS.deadlineMs;
     const wantAccess = !!deps.withAccess;
-    const [llms, robots, probe] = await Promise.all([checkLlms(domain, deps, deadline), checkRobots(domain, deps, deadline),
-      wantAccess ? probeAccess(domain, deps, t0 + LIMITS.accessDeadlineMs) : Promise.resolve(null)]);
+    const [llms, robots, probe, page] = await Promise.all([checkLlms(domain, deps, deadline), checkRobots(domain, deps, deadline),
+      wantAccess ? probeAccess(domain, deps, t0 + LIMITS.accessDeadlineMs) : Promise.resolve(null),
+      checkPage(domain, deps, deadline).catch(() => ({ ok: false, code: 'internal' }))]);
+    let seo = { ok: false, code: page.code };
+    if (page.ok) {
+      const sitemap = robots.state === 'refused' ? null : await checkSitemap(domain, robots.text || '', deps, Math.min(deadline, Date.now() + 6000)).catch(() => null);
+      try { seo = Object.assign({ ok: true, truncated: !!page.truncated, via: page.via }, analyzePage({ html: page.html, url: page.final_url, xRobots: page.x_robots, sitemap, llms: llms.verdict })); }
+      catch (e) { seo = { ok: false, code: 'parse' }; }
+    }
     const data = await loadData(env, deps);
     let analysis = null;
     if (robots.state !== 'refused') {
@@ -408,6 +439,7 @@ export function createApi(libs) {
       llms: Object.assign({}, llms),
       robots: Object.assign({}, robots, { analysis }),
       access: wantAccess ? classifyAccess(probe, analysis && analysis.access, data) : undefined,
+      seo,
       data_version: data && data.version,
       elapsed_ms: elapsed
     });
@@ -430,7 +462,7 @@ export function createApi(libs) {
     let result = null, cached = false;
     const hit = memCache.get(ck);
     if (hit && now - hit.t < LIMITS.cacheTtlMs) { result = hit.v; cached = true; }
-    const cacheKey = new Request('https://cetxt-check-cache.invalid/' + (withAccess ? 'v3a/' : 'v2/') + encodeURIComponent(domain));
+    const cacheKey = new Request('https://cetxt-check-cache.invalid/' + (withAccess ? 'v4a/' : 'v3/') + encodeURIComponent(domain));
     const cacheApi = (typeof caches !== 'undefined' && caches.default) ? caches.default : null;
     if (!result && cacheApi && !deps.noCache) {
       try { const c = await cacheApi.match(cacheKey); if (c) { result = await c.json(); cached = true; } } catch (e) {}
