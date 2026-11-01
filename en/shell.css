@@ -28,3 +28,10 @@
 .vxs .fbrand img{height:24px;width:auto}.vxs .fbrand p{margin-top:10px;max-width:280px;line-height:1.5}
 .vxs .fsmall{grid-column:1/-1;display:flex;gap:18px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px;line-height:24px}
 @media (max-width:700px){.vxs footer .fgrid{grid-template-columns:1fr 1fr}.vxs .fbrand{grid-column:1/-1}}
+/* 旧页面全局样式（深色主题的 a、p、h2）优先级较高，这里强制覆盖 */
+.vxs footer,.vxs footer p,.vxs footer span{color:#6e6e73!important;font-family:inherit!important;letter-spacing:0!important}
+.vxs footer a{color:#6e6e73!important;border:0!important;background:none!important}
+.vxs footer h2.fh{color:#1d1d1f!important;font-size:12px!important;margin:0 0 8px!important}
+.vxs .nav a.n{color:#1d1d1f!important;border:0!important;background:none!important;font-family:inherit!important;letter-spacing:0!important}
+.vxs .nav{background:rgba(255,255,255,.94)!important}
+.vxs p{font-size:12px!important;line-height:1.5!important}
