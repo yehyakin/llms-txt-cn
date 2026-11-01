@@ -2,18 +2,25 @@
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <!--HEAD--><title>AI crawler access report · VAKSEL</title>
 <meta name="robots" content="noindex"><!--/HEAD--><meta name="theme-color" content="#ffffff">
-<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/en/apple-touch-icon.png"><link rel="manifest" href="/en/site.webmanifest">
+<link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/app.css">
 </head><body>
-<nav class="nav"><div class="wrap">
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" aria-label="Main"><div class="wrap">
   <a class="logo" href="/en/" aria-label="VAKSEL home"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"></a>
-  <a class="n hide-m" href="/en/guides/">Fix guides</a>
-  <a class="n hide-m" href="/en/bots/">AI crawlers</a>
-  <a class="n" href="/en/pricing/">Pricing</a>
-  <a class="n lang" href="https://cetxt.com/" hreflang="zh">中文</a>
+  <div class="links" id="navlinks">
+    <a class="n" href="/en/guides/">Fix guides</a>
+    <a class="n" href="/en/bots/">AI crawlers</a>
+    <a class="n" href="/en/pricing/">Pricing</a>
+    <a class="n lang" href="https://cetxt.com/" hreflang="zh" lang="zh">中文</a>
+  </div>
+  <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
 </div></nav>
+<script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
 
-<main class="wrap">
+<main class="wrap" id="main">
   <div class="rp-head top">
     <div><div class="crumb">AI crawler access report</div><h1 id="dom"><!--DOM-->…<!--/DOM--></h1><div class="meta" id="meta"><!--META--><!--/META--></div></div>
     <form class="rp-search" id="f" autocomplete="off"><div class="field" style="flex:1"><input id="d" placeholder="Check another domain" aria-label="Domain" spellcheck="false" autocapitalize="off"><button class="btn">Check</button></div></form>
@@ -21,11 +28,11 @@
   <div id="out"><!--OUT--><div class="loading" id="ld"><img class="vava" src="/en/brand/vava/vava3d-searching-mini.webp" width="96" height="121" alt="">Requesting the homepage as 13 different clients…<div class="steps">robots.txt · firewall · page content</div></div><!--/OUT--></div>
 </main>
 <footer><div class="wrap fgrid">
-  <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
+  <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
   <div><h4>Product</h4><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/#data">Research</a></div>
   <div><h4>Fix guides</h4><a href="/en/guides/cloudflare/">Cloudflare</a><a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/en/guides/wordpress/">WordPress</a><a href="/en/guides/shopify/">Shopify</a></div>
   <div><h4>AI crawlers</h4><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a></div>
-  <div class="fsmall"><span>© 2026 VAKSEL</span><a href="https://cetxt.com/" hreflang="zh">中文版 cetxt.com</a><span>We log the domains checked and the requesting IP for abuse prevention.</span></div>
+  <div class="fsmall"><span>© 2026 VAKSEL</span><a href="/en/privacy/">Privacy</a><a href="/en/terms/">Terms</a><a href="/en/contact/">Contact</a><a href="https://cetxt.com/" hreflang="zh" lang="zh">中文版 cetxt.com</a><span>We don't store the domains you check or your IP address.</span></div>
 </div></footer>
 
 <script type="module">

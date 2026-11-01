@@ -116,8 +116,40 @@ async function waitlist(request, env) {
   const site = cleanDomain(String(b.site || '')) || '';
   const now = new Date().toISOString();
   const rec = { email, plan, site, at: now, country: (request.cf && request.cf.country) || '', host: new URL(request.url).hostname };
+  const isNew = !(await env.WAITLIST.get('wl:' + email));
   await env.WAITLIST.put('wl:' + email, JSON.stringify(rec), { metadata: { plan, at: now } });
+  if (isNew && env.RESEND_KEY) { try { await sendMail(env, email, 'You’re on the VAKSEL early-access list', confirmText(plan)); } catch (e) {} }
   return J({ ok: true });
+}
+
+/* 联系表单：存 KV（ct:<时间>:<随机>），不存 IP */
+async function contact(request, env) {
+  const J = (o, s) => new Response(JSON.stringify(o), { status: s || 200, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });
+  if (request.method !== 'POST') return J({ error: 'method' }, 405);
+  if (!env.WAITLIST) return J({ error: 'unavailable' }, 503);
+  const ip = request.headers.get('cf-connecting-ip') || '';
+  if (env.RL && typeof env.RL.limit === 'function') { try { const { success } = await env.RL.limit({ key: 'ct:' + ip }); if (!success) return J({ error: 'rate_limited' }, 429); } catch (e) {} }
+  let b; try { b = await request.json(); } catch (e) { return J({ error: 'bad_json' }, 400); }
+  if (b.hp) return J({ ok: true });
+  const email = String(b.email || '').trim().toLowerCase().slice(0, 200);
+  if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)) return J({ error: 'bad_email' }, 400);
+  const message = String(b.message || '').trim().slice(0, 2000);
+  if (!message) return J({ error: 'empty' }, 400);
+  const topic = ['question', 'data', 'feedback', 'other'].includes(b.topic) ? b.topic : 'other';
+  const now = new Date().toISOString();
+  await env.WAITLIST.put('ct:' + now + ':' + Math.random().toString(36).slice(2, 8), JSON.stringify({ email, topic, message, at: now, country: (request.cf && request.cf.country) || '' }), { metadata: { topic, at: now } });
+  return J({ ok: true });
+}
+
+/* 确认邮件：只有配置了 RESEND_KEY（wrangler secret）才发；发件域 mail.vaksel.com */
+function confirmText(plan) {
+  return 'Thanks for joining the VAKSEL early-access list (' + (plan === 'agency' ? 'Agency, up to 50 sites' : 'Pro, up to 10 sites') + ').\n\n' +
+    'We will email you once when your monitoring account is ready. You pay nothing until then, and your founding price stays for as long as you remain subscribed.\n\n' +
+    'Meanwhile, free checks are at https://vaksel.com/\n\nTo be removed from the list, reply to this email or use https://vaksel.com/contact/\n\nVAKSEL';
+}
+export async function sendMail(env, to, subject, text) {
+  return fetch('https://api.resend.com/emails', { method: 'POST', headers: { authorization: 'Bearer ' + env.RESEND_KEY, 'content-type': 'application/json' },
+    body: JSON.stringify({ from: env.MAIL_FROM || 'VAKSEL <hello@mail.vaksel.com>', to: [to], subject, text, reply_to: env.MAIL_REPLY_TO || undefined }) });
 }
 
 async function route(request, env, ctx, base) {
@@ -126,6 +158,7 @@ async function route(request, env, ctx, base) {
     const relay = env.RELAY_URL && env.RELAY_KEY ? { url: env.RELAY_URL, key: env.RELAY_KEY } : null;
     const apiDeps = { fetch: f, resolve: makeDohResolver(f), relay, assetsFetch: EMBED && !env.ASSETS ? (p) => embedResponse(p, request) : null };
     if (url.pathname === '/api/waitlist') return waitlist(request, env);
+    if (url.pathname === '/api/contact') return contact(request, env);
     if (url.pathname.startsWith('/api/')) return api(request, env, ctx, apiDeps);
     const og = url.pathname.match(/^\/en\/og\/([a-z0-9.-]+)\.png$/);
     if (og && (request.method === 'GET' || request.method === 'HEAD')) return ogImage(og[1], request, env, ctx, apiDeps);

@@ -4,68 +4,92 @@
 <meta name="description" content="Test whether ChatGPT, Perplexity and Claude search crawlers can actually reach your site: robots.txt, firewall and CDN blocks, noindex and JavaScript-only pages. Free, no sign-up.">
 <meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
 <link rel="canonical" href="https://vaksel.com/">
-<meta property="og:type" content="website"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="Can AI search actually reach your site?"><meta property="og:description" content="Free check: robots.txt, firewall and CDN blocks, noindex and JavaScript-only pages, tested as ChatGPT, Perplexity and Claude crawlers."><meta property="og:url" content="https://vaksel.com/"><meta property="og:image" content="https://vaksel.com/og/site.png"><meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="Can AI search reach your site? Free AI crawler access check · VAKSEL"><meta property="og:description" content="Test whether ChatGPT, Perplexity and Claude search crawlers can actually reach your site: robots.txt, firewall and CDN blocks, noindex and JavaScript-only pages. Free, no sign-up."><meta property="og:url" content="https://vaksel.com/"><meta property="og:image" content="https://vaksel.com/og/site.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/en/apple-touch-icon.png"><link rel="manifest" href="/en/site.webmanifest">
+<link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/app.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"VAKSEL","url":"https://vaksel.com/","applicationCategory":"DeveloperApplication","operatingSystem":"Web","description":"Checks whether AI search crawlers can reach a website through robots.txt, firewalls and CDNs.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
 </head><body>
-<nav class="nav"><div class="wrap">
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" aria-label="Main"><div class="wrap">
   <a class="logo" href="/en/" aria-label="VAKSEL home"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"></a>
-  <a class="n hide-m" href="/en/guides/">Fix guides</a>
-  <a class="n hide-m" href="/en/bots/">AI crawlers</a>
-  <a class="n" href="/en/pricing/">Pricing</a>
-  <a class="n lang" href="https://cetxt.com/" hreflang="zh">中文</a>
+  <div class="links" id="navlinks">
+    <a class="n" href="/en/guides/">Fix guides</a>
+    <a class="n" href="/en/bots/">AI crawlers</a>
+    <a class="n" href="/en/pricing/">Pricing</a>
+    <a class="n lang" href="https://cetxt.com/" hreflang="zh" lang="zh">中文</a>
+  </div>
+  <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
 </div></nav>
-
-<header class="hero"><div class="wrap">
+<script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
+<main id="main" tabindex="-1"><header class="hero"><div class="wrap">
   <span class="eyebrow"><b></b>Free · no sign-up · results in seconds</span>
   <h1>Can AI search <span class="grad">actually reach</span> your site?</h1>
   <p class="lead">Your robots.txt may say yes while your firewall says no. We request your page as ChatGPT, Perplexity and Claude, and show you exactly what they get.</p>
-  <form class="field" id="f" autocomplete="off">
-    <input id="d" name="d" placeholder="yourdomain.com" inputmode="url" autocapitalize="off" spellcheck="false" aria-label="Domain">
+  <form class="field" id="f" autocomplete="off" role="search">
+    <input id="d" name="d" placeholder="yourdomain.com" inputmode="url" autocapitalize="off" spellcheck="false" aria-label="Your domain">
     <button class="btn" type="submit">Check access</button>
   </form>
-  <p class="hint">Try <button type="button" data-d="github.com">github.com</button>·<button type="button" data-d="nytimes.com">nytimes.com</button>·<button type="button" data-d="shopify.com">shopify.com</button></p>
+  <p class="hint">Try <button type="button" data-d="toyota.com">toyota.com</button>·<button type="button" data-d="github.com">github.com</button>·<button type="button" data-d="shopify.com">shopify.com</button></p>
 </div></header>
+
+<section class="sec demo-sec" aria-label="Example report"><div class="wrap">
+  <div class="win"><div class="bar"><i></i><i></i><i></i><span>vaksel.com/report/toyota.com</span></div>
+    <div class="wbody" inert><div class="rp-head"><div><div class="crumb">AI crawler access report</div><h2 class="dh">toyota.com</h2><div class="meta">https://www.toyota.com/ · checked <time datetime="2026-11-01T09:12:00Z">2026-11-01 09:12 UTC</time> · served by CloudFront</div></div></div><div class="fade"><div class="verdict v-bad"><div class="vi">✕</div><div><h2>Silent block: the firewall rejects AI search crawlers</h2><p>robots.txt says they’re welcome, but live requests as these crawlers were rejected while a browser and Googlebot got through.</p></div></div><div class="kpis"><div class="kpi"><div class="k">AI search crawlers reachable</div><div class="v">2<small> / 8</small></div></div><div class="kpi"><div class="k">Silent firewall blocks</div><div class="v">4</div></div><div class="kpi"><div class="k">Training crawlers blocked</div><div class="v">2<small> / 2</small></div></div><div class="kpi"><div class="k">Text without JavaScript</div><div class="v">6,048<small> chars</small></div></div></div><div class="cols"><div><div class="panel"><h3>Crawler by crawler <span>Tap a row for evidence</span></h3><table><thead><tr><th>Crawler</th><th class="hide-s">Purpose</th><th>robots.txt</th><th class="hide-s">Live request</th><th>Result</th></tr></thead><tbody><tr class="grp"><td colspan="5">AI search & user-triggered</td></tr><tr class="row" data-i="OAI-SearchBot"><td><div class="bot"><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a></div><div class="vd">OpenAI</div></td><td class="hide-s">AI search</td><td><span class="tag t-warn">Partly</span></td><td class="hide-s"><span class="tag t-bad">403</span></td><td><span class="tag t-bad">Silent block</span></td></tr><tr class="ev" data-e="OAI-SearchBot" hidden><td colspan="5">Request as <b>OAI-SearchBot</b> got <code>http_403</code>. Same URL as a browser: 200. As Googlebot: 200. As an unknown bot: 200. <b>High confidence</b>: the rule targets AI crawlers specifically.</td></tr><tr class="row" data-i="ChatGPT-User"><td><div class="bot"><a href="/en/bots/chatgpt-user/">ChatGPT-User</a></div><div class="vd">OpenAI</div></td><td class="hide-s">User-triggered</td><td><span class="tag t-warn">Partly</span></td><td class="hide-s"><span class="tag t-bad">403</span></td><td><span class="tag t-bad">Silent block</span></td></tr><tr class="ev" data-e="ChatGPT-User" hidden><td colspan="5">Request as <b>ChatGPT-User</b> got <code>http_403</code>. Same URL as a browser: 200. As Googlebot: 200. As an unknown bot: 200. <b>High confidence</b>: the rule targets AI crawlers specifically.</td></tr><tr class="row" data-i="PerplexityBot"><td><div class="bot"><a href="/en/bots/perplexitybot/">PerplexityBot</a></div><div class="vd">Perplexity</div></td><td class="hide-s">AI search</td><td><span class="tag t-bad">Disallowed</span></td><td class="hide-s"><span class="tag t-bad">403</span></td><td><span class="tag t-bad">Blocked</span></td></tr><tr class="ev" data-e="PerplexityBot" hidden><td colspan="5">Request as <b>PerplexityBot</b> got <code>http_403</code>. Same URL as a browser: 200. As Googlebot: 200. As an unknown bot: 200. <b>High confidence</b>: the rule targets AI crawlers specifically.</td></tr><tr class="row" data-i="Perplexity-User"><td><div class="bot"><a href="/en/bots/perplexity-user/">Perplexity-User</a></div><div class="vd">Perplexity</div></td><td class="hide-s">User-triggered</td><td><span class="tag t-warn">Partly</span></td><td class="hide-s"><span class="tag t-bad">403</span></td><td><span class="tag t-bad">Silent block</span></td></tr><tr class="ev" data-e="Perplexity-User" hidden><td colspan="5">Request as <b>Perplexity-User</b> got <code>http_403</code>. Same URL as a browser: 200. As Googlebot: 200. As an unknown bot: 200. <b>High confidence</b>: the rule targets AI crawlers specifically.</td></tr><tr class="row" data-i="Claude-SearchBot"><td><div class="bot"><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a></div><div class="vd">Anthropic</div></td><td class="hide-s">AI search</td><td><span class="tag t-warn">Partly</span></td><td class="hide-s"><span class="tag t-ok">200 OK</span></td><td><span class="tag t-ok">Reachable</span></td></tr><tr class="ev" data-e="Claude-SearchBot" hidden><td colspan="5">Got the same page a browser gets. robots.txt: partial.</td></tr><tr class="row" data-i="Claude-User"><td><div class="bot"><a href="/en/bots/claude-user/">Claude-User</a></div><div class="vd">Anthropic</div></td><td class="hide-s">User-triggered</td><td><span class="tag t-warn">Partly</span></td><td class="hide-s"><span class="tag t-bad">403</span></td><td><span class="tag t-bad">Silent block</span></td></tr><tr class="ev" data-e="Claude-User" hidden><td colspan="5">Request as <b>Claude-User</b> got <code>http_403</code>. Same URL as a browser: 200. As Googlebot: 200. As an unknown bot: 200. <b>High confidence</b>: the rule targets AI crawlers specifically.</td></tr><tr class="row" data-i="Bytespider"><td><div class="bot"><a href="/en/bots/bytespider/">Bytespider</a></div><div class="vd">ByteDance</div></td><td class="hide-s">AI search</td><td><span class="tag t-bad">Disallowed</span></td><td class="hide-s"><span class="tag t-bad">403</span></td><td><span class="tag t-bad">Blocked</span></td></tr><tr class="ev" data-e="Bytespider" hidden><td colspan="5">Request as <b>Bytespider</b> got <code>http_403</code>. Same URL as a browser: 200. As Googlebot: 200. As an unknown bot: 200. <b>High confidence</b>: the rule targets AI crawlers specifically.</td></tr><tr class="row" data-i="PetalBot"><td><div class="bot"><a href="/en/bots/petalbot/">PetalBot</a></div><div class="vd">Huawei</div></td><td class="hide-s">AI search</td><td><span class="tag t-gray">n/a</span></td><td class="hide-s"><span class="tag t-ok">200 OK</span></td><td><span class="tag t-ok">Reachable</span></td></tr><tr class="ev" data-e="PetalBot" hidden><td colspan="5">Got the same page a browser gets. robots.txt: unknown.</td></tr><tr class="grp"><td colspan="5">AI training</td></tr><tr class="row" data-i="GPTBot"><td><div class="bot"><a href="/en/bots/gptbot/">GPTBot</a></div><div class="vd">OpenAI</div></td><td class="hide-s">Training</td><td><span class="tag t-bad">Disallowed</span></td><td class="hide-s"><span class="tag t-bad">403</span></td><td><span class="tag t-bad">Blocked</span></td></tr><tr class="ev" data-e="GPTBot" hidden><td colspan="5">Request as <b>GPTBot</b> got <code>http_403</code>. Same URL as a browser: 200. As Googlebot: 200. As an unknown bot: 200. <b>High confidence</b>: the rule targets AI crawlers specifically.</td></tr><tr class="row" data-i="ClaudeBot"><td><div class="bot"><a href="/en/bots/claudebot/">ClaudeBot</a></div><div class="vd">Anthropic</div></td><td class="hide-s">Training</td><td><span class="tag t-bad">Disallowed</span></td><td class="hide-s"><span class="tag t-bad">403</span></td><td><span class="tag t-bad">Blocked</span></td></tr><tr class="ev" data-e="ClaudeBot" hidden><td colspan="5">Request as <b>ClaudeBot</b> got <code>http_403</code>. Same URL as a browser: 200. As Googlebot: 200. As an unknown bot: 200. <b>High confidence</b>: the rule targets AI crawlers specifically.</td></tr></tbody></table></div><div class="panel fix"><h3>How to fix</h3><div class="body"><p><b>Amazon CloudFront</b> is answering these requests, most likely through AWS WAF. The Bot Control rule <code>CategoryAI</code> blocks AI crawlers even when they are verified. Override it to <i>Count</i>, then re-block only the training crawlers with your own rule.</p><p style="margin-top:8px">Crawlers to allow for AI search: <span class="mono">OAI-SearchBot, ChatGPT-User, PerplexityBot, Perplexity-User, Claude-User, Bytespider</span>.</p><p style="margin-top:10px">robots.txt disallows <span class="mono">PerplexityBot, Bytespider</span>. To stay out of AI training but appear in AI search, use:</p><pre><button class="copy">Copy</button>User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: OAI-SearchBot
+User-agent: PerplexityBot
+User-agent: Claude-SearchBot
+Allow: /</pre><p style="margin-top:10px"><a href="/en/guides/cloudfront/">Step-by-step CloudFront guide →</a></p></div></div><p class="note">How we test: we request your homepage from a data-center IP as a normal browser, as Googlebot, as an unknown bot, and as each AI crawler. Real crawlers come from their own IP ranges, so a site that verifies crawler IPs may treat them differently; the control groups are how we tell a targeted AI block (high confidence) from a verified-bot rule (low confidence).</p></div><div class="side"><div class="panel"><h3>Page checks</h3><ul class="checks"><li><span>Page title</span><span class="tag t-ok">Present</span></li><li><span>noindex</span><span class="tag t-ok">No</span></li><li><span>nosnippet</span><span class="tag t-ok">No</span></li><li><span>Content without JS</span><span class="tag t-ok">OK</span></li><li><span>robots.txt</span><span class="tag t-ok">Found</span></li><li><span>llms.txt (optional)</span><span class="tag t-gray">None</span></li></ul></div><div class="panel"><h3>Share this report</h3><div class="share">Send it to your developer or client.<div class="row2"><input readonly id="sl" value="https://vaksel.com/report/toyota.com"><button id="cp">Copy</button></div></div></div></div></div></div></div>
+    <a class="wopen" href="/en/report/toyota.com">Open the live report →</a></div>
+  <p class="cap">A real report from November 1, 2026. Toyota's robots.txt welcomes AI search crawlers; its firewall turns them away.</p>
+</div></section>
 
 <section class="sec" id="checks"><div class="wrap">
   <h2>Three layers, tested for real</h2>
   <p class="sub">Most checkers only read robots.txt. We also send live requests, with control groups so a bot-verification rule isn't mistaken for a block.</p>
   <div class="grid3">
-    <div class="card c1"><div class="ic">R</div><h3>robots.txt rules</h3><p>Per-crawler verdict for 20+ AI agents, with search and training crawlers kept separate, so you can block training without vanishing from AI answers.</p></div>
-    <div class="card c2"><div class="ic">W</div><h3>Firewall &amp; CDN</h3><p>Live requests as OAI-SearchBot, PerplexityBot, Claude-SearchBot and more. We flag 403s and challenge pages from Cloudflare, CloudFront, Akamai and others.</p></div>
-    <div class="card c3"><div class="ic">P</div><h3>Page readability</h3><p>noindex and nosnippet directives, and whether your content exists without JavaScript, which most AI crawlers don't run.</p></div>
+    <div class="card c1"><div class="ic" aria-hidden="true">1</div><h3>robots.txt rules</h3><p>A verdict for each of 20+ AI agents, with search and training crawlers kept apart, so you can opt out of training without leaving AI answers.</p></div>
+    <div class="card c2"><div class="ic" aria-hidden="true">2</div><h3>Firewall &amp; CDN</h3><p>Live requests as OAI-SearchBot, PerplexityBot, Claude-SearchBot and more. We name the CDN that answered: Cloudflare, CloudFront, Akamai and others.</p></div>
+    <div class="card c3"><div class="ic" aria-hidden="true">3</div><h3>Page readability</h3><p>noindex and nosnippet, and whether your content exists without JavaScript, which most AI crawlers don't run.</p></div>
   </div>
 </div></section>
 
 <section class="sec" id="data"><div class="wrap">
   <div class="stat">
     <div class="card dark" style="padding:30px">
-      <p style="font-size:13px;font-weight:600;color:#a1a1a6">Our November 2026 sample of popular sites</p>
-      <div class="big grad" style="margin:12px 0 10px">1 in 28</div>
-      <p style="font-size:16px;color:#f5f5f7">reachable sites silently block AI search crawlers at the firewall, while robots.txt allows them and Googlebot gets through.</p>
-      <p style="margin-top:10px;font-size:12px">362 reachable sites from a random 600 of the Tranco top 20k. Requests sent from a data-center IP with crawler user agents and control groups.</p>
+      <p class="k1">Our November 2026 sample of popular sites</p>
+      <div class="big grad">1 in 28</div>
+      <p class="k2">reachable sites silently block AI search crawlers at the firewall, while robots.txt allows them and Googlebot gets through.</p>
+      <p class="k3">13 of 362 reachable sites, from a random 600 of the Tranco top 20k. Requests sent from a data-center IP with crawler user agents and control groups.</p>
     </div>
-    <div class="card" style="padding:30px">
-      <h3 style="margin-top:0;font-size:20px">Why “silent”?</h3>
-      <p style="font-size:15px;margin-top:8px">Nothing in your CMS, sitemap or Search Console tells you. A default bot rule or a security plugin returns 403 to AI crawlers, and your pages quietly drop out of ChatGPT and Perplexity answers.</p>
+    <div class="card" style="padding:26px">
+      <h3 style="margin-top:0;font-size:19px">Found in our sample</h3>
+      <ul class="ex"><li><a href="/en/report/toyota.com"><b>toyota.com</b><span class="tag t-bad">Silent block</span></a><p>CloudFront rejects OAI-SearchBot and PerplexityBot. A browser and Googlebot get through.</p></li><li><a href="/en/report/smithsonianmag.com"><b>smithsonianmag.com</b><span class="tag t-bad">All blocked</span></a><p>Cloudflare turns away all 8 AI search and user-triggered crawlers we sent.</p></li><li><a href="/en/report/torontosun.com"><b>torontosun.com</b><span class="tag t-bad">Silent block</span></a><p>6 of 8 AI search crawlers rejected while robots.txt allows them.</p></li></ul>
+      <p class="note" style="margin-top:8px">Results from November 1, 2026. Each link runs a fresh check.</p>
     </div>
   </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <h2>Fix it where the block is</h2>
+  <p class="sub">Each report names the layer that rejected the crawler and links the matching guide.</p>
+  <div class="bgrid g4"><a class="bcard g" href="/en/guides/cloudflare/"><div class="bt">Cloudflare</div><p>Since September 15, 2026 Cloudflare has separate Search, Training and Agent controls.</p></a><a class="bcard g" href="/en/guides/cloudfront/"><div class="bt">CloudFront / AWS WAF</div><p>AWS WAF Bot Control&#39;s CategoryAI rule blocks verified AI crawlers too.</p></a><a class="bcard g" href="/en/guides/wordpress/"><div class="bt">WordPress</div><p>A WordPress setting, an SEO plugin, a security plugin or your host can each block AI crawlers.</p></a><a class="bcard g" href="/en/guides/shopify/"><div class="bt">Shopify</div><p>How to change which AI crawlers can access a Shopify store with robots.txt.liquid, keep product pages in AI search, and what to do when the block isn&#39;t yours.</p></a></div>
 </div></section>
 
 <section class="sec" id="monitor"><div class="wrap">
   <div class="cta">
-    <div><h3>Rules change. Get told when they do.</h3><p>Daily re-checks and alerts when a CDN update, plugin or robots.txt edit cuts off AI crawlers. Multi-site reports for agencies.</p></div>
+    <div><h3>Rules change. Get told when they do.</h3><p>Daily re-checks and an email when a CDN update, plugin or robots.txt edit cuts off an AI crawler. Multi-site reports for agencies.</p></div>
     <a class="btn" href="/en/pricing/">See plans</a>
   </div>
 </div></section>
 
-<footer><div class="wrap fgrid">
-  <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
-  <div><h4>Product</h4><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/#data">Research</a></div>
-  <div><h4>Fix guides</h4><a href="/en/guides/cloudflare/">Cloudflare</a><a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/en/guides/wordpress/">WordPress</a><a href="/en/guides/shopify/">Shopify</a></div>
-  <div><h4>AI crawlers</h4><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a></div>
-  <div class="fsmall"><span>© 2026 VAKSEL</span><a href="https://cetxt.com/" hreflang="zh">中文版 cetxt.com</a><span>We log the domains checked and the requesting IP for abuse prevention.</span></div>
-</div></footer>
+<section class="sec tight"><div class="wrap"><h2>Questions</h2><div class="faq"><details open><summary>Isn’t robots.txt enough?</summary><p>robots.txt is only a request. Your CDN, firewall or a security plugin decides what actually gets through, and it can reject a crawler that robots.txt welcomes. That is the silent block we test for.</p></details><details><summary>Will allowing AI search let my content be used for training?</summary><p>No. Search and training are separate crawlers at OpenAI, Anthropic, Perplexity, Apple and Google. You can allow OAI-SearchBot and block GPTBot, for example. Our guides show how on each platform.</p></details><details><summary>How accurate is a test from a data center?</summary><p>Real crawlers come from their own IP ranges, which we can’t use. So every test runs with control groups (a normal browser, Googlebot and an unknown bot) and each result carries a confidence level.</p></details></div></div></section>
 
 <script>
 const f=document.getElementById('f'),d=document.getElementById('d');
@@ -73,5 +97,12 @@ function clean(v){v=(v||'').trim().toLowerCase().replace(/^https?:\/\//,'').spli
 function go(v){const c=clean(v);if(!c){f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake');d.focus();return}location.href='/en/report/'+c}
 f.addEventListener('submit',e=>{e.preventDefault();go(d.value)});
 document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>go(b.dataset.d));
-</script>
+</script></main>
+<footer><div class="wrap fgrid">
+  <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
+  <div><h4>Product</h4><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/#data">Research</a></div>
+  <div><h4>Fix guides</h4><a href="/en/guides/cloudflare/">Cloudflare</a><a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/en/guides/wordpress/">WordPress</a><a href="/en/guides/shopify/">Shopify</a></div>
+  <div><h4>AI crawlers</h4><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a></div>
+  <div class="fsmall"><span>© 2026 VAKSEL</span><a href="/en/privacy/">Privacy</a><a href="/en/terms/">Terms</a><a href="/en/contact/">Contact</a><a href="https://cetxt.com/" hreflang="zh" lang="zh">中文版 cetxt.com</a><span>We don't store the domains you check or your IP address.</span></div>
+</div></footer>
 </body></html>

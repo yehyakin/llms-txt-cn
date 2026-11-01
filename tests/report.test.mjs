@@ -49,7 +49,7 @@ await t('ogData：实测结果', () => { const d = ogData(FIX); ok(d.live && d.t
 await t('爬虫名链接到百科页，base 可去掉 /en', () => { ok(renderReport(FIX, {}).html.includes('href="/en/bots/oai-searchbot/"')); ok(renderReport(FIX, { base: '' }).html.includes('href="/bots/oai-searchbot/"')); });
 await t('报告 head 带动态分享图', () => { const h = headFor('toyota.com', 'https://vaksel.com', { base: '' }); ok(h.includes('content="https://vaksel.com/og/toyota.com.png"') && h.includes('summary_large_image')); });
 await t('英文静态页齐全', () => { for (const f of ['en/404.html', 'en/pricing/index.html', 'en/guides/cloudflare/index.html', 'en/bots/gptbot/index.html', 'en/sitemap.xml']) ok(existsSync(f), f); ok(readFileSync('en/index.html', 'utf8').includes('href="/en/pricing/"')); });
-const KV = new Map(); const WENV = { ASSETS, WAITLIST: { put: async (k, v) => KV.set(k, v) } };
+const KV = new Map(); const WENV = { ASSETS, WAITLIST: { put: async (k, v) => KV.set(k, v), get: async (k) => KV.get(k) || null } };
 const post = (b) => new Request('https://vaksel.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(b) });
 await t('早鸟名单：存邮箱和方案，拒绝坏邮箱，蜜罐静默', async () => {
   ok((await worker.fetch(post({ email: 'A@B.co', plan: 'agency', site: 'Ex.com' }), WENV, {})).status === 200);
@@ -57,4 +57,11 @@ await t('早鸟名单：存邮箱和方案，拒绝坏邮箱，蜜罐静默', as
   ok((await worker.fetch(post({ email: 'nope' }), WENV, {})).status === 400);
   ok((await worker.fetch(post({ email: 'c@d.co', hp: 'x' }), WENV, {})).status === 200 && !KV.has('wl:c@d.co'));
 });
+await t('联系表单：存留言，拒空消息', async () => {
+  const req = (b) => new Request('https://vaksel.com/api/contact', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(b) });
+  ok((await worker.fetch(req({ email: 'x@y.co', topic: 'data', message: 'delete me' }), WENV, {})).status === 200);
+  ok([...KV.keys()].some((k) => k.startsWith('ct:')));
+  ok((await worker.fetch(req({ email: 'x@y.co', message: ' ' }), WENV, {})).status === 400);
+});
+await t('隐私/条款/联系页与手机菜单', () => { for (const f of ['en/privacy/index.html', 'en/terms/index.html', 'en/contact/index.html']) ok(existsSync(f), f); const h = readFileSync('en/index.html', 'utf8'); ok(h.includes('class="menu"') && h.includes('/en/privacy/') && h.includes('apple-touch-icon') && h.includes('id="main"')); });
 console.log(`\n${pass} 通过，${fail} 失败`); if (fail) process.exit(1);

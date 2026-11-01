@@ -4,6 +4,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { renderReport } from '../en/view.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://vaksel.com';
@@ -12,35 +13,44 @@ const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&':
 const slug = (t) => String(t).toLowerCase().replace(/[^a-z0-9]+/g, '-');
 const canon = (p) => SITE + p.replace(/^\/en/, '');
 
-export const NAV = (active) => `<nav class="nav"><div class="wrap">
+export const NAV = (active) => `<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" aria-label="Main"><div class="wrap">
   <a class="logo" href="/en/" aria-label="VAKSEL home"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"></a>
-  <a class="n hide-m${active === 'guides' ? ' on' : ''}" href="/en/guides/">Fix guides</a>
-  <a class="n hide-m${active === 'bots' ? ' on' : ''}" href="/en/bots/">AI crawlers</a>
-  <a class="n${active === 'pricing' ? ' on' : ''}" href="/en/pricing/">Pricing</a>
-  <a class="n lang" href="https://cetxt.com/" hreflang="zh">中文</a>
-</div></nav>`;
+  <div class="links" id="navlinks">
+    <a class="n${active === 'guides' ? ' on' : ''}" href="/en/guides/"${active === 'guides' ? ' aria-current="page"' : ''}>Fix guides</a>
+    <a class="n${active === 'bots' ? ' on' : ''}" href="/en/bots/"${active === 'bots' ? ' aria-current="page"' : ''}>AI crawlers</a>
+    <a class="n${active === 'pricing' ? ' on' : ''}" href="/en/pricing/"${active === 'pricing' ? ' aria-current="page"' : ''}>Pricing</a>
+    <a class="n lang" href="https://cetxt.com/" hreflang="zh" lang="zh">中文</a>
+  </div>
+  <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
+</div></nav>
+<script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>`;
 
 export const FOOT = `<footer><div class="wrap fgrid">
-  <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
+  <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
   <div><h4>Product</h4><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/#data">Research</a></div>
   <div><h4>Fix guides</h4><a href="/en/guides/cloudflare/">Cloudflare</a><a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/en/guides/wordpress/">WordPress</a><a href="/en/guides/shopify/">Shopify</a></div>
   <div><h4>AI crawlers</h4><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a></div>
-  <div class="fsmall"><span>© 2026 VAKSEL</span><a href="https://cetxt.com/" hreflang="zh">中文版 cetxt.com</a><span>We log the domains checked and the requesting IP for abuse prevention.</span></div>
+  <div class="fsmall"><span>© 2026 VAKSEL</span><a href="/en/privacy/">Privacy</a><a href="/en/terms/">Terms</a><a href="/en/contact/">Contact</a><a href="https://cetxt.com/" hreflang="zh" lang="zh">中文版 cetxt.com</a><span>We don't store the domains you check or your IP address.</span></div>
 </div></footer>`;
 
-function page({ path, title, desc, body, active, index = true, ld }) {
+export const HEADX = `<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/en/apple-touch-icon.png"><link rel="manifest" href="/en/site.webmanifest">
+<link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/en/app.css">`;
+
+function page({ path, title, desc, body, active, ld, type = 'article' }) {
   return `<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
 <meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
 <link rel="canonical" href="${canon(path)}">
-<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${canon(path)}"><meta property="og:image" content="${SITE}/og/site.png"><meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/en/app.css">${ld ? `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>` : ''}
+<meta property="og:type" content="${type}"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${canon(path)}"><meta property="og:image" content="${SITE}/og/site.png"><meta name="twitter:card" content="summary_large_image">
+${HEADX}${ld ? `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>` : ''}
 </head><body>
 ${NAV(active)}
-${body}
+${body.includes('<main') ? body.replace('<main ', '<main id="main" tabindex="-1" ') : '<main id="main" tabindex="-1">' + body + '</main>'}
 ${FOOT}
 </body></html>
 `;
@@ -295,13 +305,20 @@ out.push(write('en/pricing/index.html', page({
 <header class="hero s"><h1>Know the day AI search <span class="grad">stops reaching you</span></h1>
 <p class="lead">Checks are free. Monitoring re-tests every day and emails you when a robots.txt edit, a plugin or a CDN default cuts off an AI crawler.</p></header>
 <div class="plans">${PLANS.map((p) => `<div class="plan${p.hi ? ' hi' : ''}"><div class="ptag">${p.tag}</div><h3>${p.name}</h3><div class="pp">${p.price}<small>${p.unit}</small></div><ul>${p.items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>${p.cta}</div>`).join('')}</div>
+<section class="sec"><div class="alert-wrap"><div class="atext"><h2>What an alert looks like</h2><p class="sub">One email when something changes, with the evidence and the fix. Nothing when it doesn't.</p></div>
+<div class="mail" aria-label="Example alert email"><div class="mh"><img src="/en/brand/vaksel-favicon.svg" width="28" height="28" alt=""><div><b>VAKSEL alerts</b><span>to you@company.com</span></div><time>Today 07:02</time></div>
+<div class="ms">OAI-SearchBot is now blocked on example.com</div>
+<div class="mb"><p>Yesterday OAI-SearchBot got the same page a browser gets. This morning it got <code>403</code> from Cloudflare, while a browser and Googlebot still get <code>200</code>.</p>
+<div class="mrow"><span>OAI-SearchBot</span><span class="tag t-ok">Reachable</span><span class="arr">→</span><span class="tag t-bad">Silent block</span></div>
+<div class="mrow"><span>PerplexityBot</span><span class="tag t-ok">Reachable</span><span class="arr">→</span><span class="tag t-bad">Silent block</span></div>
+<p><b>Likely cause:</b> Cloudflare's Training control was set to <i>Block</i>, which now also blocks search crawlers.</p><span class="mbtn">View report and fix</span></div></div></div></section>
 <section class="sec" id="join"><div class="join card">
   <img class="vava" src="/en/brand/vava/vava3d-working-mini.webp" width="96" height="100" alt="" loading="lazy">
   <div class="jtext"><h2>Join early access</h2><p class="sub">Founding members keep the launch price for as long as they stay subscribed. No card needed today.</p>
   <form id="wl" class="wl" autocomplete="on">
-    <input type="email" name="email" required placeholder="you@company.com" aria-label="Email">
+    <input type="email" name="email" required placeholder="you@company.com" aria-label="Email" autocomplete="email">
     <select name="plan" aria-label="Plan"><option value="pro">Pro · up to 10 sites</option><option value="agency">Agency · up to 50 sites</option></select>
-    <input name="site" placeholder="Main site (optional)" aria-label="Main site" autocapitalize="off" spellcheck="false">
+    <input name="site" placeholder="Main site (optional)" aria-label="Main site (optional)" autocapitalize="off" spellcheck="false">
     <input name="hp" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
     <button class="btn">Join the list</button>
   </form><p class="wlmsg" id="wlmsg" role="status"></p></div>
@@ -330,16 +347,154 @@ out.push(write('en/404.html', page({
 <p class="hint"><a href="/en/guides/">Fix guides</a> · <a href="/en/bots/">AI crawler directory</a> · <a href="/en/pricing/">Pricing</a></p></main>${CHECK_JS}`
 })));
 
+/* ---------- 首页 ---------- */
+const FIXT = JSON.parse(readFileSync(join(root, 'tests/fixture-toyota.json'), 'utf8'));
+const demo = renderReport(FIXT, { base: '/en', when: '2026-11-01T09:12:00Z', url: SITE + '/report/toyota.com' });
+const EXAMPLES = [
+  ['toyota.com', 'Silent block', 'v-bad', 'CloudFront rejects OAI-SearchBot and PerplexityBot. A browser and Googlebot get through.'],
+  ['smithsonianmag.com', 'All blocked', 'v-bad', 'Cloudflare turns away all 8 AI search and user-triggered crawlers we sent.'],
+  ['torontosun.com', 'Silent block', 'v-bad', '6 of 8 AI search crawlers rejected while robots.txt allows them.']
+];
+const HOME_FAQ = [
+  ['Isn’t robots.txt enough?', 'robots.txt is only a request. Your CDN, firewall or a security plugin decides what actually gets through, and it can reject a crawler that robots.txt welcomes. That is the silent block we test for.'],
+  ['Will allowing AI search let my content be used for training?', 'No. Search and training are separate crawlers at OpenAI, Anthropic, Perplexity, Apple and Google. You can allow OAI-SearchBot and block GPTBot, for example. Our guides show how on each platform.'],
+  ['How accurate is a test from a data center?', 'Real crawlers come from their own IP ranges, which we can’t use. So every test runs with control groups (a normal browser, Googlebot and an unknown bot) and each result carries a confidence level.']
+];
+const homeBody = `<header class="hero"><div class="wrap">
+  <span class="eyebrow"><b></b>Free · no sign-up · results in seconds</span>
+  <h1>Can AI search <span class="grad">actually reach</span> your site?</h1>
+  <p class="lead">Your robots.txt may say yes while your firewall says no. We request your page as ChatGPT, Perplexity and Claude, and show you exactly what they get.</p>
+  <form class="field" id="f" autocomplete="off" role="search">
+    <input id="d" name="d" placeholder="yourdomain.com" inputmode="url" autocapitalize="off" spellcheck="false" aria-label="Your domain">
+    <button class="btn" type="submit">Check access</button>
+  </form>
+  <p class="hint">Try <button type="button" data-d="toyota.com">toyota.com</button>·<button type="button" data-d="github.com">github.com</button>·<button type="button" data-d="shopify.com">shopify.com</button></p>
+</div></header>
+
+<section class="sec demo-sec" aria-label="Example report"><div class="wrap">
+  <div class="win"><div class="bar"><i></i><i></i><i></i><span>vaksel.com/report/toyota.com</span></div>
+    <div class="wbody" inert><div class="rp-head"><div><div class="crumb">AI crawler access report</div><h2 class="dh">toyota.com</h2><div class="meta">${demo.meta}</div></div></div>${demo.html}</div>
+    <a class="wopen" href="/en/report/toyota.com">Open the live report →</a></div>
+  <p class="cap">A real report from November 1, 2026. Toyota's robots.txt welcomes AI search crawlers; its firewall turns them away.</p>
+</div></section>
+
+<section class="sec" id="checks"><div class="wrap">
+  <h2>Three layers, tested for real</h2>
+  <p class="sub">Most checkers only read robots.txt. We also send live requests, with control groups so a bot-verification rule isn't mistaken for a block.</p>
+  <div class="grid3">
+    <div class="card c1"><div class="ic" aria-hidden="true">1</div><h3>robots.txt rules</h3><p>A verdict for each of 20+ AI agents, with search and training crawlers kept apart, so you can opt out of training without leaving AI answers.</p></div>
+    <div class="card c2"><div class="ic" aria-hidden="true">2</div><h3>Firewall &amp; CDN</h3><p>Live requests as OAI-SearchBot, PerplexityBot, Claude-SearchBot and more. We name the CDN that answered: Cloudflare, CloudFront, Akamai and others.</p></div>
+    <div class="card c3"><div class="ic" aria-hidden="true">3</div><h3>Page readability</h3><p>noindex and nosnippet, and whether your content exists without JavaScript, which most AI crawlers don't run.</p></div>
+  </div>
+</div></section>
+
+<section class="sec" id="data"><div class="wrap">
+  <div class="stat">
+    <div class="card dark" style="padding:30px">
+      <p class="k1">Our November 2026 sample of popular sites</p>
+      <div class="big grad">1 in 28</div>
+      <p class="k2">reachable sites silently block AI search crawlers at the firewall, while robots.txt allows them and Googlebot gets through.</p>
+      <p class="k3">13 of 362 reachable sites, from a random 600 of the Tranco top 20k. Requests sent from a data-center IP with crawler user agents and control groups.</p>
+    </div>
+    <div class="card" style="padding:26px">
+      <h3 style="margin-top:0;font-size:19px">Found in our sample</h3>
+      <ul class="ex">${EXAMPLES.map(([d, t, c, w]) => `<li><a href="/en/report/${d}"><b>${d}</b><span class="tag ${c === 'v-bad' ? 't-bad' : 't-warn'}">${t}</span></a><p>${w}</p></li>`).join('')}</ul>
+      <p class="note" style="margin-top:8px">Results from November 1, 2026. Each link runs a fresh check.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <h2>Fix it where the block is</h2>
+  <p class="sub">Each report names the layer that rejected the crawler and links the matching guide.</p>
+  <div class="bgrid g4">${GUIDES.map((g) => `<a class="bcard g" href="/en/guides/${g.slug}/"><div class="bt">${esc(g.name)}</div><p>${esc(g.desc.split('. ')[0].replace(/\.$/, ''))}.</p></a>`).join('')}</div>
+</div></section>
+
+<section class="sec" id="monitor"><div class="wrap">
+  <div class="cta">
+    <div><h3>Rules change. Get told when they do.</h3><p>Daily re-checks and an email when a CDN update, plugin or robots.txt edit cuts off an AI crawler. Multi-site reports for agencies.</p></div>
+    <a class="btn" href="/en/pricing/">See plans</a>
+  </div>
+</div></section>
+
+<section class="sec tight"><div class="wrap"><h2>Questions</h2><div class="faq">${HOME_FAQ.map(([q, a], i) => `<details${i ? '' : ' open'}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div></div></section>
+
+<script>
+const f=document.getElementById('f'),d=document.getElementById('d');
+function clean(v){v=(v||'').trim().toLowerCase().replace(/^https?:\\/\\//,'').split(/[\\/?#]/)[0].replace(/\\.$/,'');return /^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z]{2,63}$/.test(v)?v:null}
+function go(v){const c=clean(v);if(!c){f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake');d.focus();return}location.href='/en/report/'+c}
+f.addEventListener('submit',e=>{e.preventDefault();go(d.value)});
+document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>go(b.dataset.d));
+</script>`;
+const homeLd = { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'VAKSEL', url: SITE + '/', applicationCategory: 'DeveloperApplication', operatingSystem: 'Web', description: 'Checks whether AI search crawlers can reach a website through robots.txt, firewalls and CDNs.', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } };
+out.push(write('en/index.html', page({
+  path: '/en/', title: 'Can AI search reach your site? Free AI crawler access check · VAKSEL',
+  desc: 'Test whether ChatGPT, Perplexity and Claude search crawlers can actually reach your site: robots.txt, firewall and CDN blocks, noindex and JavaScript-only pages. Free, no sign-up.',
+  body: homeBody, ld: homeLd, type: 'website'
+})));
+
+/* ---------- 隐私 / 条款 / 联系 ---------- */
+const legal = (path, title, desc, h1, html) => out.push(write(path.slice(1) + 'index.html', page({ path, title, desc, body: `<main class="wrap doc">${crumbs([['/en/', 'Home'], [null, h1]])}<h1>${h1}</h1><p class="upd">Last updated ${UPDATED}</p>${html}</main>` })));
+legal('/en/privacy/', 'Privacy policy · VAKSEL', 'What VAKSEL collects when you run a check or join the early-access list, and what it does not.', 'Privacy policy', `
+<p class="lead l">We collect as little as we can. Running a check needs no account, sets no cookies and uses no analytics or ad trackers.</p>
+<h2>When you check a domain</h2>
+<ul><li>Our servers request public files from that domain: <code>robots.txt</code>, <code>llms.txt</code> and the homepage. Those requests come from us, not from your browser.</li>
+<li>We don't store the domains you check or your IP address. Your IP address is used for a moment to rate-limit requests, then discarded.</li>
+<li>Each result is cached for about five minutes, keyed by the domain, so repeat checks don't hit the site again. Share images for reports are cached for up to an hour.</li></ul>
+<h2>When you join the early-access list or contact us</h2>
+<ul><li>We store the email address, plan and site you enter, the message if you send one, and the country your request came from (as reported by our hosting provider). We don't store your IP address.</li>
+<li>We use this only to tell you when your account is ready and to reply to you. We don't sell it or share it for marketing.</li>
+<li>To have your details deleted, send a request through the <a href="/en/contact/">contact form</a> from the same email address. We delete it within 30 days.</li></ul>
+<h2>Service providers</h2>
+<p>The site runs on Cloudflare (hosting, caching and storage). Some checks are sent through our own server when a site blocks Cloudflare's network. Cloudflare processes requests under its <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener" target="_blank">privacy policy</a>.</p>
+<h2>Changes</h2>
+<p>If this policy changes, we'll update the date at the top. If we start collecting something new, we'll say so here first.</p>`);
+legal('/en/terms/', 'Terms of use · VAKSEL', 'The terms for using VAKSEL’s AI crawler access checks.', 'Terms of use', `
+<h2>Using the checks</h2>
+<ul><li>Check sites you own, manage, or have a legitimate reason to look at. Don't use VAKSEL to load-test, scan or attack a site.</li>
+<li>Checks are rate-limited. Don't try to get around the limits with automation or multiple networks.</li></ul>
+<h2>What the results mean</h2>
+<p>Results are our best reading at the time of the check. We test from data-center IP addresses with each crawler's user agent, not from the crawlers' own networks, so a site that verifies crawler IP addresses may treat the real crawler differently. Each result shows a confidence level for this reason. Crawler descriptions follow each operator's public documentation as of the date shown.</p>
+<h2>No warranty</h2>
+<p>The service is provided “as is”, without warranties of any kind. We're not liable for decisions made from a report, or for any loss arising from use of the service, to the extent the law allows.</p>
+<h2>Paid plans</h2>
+<p>Monitoring plans are in early access. Joining the list doesn't commit you to pay. When paid plans open, their terms and prices will be shown before you subscribe.</p>
+<h2>Changes and contact</h2>
+<p>We may update these terms; the date at the top shows the latest version. Questions: use the <a href="/en/contact/">contact form</a>.</p>`);
+out.push(write('en/contact/index.html', page({
+  path: '/en/contact/', title: 'Contact · VAKSEL', desc: 'Questions, data requests or feedback for VAKSEL.',
+  body: `<main class="wrap doc">${crumbs([['/en/', 'Home'], [null, 'Contact']])}<h1>Contact us</h1>
+<p class="lead l">Questions about a report, a data deletion request, or a crawler we should add. We reply by email.</p>
+<form id="ct" class="ct">
+  <label>Your email<input type="email" name="email" required autocomplete="email"></label>
+  <label>Topic<select name="topic"><option value="question">Question about a report</option><option value="data">Delete my data</option><option value="feedback">Feedback or a crawler to add</option><option value="other">Something else</option></select></label>
+  <label>Message<textarea name="message" required rows="6" maxlength="2000"></textarea></label>
+  <input name="hp" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
+  <button class="btn">Send</button>
+</form><p class="wlmsg" id="ctmsg" role="status"></p></main>
+<script>
+const ct=document.getElementById('ct'),cm=document.getElementById('ctmsg');
+ct.addEventListener('submit',async e=>{e.preventDefault();const b=ct.querySelector('button');b.disabled=true;cm.textContent='';
+  try{const r=await fetch('/api/contact',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(Object.fromEntries(new FormData(ct)))});const j=await r.json();
+    if(r.ok&&j.ok){ct.hidden=true;cm.className='wlmsg ok';cm.textContent='Thanks. We’ll reply by email.'}
+    else{cm.className='wlmsg bad';cm.textContent=j.error==='bad_email'?'That email doesn’t look right.':j.error==='rate_limited'?'Too many tries. Please wait a minute.':j.error==='empty'?'Please write a message.':'Something went wrong. Please try again.';b.disabled=false}
+  }catch{cm.className='wlmsg bad';cm.textContent='Network error. Please try again.';b.disabled=false}});
+</script>`
+})));
+write('en/site.webmanifest', JSON.stringify({ name: 'VAKSEL', short_name: 'VAKSEL', start_url: '/', display: 'browser', background_color: '#ffffff', theme_color: '#0C63F1', icons: [{ src: '/en/brand/icon-192.png', sizes: '192x192', type: 'image/png' }, { src: '/en/brand/icon-512.png', sizes: '512x512', type: 'image/png' }] }, null, 2) + '\n');
+
 /* ---------- sitemap ---------- */
-const urls = ['/en/', '/en/pricing/', '/en/guides/', ...GUIDES.map((g) => `/en/guides/${g.slug}/`), '/en/bots/', ...crawlers.map((c) => `/en/bots/${slug(c.token)}/`)];
+const urls = ['/en/', '/en/pricing/', '/en/privacy/', '/en/terms/', '/en/contact/', '/en/guides/', ...GUIDES.map((g) => `/en/guides/${g.slug}/`), '/en/bots/', ...crawlers.map((c) => `/en/bots/${slug(c.token)}/`)];
 write('en/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${canon(u)}</loc><lastmod>${UPDATED}</lastmod></url>`).join('\n')}\n</urlset>\n`);
 write('en/robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
 /* ---------- 首页和报告页：替换导航与页脚 ---------- */
-for (const f of ['en/index.html', 'en/report/index.html']) {
+for (const f of ['en/report/index.html']) {
   let s = readFileSync(join(root, f), 'utf8');
-  s = s.replace(/<nav class="nav">[\s\S]*?<\/nav>/, NAV(''));
+  s = s.replace(/(<a class="skip"[^>]*>[^<]*<\/a>\n)?<nav class="nav"[\s\S]*?<\/nav>(\n<script>\(\(\)=>\{const n=[\s\S]*?<\/script>)?/, NAV(''));
+  s = s.replace(/<link rel="icon"[\s\S]*?<link rel="stylesheet" href="\/en\/app.css">/, HEADX);
   s = s.replace(/<footer>[\s\S]*?<\/footer>/, FOOT);
+  s = s.replace('<main class="wrap">', '<main class="wrap" id="main">');
   writeFileSync(join(root, f), s);
 }
 console.log('en pages:', out.length, '+ 404, sitemap; crawlers:', crawlers.length);
