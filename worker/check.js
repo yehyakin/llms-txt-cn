@@ -17,9 +17,11 @@ export const LIMITS = {
   maxRedirects: 5,
   rateN: 20,
   rateWindowMs: 60000,
-  cacheTtlMs: 5 * 60 * 1000
+  cacheTtlMs: 5 * 60 * 1000,
+  accessDeadlineMs: 45000
 };
 export const UA = 'cetxt-check/2.0 (+https://cetxt.com/)';
+import { classifyAccess } from './access.js';
 
 const HOST_RE = /^(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+(?:[a-z]{2,63}|xn--[a-z0-9-]{1,59})$/;
 const BLOCKED_SUFFIX = ['localhost', 'local', 'localdomain', 'internal', 'intranet', 'lan', 'home', 'corp', 'arpa', 'onion', 'test', 'invalid', 'example', 'home.arpa'];
@@ -315,6 +317,25 @@ export async function checkRobots(domain, deps, deadline) {
 }
 
 /* ---------------- 限频 / 缓存 ---------------- */
+/* AI 爬虫实测：交给 relay（非 Cloudflare 出口）用各爬虫 UA 请求首页，原始信号回来后在 access.js 判定 */
+export async function probeAccess(domain, deps, deadline) {
+  if (!deps.relay || !deps.relay.url || !deps.relay.key) return { kind: 'error', code: 'no_relay' };
+  const remain = deadline - Date.now();
+  if (remain <= 2000) return { kind: 'error', code: 'timeout' };
+  const ac = new AbortController();
+  const timer = setTimeout(() => ac.abort(), remain);
+  try {
+    const resp = await deps.fetch(deps.relay.url.replace(/\/fetch$/, '/probe'), {
+      method: 'POST', signal: ac.signal,
+      headers: { 'content-type': 'application/json', 'x-relay-key': deps.relay.key },
+      body: JSON.stringify({ domain })
+    });
+    if (!resp.ok) return { kind: 'error', code: 'relay_' + resp.status };
+    return await resp.json();
+  } catch (e) { return { kind: 'error', code: 'probe_timeout' }; }
+  finally { clearTimeout(timer); }
+}
+
 export function makeMemoryLimiter(n, windowMs) {
   const hits = new Map();
   return function ok(key) {
@@ -369,7 +390,9 @@ export function createApi(libs) {
   async function runCheck(domain, env, deps) {
     const t0 = Date.now();
     const deadline = t0 + LIMITS.deadlineMs;
-    const [llms, robots] = await Promise.all([checkLlms(domain, deps, deadline), checkRobots(domain, deps, deadline)]);
+    const wantAccess = !!deps.withAccess;
+    const [llms, robots, probe] = await Promise.all([checkLlms(domain, deps, deadline), checkRobots(domain, deps, deadline),
+      wantAccess ? probeAccess(domain, deps, t0 + LIMITS.accessDeadlineMs) : Promise.resolve(null)]);
     const data = await loadData(env, deps);
     let analysis = null;
     if (robots.state !== 'refused') {
@@ -384,6 +407,7 @@ export function createApi(libs) {
     return Object.assign({ domain }, llms, {
       llms: Object.assign({}, llms),
       robots: Object.assign({}, robots, { analysis }),
+      access: wantAccess ? classifyAccess(probe, analysis && analysis.access, data) : undefined,
       data_version: data && data.version,
       elapsed_ms: elapsed
     });
@@ -399,11 +423,14 @@ export function createApi(libs) {
     if (!domain) return json(400, { error: 'bad_domain', reason: '域名不合法' });
     if (!(await rateOk(request, env))) return json(429, { error: 'rate_limited', reason: '请求太频繁，稍后再试' });
 
+    const withAccess = url.searchParams.get('access') === '1';
+    if (withAccess) deps = Object.assign({}, deps, { withAccess: true });
+    const ck = (withAccess ? 'a:' : '') + domain;
     const now = Date.now();
     let result = null, cached = false;
-    const hit = memCache.get(domain);
+    const hit = memCache.get(ck);
     if (hit && now - hit.t < LIMITS.cacheTtlMs) { result = hit.v; cached = true; }
-    const cacheKey = new Request('https://cetxt-check-cache.invalid/v2/' + encodeURIComponent(domain));
+    const cacheKey = new Request('https://cetxt-check-cache.invalid/' + (withAccess ? 'v3a/' : 'v2/') + encodeURIComponent(domain));
     const cacheApi = (typeof caches !== 'undefined' && caches.default) ? caches.default : null;
     if (!result && cacheApi && !deps.noCache) {
       try { const c = await cacheApi.match(cacheKey); if (c) { result = await c.json(); cached = true; } } catch (e) {}
@@ -411,7 +438,7 @@ export function createApi(libs) {
     if (!result) {
       try { result = await runCheck(domain, env, deps); }
       catch (e) { result = { domain, verdict: 'unknown', reason: '内部错误：' + (e && e.name || 'Error'), code: 'internal' }; }
-      memCache.set(domain, { t: now, v: result });
+      memCache.set(ck, { t: now, v: result });
       if (memCache.size > 500) memCache.delete(memCache.keys().next().value);
       if (cacheApi && !deps.noCache && result.code !== 'internal') {
         const put = cacheApi.put(cacheKey, new Response(JSON.stringify(result), { headers: { 'content-type': 'application/json', 'cache-control': 'max-age=300' } })).catch(() => {});
