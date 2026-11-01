@@ -102,7 +102,7 @@ export function renderReport(r,opt){
       chk('robots.txt',robotsState[0],robotsState[1])+
       chk('llms.txt (optional)',llmsState[0],llmsState[1])+
     '</ul></div>'+
-    '<div class="panel"><h3>Share this report</h3><div class="share">Send it to your developer or client.<div class="row2"><input readonly id="sl" value="'+esc(shareUrl)+'"><button id="cp">Copy</button></div></div></div>'+
+    '<div class="panel"><h3>Share this report</h3><div class="share">Send it to your developer or client.<div class="row2"><input readonly id="sl" aria-label="Report link" value="'+esc(shareUrl)+'"><button id="cp">Copy</button></div></div></div>'+
    '</div></div></div>';
   return {meta,html,verdict:a.verdict||'unknown',title:v[2],summary:summary(r)};
 }
