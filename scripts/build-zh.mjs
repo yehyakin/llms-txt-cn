@@ -372,6 +372,7 @@ for (const [rel, active, enPath] of LEGACY) {
   h = h.replace(/ · cetxt<\/title>/, ' · VAKSEL</title>').replace(/(<meta property="og:title" content="[^"]*?) · cetxt"/, '$1 · VAKSEL"').replace(/<meta property="og:site_name" content="[^"]*">/, '<meta property="og:site_name" content="VAKSEL">');
   h = h.replace('<link rel="icon" type="image/svg+xml" href="/favicon.svg">', '<link rel="icon" type="image/svg+xml" href="/en/brand/vaksel-favicon.svg">').replace('<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">', '<link rel="icon" href="/en/brand/favicon.ico" sizes="16x16 32x32 48x48">').replace('<link rel="apple-touch-icon" href="/apple-touch-icon.png">', '<link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">');
   if (!h.includes('/en/shell.css')) h = h.replace('</head>', '<link rel="stylesheet" href="/en/shell.css">\n</head>');
+  if (rel.startsWith('tools/') && !h.includes('id="vxs-fix"')) h = h.replace('</head>', '<style id="vxs-fix">.announce{position:relative!important}.topbar{position:sticky!important;top:0!important}main,body.has-ann main{padding-top:28px!important}html{scroll-padding-top:70px}</style>\n</head>');
   // 去掉旧的“← cetxt.com”顶栏和旧页脚
   h = h.replace(/\n\s*<div class="topbar">(?:<span>[^<]*<\/span>)?<a href="\/">← cetxt\.com<\/a>(?:<a href="\/survey\/">调查报告<\/a>)?<\/div>\n/, '\n');
   h = h.replace(/\n\s*<div class="foot"><span>cetxt\.com — 给 AI 的网站说明书<\/span><a href="\/">回首页<\/a><\/div>\n/, '\n');
