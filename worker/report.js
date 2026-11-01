@@ -27,7 +27,7 @@ export function headFor(domain, origin, opts) {
     '<meta name="robots" content="' + (o.index ? 'index,follow' : 'noindex') + '">\n<link rel="canonical" href="' + esc(url) + '">\n' +
     '<meta property="og:type" content="website"><meta property="og:site_name" content="VAKSEL">\n' +
     '<meta property="og:title" content="' + esc(title) + '"><meta property="og:description" content="' + esc(desc) + '">\n' +
-    '<meta property="og:url" content="' + esc(url) + '">\n<meta name="twitter:card" content="summary">';
+    '<meta property="og:url" content="' + esc(url) + '">\n<meta property="og:image" content="' + esc(origin + (o.base == null ? '/en' : o.base) + '/og/' + domain + '.png') + '"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">\n<meta name="twitter:card" content="summary_large_image">';
 }
 
 function errorText(status, j) {
@@ -66,7 +66,7 @@ export async function handleReport(request, deps, ctx) {
 
   const renderInto = (res) => {
     if (res.status !== 200 || !res.j || res.j.error) return { meta: '', html: '<div class="loading">' + esc(errorText(res.status, res.j)) + '</div>', head: null };
-    const o = renderReport(res.j, { url: shareUrl, when: now() });
+    const o = renderReport(res.j, { url: shareUrl, when: now(), base });
     return { meta: o.meta, html: o.html, title: o.title, summary: o.summary };
   };
 

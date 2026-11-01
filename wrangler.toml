@@ -3,6 +3,11 @@ name = "cetxt-preview"
 main = "worker/index.js"
 compatibility_date = "2026-10-01"
 workers_dev = true
+# 分享图字体与 logo 作为模块打包（worker/og.js）
+rules = [
+  { type = "Data", globs = ["**/*.ttf"], fallthrough = true },
+  { type = "Text", globs = ["**/*.svg"], fallthrough = true }
+]
 
 [build]
 command = "node scripts/build-worker.mjs"
@@ -29,3 +34,8 @@ simple = { limit = 20, period = 60 }
 [vars]
 RELAY_URL = "https://relay.cetxt.com/fetch"
 # RELAY_KEY 是 secret（wrangler secret put RELAY_KEY），与服务器 /etc/cetxt-relay/key 一致
+
+# 早鸟名单（/api/waitlist）
+[[kv_namespaces]]
+binding = "WAITLIST"
+id = "dcb3d65c6bb74c9ea3d69cfe4f47d496"

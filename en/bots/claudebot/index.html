@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ClaudeBot: what it is, and should you block it? · VAKSEL</title>
+<meta name="description" content="ClaudeBot is Anthropic&#39;s training crawler. Your site&#39;s future content is excluded from Anthropic&#39;s model training datasets.">
+<meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://vaksel.com/bots/claudebot/">
+<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="ClaudeBot: what it is, and should you block it? · VAKSEL"><meta property="og:description" content="ClaudeBot is Anthropic&#39;s training crawler. Your site&#39;s future content is excluded from Anthropic&#39;s model training datasets."><meta property="og:url" content="https://vaksel.com/bots/claudebot/"><meta property="og:image" content="https://vaksel.com/og/site.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/en/app.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"ClaudeBot: what it is and how to block or allow it","dateModified":"2026-11-01","author":{"@type":"Organization","name":"VAKSEL"},"about":"ClaudeBot","citation":"https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler"}</script>
+</head><body>
+<nav class="nav"><div class="wrap">
+  <a class="logo" href="/en/" aria-label="VAKSEL home"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"></a>
+  <a class="n hide-m" href="/en/guides/">Fix guides</a>
+  <a class="n hide-m on" href="/en/bots/">AI crawlers</a>
+  <a class="n" href="/en/pricing/">Pricing</a>
+  <a class="n lang" href="https://cetxt.com/" hreflang="zh">中文</a>
+</div></nav>
+<main class="wrap doc"><div class="crumb"><a href="/en/">Home</a> <span>/</span> <a href="/en/bots/">AI crawlers</a> <span>/</span> ClaudeBot</div>
+<h1>ClaudeBot</h1>
+<div class="facts"><div><span>Operator</span><b>Anthropic</b></div><div><span>Purpose</span><b>Training</b></div><div><span>Follows robots.txt</span><b>Yes</b></div><div><span>Source</span><b><a href="https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler" rel="nofollow noopener" target="_blank">Official docs ↗</a></b></div></div>
+<p class="lead l">Anthropic&#39;s training crawler. It collects public web content that may be used to train Claude models.</p>
+<h2>What happens if you block it</h2><p>Your site&#39;s future content is excluded from Anthropic&#39;s model training datasets.</p>
+<h2>Our take</h2><p>Block it to opt out of Anthropic training. Claude&#39;s search and user fetches use separate agents.</p>
+<h2>robots.txt</h2><p>To block it:</p><pre>User-agent: ClaudeBot
+Disallow: /</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>User-agent: ClaudeBot
+Allow: /</pre>
+
+<h2>The operator's own words</h2><blockquote>When a site restricts ClaudeBot access, it signals that the site&#39;s future materials should be excluded from our AI model training datasets.<cite><a href="https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler" rel="nofollow noopener" target="_blank">Anthropic documentation</a>, checked 2026-10-31</cite></blockquote>
+
+<h2>Other Anthropic agents</h2><div class="bgrid s"><a class="bcard" href="/en/bots/claude-searchbot/"><div class="bt">Claude-SearchBot</div><div class="bv">Anthropic</div><p>Anthropic&#39;s search crawler.</p></a><a class="bcard" href="/en/bots/claude-user/"><div class="bt">Claude-User</div><div class="bv">Anthropic</div><p>Fetches made when a Claude user asks a question that needs your page.</p></a></div>
+<div style="margin-top:28px">
+<div class="cta mini"><div><h3>Can ClaudeBot reach your site?</h3><p>Free, no sign-up. We request your homepage as 13 different clients and show what each one gets.</p></div>
+<form class="field inv" data-check autocomplete="off"><input placeholder="yourdomain.com" aria-label="Domain" spellcheck="false" autocapitalize="off"><button class="btn">Check</button></form></div></div>
+</main><script>
+document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();let v=(f.querySelector('input').value||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0];if(/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v))location.href='/en/report/'+v;else{f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake')}}));
+</script>
+<footer><div class="wrap fgrid">
+  <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
+  <div><h4>Product</h4><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/#data">Research</a></div>
+  <div><h4>Fix guides</h4><a href="/en/guides/cloudflare/">Cloudflare</a><a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/en/guides/wordpress/">WordPress</a><a href="/en/guides/shopify/">Shopify</a></div>
+  <div><h4>AI crawlers</h4><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a></div>
+  <div class="fsmall"><span>© 2026 VAKSEL</span><a href="https://cetxt.com/" hreflang="zh">中文版 cetxt.com</a><span>We log the domains checked and the requesting IP for abuse prevention.</span></div>
+</div></footer>
+</body></html>

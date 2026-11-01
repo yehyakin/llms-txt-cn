@@ -1,0 +1,115 @@
+{
+  "note": "English copy for /en/bots/. Facts follow the official docs linked in data/ai-crawlers.json (verified_on there). Keep in sync when that file changes.",
+  "bots": {
+    "GPTBot": {
+      "summary": "OpenAI's training crawler. It collects public pages that may be used to train OpenAI's generative foundation models.",
+      "block": "Your content is excluded from training OpenAI's foundation models. It does not affect whether you appear in ChatGPT search; that is OAI-SearchBot.",
+      "advice": "Block it if you don't want your content used for training. Blocking it alone won't remove you from ChatGPT answers."
+    },
+    "OAI-SearchBot": {
+      "summary": "OpenAI's search crawler. It surfaces websites in ChatGPT's search features and is independent of GPTBot.",
+      "block": "Your site won't be shown in ChatGPT search answers, though it can still appear as a navigational link.",
+      "advice": "Allow it if you want ChatGPT to cite and link your pages. This is the crawler most worth unblocking at the firewall."
+    },
+    "ChatGPT-User": {
+      "summary": "Fetches made when a ChatGPT or Custom GPT user asks it to visit a page. It is not an automatic crawler.",
+      "block": "OpenAI says robots.txt rules may not apply to user-initiated fetches. It doesn't decide whether you appear in ChatGPT search.",
+      "advice": "Leave it allowed unless you have a specific reason. A firewall block stops ChatGPT from reading a page a user pasted in."
+    },
+    "ClaudeBot": {
+      "summary": "Anthropic's training crawler. It collects public web content that may be used to train Claude models.",
+      "block": "Your site's future content is excluded from Anthropic's model training datasets.",
+      "advice": "Block it to opt out of Anthropic training. Claude's search and user fetches use separate agents."
+    },
+    "Claude-SearchBot": {
+      "summary": "Anthropic's search crawler. It indexes content to improve the quality of Claude's search results.",
+      "block": "Claude won't index your content for search, which may reduce your visibility and accuracy in Claude's answers.",
+      "advice": "Allow it if you want to be found and cited in Claude search."
+    },
+    "Claude-User": {
+      "summary": "Fetches made when a Claude user asks a question that needs your page.",
+      "block": "Claude can't retrieve your content in response to user queries, which may reduce your visibility for user-directed search.",
+      "advice": "Leave it allowed if you want Claude to read your pages when users ask about them."
+    },
+    "Google-Extended": {
+      "summary": "A robots.txt product token, not a separate crawler. Googlebot does the fetching; Google-Extended controls whether that content may be used for Gemini training and grounding.",
+      "block": "Your content isn't used to train future Gemini models and isn't used for grounding in Gemini Apps and Vertex AI. Google Search is unaffected.",
+      "advice": "Disallow Google-Extended, never Googlebot, if you want to opt out of Gemini training. Note that it also removes you from Gemini Apps grounding."
+    },
+    "Googlebot": {
+      "summary": "Google's main search crawler. Rules for Googlebot apply to Google Search, Discover and other Google Search features.",
+      "block": "Your site drops out of Google Search, including AI Overviews. This is almost never what you want when opting out of AI.",
+      "advice": "Keep it allowed. To opt out of Gemini training, disallow Google-Extended instead."
+    },
+    "Applebot": {
+      "summary": "Apple's search crawler for Spotlight, Siri and Safari features. If robots.txt doesn't mention Applebot but mentions Googlebot, Applebot follows the Googlebot rules.",
+      "block": "Your site won't appear in Apple's search features such as Spotlight, Siri and Safari suggestions.",
+      "advice": "Keep it allowed. To opt out of Apple's AI training, disallow Applebot-Extended."
+    },
+    "Applebot-Extended": {
+      "summary": "A robots.txt token, not a crawler. It controls whether content Applebot collected may be used to train Apple's foundation models.",
+      "block": "Your content isn't used to train the models behind Apple Intelligence. Pages that disallow it can still appear in Apple search results.",
+      "advice": "Disallow it to opt out of Apple training without leaving Apple search."
+    },
+    "PerplexityBot": {
+      "summary": "Perplexity's search crawler. It surfaces and links websites in Perplexity search results and is not used to crawl content for AI foundation models.",
+      "block": "Your site won't be surfaced or linked in Perplexity search results.",
+      "advice": "Allow it if you want Perplexity to cite you. Blocking it doesn't opt you out of any training."
+    },
+    "Perplexity-User": {
+      "summary": "Fetches made when a Perplexity user asks a question that needs your page.",
+      "block": "Perplexity says this fetcher generally ignores robots.txt because a user requested it. Only a firewall rule actually stops it.",
+      "advice": "Leave it allowed unless you have a reason to block user-directed fetches."
+    },
+    "Bingbot": {
+      "summary": "Microsoft's standard search crawler. Bing's index also feeds Microsoft Copilot and other AI experiences built on Bing.",
+      "block": "Your site drops out of Bing search and the AI experiences that rely on Bing's index.",
+      "advice": "Keep it allowed. Bing's training opt-out today is the NOARCHIVE meta tag; Microsoft is building support for a robots.txt no-training preference, targeted for early 2027."
+    },
+    "CCBot": {
+      "summary": "Common Crawl's crawler. It builds an open web dataset that many AI models have been trained on.",
+      "block": "Future pages won't enter the Common Crawl dataset. Snapshots already published are not withdrawn.",
+      "advice": "Block it if you don't want your pages in open training datasets. It has no effect on any search engine."
+    },
+    "Bytespider": {
+      "summary": "ByteDance's crawler, documented as the user agent for Toutiao search.",
+      "block": "Your site may drop out of Toutiao search. ByteDance doesn't document whether blocking it stops AI training use.",
+      "advice": "Block it if you don't need Toutiao traffic. Its training use is undocumented."
+    },
+    "meta-externalagent": {
+      "summary": "Meta's crawler for use cases such as training foundation AI models or improving products by indexing content directly.",
+      "block": "Meta-ExternalAgent stops fetching your content, including for training Meta's foundation models.",
+      "advice": "Block it to opt out of Meta AI training."
+    },
+    "meta-webindexer": {
+      "summary": "Meta's indexing crawler. Meta says allowing it helps Meta AI cite and link your content in its responses.",
+      "block": "Meta AI may stop citing and linking your content in its answers.",
+      "advice": "Allow it if you want to be cited in Meta AI."
+    },
+    "meta-externalfetcher": {
+      "summary": "Fetches requested by Meta AI users, for example when a user shares a link.",
+      "block": "Meta says this fetcher may bypass robots.txt because the fetch was requested by a user. Only a firewall rule actually stops it.",
+      "advice": "Leave it allowed unless you have a reason to block user-directed fetches."
+    },
+    "Amazonbot": {
+      "summary": "Amazon's crawler, used to improve Amazon products and services. Amazon says the content may be used to train Amazon AI models.",
+      "block": "Amazonbot stops fetching your content, including for possible AI training. Alexa search is controlled separately by Amzn-SearchBot.",
+      "advice": "Block it to opt out of Amazon training while keeping Amzn-SearchBot allowed."
+    },
+    "Amzn-SearchBot": {
+      "summary": "Amazon's search crawler for experiences such as Alexa. Amazon says it doesn't crawl content for generative AI model training.",
+      "block": "Your content can't appear in Amazon search experiences such as Alexa.",
+      "advice": "Allow it if you want to be found through Alexa and Amazon search."
+    },
+    "DuckAssistBot": {
+      "summary": "DuckDuckGo's crawler for its AI-assisted answers. It fetches pages in real time and DuckDuckGo says the data isn't used to train AI models.",
+      "block": "Your pages stop being a source for DuckDuckGo's AI-assisted answers. Regular DuckDuckGo rankings are unaffected.",
+      "advice": "Allow it if you want to be cited in DuckDuckGo's AI answers."
+    },
+    "Baiduspider": {
+      "summary": "Baidu's search crawler. It follows robots.txt.",
+      "block": "Your pages can't be found on Baidu or on any search engine that uses Baidu's search service.",
+      "advice": "Keep it allowed if you want traffic from China."
+    }
+  }
+}

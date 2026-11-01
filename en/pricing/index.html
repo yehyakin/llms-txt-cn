@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pricing: free AI crawler checks, monitoring from $19/month · VAKSEL</title>
+<meta name="description" content="Free one-off AI crawler access checks. Daily monitoring and alerts for up to 10 sites from $19/month, or 50 client sites for agencies.">
+<meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://vaksel.com/pricing/">
+<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="Pricing: free AI crawler checks, monitoring from $19/month · VAKSEL"><meta property="og:description" content="Free one-off AI crawler access checks. Daily monitoring and alerts for up to 10 sites from $19/month, or 50 client sites for agencies."><meta property="og:url" content="https://vaksel.com/pricing/"><meta property="og:image" content="https://vaksel.com/og/site.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/en/app.css">
+</head><body>
+<nav class="nav"><div class="wrap">
+  <a class="logo" href="/en/" aria-label="VAKSEL home"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"></a>
+  <a class="n hide-m" href="/en/guides/">Fix guides</a>
+  <a class="n hide-m" href="/en/bots/">AI crawlers</a>
+  <a class="n on" href="/en/pricing/">Pricing</a>
+  <a class="n lang" href="https://cetxt.com/" hreflang="zh">中文</a>
+</div></nav>
+<main class="wrap">
+<header class="hero s"><h1>Know the day AI search <span class="grad">stops reaching you</span></h1>
+<p class="lead">Checks are free. Monitoring re-tests every day and emails you when a robots.txt edit, a plugin or a CDN default cuts off an AI crawler.</p></header>
+<div class="plans"><div class="plan"><div class="ptag">Available now</div><h3>Free</h3><div class="pp">$0<small></small></div><ul><li>Unlimited one-off checks</li><li>robots.txt, firewall and page checks</li><li>Shareable report link</li><li>Fix guides for your CDN</li></ul><a class="btn ghost" href="/en/">Run a check</a></div><div class="plan hi"><div class="ptag">Early access</div><h3>Pro</h3><div class="pp">$19<small>/month</small></div><ul><li>Up to 10 sites</li><li>Daily re-checks</li><li>Email alert when a crawler gets cut off</li><li>90-day history per crawler</li><li>Founding price locked for life</li></ul><a class="btn" href="#join" data-plan="pro">Join early access</a></div><div class="plan"><div class="ptag">Early access</div><h3>Agency</h3><div class="pp">$79<small>/month</small></div><ul><li>Up to 50 client sites</li><li>Everything in Pro</li><li>White-label PDF reports</li><li>Weekly client digest</li><li>Priority support</li></ul><a class="btn" href="#join" data-plan="agency">Join early access</a></div></div>
+<section class="sec" id="join"><div class="join card">
+  <img class="vava" src="/en/brand/vava/vava3d-working-mini.webp" width="96" height="100" alt="" loading="lazy">
+  <div class="jtext"><h2>Join early access</h2><p class="sub">Founding members keep the launch price for as long as they stay subscribed. No card needed today.</p>
+  <form id="wl" class="wl" autocomplete="on">
+    <input type="email" name="email" required placeholder="you@company.com" aria-label="Email">
+    <select name="plan" aria-label="Plan"><option value="pro">Pro · up to 10 sites</option><option value="agency">Agency · up to 50 sites</option></select>
+    <input name="site" placeholder="Main site (optional)" aria-label="Main site" autocapitalize="off" spellcheck="false">
+    <input name="hp" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
+    <button class="btn">Join the list</button>
+  </form><p class="wlmsg" id="wlmsg" role="status"></p></div>
+</div></section>
+<section class="sec tight"><h2>Questions</h2><div class="faq"><details open><summary>What does monitoring check?</summary><p>The same three layers as the free check (robots.txt, live requests as each AI search crawler with control groups, and page readability) on a daily schedule. You get an email when a result changes, for example when a CDN update starts blocking OAI-SearchBot.</p></details><details><summary>When does it launch?</summary><p>Monitoring is in early access. Join the list and we will email you when your account is ready. You pay nothing until then.</p></details><details><summary>Why would my site start blocking AI crawlers by itself?</summary><p>CDN defaults change (Cloudflare changed its AI bot controls on September 15, 2026), security plugins update their bot lists, and robots.txt gets edited during redesigns. None of these tell you.</p></details><details><summary>Do you test from the crawlers’ real IP addresses?</summary><p>No one outside those companies can. We test from a data center with each crawler’s user agent and compare against a normal browser, Googlebot and an unknown bot. That tells a targeted AI block apart from a general bot-verification rule, and the report shows the confidence for each result.</p></details></div></section>
+</main>
+<script>
+document.querySelectorAll('[data-plan]').forEach(a=>a.addEventListener('click',()=>{document.querySelector('#wl [name=plan]').value=a.dataset.plan}));
+const wl=document.getElementById('wl'),msg=document.getElementById('wlmsg');
+wl.addEventListener('submit',async e=>{e.preventDefault();const b=wl.querySelector('button');b.disabled=true;msg.textContent='';
+  const fd=Object.fromEntries(new FormData(wl));
+  try{const r=await fetch('/api/waitlist',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(fd)});const j=await r.json();
+    if(r.ok&&j.ok){wl.hidden=true;msg.className='wlmsg ok';msg.textContent='You’re on the list. We’ll email '+fd.email+' when your account is ready.'}
+    else{msg.className='wlmsg bad';msg.textContent=j.error==='bad_email'?'That email doesn’t look right.':j.error==='rate_limited'?'Too many tries. Please wait a minute.':'Something went wrong. Please try again.';b.disabled=false}
+  }catch{msg.className='wlmsg bad';msg.textContent='Network error. Please try again.';b.disabled=false}
+});
+</script>
+<footer><div class="wrap fgrid">
+  <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
+  <div><h4>Product</h4><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/#data">Research</a></div>
+  <div><h4>Fix guides</h4><a href="/en/guides/cloudflare/">Cloudflare</a><a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/en/guides/wordpress/">WordPress</a><a href="/en/guides/shopify/">Shopify</a></div>
+  <div><h4>AI crawlers</h4><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a></div>
+  <div class="fsmall"><span>© 2026 VAKSEL</span><a href="https://cetxt.com/" hreflang="zh">中文版 cetxt.com</a><span>We log the domains checked and the requesting IP for abuse prevention.</span></div>
+</div></footer>
+</body></html>

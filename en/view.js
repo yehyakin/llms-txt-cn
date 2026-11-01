@@ -4,6 +4,10 @@ export function cleanDomain(v){v=(v||'').trim().toLowerCase().replace(/^https?:\
 export function summary(r){const a=(r&&r.access)||{};const bots=a.bots||[];const s=bots.filter(b=>b.category==='search'||b.category==='user');const reach=s.filter(b=>b.effective!=='blocked').length;const v=V[a.verdict]||V.unknown;return v[2]+(s.length?'. '+reach+' of '+s.length+' AI search crawlers can reach it':'')+'.'}
 export function bindReport(root){root.querySelectorAll('tr.row').forEach(tr=>tr.onclick=()=>{const e=root.querySelector('tr[data-e="'+tr.dataset.i+'"]');if(e)e.hidden=!e.hidden});root.querySelectorAll('.copy').forEach(b=>b.onclick=()=>{navigator.clipboard.writeText(b.parentNode.textContent.replace(/^Copy/,''));b.textContent='Copied'});const cp=root.querySelector('#cp');if(cp){const sl=root.querySelector('#sl');if(sl&&!sl.value)sl.value=location.href;cp.onclick=()=>{navigator.clipboard.writeText(sl.value);cp.textContent='Copied'}}root.querySelectorAll('time[datetime]').forEach(t=>{const d=new Date(t.getAttribute('datetime'));if(!isNaN(d))t.textContent=d.toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'})})}
 const PURPOSE={search:'AI search',user:'User-triggered',training:'Training',dataset:'Dataset',unknown:'Other'};
+/* 传统搜索引擎爬虫：不算“AI 搜索”，robots-only 回落时不列入 */
+export const CLASSIC=new Set(['Googlebot','Bingbot','Applebot','Baiduspider']);
+export const botSlug=t=>String(t).toLowerCase().replace(/[^a-z0-9]+/g,'-');
+const GUIDE={Cloudflare:'cloudflare',CloudFront:'cloudfront'};
 const V={
   open:['v-ok','✓','AI search crawlers can reach this site','robots.txt allows them and live requests got the same page a browser gets.'],
   warn:['v-warn','!','Reachable, with caveats','Nothing is clearly blocked, but some requests were challenged or got a thinner page. See the rows marked “check”.'],
@@ -32,14 +36,14 @@ function evidence(b,a){
   if(b.firewall==='degraded')return 'Got 200, but far less readable text than a browser. The site may serve crawlers a stripped or interstitial page.';
   return 'Got the same page a browser gets. robots.txt: '+esc(b.robots)+'.';
 }
-function fixFor(a){
+function fixFor(a,B){
   const blocked=(a.bots||[]).filter(b=>b.firewall==='blocked');
   const robo=(a.bots||[]).filter(b=>b.robots==='blocked'&&(b.category==='search'||b.category==='user'));
   let h='';
   if(blocked.length){
     const names=blocked.filter(b=>b.category!=='training').map(b=>b.token);
-    if(a.cdn==='Cloudflare')h+='<p><b>Cloudflare</b> is answering these requests. Check, in this order:</p><ol><li><b>Security → Settings → Block AI bots</b>: set it to block only on hostnames with ads, or off.</li><li><b>AI Crawl Control</b>: set the search crawlers you want to <i>Allow</i>.</li><li><b>Security rules</b>: look for custom WAF rules matching <code>cf.verified_bot_category</code> or user-agent strings.</li><li><b>Bot Fight Mode</b> can challenge crawlers too; turn it off or use Super Bot Fight Mode with verified bots allowed.</li></ol>';
-    else if(a.cdn==='CloudFront')h+='<p><b>Amazon CloudFront</b> is answering these requests, most likely through AWS WAF. In your web ACL, check the <b>Bot Control</b> managed rule group for the AI and search-engine categories and override them to <i>Count</i> or <i>Allow</i> for the crawlers you want.</p>';
+    if(a.cdn==='Cloudflare')h+='<p><b>Cloudflare</b> is answering these requests. In <b>Security → Settings</b>, check the AI bot controls (since Sep 15, 2026):</p><ol><li><b>Search</b>: set to <i>Allow</i>.</li><li><b>Training</b>: use <i>Disallow AI Training</i>, not <i>Block</i>. Block now also stops Googlebot, Bingbot and Applebot.</li><li><b>Agent</b>: <i>Block on pages with ads</i> blocks ChatGPT-User and Claude-User on those pages.</li><li>Look for older <b>custom WAF rules</b> matching <code>cf.verified_bot_category</code> or AI user agents, and check <b>Bot Fight Mode</b>.</li></ol>';
+    else if(a.cdn==='CloudFront')h+='<p><b>Amazon CloudFront</b> is answering these requests, most likely through AWS WAF. The Bot Control rule <code>CategoryAI</code> blocks AI crawlers even when they are verified. Override it to <i>Count</i>, then re-block only the training crawlers with your own rule.</p>';
     else if(a.cdn==='Akamai')h+='<p><b>Akamai</b> is answering these requests. In Bot Manager, find the AI crawler categories and change their action from deny to allow or monitor.</p>';
     else h+='<p>Your server or security layer'+(a.cdn?' (<b>'+esc(a.cdn)+'</b>)':'')+' rejects these user agents. Look for user-agent block lists in your WAF, security plugin (Wordfence, Sucuri), or web-server config.</p>';
     if(names.length)h+='<p style="margin-top:8px">Crawlers to allow for AI search: <span class="mono">'+names.map(esc).join(', ')+'</span>.</p>';
@@ -48,16 +52,23 @@ function fixFor(a){
     h+='<p style="margin-top:10px">robots.txt disallows <span class="mono">'+robo.map(b=>esc(b.token)).join(', ')+'</span>. To stay out of AI training but appear in AI search, use:</p><pre><button class="copy">Copy</button>User-agent: GPTBot\nDisallow: /\n\nUser-agent: ClaudeBot\nDisallow: /\n\nUser-agent: OAI-SearchBot\nUser-agent: PerplexityBot\nUser-agent: Claude-SearchBot\nAllow: /</pre>';
   }
   if(a.page&&a.page.js_only)h+='<p style="margin-top:10px">Only '+a.page.text_chars+' characters of text exist without JavaScript. Render key content on the server (SSR or static generation) so crawlers that don’t run JavaScript can read it.</p>';
+  if(blocked.length){const g=GUIDE[a.cdn];h+='<p style="margin-top:10px"><a href="'+B+'/guides/'+(g?g+'/':'')+'">'+(g?'Step-by-step '+esc(a.cdn)+' guide →':'Fix guides for Cloudflare, CloudFront, WordPress and Shopify →')+'</a></p>'}
   if(a.page&&a.page.noindex)h+='<p style="margin-top:10px">Remove <code>noindex</code> from the homepage’s meta robots tag or <code>X-Robots-Tag</code> header if you want it indexed.</p>';
   return h;
 }
+/* 分享图用：结论、色调、AI 搜索爬虫可达数 */
+export function ogData(r){const a=(r&&r.access)||{};const v=V[a.verdict]||V.unknown;const ra=(r&&r.robots&&r.robots.analysis&&r.robots.analysis.access)||[];const live=a.bots&&a.bots.length;
+  const bots=live?a.bots:ra.filter(b=>(b.category==='search'||b.category==='user')&&!CLASSIC.has(b.token)).map(b=>({category:b.category,effective:b.status==='blocked'?'blocked':'ok'}));
+  const s=bots.filter(b=>b.category==='search'||b.category==='user');
+  return {verdict:a.verdict||'unknown',title:v[2],tone:{'v-ok':'ok','v-warn':'warn','v-bad':'bad','v-gray':'gray'}[v[0]],reach:s.filter(b=>b.effective!=='blocked').length,total:s.length,live:!!live}}
 export function renderReport(r,opt){
   opt=opt||{};const when=opt.when||new Date().toISOString();const shareUrl=opt.url||'';
   const a=r.access||{verdict:'unknown'};
   const v=V[a.verdict]||V.unknown;
   const ra=(r.robots&&r.robots.analysis&&r.robots.analysis.access)||[];
   const untested=!(a.bots&&a.bots.length);
-  const bots=!untested?a.bots:ra.filter(b=>['search','user','training'].includes(b.category)).map(b=>({token:b.token,vendor:b.vendor,category:b.category,robots:b.status,firewall:'untested',effective:b.status==='blocked'?'blocked':'ok'}));
+  const B=opt.base==null?'/en':opt.base;
+  const bots=!untested?a.bots:ra.filter(b=>['search','user','training'].includes(b.category)&&!CLASSIC.has(b.token)).map(b=>({token:b.token,vendor:b.vendor,category:b.category,robots:b.status,firewall:'untested',effective:b.status==='blocked'?'blocked':'ok'}));
   const search=bots.filter(b=>b.category==='search'||b.category==='user');
   const train=bots.filter(b=>b.category==='training');
   const reach=search.filter(b=>b.effective!=='blocked').length;
@@ -65,10 +76,10 @@ export function renderReport(r,opt){
   const robots=r.robots||{};
   const meta=(a.target?esc(a.target)+' · ':'')+'checked <time datetime="'+esc(when)+'">'+esc(when.slice(0,16).replace('T',' '))+' UTC</time>'+(a.cdn?' · served by '+esc(a.cdn):'');
   let rows='';
-  const grp=(t,list)=>{if(!list.length)return;rows+='<tr class="grp"><td colspan="5">'+t+'</td></tr>';list.forEach((b,i)=>{rows+='<tr class="row" data-i="'+b.token+'"><td><div class="bot">'+esc(b.token)+'</div><div class="vd">'+esc(b.vendor||'')+'</div></td><td class="hide-s">'+PURPOSE[b.category]+'</td><td>'+robotsTag(b.robots)+'</td><td class="hide-s">'+liveTag(b)+'</td><td>'+resultTag(b)+'</td></tr><tr class="ev" data-e="'+b.token+'" hidden><td colspan="5">'+evidence(b,a)+'</td></tr>'})};
+  const grp=(t,list)=>{if(!list.length)return;rows+='<tr class="grp"><td colspan="5">'+t+'</td></tr>';list.forEach((b,i)=>{rows+='<tr class="row" data-i="'+b.token+'"><td><div class="bot"><a href="'+B+'/bots/'+botSlug(b.token)+'/">'+esc(b.token)+'</a></div><div class="vd">'+esc(b.vendor||'')+'</div></td><td class="hide-s">'+PURPOSE[b.category]+'</td><td>'+robotsTag(b.robots)+'</td><td class="hide-s">'+liveTag(b)+'</td><td>'+resultTag(b)+'</td></tr><tr class="ev" data-e="'+b.token+'" hidden><td colspan="5">'+evidence(b,a)+'</td></tr>'})};
   grp('AI search & user-triggered',search);grp('AI training',train);
   const page=a.page||{};
-  const fix=fixFor(a);
+  const fix=fixFor(a,B);
   const chk=(label,val,cls)=>'<li><span>'+label+'</span><span class="tag '+cls+'">'+val+'</span></li>';
   const robotsState=robots.http_status===404?['Not found (all allowed)','t-gray']:robots.http_status===200?['Found','t-ok']:['Unreachable','t-warn'];
   const llmsState=llm.verdict==='real'?['Valid','t-ok']:llm.verdict==='missing'?['None','t-gray']:llm.verdict==='html_spoof'?['Serves HTML','t-warn']:llm.verdict==='nonstandard'?['Non-standard','t-warn']:['Unknown','t-gray'];

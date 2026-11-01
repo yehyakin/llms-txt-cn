@@ -7,8 +7,10 @@
 </head><body>
 <nav class="nav"><div class="wrap">
   <a class="logo" href="/en/" aria-label="VAKSEL home"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"></a>
-  <a class="n hide-m" href="/en/#checks">What we check</a>
-  <a class="n lang" href="https://cetxt.com/">中文</a>
+  <a class="n hide-m" href="/en/guides/">Fix guides</a>
+  <a class="n hide-m" href="/en/bots/">AI crawlers</a>
+  <a class="n" href="/en/pricing/">Pricing</a>
+  <a class="n lang" href="https://cetxt.com/" hreflang="zh">中文</a>
 </div></nav>
 
 <main class="wrap">
@@ -16,22 +18,28 @@
     <div><div class="crumb">AI crawler access report</div><h1 id="dom"><!--DOM-->…<!--/DOM--></h1><div class="meta" id="meta"><!--META--><!--/META--></div></div>
     <form class="rp-search" id="f" autocomplete="off"><div class="field" style="flex:1"><input id="d" placeholder="Check another domain" aria-label="Domain" spellcheck="false" autocapitalize="off"><button class="btn">Check</button></div></form>
   </div>
-  <div id="out"><!--OUT--><div class="loading" id="ld"><div class="spin"></div>Requesting the homepage as 13 different clients…<div class="steps">robots.txt · firewall · page content</div></div><!--/OUT--></div>
+  <div id="out"><!--OUT--><div class="loading" id="ld"><img class="vava" src="/en/brand/vava/vava3d-searching-mini.webp" width="96" height="121" alt="">Requesting the homepage as 13 different clients…<div class="steps">robots.txt · firewall · page content</div></div><!--/OUT--></div>
 </main>
-<footer><div class="wrap"><span>© 2026 VAKSEL</span><a href="/en/">Home</a><span>Results are cached for 5 minutes.</span></div></footer>
+<footer><div class="wrap fgrid">
+  <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
+  <div><h4>Product</h4><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/#data">Research</a></div>
+  <div><h4>Fix guides</h4><a href="/en/guides/cloudflare/">Cloudflare</a><a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/en/guides/wordpress/">WordPress</a><a href="/en/guides/shopify/">Shopify</a></div>
+  <div><h4>AI crawlers</h4><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a></div>
+  <div class="fsmall"><span>© 2026 VAKSEL</span><a href="https://cetxt.com/" hreflang="zh">中文版 cetxt.com</a><span>We log the domains checked and the requesting IP for abuse prevention.</span></div>
+</div></footer>
 
 <script type="module">
 import {renderReport,bindReport,cleanDomain,esc} from '/en/view.js';
 const $=s=>document.querySelector(s);
 $('#f').addEventListener('submit',e=>{e.preventDefault();const c=cleanDomain($('#d').value);if(c)location.href='/en/report/'+c});
 const out=$('#out');
-function show(j){const o=renderReport(j,{url:location.origin+(location.pathname.startsWith('/en/')?'/en':'')+'/report/'+j.domain});$('#meta').innerHTML=o.meta;out.innerHTML=o.html;document.title=j.domain+' · AI crawler access report · VAKSEL';bindReport(document)}
+function show(j){const B=location.pathname.startsWith('/en/')?'/en':'';const o=renderReport(j,{base:B,url:location.origin+B+'/report/'+j.domain});$('#meta').innerHTML=o.meta;out.innerHTML=o.html;document.title=j.domain+' · AI crawler access report · VAKSEL';bindReport(document)}
 function fail(m){out.innerHTML='<div class="loading">'+esc(m)+'</div>'}
 const m=location.pathname.match(/^(?:\/en)?\/report\/([^/]+)\/?$/);
 const qd=new URLSearchParams(location.search).get('d');
 const dom=cleanDomain(m?decodeURIComponent(m[1]):qd);
 if(qd&&dom&&!m)location.replace('/en/report/'+dom);
-else if(!dom){$('#dom').textContent='Enter a domain';out.innerHTML='';$('#d').focus()}
+else if(!dom){$('#dom').textContent='Enter a domain';out.innerHTML='<div class="loading"><img class="vava" src="/en/brand/vava/vava3d-sleeping-still.webp" width="112" height="112" alt="">Type a domain above to check it.</div>';$('#d').focus()}
 else if(out.querySelector('.verdict')||out.querySelector('.loading:not(#ld)'))bindReport(document);
 else{
   $('#dom').textContent=dom;

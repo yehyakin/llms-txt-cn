@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CloudFront or AWS WAF is blocking AI crawlers: how to fix it · VAKSEL</title>
+<meta name="description" content="AWS WAF Bot Control&#39;s CategoryAI rule blocks verified AI crawlers too. Here is how to keep blocking AI training while letting AI search crawlers in.">
+<meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://vaksel.com/guides/cloudfront/">
+<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="CloudFront or AWS WAF is blocking AI crawlers: how to fix it · VAKSEL"><meta property="og:description" content="AWS WAF Bot Control&#39;s CategoryAI rule blocks verified AI crawlers too. Here is how to keep blocking AI training while letting AI search crawlers in."><meta property="og:url" content="https://vaksel.com/guides/cloudfront/"><meta property="og:image" content="https://vaksel.com/og/site.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/en/app.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"CloudFront or AWS WAF is blocking AI crawlers: how to fix it","dateModified":"2026-11-01","author":{"@type":"Organization","name":"VAKSEL"}}</script>
+</head><body>
+<nav class="nav"><div class="wrap">
+  <a class="logo" href="/en/" aria-label="VAKSEL home"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"></a>
+  <a class="n hide-m on" href="/en/guides/">Fix guides</a>
+  <a class="n hide-m" href="/en/bots/">AI crawlers</a>
+  <a class="n" href="/en/pricing/">Pricing</a>
+  <a class="n lang" href="https://cetxt.com/" hreflang="zh">中文</a>
+</div></nav>
+<main class="wrap doc"><div class="crumb"><a href="/en/">Home</a> <span>/</span> <a href="/en/guides/">Fix guides</a> <span>/</span> CloudFront / AWS WAF</div>
+<h1>CloudFront or AWS WAF is blocking AI crawlers: how to fix it</h1><p class="upd">Updated 2026-11-01</p>
+
+<p class="lead l">If your report says CloudFront is answering with 403s to AI crawlers, the usual cause is the <b>AWS WAF Bot Control</b> managed rule group on the web ACL attached to your distribution.</p>
+<div class="callout"><b>Why it happens.</b> Most Bot Control category rules only block <i>unverified</i> bots. <code>CategoryAI</code> is different: AWS documents that it “applies the action to all matches, regardless of whether the bots are verified or unverified.” So OAI-SearchBot and PerplexityBot get blocked along with training crawlers.</div>
+<h2>1. Find the rule</h2>
+<ol><li>Open <b>AWS WAF → Web ACLs</b> (or protection packs), and pick the one associated with your CloudFront distribution.</li>
+<li>Find the managed rule group <code>AWSManagedRulesBotControlRuleSet</code>.</li>
+<li>In <b>Sampled requests</b> or your WAF logs, look for matches on <code>CategoryAI</code> with the label <code>awswaf:managed:aws:bot-control:bot:category:ai</code>.</li></ol>
+<h2>2. Switch CategoryAI to Count</h2>
+<p>Edit the rule group and set a <b>rule action override</b> for <code>CategoryAI</code> to <i>Count</i>. Requests still get labeled, but nothing is blocked by this rule.</p>
+<h2>3. Re-add the block you actually want</h2>
+<p>Add your own rule <b>after</b> the Bot Control group that matches the label <code>awswaf:managed:aws:bot-control:bot:category:ai</code>, and exclude the crawlers you want to allow. Use the bot name labels that appear in your logs (<code>awswaf:managed:aws:bot-control:bot:name:…</code>) for OAI-SearchBot, PerplexityBot, Claude-SearchBot and the other search agents. Training crawlers such as GPTBot and ClaudeBot stay blocked.</p>
+<p>If you'd rather not maintain a WAF rule, leave CategoryAI on Count and opt out of training with robots.txt instead:</p>
+<pre>User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /</pre>
+<h2>4. Watch the other signals</h2>
+<p><code>SignalKnownBotDataCenter</code> and <code>SignalNonBrowserUserAgent</code> only act on requests that aren't from verified bots. If real crawlers are getting through but our data-center test still shows a block, the report marks it as lower confidence for that reason.</p>
+<h2>5. Re-test</h2>
+<p>WAF changes take effect within a minute or so. Run the check again.</p>
+<h2>Sources</h2><ul class="src"><li><a href="https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html" rel="nofollow noopener" target="_blank">AWS WAF docs: Bot Control rule group ↗</a></li></ul>
+<div style="margin-top:28px">
+<div class="cta mini"><div><h3>Re-test your site</h3><p>Free, no sign-up. We request your homepage as 13 different clients and show what each one gets.</p></div>
+<form class="field inv" data-check autocomplete="off"><input placeholder="yourdomain.com" aria-label="Domain" spellcheck="false" autocapitalize="off"><button class="btn">Check</button></form></div></div>
+<p class="more">Other guides: <a href="/en/guides/cloudflare/">Cloudflare</a> · <a href="/en/guides/wordpress/">WordPress</a> · <a href="/en/guides/shopify/">Shopify</a></p>
+</main><script>
+document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();let v=(f.querySelector('input').value||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0];if(/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v))location.href='/en/report/'+v;else{f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake')}}));
+</script>
+<footer><div class="wrap fgrid">
+  <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
+  <div><h4>Product</h4><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/#data">Research</a></div>
+  <div><h4>Fix guides</h4><a href="/en/guides/cloudflare/">Cloudflare</a><a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/en/guides/wordpress/">WordPress</a><a href="/en/guides/shopify/">Shopify</a></div>
+  <div><h4>AI crawlers</h4><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a></div>
+  <div class="fsmall"><span>© 2026 VAKSEL</span><a href="https://cetxt.com/" hreflang="zh">中文版 cetxt.com</a><span>We log the domains checked and the requesting IP for abuse prevention.</span></div>
+</div></footer>
+</body></html>

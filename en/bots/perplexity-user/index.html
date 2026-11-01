@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Perplexity-User: what it is, and should you block it? · VAKSEL</title>
+<meta name="description" content="Perplexity-User is Perplexity&#39;s user-triggered crawler. Perplexity says this fetcher generally ignores robots.txt because a user requested it. Only a firewall rule actually stops it.">
+<meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://vaksel.com/bots/perplexity-user/">
+<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="Perplexity-User: what it is, and should you block it? · VAKSEL"><meta property="og:description" content="Perplexity-User is Perplexity&#39;s user-triggered crawler. Perplexity says this fetcher generally ignores robots.txt because a user requested it. Only a firewall rule actually stops it."><meta property="og:url" content="https://vaksel.com/bots/perplexity-user/"><meta property="og:image" content="https://vaksel.com/og/site.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/en/app.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Perplexity-User: what it is and how to block or allow it","dateModified":"2026-11-01","author":{"@type":"Organization","name":"VAKSEL"},"about":"Perplexity-User","citation":"https://docs.perplexity.ai/guides/bots"}</script>
+</head><body>
+<nav class="nav"><div class="wrap">
+  <a class="logo" href="/en/" aria-label="VAKSEL home"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"></a>
+  <a class="n hide-m" href="/en/guides/">Fix guides</a>
+  <a class="n hide-m on" href="/en/bots/">AI crawlers</a>
+  <a class="n" href="/en/pricing/">Pricing</a>
+  <a class="n lang" href="https://cetxt.com/" hreflang="zh">中文</a>
+</div></nav>
+<main class="wrap doc"><div class="crumb"><a href="/en/">Home</a> <span>/</span> <a href="/en/bots/">AI crawlers</a> <span>/</span> Perplexity-User</div>
+<h1>Perplexity-User</h1>
+<div class="facts"><div><span>Operator</span><b>Perplexity</b></div><div><span>Purpose</span><b>User-triggered</b></div><div><span>Follows robots.txt</span><b>Generally no</b></div><div><span>Source</span><b><a href="https://docs.perplexity.ai/guides/bots" rel="nofollow noopener" target="_blank">Official docs ↗</a></b></div></div>
+<p class="lead l">Fetches made when a Perplexity user asks a question that needs your page.</p>
+<h2>What happens if you block it</h2><p>Perplexity says this fetcher generally ignores robots.txt because a user requested it. Only a firewall rule actually stops it.</p>
+<h2>Our take</h2><p>Leave it allowed unless you have a reason to block user-directed fetches.</p>
+<h2>robots.txt</h2><p>To block it:</p><pre>User-agent: Perplexity-User
+Disallow: /</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>User-agent: Perplexity-User
+Allow: /</pre>
+
+<h2>The operator's own words</h2><blockquote>Since a user requested the fetch, this fetcher generally ignores robots.txt rules.<cite><a href="https://docs.perplexity.ai/guides/bots" rel="nofollow noopener" target="_blank">Perplexity documentation</a>, checked 2026-10-31</cite></blockquote>
+<h2>robots.txt allows it, but is it really getting through?</h2><p>A firewall or CDN rule can reject Perplexity-User even when robots.txt welcomes it, and nothing in your CMS shows it. Our check sends a live request as Perplexity-User alongside a normal browser and a Googlebot control, so a bot-verification rule isn't mistaken for a block.</p>
+<h2>Other Perplexity agents</h2><div class="bgrid s"><a class="bcard" href="/en/bots/perplexitybot/"><div class="bt">PerplexityBot</div><div class="bv">Perplexity</div><p>Perplexity&#39;s search crawler.</p></a></div>
+<div style="margin-top:28px">
+<div class="cta mini"><div><h3>Can Perplexity-User reach your site?</h3><p>Free, no sign-up. We request your homepage as 13 different clients and show what each one gets.</p></div>
+<form class="field inv" data-check autocomplete="off"><input placeholder="yourdomain.com" aria-label="Domain" spellcheck="false" autocapitalize="off"><button class="btn">Check</button></form></div></div>
+</main><script>
+document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();let v=(f.querySelector('input').value||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0];if(/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v))location.href='/en/report/'+v;else{f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake')}}));
+</script>
+<footer><div class="wrap fgrid">
+  <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
+  <div><h4>Product</h4><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/#data">Research</a></div>
+  <div><h4>Fix guides</h4><a href="/en/guides/cloudflare/">Cloudflare</a><a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/en/guides/wordpress/">WordPress</a><a href="/en/guides/shopify/">Shopify</a></div>
+  <div><h4>AI crawlers</h4><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a></div>
+  <div class="fsmall"><span>© 2026 VAKSEL</span><a href="https://cetxt.com/" hreflang="zh">中文版 cetxt.com</a><span>We log the domains checked and the requesting IP for abuse prevention.</span></div>
+</div></footer>
+</body></html>

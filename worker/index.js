@@ -6,6 +6,7 @@ import { ROBOTS, AIAUDIT } from './_libs.js';
 import { EMBED } from './_assets.js';
 import { createApi, makeDohResolver } from './check.js';
 import { handleReport, rebase } from './report.js';
+import { cleanDomain, ogData } from '../en/view.js';
 
 /* 品牌域名：根目录直接是英文版（站内文件仍放在 /en/ 下） */
 const BRAND_HOSTS = new Set(['vaksel.com', 'www.vaksel.com']);
@@ -77,12 +78,57 @@ export default {
   }
 };
 
+/* 分享图：/en/og/<domain>.png（报告）与 /en/og/site.png（站点通用），边缘缓存 1 小时 */
+async function ogImage(name, request, env, ctx, apiDeps) {
+  const cache = typeof caches !== 'undefined' ? caches.default : null;
+  const key = new Request(new URL(request.url).origin + '/__og/' + name + '.png');
+  if (cache) { const hit = await cache.match(key); if (hit) return hit; }
+  const { reportImage, siteImage } = await import('./og.js');
+  let img;
+  if (name === 'site') img = await siteImage();
+  else {
+    const domain = cleanDomain(name);
+    if (!domain) return new Response('bad domain', { status: 404 });
+    let j = null;
+    try {
+      const r = await api(new Request(new URL(request.url).origin + '/api/check?access=1&domain=' + encodeURIComponent(domain), { headers: request.headers }), env, ctx, apiDeps);
+      if (r.status === 200) j = await r.json();
+    } catch (e) {}
+    img = await reportImage(j && !j.error ? { domain, ...ogData(j) } : { domain, title: 'AI crawler access report', tone: 'gray', total: 0 });
+  }
+  const resp = new Response(img.body, { headers: { 'content-type': 'image/png', 'cache-control': 'public, max-age=3600' } });
+  if (cache) ctx.waitUntil(cache.put(key, resp.clone()));
+  return resp;
+}
+
+/* 早鸟名单：存 KV（WAITLIST），不存 IP，只存国家 */
+async function waitlist(request, env) {
+  const J = (o, s) => new Response(JSON.stringify(o), { status: s || 200, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });
+  if (request.method !== 'POST') return J({ error: 'method' }, 405);
+  if (!env.WAITLIST) return J({ error: 'unavailable' }, 503);
+  const ip = request.headers.get('cf-connecting-ip') || '';
+  if (env.RL && typeof env.RL.limit === 'function') { try { const { success } = await env.RL.limit({ key: 'wl:' + ip }); if (!success) return J({ error: 'rate_limited' }, 429); } catch (e) {} }
+  let b; try { b = await request.json(); } catch (e) { return J({ error: 'bad_json' }, 400); }
+  if (b.hp) return J({ ok: true });
+  const email = String(b.email || '').trim().toLowerCase().slice(0, 200);
+  if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)) return J({ error: 'bad_email' }, 400);
+  const plan = b.plan === 'agency' ? 'agency' : 'pro';
+  const site = cleanDomain(String(b.site || '')) || '';
+  const now = new Date().toISOString();
+  const rec = { email, plan, site, at: now, country: (request.cf && request.cf.country) || '', host: new URL(request.url).hostname };
+  await env.WAITLIST.put('wl:' + email, JSON.stringify(rec), { metadata: { plan, at: now } });
+  return J({ ok: true });
+}
+
 async function route(request, env, ctx, base) {
     const url = new URL(request.url);
     const f = (u, init) => fetch(u, init);
     const relay = env.RELAY_URL && env.RELAY_KEY ? { url: env.RELAY_URL, key: env.RELAY_KEY } : null;
     const apiDeps = { fetch: f, resolve: makeDohResolver(f), relay, assetsFetch: EMBED && !env.ASSETS ? (p) => embedResponse(p, request) : null };
+    if (url.pathname === '/api/waitlist') return waitlist(request, env);
     if (url.pathname.startsWith('/api/')) return api(request, env, ctx, apiDeps);
+    const og = url.pathname.match(/^\/en\/og\/([a-z0-9.-]+)\.png$/);
+    if (og && (request.method === 'GET' || request.method === 'HEAD')) return ogImage(og[1], request, env, ctx, apiDeps);
     if (/^\/en\/report\/[^/]+\/?$/.test(url.pathname) && (request.method === 'GET' || request.method === 'HEAD')) {
       const r = await handleReport(request, {
         template: async () => {
@@ -98,7 +144,10 @@ async function route(request, env, ctx, base) {
     if (request.method !== 'GET' && request.method !== 'HEAD') return new Response('Method Not Allowed', { status: 405 });
     if (env.ASSETS) {
       if (url.pathname === '/404' || url.pathname === '/404.html') return secure(await env.ASSETS.fetch(new Request(new URL('/404.html', url), request)), 404);
-      return secure(await env.ASSETS.fetch(request));
+      const r = await env.ASSETS.fetch(request);
+      // 英文站（/en/ 下）用英文 404
+      if (r.status === 404 && url.pathname.startsWith('/en/')) return secure(await env.ASSETS.fetch(new Request(new URL('/en/404', url), request)), 404);
+      return secure(r);
     }
     if (EMBED) return secure(serveEmbedded(request));
     return new Response('no assets', { status: 500 });
