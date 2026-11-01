@@ -145,7 +145,7 @@ async function contact(request, env) {
 function confirmText(plan) {
   return 'Thanks for joining the VAKSEL early-access list (' + (plan === 'agency' ? 'Agency, up to 50 sites' : 'Pro, up to 10 sites') + ').\n\n' +
     'We will email you once when your monitoring account is ready. You pay nothing until then, and your founding price stays for as long as you remain subscribed.\n\n' +
-    'Meanwhile, free checks are at https://vaksel.com/\n\nTo be removed from the list, reply to this email or use https://vaksel.com/contact/\n\nVAKSEL';
+    'Meanwhile, free checks are at https://vaksel.com/\n\nTo be removed from the list, use https://vaksel.com/contact/ (replies to this address are not read)\n\nVAKSEL';
 }
 export async function sendMail(env, to, subject, text) {
   return fetch('https://api.resend.com/emails', { method: 'POST', headers: { authorization: 'Bearer ' + env.RESEND_KEY, 'content-type': 'application/json' },
