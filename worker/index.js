@@ -8,6 +8,7 @@ import { createApi, makeDohResolver } from './check.js';
 import { handleReport, rebase } from './report.js';
 import { cleanDomain, ogData } from '../en/view.js';
 import { confirmEmail } from './mail.js';
+import { isLabHost, handleLab } from './lab.js';
 
 /* 品牌域名：根目录直接是英文版（站内文件仍放在 /en/ 下） */
 const BRAND_HOSTS = new Set(['vaksel.com', 'www.vaksel.com']);
@@ -65,6 +66,7 @@ function serveEmbedded(request) {
 
 export default {
   async fetch(request, env, ctx) {
+    if (isLabHost(new URL(request.url).hostname)) return handleLab(request);
     const brand = isBrandHost(new URL(request.url).hostname);
     if (brand) {
       const u0 = new URL(request.url);
