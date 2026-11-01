@@ -73,6 +73,10 @@ transform:translateY(var(--ty,0px)) rotateX(var(--rx)) rotateY(var(--ry)) rotate
  repeating-linear-gradient(90deg,rgba(0,0,0,.022) 0 1px,rgba(255,255,255,.03) 1px 2px),
  linear-gradient(125deg,#e3e3e7 0%,#f7f7f9 28%,#d5d5da 52%,#f0f0f3 74%,#cfcfd4 100%);overflow:hidden}
 .slab.f::after{content:"";position:absolute;inset:-50%;background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.75) 50%,transparent 58%);transform:translateX(var(--sheen,-70%));mix-blend-mode:soft-light}
+.tint{position:absolute;inset:0;border-radius:22px;clip-path:polygon(0 0,78% 0,100% 16%,100% 100%,0 100%);transform:translateZ(.3px);pointer-events:none;overflow:hidden;opacity:0;transition:opacity 1.8s var(--apl)}
+.tint::before{content:"";position:absolute;inset:-30%;background:conic-gradient(from var(--ga,0deg) at 55% 50%,#0a84ff 0 var(--a1,30%),#bf5af2 0 var(--a2,50%),#ff375f 0 var(--a3,80%),#ff9f0a 0 100%);filter:blur(34px);mix-blend-mode:color;opacity:.62}
+.doc.lit .tint{opacity:1}
+.glow{transition:background 1.6s var(--apl)}.stage.lit .glow{background:radial-gradient(closest-side,rgba(255,55,95,.16),rgba(191,90,242,.14) 45%,rgba(10,132,255,.10) 70%,transparent)}
 .fold{position:absolute;right:0;top:0;width:22%;height:16%;border-radius:0 0 0 10px;transform:translateZ(.5px);
 background:linear-gradient(225deg,transparent 49%,#c9c9ce 50%,#ececef 70%,#dadade);box-shadow:-2px 3px 6px -2px rgba(0,0,0,.18)}
 .eng{position:absolute;inset:0;padding:15% 12% 0;transform:translateZ(.6px);text-align:left}
@@ -279,6 +283,7 @@ footer .in{max-width:1024px;margin:0 auto;line-height:1.7}footer ol{padding-left
    <div class="slab e" style="transform:translateZ(-4px)"></div><div class="slab e" style="transform:translateZ(-3px)"></div><div class="slab e" style="transform:translateZ(-2px)"></div><div class="slab e" style="transform:translateZ(-1px)"></div>
    <div class="slab back" style="clip-path:polygon(0 0,78% 0,100% 16%,100% 100%,0 100%);transform:translateZ(-4.5px) rotateY(180deg)"></div>
    <div class="slab f"></div>
+   <div class="tint" id="tint"></div>
    <div class="fold"></div>
    <div class="eng">
     <div class="nm">llms.txt</div>
@@ -516,7 +521,8 @@ function frame(now){
  doc.querySelector('.slab.f').style.setProperty('--sheen',(lerp(-80,80,e)+((spin%360)+360)%360*.25)+'%');
  glow.style.setProperty('--g',e);
  bars.forEach((b,i)=>b.style.setProperty('--k',p>.25+i*.08?1:0));
- if(p>.7&&!scored){scored=true;tick($('#docScore'),100,1400)}}
+ if(p>.7&&!scored){scored=true;tick($('#docScore'),100,1400);setTimeout(()=>{doc.classList.add('lit');stage.classList.add('lit')},700)}}
+ doc.style.setProperty('--ga',(spin*.6)+'deg')
  // char highlight
  const hr=hl.getBoundingClientRect(),hp=clamp((vh*.85-hr.top)/(hr.height+vh*.35),0,1),n=RM?1e9:Math.floor(hp*chars.length*1.05);
  if(n!==lastN){chars.forEach((c,i)=>c.classList.toggle('on',i<n));lastN=n}
