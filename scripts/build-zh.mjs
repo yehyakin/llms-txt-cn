@@ -192,6 +192,7 @@ ${g.body}
 write('research/index.html', page({
   path: '/research/', title: RESEARCH_ZH.title, desc: RESEARCH_ZH.desc,
   body: `<main class="wrap doc">${crumbs([['/', '首页'], [null, '研究方法']])}<h1>${esc(RESEARCH_ZH.h1)}</h1><p class="upd">${esc(RESEARCH_ZH.upd)}</p>${RESEARCH_ZH.body}
+<p class="more">报告的三层评级怎么算：<a href="/research/grading/">评分方法 →</a></p>
 <div style="margin-top:28px">${checkBox('检测你自己的网站')}</div></main>${CHECK_JS}`
 }));
 
@@ -210,7 +211,7 @@ write('research/grading/index.html', page({
 <li>llms.txt 不计分。Google 写明出现在 AI 功能里不需要专门的 AI 文件或标记。</li>
 <li>训练爬虫（如 GPTBot、ClaudeBot、Google-Extended、CCBot）被拦不扣分。挡训练、放搜索是站长的正当选择。</li></ul>
 <h2>能不能进</h2>
-<table class="tbl"><thead><tr><th>等级</th><th>条件</th></tr></thead><tbody>
+<table class="tbl tg"><thead><tr><th>等级</th><th>条件</th></tr></thead><tbody>
 <tr><td><b>S</b></td><td>实测所有 AI 搜索爬虫都能进，拿到的页面和浏览器一样</td></tr>
 <tr><td><b>A</b></td><td>都能进，但有爬虫遇到验证页或拿到的内容明显变少；或防火墙实测没完成，只能看 robots.txt（最高 A）</td></tr>
 <tr><td><b>B</b></td><td>部分 AI 搜索爬虫被 robots.txt 或防火墙拦</td></tr>
@@ -219,7 +220,7 @@ write('research/grading/index.html', page({
 <p>robots.txt 返回 5xx 或打不开时，按 <a href="https://www.rfc-editor.org/rfc/rfc9309#section-2.3.1.4">RFC 9309 §2.3.1.4</a>，遵守规范的爬虫会当作全站禁止，所以归到 C。robots.txt 返回 404 等 4xx 时等于没有限制，不扣分。</p>
 <p>防火墙实测带两个对照组：伪装成 Googlebot 的请求和一个未知爬虫。伪装 Googlebot 也被拦，说明网站在核验爬虫 IP，真正的 AI 爬虫多半能过，这种情况只记低可信度，不判 C。我们的请求不是从各家官方 IP 发出的，结论是“很可能”，不是证明。</p>
 <h2>能不能读</h2>
-<table class="tbl"><thead><tr><th>等级</th><th>条件</th></tr></thead><tbody>
+<table class="tbl tg"><thead><tr><th>等级</th><th>条件</th></tr></thead><tbody>
 <tr><td><b>S</b></td><td>官方和常用检查没有待改项</td></tr>
 <tr><td><b>A</b></td><td>1 项待改</td></tr>
 <tr><td><b>B</b></td><td>2–3 项待改，或有非关键问题（如多个 canonical）</td></tr>
@@ -227,7 +228,7 @@ write('research/grading/index.html', page({
 </tbody></table>
 <p>检查项：页面标题、页面描述、允许收录和摘要、规范网址、不跑 JS 的正文、一级标题、站点地图、站内链接、图片 alt、多语言 hreflang、移动端适配。Google 在 <a href="https://developers.google.com/search/docs/appearance/ai-features">AI features and your website</a> 中写明，AI 概览只引用能被收录、能显示摘要的页面。</p>
 <h2>能不能被引用</h2>
-<table class="tbl"><thead><tr><th>等级</th><th>条件</th></tr></thead><tbody>
+<table class="tbl tg"><thead><tr><th>等级</th><th>条件</th></tr></thead><tbody>
 <tr><td><b>S</b></td><td>5 个信号全有：结构化数据、机构信息、网站名称、分享卡片、语义标签</td></tr>
 <tr><td><b>A</b></td><td>4 个</td></tr>
 <tr><td><b>B</b></td><td>2–3 个</td></tr>

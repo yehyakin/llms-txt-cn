@@ -453,7 +453,7 @@ out.push(write('en/research/grading/index.html', page({
 <li>llms.txt doesn’t count. Google says no special AI files or markup are needed to appear in its AI features.</li>
 <li>Blocking training crawlers (GPTBot, ClaudeBot, Google-Extended, CCBot and the like) costs nothing. Blocking training while allowing search is a legitimate choice.</li></ul>
 <h2>Can they get in</h2>
-<table class="tbl"><thead><tr><th>Grade</th><th>When</th></tr></thead><tbody>
+<table class="tbl tg"><thead><tr><th>Grade</th><th>When</th></tr></thead><tbody>
 <tr><td><b>S</b></td><td>Every AI search crawler got in during the live test and received the same page as a browser</td></tr>
 <tr><td><b>A</b></td><td>All got in, but some hit a challenge or a noticeably thinner page; or the live test didn’t finish and only robots.txt was checked (A at most)</td></tr>
 <tr><td><b>B</b></td><td>Some AI search crawlers are blocked by robots.txt or the firewall</td></tr>
@@ -462,7 +462,7 @@ out.push(write('en/research/grading/index.html', page({
 <p>A robots.txt that returns 5xx or can’t be reached counts as C: under <a href="https://www.rfc-editor.org/rfc/rfc9309#section-2.3.1.4">RFC 9309 §2.3.1.4</a>, compliant crawlers must then assume everything is disallowed. A 404 or other 4xx means no restrictions and costs nothing.</p>
 <p>The firewall test runs two controls: a request claiming to be Googlebot and one from an unknown bot. If the fake Googlebot is rejected too, the site is verifying crawler IP addresses and the real AI crawlers will likely get through, so we record low confidence and don’t grade it C. Our requests don’t come from the vendors’ own IP ranges, so a result means “likely”, not proof.</p>
 <h2>Can they read it</h2>
-<table class="tbl"><thead><tr><th>Grade</th><th>When</th></tr></thead><tbody>
+<table class="tbl tg"><thead><tr><th>Grade</th><th>When</th></tr></thead><tbody>
 <tr><td><b>S</b></td><td>No official or common check needs work</td></tr>
 <tr><td><b>A</b></td><td>One item needs work</td></tr>
 <tr><td><b>B</b></td><td>Two or three items, or a non-critical problem such as several canonical tags</td></tr>
@@ -470,7 +470,7 @@ out.push(write('en/research/grading/index.html', page({
 </tbody></table>
 <p>Checks: title, meta description, indexing and snippets, canonical URL, text without JavaScript, H1, sitemap, internal links, image alt text, hreflang, viewport. Google’s <a href="https://developers.google.com/search/docs/appearance/ai-features">AI features and your website</a> says pages must be indexed and eligible for a snippet to appear in AI Overviews.</p>
 <h2>Can they cite it</h2>
-<table class="tbl"><thead><tr><th>Grade</th><th>When</th></tr></thead><tbody>
+<table class="tbl tg"><thead><tr><th>Grade</th><th>When</th></tr></thead><tbody>
 <tr><td><b>S</b></td><td>All five signals: structured data, organization, site name, share card, semantic tags</td></tr>
 <tr><td><b>A</b></td><td>Four</td></tr>
 <tr><td><b>B</b></td><td>Two or three</td></tr>
@@ -513,6 +513,7 @@ out.push(write('en/research/index.html', page({
 <li>600 is a small sample. Treat 12.4% and 3.6% as estimates with a margin of a few percentage points.</li></ul>
 <h2>Asian sites</h2>
 <p>We ran the same test on 1,000 popular Chinese-language sites. Silent blocks were rarer: 3.7% of reachable sites at step 1 and about 0.8% at step 2.</p>
+<p class="more">How the report’s three grades work: <a href="/en/research/grading/">Grading method →</a></p>
 <div style="margin-top:28px">${checkBox('Test your own site')}</div>
 </main>${CHECK_JS}`
 })));

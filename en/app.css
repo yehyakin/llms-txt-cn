@@ -282,3 +282,4 @@ footer .fgrid>.fbrand>a.logo{display:inline-flex;align-items:center;margin:0}
 @media(max-width:640px){.seol li{grid-template-columns:1fr auto;gap:6px 10px}.seol li>div{grid-column:1/-1;order:3}.seol li .bs{justify-self:end}}
 @media print{.seol li{break-inside:avoid}}
 .cols>div{min-width:0}
+.tg th:first-child,.tg td:first-child{white-space:nowrap;width:1%}
