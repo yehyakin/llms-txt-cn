@@ -576,15 +576,15 @@ write('en/site.webmanifest', JSON.stringify({ name: 'VAKSEL', short_name: 'VAKSE
 /* ---------- Lab: public single-variable test sites ---------- */
 {
   const byLab = Object.fromEntries(LAB.results.map((r) => [r.slug, r]));
-  const g3 = (a) => a.map((x) => x || '–').join(' / ');
+  const g3 = (a) => a.map((x) => x || '–').join('/');
   const rows = FIXTURES.map((f) => { const r = byLab[f.slug] || {}; const d = f.slug + LAB_SUFFIX;
-    return `<tr><td><a href="https://${d}/" rel="nofollow">${d}</a></td><td>${esc(f.en)}</td><td>${g3(f.expect)}</td><td>${r.got ? g3(r.got) + (r.ok ? ' ✓' : ' ✗') : '–'}</td><td><a href="/en/report/${d}">Report</a></td></tr>`; }).join('');
+    return `<tr><td><a href="https://${d}/" rel="nofollow">${d}</a></td><td>${esc(f.en)}</td><td style="white-space:nowrap">${g3(f.expect)}</td><td style="white-space:nowrap">${r.got ? g3(r.got) + (r.ok ? ' ✓' : ' ✗') : '–'}</td><td><a href="/en/report/${d}">Report</a></td></tr>`; }).join('');
   const nOk = LAB.results.filter((r) => r.ok).length;
   out.push(write('en/research/lab/index.html', page({
     path: '/en/research/lab/', title: 'VAKSEL Lab: open test sites for AI visibility tools · VAKSEL',
     desc: 'Nineteen public test sites, each changing one thing (a firewall 403, a robots.txt 503, a fake llms.txt, mismatched FAQ markup). Use them to check any AI visibility tool, ours included.',
     body: `<main class="wrap doc">${crumbs([['/en/', 'Home'], ['/en/research/', 'Research'], [null, 'Lab']])}
-<h1>VAKSEL Lab</h1><p class="upd">Last run ${LAB.run_at.slice(0, 10)} · rules ${LAB.rules}</p>
+<h1>VAKSEL Lab</h1><p class="upd">Last run ${new Date(LAB.run_at).toLocaleDateString('sv-SE', { timeZone: 'Asia/Shanghai' })} · rules ${LAB.rules}</p>
 <p class="lead l">${FIXTURES.length} public test sites. Each one changes exactly one thing from the control, so you can see whether an AI visibility tool notices. Point any tool at them, ours included.</p>
 <h2>How to use it</h2>
 <ul><li>Run your tool on <b>baseline${LAB_SUFFIX}</b> first. It should come back clean.</li>
