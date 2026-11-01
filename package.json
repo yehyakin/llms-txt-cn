@@ -4,7 +4,7 @@
   "description": "cetxt.com — AI 爬虫与训练规则检测（robots.txt / __usage_ai-training / llms.txt）",
   "license": "MIT",
   "scripts": {
-    "test": "node test.js && node tests/robots.test.js && node tests/worker.test.mjs && node tests/access.test.mjs && node --no-warnings tests/seo.test.mjs && node --no-warnings tests/report.test.mjs",
+    "test": "node test.js && node tests/robots.test.js && node tests/worker.test.mjs && node tests/access.test.mjs && node --no-warnings tests/seo.test.mjs && node --no-warnings tests/grade.test.mjs && node --no-warnings tests/report.test.mjs",
     "build:worker": "node scripts/build-worker.mjs",
     "deploy:preview": "python3 scripts/deploy_preview.py --embed --no-stats",
     "build:en": "node scripts/build-en.mjs"

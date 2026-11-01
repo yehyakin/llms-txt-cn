@@ -84,7 +84,7 @@ export default {
 /* 分享图：/en/og/<domain>.png（报告）与 /en/og/site.png（站点通用），边缘缓存 1 小时 */
 async function ogImage(name, request, env, ctx, apiDeps) {
   const cache = typeof caches !== 'undefined' ? caches.default : null;
-  const key = new Request(new URL(request.url).origin + '/__og/' + name + '.png');
+  const key = new Request(new URL(request.url).origin + '/__og/v2/' + name + '.png');
   if (cache) { const hit = await cache.match(key); if (hit) return hit; }
   const { reportImage, siteImage } = await import('./og.js');
   let img;

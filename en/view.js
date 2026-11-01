@@ -1,6 +1,8 @@
 /* en/view.js — 报告渲染（浏览器与 Worker 共用，纯字符串，无 DOM 依赖）。
  * 中英双语：renderReport(r, { lang: 'zh' }) 输出中文，默认英文。中文站 base 为 ''，英文站 '/en'（品牌域名 ''）。 */
 import {renderSeo} from './seo-view.js';
+import {renderGrades} from './grade-view.js';
+import {gradeReport} from './grade.js';
 export const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function cleanDomain(v){v=(v||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0].replace(/\.$/,'');return /^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v)?v:null}
 /* 传统搜索引擎爬虫：不算“AI 搜索”，robots-only 回落时不列入 */
@@ -172,7 +174,7 @@ function fixFor(a,B,L){
 export function ogData(r,lang){const L=T(lang);const a=(r&&r.access)||{};const verdict=L.v[a.verdict]?a.verdict:'unknown';const ra=(r&&r.robots&&r.robots.analysis&&r.robots.analysis.access)||[];const live=a.bots&&a.bots.length;
   const bots=live?a.bots:ra.filter(b=>(b.category==='search'||b.category==='user')&&!CLASSIC.has(b.token)).map(b=>({category:b.category,effective:b.status==='blocked'?'blocked':'ok'}));
   const s=bots.filter(b=>b.category==='search'||b.category==='user');
-  return {verdict:a.verdict||'unknown',title:L.v[verdict][0],tone:{'v-ok':'ok','v-warn':'warn','v-bad':'bad','v-gray':'gray'}[TONE[verdict]],reach:s.filter(b=>b.effective!=='blocked').length,total:s.length,live:!!live}}
+  return {verdict:a.verdict||'unknown',title:L.v[verdict][0],tone:{'v-ok':'ok','v-warn':'warn','v-bad':'bad','v-gray':'gray'}[TONE[verdict]],reach:s.filter(b=>b.effective!=='blocked').length,total:s.length,live:!!live,grades:(G=>({access:G.access.grade,read:G.read.grade,cite:G.cite.grade}))(gradeReport(r||{}))}}
 export function renderReport(r,opt){
   opt=opt||{};const L=T(opt.lang);const when=opt.when||new Date().toISOString();const shareUrl=opt.url||'';
   const a=r.access||{verdict:'unknown'};
@@ -200,12 +202,13 @@ export function renderReport(r,opt){
   const html='<div class="fade">'+
    '<div class="verdict '+tone+'"><div class="vi" aria-hidden="true">'+ICON[tone]+'</div><div><h2>'+v[0]+'</h2><p>'+v[1]+'</p></div></div>'+
    (r.domain?'<a class="monbar" href="'+B+'/pricing/?site='+encodeURIComponent(r.domain)+'#join">'+L.mon(esc(r.domain))+'</a>':'')+
+   renderGrades(r,opt.lang)+
    '<div class="kpis"><div class="kpi"><div class="k">'+(untested?K.reachRobots:K.reach)+'</div><div class="v">'+(search.length?reach+'<small> / '+search.length+'</small>':'–')+'</div></div>'+
    '<div class="kpi"><div class="k">'+K.silent+'</div><div class="v">'+(untested?'–':((a.counts&&a.counts.silent)||0))+'</div></div>'+
    '<div class="kpi"><div class="k">'+K.train+'</div><div class="v">'+train.filter(b=>b.effective==='blocked').length+'<small> / '+train.length+'</small></div></div>'+
    '<div class="kpi"><div class="k">'+K.text+'</div><div class="v">'+(page.text_chars!=null?page.text_chars.toLocaleString():'–')+'<small> '+K.chars+'</small></div></div></div>'+
    '<div class="cols"><div>'+
-    (bots.length?'<div class="panel"><h3>'+TB.title+' <span>'+TB.hint+'</span></h3><table><thead><tr><th>'+TB.cols[0]+'</th><th class="hide-s">'+TB.cols[1]+'</th><th>'+TB.cols[2]+'</th><th class="hide-s">'+TB.cols[3]+'</th><th>'+TB.cols[4]+'</th></tr></thead><tbody>'+rows+'</tbody></table></div>':'')+
+    (bots.length?'<div class="panel" id="crawlers"><h3>'+TB.title+' <span>'+TB.hint+'</span></h3><table><thead><tr><th>'+TB.cols[0]+'</th><th class="hide-s">'+TB.cols[1]+'</th><th>'+TB.cols[2]+'</th><th class="hide-s">'+TB.cols[3]+'</th><th>'+TB.cols[4]+'</th></tr></thead><tbody>'+rows+'</tbody></table></div>':'')+
     (fix?'<div class="panel fix"><h3>'+L.fixTitle+'</h3><div class="body">'+fix+'</div></div>':'')+
     renderSeo(r.seo,opt.lang)+
     '<div class="method">'+L.method(B)+'</div>'+

@@ -69,6 +69,19 @@ footer .wrap{display:flex;gap:18px;flex-wrap:wrap}footer a{color:var(--mut)}
 .v-gray{background:#f5f5f7;border-color:#e0e0e5}.v-gray .vi{background:#6e6e73}
 .monbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:#0b0e1a;color:#f5f5f7;border-radius:12px;padding:11px 16px;margin:0 0 14px;font-size:14px}
 .monbar:hover{text-decoration:none;background:#000}.monbar b{color:#fff}.monbar .mb2{color:#9cc2ff;font-weight:600;white-space:nowrap}
+.grades{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 6px}
+.gtile{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"g l" "g w";column-gap:14px;align-items:center;border-radius:16px;padding:14px 16px;background:var(--alt);color:#1d1d1f;border:1px solid transparent;min-width:0}
+.gtile:hover{text-decoration:none;border-color:#d2d2d7}
+.gtile .gl{grid-area:l;font-size:12.5px;color:var(--mut);font-weight:600;align-self:end}
+.gtile .gg{grid-area:g;width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:30px;font-weight:800;letter-spacing:-.03em;color:#fff;background:#8e8e93}
+.gtile .gw{grid-area:w;font-size:13px;line-height:1.4;color:#333336;align-self:start;overflow-wrap:anywhere}
+.g-S .gg{background:linear-gradient(135deg,#3aa0ff,#7b5cff 55%,#c35cf2)}.g-S{background:#f2f0ff}
+.g-A .gg{background:#1f9d55}.g-A{background:#eef8f2}
+.g-B .gg{background:#c27c0e}.g-B{background:#fdf6ea}
+.g-C .gg{background:#d70015}.g-C{background:#fdf0f1}
+.grules{font-size:13px;color:var(--mut);margin:0 0 14px}.grules summary{cursor:pointer;display:inline-block;padding:2px 0}
+.grules p,.grules li{line-height:1.55;margin-top:6px}.grules ul{padding-left:18px}.grules b{color:#1d1d1f}
+@media (max-width:760px){.grades{grid-template-columns:1fr}.gtile .gg{width:44px;height:44px;font-size:26px;border-radius:12px}}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
 .kpi{background:var(--alt);border-radius:14px;padding:12px 14px}
 .kpi .k{font-size:12px;color:var(--mut)}.kpi .v{font-size:22px;font-weight:700;letter-spacing:-.03em;margin-top:2px}
