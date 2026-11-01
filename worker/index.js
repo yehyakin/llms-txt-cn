@@ -7,6 +7,7 @@ import { EMBED } from './_assets.js';
 import { createApi, makeDohResolver } from './check.js';
 import { handleReport, rebase } from './report.js';
 import { cleanDomain, ogData } from '../en/view.js';
+import { confirmEmail } from './mail.js';
 
 /* 品牌域名：根目录直接是英文版（站内文件仍放在 /en/ 下） */
 const BRAND_HOSTS = new Set(['vaksel.com', 'www.vaksel.com']);
@@ -118,7 +119,7 @@ async function waitlist(request, env) {
   const rec = { email, plan, site, at: now, country: (request.cf && request.cf.country) || '', host: new URL(request.url).hostname };
   const isNew = !(await env.WAITLIST.get('wl:' + email));
   await env.WAITLIST.put('wl:' + email, JSON.stringify(rec), { metadata: { plan, at: now } });
-  if (isNew && env.RESEND_KEY) { try { await sendMail(env, email, 'You’re on the VAKSEL early-access list', confirmText(plan)); } catch (e) {} }
+  if (isNew && env.RESEND_KEY) { try { await sendMail(env, email, confirmEmail(plan, site)); } catch (e) {} }
   return J({ ok: true });
 }
 
@@ -142,14 +143,9 @@ async function contact(request, env) {
 }
 
 /* 确认邮件：只有配置了 RESEND_KEY（wrangler secret）才发；发件域 mail.vaksel.com */
-function confirmText(plan) {
-  return 'Thanks for joining the VAKSEL early-access list (' + (plan === 'agency' ? 'Agency, up to 50 sites' : 'Pro, up to 10 sites') + ').\n\n' +
-    'We will email you once when your monitoring account is ready. You pay nothing until then, and your founding price stays for as long as you remain subscribed.\n\n' +
-    'Meanwhile, free checks are at https://vaksel.com/\n\nTo be removed from the list, use https://vaksel.com/contact/ (replies to this address are not read)\n\nVAKSEL';
-}
-export async function sendMail(env, to, subject, text) {
+export async function sendMail(env, to, m) {
   return fetch('https://api.resend.com/emails', { method: 'POST', headers: { authorization: 'Bearer ' + env.RESEND_KEY, 'content-type': 'application/json' },
-    body: JSON.stringify({ from: env.MAIL_FROM || 'VAKSEL <hello@mail.vaksel.com>', to: [to], subject, text, reply_to: env.MAIL_REPLY_TO || undefined }) });
+    body: JSON.stringify({ from: env.MAIL_FROM || 'VAKSEL <hello@mail.vaksel.com>', to: [to], subject: m.subject, text: m.text, html: m.html, reply_to: env.MAIL_REPLY_TO || undefined }) });
 }
 
 async function route(request, env, ctx, base) {
