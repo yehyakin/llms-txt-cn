@@ -250,3 +250,4 @@ body.zh{letter-spacing:0}body.zh h1,body.zh h2{letter-spacing:-.01em}
   a{color:inherit}.fade{animation:none}
 }
 footer .fgrid>.fbrand>a.logo{display:inline-flex;align-items:center;margin:0}
+.zhtag{font-size:12px;font-weight:600;color:var(--mut);border:1px solid var(--line);border-radius:6px;padding:2px 6px;letter-spacing:0}

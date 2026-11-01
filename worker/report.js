@@ -22,7 +22,7 @@ export function headFor(domain, origin, opts) {
   const o = opts || {};
   const zh = o.lang === 'zh';
   const url = origin + (o.base == null ? '/en' : o.base) + '/report/' + domain;
-  const brand = zh ? 'cetxt' : 'VAKSEL';
+  const brand = 'VAKSEL';
   const title = o.title ? domain + (zh ? '：' : ': ') + o.title + ' · ' + brand : domain + (zh ? ' AI 爬虫可访问性报告 · ' : ' AI crawler access report · ') + brand;
   const desc = o.summary || (zh ? 'ChatGPT、Perplexity、Claude 能访问 ' + domain + ' 吗？robots.txt、防火墙与页面实测，覆盖 10 个 AI 爬虫。' : 'Can ChatGPT, Perplexity and Claude reach ' + domain + '? Live robots.txt, firewall and page checks for 10 AI crawlers.');
   return '<title>' + esc(title) + '</title>\n<meta name="description" content="' + esc(desc) + '">\n' +
@@ -101,7 +101,7 @@ export async function handleReport(request, deps, ctx) {
       let tail = '<style>#ld{display:none}</style>' + o.html;
       const js = [];
       if (o.meta) js.push('document.getElementById("meta").innerHTML=' + JSON.stringify(o.meta).replace(/</g, '\\u003c') + ';');
-      if (o.title) js.push('document.title=' + JSON.stringify(domain + (zh ? '：' : ': ') + o.title + (zh ? ' · cetxt' : ' · VAKSEL')).replace(/</g, '\\u003c') + ';');
+      if (o.title) js.push('document.title=' + JSON.stringify(domain + (zh ? '：' : ': ') + o.title + ' · VAKSEL').replace(/</g, '\\u003c') + ';');
       if (js.length) tail += '<script>' + js.join('') + '</script>';
       await w.write(enc.encode(tail + after));
     } catch (e) {

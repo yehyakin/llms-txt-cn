@@ -1,4 +1,4 @@
-// 生成中文站（cetxt）新结构页面：首页、报告页模板、修复指南、AI 爬虫百科、研究方法、监控（早期体验）、隐私/条款/联系、404、sitemap。
+// 生成中文站（cetxt.com，品牌 VAKSEL 中文版）新结构页面：首页、报告页模板、修复指南、AI 爬虫百科、研究方法、监控（早期体验）、隐私/条款/联系、404、sitemap。
 // 用法：node scripts/build-zh.mjs（改文案或 data/*.json、scripts/zh-content.mjs 后重跑并提交）。
 // 旧页面保留：/tools/（llms.txt 生成器/在线体检/校验器）、/survey/、/faq/、/guide/*。样式共用 /en/app.css。
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
@@ -16,7 +16,7 @@ const slug = (t) => String(t).toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
 export const NAV = (active, enPath) => `<a class="skip" href="#main">跳到正文</a>
 <nav class="nav" aria-label="主导航"><div class="wrap">
-  <a class="logo zh" href="/" aria-label="cetxt 首页"><img src="/favicon.svg" alt="" width="26" height="26"><span>cetxt</span></a>
+  <a class="logo" href="/" aria-label="VAKSEL 中文版首页"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"><span class="zhtag">中文版</span></a>
   <div class="links" id="navlinks">
     ${[['guides', '/guides/', '修复指南'], ['bots', '/bots/', 'AI 爬虫'], ['tools', '/tools/', 'llms.txt 工具'], ['survey', '/survey/', '普查报告'], ['pricing', '/pricing/', '监控']].map(([k, h, t]) => `<a class="n${active === k ? ' on' : ''}" href="${h}"${active === k ? ' aria-current="page"' : ''}>${t}</a>`).join('\n    ')}
     <a class="n lang" href="${EN}${enPath || '/'}" hreflang="en" lang="en">EN</a>
@@ -26,15 +26,15 @@ export const NAV = (active, enPath) => `<a class="skip" href="#main">跳到正�
 <script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>`;
 
 export const FOOT = (enPath) => `<footer><div class="wrap fgrid">
-  <div class="fbrand"><a class="logo zh" href="/"><img src="/favicon.svg" alt="" width="22" height="22" loading="lazy"><span>cetxt</span></a><p>AI 搜索到底能不能访问你的网站？免费检测 robots.txt、防火墙和 CDN 拦截。</p></div>
+  <div class="fbrand"><a class="logo" href="/"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><span class="zhtag">中文版</span></a><p>AI 搜索到底能不能访问你的网站？免费检测 robots.txt、防火墙和 CDN 拦截。</p></div>
   <div><h2 class="fh">产品</h2><a href="/">可访问性检测</a><a href="/pricing/">监控（早期体验）</a><a href="/research/">研究方法</a><a href="/tools/">llms.txt 工具</a></div>
   <div><h2 class="fh">修复指南</h2><a href="/guides/cloudflare/">Cloudflare</a><a href="/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/guides/wordpress/">WordPress</a><a href="/guides/shopify/">Shopify</a></div>
   <div><h2 class="fh">资料</h2><a href="/bots/">AI 爬虫百科</a><a href="/survey/">中文大站普查</a><a href="/guide/what-is-llms-txt/">llms.txt 是什么</a><a href="/faq/">常见问题</a></div>
-  <div class="fsmall"><span>© 2026 cetxt</span><a href="/privacy/">隐私</a><a href="/terms/">条款</a><a href="/contact/">联系</a><a href="${EN}${enPath || '/'}" hreflang="en" lang="en">English · VAKSEL</a><span>我们不保存你检测的域名和 IP。</span></div>
+  <div class="fsmall"><span>© 2026 VAKSEL · cetxt.com 是 VAKSEL 中文版</span><a href="/privacy/">隐私</a><a href="/terms/">条款</a><a href="/contact/">联系</a><a href="${EN}${enPath || '/'}" hreflang="en" lang="en">English</a><span>我们不保存你检测的域名和 IP。</span></div>
 </div></footer>`;
 
-const HEADX = `<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="32x32">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+const HEADX = `<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">
 <link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/app.css">`;
 
@@ -47,7 +47,7 @@ function page({ path, title, desc, body, active, ld, en, type = 'article' }) {
 <meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
 <link rel="canonical" href="${SITE}${path}">
 ${enPath ? `<link rel="alternate" hreflang="zh-CN" href="${SITE}${path}"><link rel="alternate" hreflang="en" href="${EN}${enPath}">` : ''}
-<meta property="og:type" content="${type}"><meta property="og:site_name" content="cetxt"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${SITE}${path}"><meta property="og:image" content="${SITE}/og.png"><meta name="twitter:card" content="summary_large_image">
+<meta property="og:type" content="${type}"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${SITE}${path}"><meta property="og:image" content="${SITE}/og.png"><meta name="twitter:card" content="summary_large_image">
 ${HEADX}${ld ? `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>` : ''}
 </head><body class="zh">
 ${NAV(active, enPath)}
@@ -69,7 +69,7 @@ document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit'
 /* ---------- 报告页模板（Worker SSR 用 <!--HEAD--> 等标记填充） ---------- */
 write('report/index.html', `<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<!--HEAD--><title>AI 爬虫可访问性报告 · cetxt</title>
+<!--HEAD--><title>AI 爬虫可访问性报告 · VAKSEL</title>
 <meta name="robots" content="noindex"><!--/HEAD--><meta name="theme-color" content="#ffffff">
 ${HEADX}
 </head><body class="zh">
@@ -87,7 +87,7 @@ import {renderReport,bindReport,cleanDomain,esc} from '/en/view.js';
 const $=s=>document.querySelector(s);
 $('#f').addEventListener('submit',e=>{e.preventDefault();const c=cleanDomain($('#d').value);if(c)location.href='/report/'+c});
 const out=$('#out');
-function show(j){const o=renderReport(j,{lang:'zh',base:'',url:location.origin+'/report/'+j.domain});$('#meta').innerHTML=o.meta;out.innerHTML=o.html;document.title=j.domain+'：'+o.title+' · cetxt';bindReport(document,'zh')}
+function show(j){const o=renderReport(j,{lang:'zh',base:'',url:location.origin+'/report/'+j.domain});$('#meta').innerHTML=o.meta;out.innerHTML=o.html;document.title=j.domain+'：'+o.title+' · VAKSEL';bindReport(document,'zh')}
 function fail(m){out.innerHTML='<div class="loading">'+esc(m)+'</div>'}
 const m=location.pathname.match(/^\\/report\\/([^/]+)\\/?$/);
 const qd=new URLSearchParams(location.search).get('d');
@@ -128,7 +128,7 @@ for (const [cat, label] of [['search', 'AI 搜索与助手'], ['user', '用户�
   if (list.length) groups += `<section class="sec tight"><h2>${label}</h2><p class="sub">${CAT_DESC[cat]}</p><div class="bgrid">${list.map(botCard).join('')}</div></section>`;
 }
 write('bots/index.html', page({
-  path: '/bots/', active: 'bots', title: 'AI 爬虫百科：UA、用途、屏蔽后果 · cetxt',
+  path: '/bots/', active: 'bots', title: 'AI 爬虫百科：UA、用途、屏蔽后果 · VAKSEL',
   desc: `${crawlers.length} 个 AI 与搜索爬虫，从 GPTBot、OAI-SearchBot 到 PerplexityBot、Claude-SearchBot、Bytespider：各自做什么、是否遵守 robots.txt、屏蔽后会怎样。`,
   body: `<main class="wrap doc-head">${crumbs([['/', '首页'], [null, 'AI 爬虫']])}
 <h1>AI 爬虫百科</h1>
@@ -144,7 +144,7 @@ for (const c of crawlers) {
   write(`bots/${slug(c.token)}/index.html`, page({
     path: `/bots/${slug(c.token)}/`, active: 'bots',
     ld: { '@context': 'https://schema.org', '@type': 'TechArticle', headline: `${c.token} 是什么，要不要屏蔽`, dateModified: UPDATED, inLanguage: 'zh-CN', citation: c.docs_url },
-    title: `${c.token} 是什么？要不要屏蔽 · cetxt`,
+    title: `${c.token} 是什么？要不要屏蔽 · VAKSEL`,
     desc: `${c.token} 是 ${c.vendor} 的${CAT[c.category] || ''}${ctrl ? '标记' : '爬虫'}。${c.block_consequence_zh}`.slice(0, 200),
     body: `<main class="wrap doc">${crumbs([['/', '首页'], ['/bots/', 'AI 爬虫'], [null, c.token]])}
 <h1>${esc(c.token)}</h1>
@@ -163,7 +163,7 @@ ${same.length ? `<h2>${esc(c.vendor)} 的其他爬虫</h2><div class="bgrid s">$
 
 /* ---------- 修复指南 ---------- */
 write('guides/index.html', page({
-  path: '/guides/', active: 'guides', title: '修复指南：在 Cloudflare、CloudFront、WordPress、Shopify 上放行 AI 搜索爬虫 · cetxt',
+  path: '/guides/', active: 'guides', title: '修复指南：在 Cloudflare、CloudFront、WordPress、Shopify 上放行 AI 搜索爬虫 · VAKSEL',
   desc: '最常拦住 AI 搜索爬虫的几个平台，分步修复，同时保留拒绝 AI 训练的设置。',
   body: `<main class="wrap doc-head">${crumbs([['/', '首页'], [null, '修复指南']])}
 <h1>修复指南</h1>
@@ -176,7 +176,7 @@ write('guides/index.html', page({
 for (const g of GUIDES_ZH) {
   write(`guides/${g.slug}/index.html`, page({
     path: `/guides/${g.slug}/`, active: 'guides', ld: { '@context': 'https://schema.org', '@type': 'TechArticle', headline: g.title, dateModified: UPDATED, inLanguage: 'zh-CN' },
-    title: g.title + ' · cetxt', desc: g.desc,
+    title: g.title + ' · VAKSEL', desc: g.desc,
     body: `<main class="wrap doc">${crumbs([['/', '首页'], ['/guides/', '修复指南'], [null, g.name]])}
 <h1>${esc(g.title)}</h1><p class="upd">更新于 ${UPDATED}</p>
 ${g.body}
@@ -225,14 +225,14 @@ const PLANS = [
   { name: '代理商版', price: '价格待公布', tag: '早期体验', items: ['最多 50 个客户网站', '包含专业版全部功能', '白标 PDF 报告', '每周客户摘要', '优先支持'], cta: '<a class="btn" href="#join" data-plan="agency">加入早期体验</a>' }
 ];
 write('pricing/index.html', page({
-  path: '/pricing/', active: 'pricing', title: '监控：AI 爬虫一被拦就通知你（早期体验）· cetxt',
+  path: '/pricing/', active: 'pricing', title: '监控：AI 爬虫一被拦就通知你（早期体验）· VAKSEL',
   desc: '检测永久免费。监控每天复测，robots.txt、插件或 CDN 默认规则一旦挡住 AI 爬虫就发邮件提醒。现在加入早期体验，价格公布前不收费。',
   body: `<main class="wrap">
 <header class="hero s"><h1>AI 搜索哪天<span class="grad">进不来了</span>，第一时间知道</h1>
 <p class="lead">检测永久免费。监控每天复测，robots.txt 改动、插件更新或 CDN 默认规则一旦挡住 AI 爬虫，就发邮件告诉你。</p></header>
 <div class="plans">${PLANS.map((p) => `<div class="plan${p.hi ? ' hi' : ''}"><div class="ptag">${p.tag}</div><h2 class="pn">${p.name}</h2><div class="pp${p.price.length > 3 ? ' tbd' : ''}">${p.price}</div><ul>${p.items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>${p.cta}</div>`).join('')}</div>
 <section class="sec"><div class="alert-wrap"><div class="atext"><h2>提醒邮件长这样</h2><p class="sub">有变化才发一封，附上证据和修法；没变化不打扰。</p></div>
-<div class="mail" aria-label="提醒邮件示例"><div class="mh"><img src="/favicon.svg" width="28" height="28" alt=""><div><b>cetxt 提醒</b><span>发给 you@company.com</span></div><time>今天 07:02</time></div>
+<div class="mail" aria-label="提醒邮件示例"><div class="mh"><img src="/en/brand/vaksel-favicon.svg" width="28" height="28" alt=""><div><b>VAKSEL 提醒</b><span>发给 you@company.com</span></div><time>今天 07:02</time></div>
 <div class="ms">example.com 的 OAI-SearchBot 现在被拦了</div>
 <div class="mb"><p>昨天 OAI-SearchBot 拿到的页面和浏览器一样。今天早上它从 Cloudflare 收到 <code>403</code>，而浏览器和 Googlebot 仍是 <code>200</code>。</p>
 <div class="mrow"><span>OAI-SearchBot</span><span class="tag t-ok">可访问</span><span class="arr">→</span><span class="tag t-bad">静默拦截</span></div>
@@ -271,9 +271,9 @@ wl.addEventListener('submit',async e=>{e.preventDefault();const b=wl.querySelect
 const FIXT = JSON.parse(readFileSync(join(root, 'tests/fixture-toyota.json'), 'utf8'));
 const demo = renderReport(FIXT, { lang: 'zh', base: '', when: '2026-11-01T09:12:00Z', url: SITE + '/report/toyota.com' });
 write('index.html', page({
-  path: '/', type: 'website', title: 'AI 搜索能访问你的网站吗？免费 AI 爬虫可访问性检测 · cetxt',
+  path: '/', type: 'website', title: 'AI 搜索能访问你的网站吗？免费 AI 爬虫可访问性检测 · VAKSEL',
   desc: '检测 ChatGPT、Perplexity、Claude 的搜索爬虫能否真正访问你的网站：robots.txt、防火墙和 CDN 拦截、noindex、只靠 JavaScript 渲染的页面。免费，无需注册。',
-  ld: { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'cetxt', url: SITE + '/', inLanguage: 'zh-CN', applicationCategory: 'DeveloperApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'CNY' } },
+  ld: { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'VAKSEL', alternateName: 'VAKSEL 中文版', url: SITE + '/', inLanguage: 'zh-CN', applicationCategory: 'DeveloperApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'CNY' } },
   body: `<header class="hero"><div class="wrap">
   <span class="eyebrow"><b></b>免费 · 无需注册 · 几秒出结果</span>
   <h1>AI 搜索<span class="grad">真的能访问</span>你的网站吗？</h1>
@@ -351,7 +351,7 @@ document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>go(b.dataset.d));
 
 /* ---------- 404 ---------- */
 write('404.html', page({
-  path: '/404', title: '页面不存在 · cetxt', desc: '这个页面不存在。', en: '',
+  path: '/404', title: '页面不存在 · VAKSEL', desc: '这个页面不存在。', en: '',
   body: `<main class="wrap nf"><img src="/en/brand/vava/vava3d-searching-mini.webp" width="160" height="202" alt="正在找东西的狐狸 Vava">
 <h1>找遍了也没找到</h1><p class="lead">这个页面不存在，或者已经搬走了。试试检测，或者看看下面这些。</p>
 <form class="field" data-check autocomplete="off"><input placeholder="你的域名，例如 example.com" aria-label="域名" spellcheck="false" autocapitalize="off"><button class="btn">开始检测</button></form>

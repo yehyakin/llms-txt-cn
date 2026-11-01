@@ -46,24 +46,24 @@ const ZPLAN = { pro: ['专业版', '最多 10 个网站'], agency: ['代理商�
 function confirmEmailZh(plan, site) {
   const [name, sites] = ZPLAN[plan] || ZPLAN.pro;
   const Z = 'https://cetxt.com';
-  const subject = '你已加入 cetxt 监控早期体验';
+  const subject = '你已加入 VAKSEL 监控早期体验';
   const checkUrl = site ? `${Z}/report/${site}` : `${Z}/`;
-  const text = [`你已加入 cetxt ${name}（${sites}）的早期体验名单。`, '', '接下来：', '1. 监控账号准备好后，我们只发一封邮件通知你。', '2. 价格公布并经你确认之前，不会收取任何费用。', '3. 早期用户锁定首发价。', '', site ? `先看看 ${site} 今天的检测结果：${checkUrl}` : `免费检测：${checkUrl}`, '', `退出名单请用 ${Z}/contact/（直接回复本邮件不会有人看到）。`, '', 'cetxt · VAKSEL 中文站'].join('\n');
+  const text = [`你已加入 VAKSEL ${name}（${sites}）的早期体验名单。`, '', '接下来：', '1. 监控账号准备好后，我们只发一封邮件通知你。', '2. 价格公布并经你确认之前，不会收取任何费用。', '3. 早期用户锁定首发价。', '', site ? `先看看 ${site} 今天的检测结果：${checkUrl}` : `免费检测：${checkUrl}`, '', `退出名单请用 ${Z}/contact/（直接回复本邮件不会有人看到）。`, '', 'VAKSEL 中文版 · cetxt.com'].join('\n');
   const F = "-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei','Segoe UI',Roboto,Helvetica,Arial,sans-serif";
   const step = (n, t) => `<tr><td valign="top" style="padding:0 12px 12px 0;width:28px"><div style="width:24px;height:24px;border-radius:12px;background:#0C63F1;color:#fff;font:600 13px/24px ${F};text-align:center">${n}</div></td><td style="padding:2px 0 12px;font:15px/1.6 ${F};color:#333336">${t}</td></tr>`;
   const html = `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(subject)}</title></head>
 <body style="margin:0;padding:0;background:#f5f5f7">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f7"><tr><td align="center" style="padding:32px 16px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px">
-<tr><td style="padding:0 4px 18px;font:700 22px/1 ${F};color:#080B14"><a href="${Z}/" style="color:#080B14;text-decoration:none">cetxt</a></td></tr>
+<tr><td style="padding:0 4px 18px"><a href="${Z}/"><img src="https://vaksel.com/brand/email-lockup.png" width="160" alt="VAKSEL" style="display:block;border:0;width:160px;height:auto"></a></td></tr>
 <tr><td style="background:#ffffff;border-radius:18px;padding:32px 30px">
   <div style="font:600 12px/1 ${F};color:#0C63F1">早期体验 · ${esc(name)}</div>
   <h1 style="margin:12px 0 10px;font:700 26px/1.3 ${F};color:#080B14">你已加入名单。</h1>
-  <p style="margin:0 0 22px;font:16px/1.6 ${F};color:#333336">感谢加入 cetxt ${esc(name)}（${esc(sites)}）。监控每天复测你的网站，AI 爬虫一被拦就发邮件提醒你。</p>
+  <p style="margin:0 0 22px;font:16px/1.6 ${F};color:#333336">感谢加入 VAKSEL ${esc(name)}（${esc(sites)}）。监控每天复测你的网站，AI 爬虫一被拦就发邮件提醒你。</p>
   <table role="presentation" cellpadding="0" cellspacing="0">${step(1, '监控账号准备好后，我们<b>只发一封</b>邮件通知你。')}${step(2, '价格公布并经你确认之前，不会收取任何费用。')}${step(3, '早期用户锁定首发价。')}</table>
   <table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:10px"><tr><td style="border-radius:10px;background:#080B14"><a href="${checkUrl}" style="display:inline-block;padding:12px 20px;font:600 15px/1 ${F};color:#ffffff;text-decoration:none">${site ? '查看 ' + esc(site) + ' 今天的检测' : '免费检测'}</a></td></tr></table>
 </td></tr>
-<tr><td style="padding:18px 6px 0;font:12px/1.7 ${F};color:#6e6e73">你收到这封邮件，是因为这个地址加入了 cetxt 早期体验名单。退出请用<a href="${Z}/contact/" style="color:#6e6e73">联系表单</a>，直接回复本邮件不会有人看到。cetxt 是 VAKSEL 的中文站。<br><a href="${Z}/privacy/" style="color:#6e6e73">隐私政策</a> · <a href="${Z}/" style="color:#6e6e73">cetxt.com</a></td></tr>
+<tr><td style="padding:18px 6px 0;font:12px/1.7 ${F};color:#6e6e73">你收到这封邮件，是因为这个地址加入了 VAKSEL 早期体验名单。退出请用<a href="${Z}/contact/" style="color:#6e6e73">联系表单</a>，直接回复本邮件不会有人看到。cetxt.com 是 VAKSEL 中文版。<br><a href="${Z}/privacy/" style="color:#6e6e73">隐私政策</a> · <a href="${Z}/" style="color:#6e6e73">cetxt.com</a></td></tr>
 </table></td></tr></table></body></html>`;
-  return { subject, text, html, from: 'cetxt <hello@mail.vaksel.com>' };
+  return { subject, text, html, from: 'VAKSEL <hello@mail.vaksel.com>' };
 }

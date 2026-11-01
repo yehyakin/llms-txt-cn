@@ -120,7 +120,7 @@ Disallow: /</pre>
 
 // 正文不含面包屑、<main> 外壳和文末的 checkBox()/CHECK_JS，由构建脚本拼接。
 export const RESEARCH_ZH = {
-  title: '防火墙静默拦截 AI 搜索爬虫有多常见？2026 年 11 月抽样 · cetxt',
+  title: '防火墙静默拦截 AI 搜索爬虫有多常见？2026 年 11 月抽样 · VAKSEL',
   desc: '从 Tranco 前 2 万名中随机抽取 600 个网站，其中 362 个可访问：45 个拒绝了 robots.txt 允许的 AI 搜索爬虫 user agent，其中 13 个是专门针对 AI 爬虫的拦截。附方法、定义和局限。',
   h1: '防火墙静默拦截 AI 搜索爬虫有多常见？',
   upd: '抽样时间：2026 年 11 月 1 日',
@@ -151,7 +151,7 @@ export const RESEARCH_ZH = {
 };
 
 export const PRIVACY_ZH = {
-  title: '隐私政策 · cetxt',
+  title: '隐私政策 · VAKSEL',
   desc: '你运行检测或加入抢先体验名单时，我们收集哪些信息，以及不收集哪些信息。',
   h1: '隐私政策',
   body: `
@@ -171,8 +171,8 @@ export const PRIVACY_ZH = {
 };
 
 export const TERMS_ZH = {
-  title: '使用条款 · cetxt',
-  desc: '使用 cetxt AI 爬虫访问检测服务的条款。',
+  title: '使用条款 · VAKSEL',
+  desc: '使用 VAKSEL AI 爬虫访问检测服务的条款。',
   h1: '使用条款',
   body: `
 <h2>使用检测服务</h2>
@@ -189,8 +189,8 @@ export const TERMS_ZH = {
 };
 
 export const CONTACT_ZH = {
-  title: '联系我们 · cetxt',
-  desc: '向 cetxt 提问、提交数据请求或反馈意见。',
+  title: '联系我们 · VAKSEL',
+  desc: '向 VAKSEL 提问、提交数据请求或反馈意见。',
   h1: '联系我们',
   lead: '关于检测报告的问题、数据删除请求，或建议我们新增的爬虫。我们会通过邮件回复。',
   labels: { email: '你的邮箱', topic: '主题', message: '留言', send: '发送' },

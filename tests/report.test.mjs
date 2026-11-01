@@ -73,7 +73,7 @@ await t('中文报告：文案为中文，链接无 /en', () => { const o = rend
 await t('中文报告 SSR：/report/<域名> 给分享爬虫整页中文', async () => {
   const TPLZ = readFileSync('report/index.html', 'utf8');
   const r = await handleReport(new Request('https://cetxt-preview.x/report/toyota.com', { headers: { 'user-agent': 'Slackbot' } }), { lang: 'zh', template: async () => TPLZ, api: async () => new Response(JSON.stringify(FIX), { headers: { 'content-type': 'application/json' } }) }, {});
-  const h = await r.text(); ok(h.includes('静默拦截') && h.includes(' · cetxt') && h.includes('/og/toyota.com.png'), h.slice(0, 300));
+  const h = await r.text(); ok(h.includes('静默拦截') && h.includes(' · VAKSEL') && h.includes('/og/toyota.com.png'), h.slice(0, 300));
 });
 await t('中文站页面齐全，旧工具移到 /tools/', () => { for (const f of ['index.html', 'tools/index.html', 'guides/cloudflare/index.html', 'bots/gptbot/index.html', 'pricing/index.html', 'research/index.html', 'privacy/index.html', '404.html']) ok(existsSync(f), f); ok(!readFileSync('pricing/index.html', 'utf8').includes('$19')); });
 console.log(`\n${pass} 通过，${fail} 失败`); if (fail) process.exit(1);

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<!--HEAD--><title>AI 爬虫可访问性报告 · cetxt</title>
+<!--HEAD--><title>AI 爬虫可访问性报告 · VAKSEL</title>
 <meta name="robots" content="noindex"><!--/HEAD--><meta name="theme-color" content="#ffffff">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="32x32">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">
 <link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/app.css">
 </head><body class="zh">
 <a class="skip" href="#main">跳到正文</a>
 <nav class="nav" aria-label="主导航"><div class="wrap">
-  <a class="logo zh" href="/" aria-label="cetxt 首页"><img src="/favicon.svg" alt="" width="26" height="26"><span>cetxt</span></a>
+  <a class="logo" href="/" aria-label="VAKSEL 中文版首页"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"><span class="zhtag">中文版</span></a>
   <div class="links" id="navlinks">
     <a class="n" href="/guides/">修复指南</a>
     <a class="n" href="/bots/">AI 爬虫</a>
@@ -29,18 +29,18 @@
   <div id="out"><!--OUT--><div class="loading" id="ld"><img class="vava" src="/en/brand/vava/vava3d-searching-mini.webp" width="96" height="121" alt="">正在以 13 种不同身份请求首页…</div><!--/OUT--></div>
 </main>
 <footer><div class="wrap fgrid">
-  <div class="fbrand"><a class="logo zh" href="/"><img src="/favicon.svg" alt="" width="22" height="22" loading="lazy"><span>cetxt</span></a><p>AI 搜索到底能不能访问你的网站？免费检测 robots.txt、防火墙和 CDN 拦截。</p></div>
+  <div class="fbrand"><a class="logo" href="/"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><span class="zhtag">中文版</span></a><p>AI 搜索到底能不能访问你的网站？免费检测 robots.txt、防火墙和 CDN 拦截。</p></div>
   <div><h2 class="fh">产品</h2><a href="/">可访问性检测</a><a href="/pricing/">监控（早期体验）</a><a href="/research/">研究方法</a><a href="/tools/">llms.txt 工具</a></div>
   <div><h2 class="fh">修复指南</h2><a href="/guides/cloudflare/">Cloudflare</a><a href="/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/guides/wordpress/">WordPress</a><a href="/guides/shopify/">Shopify</a></div>
   <div><h2 class="fh">资料</h2><a href="/bots/">AI 爬虫百科</a><a href="/survey/">中文大站普查</a><a href="/guide/what-is-llms-txt/">llms.txt 是什么</a><a href="/faq/">常见问题</a></div>
-  <div class="fsmall"><span>© 2026 cetxt</span><a href="/privacy/">隐私</a><a href="/terms/">条款</a><a href="/contact/">联系</a><a href="https://vaksel.com/" hreflang="en" lang="en">English · VAKSEL</a><span>我们不保存你检测的域名和 IP。</span></div>
+  <div class="fsmall"><span>© 2026 VAKSEL · cetxt.com 是 VAKSEL 中文版</span><a href="/privacy/">隐私</a><a href="/terms/">条款</a><a href="/contact/">联系</a><a href="https://vaksel.com/" hreflang="en" lang="en">English</a><span>我们不保存你检测的域名和 IP。</span></div>
 </div></footer>
 <script type="module">
 import {renderReport,bindReport,cleanDomain,esc} from '/en/view.js';
 const $=s=>document.querySelector(s);
 $('#f').addEventListener('submit',e=>{e.preventDefault();const c=cleanDomain($('#d').value);if(c)location.href='/report/'+c});
 const out=$('#out');
-function show(j){const o=renderReport(j,{lang:'zh',base:'',url:location.origin+'/report/'+j.domain});$('#meta').innerHTML=o.meta;out.innerHTML=o.html;document.title=j.domain+'：'+o.title+' · cetxt';bindReport(document,'zh')}
+function show(j){const o=renderReport(j,{lang:'zh',base:'',url:location.origin+'/report/'+j.domain});$('#meta').innerHTML=o.meta;out.innerHTML=o.html;document.title=j.domain+'：'+o.title+' · VAKSEL';bindReport(document,'zh')}
 function fail(m){out.innerHTML='<div class="loading">'+esc(m)+'</div>'}
 const m=location.pathname.match(/^\/report\/([^/]+)\/?$/);
 const qd=new URLSearchParams(location.search).get('d');
