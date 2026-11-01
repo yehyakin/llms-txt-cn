@@ -76,6 +76,11 @@
       "block": "Your site may drop out of Toutiao search. ByteDance doesn't document whether blocking it stops AI training use.",
       "advice": "Block it if you don't need Toutiao traffic. Its training use is undocumented."
     },
+    "PetalBot": {
+      "summary": "Huawei's crawler for Petal Search. Huawei says its index also powers Huawei Assistant and AI Search, and that it follows robots.txt.",
+      "block": "Your site drops out of Petal Search, and Huawei Assistant and AI Search lose your content. Huawei doesn't say whether it's used for model training.",
+      "advice": "Keep it if you want traffic from Huawei phones and Petal Search."
+    },
     "meta-externalagent": {
       "summary": "Meta's crawler for use cases such as training foundation AI models or improving products by indexing content directly.",
       "block": "Meta-ExternalAgent stops fetching your content, including for training Meta's foundation models.",

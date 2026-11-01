@@ -157,7 +157,7 @@ def fetch_once(u, max_bytes, accept, ua=UA, any_status=False):
             body = data[:max_bytes]
         out = {"kind": "response", "status": status, "content_type": ctype,
                "body_b64": base64.b64encode(body).decode("ascii"), "truncated": truncated}
-        if any_status:
+        if True:  # 11-02：/fetch 也回关键头（x-robots-tag 等）
             out["headers"] = {k.lower(): v[:200] for k, v in resp.getheaders()
                               if k.lower() in PROBE_HEADERS}
         return out

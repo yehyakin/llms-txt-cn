@@ -125,6 +125,15 @@
       "unverified_fields": ["training_use", "respects_robots"]
     },
     {
+      "token": "PetalBot", "vendor": "Huawei", "category": "search", "purposes": ["search"],
+      "respects_robots": "yes",
+      "summary_zh": "华为花瓣搜索（Petal Search）的爬虫。官方写明它建立的索引供花瓣搜索、华为小艺助手和 AI 搜索使用，并遵守 robots.txt。",
+      "quote": "establish an index database which enables users to search the content of your site in Petal search engine and present content recommendations for the user in Huawei Assistant and AI Search services",
+      "block_consequence_zh": "网站会从花瓣搜索消失，华为小艺和 AI 搜索也拿不到你的内容。官方没有说明是否用于模型训练。",
+      "docs_url": "https://webmaster.petalsearch.com/site/petalbot", "verified_on": "2026-11-02", "verification": "partial",
+      "unverified_fields": ["training_use"]
+    },
+    {
       "token": "meta-externalagent", "vendor": "Meta", "category": "training", "purposes": ["training", "indexing"],
       "respects_robots": "yes",
       "summary_zh": "用于训练基础 AI 模型或直接索引内容以改进产品等用途。",

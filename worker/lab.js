@@ -71,10 +71,10 @@ function html(f, host) {
   const links = ['about', 'method', 'fixtures', 'changelog', 'contact', 'license'].map((p) => `<a href="/${p}/">${p}</a>`).join(' · ');
   const body = v === 'spa'
     ? '<div id="root"></div><script>document.getElementById("root").innerHTML="<main><h1>' + name + '</h1><p>' + PARA.replace(/"/g, '') + '</p></main>"</script>'
-    : `<main><h1>${name}</h1><p>${PARA}</p><p>${f.en.replace(/</g, '&lt;')}</p><p>${PARA}</p><nav>${links}</nav><img src="https://vaksel.com/icon-192.png" alt="VAKSEL fox logo" width="96" height="96"></main>`;
+    : `<main><h1>${name}</h1><p>${PARA}</p><p>Fixture: ${f.slug}. See https://vaksel.com/research/lab/ for what it changes.</p><p>${PARA}</p><nav>${links}</nav><img src="https://vaksel.com/icon-192.png" alt="VAKSEL fox logo" width="96" height="96"></main>`;
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${name} · AI visibility test site</title>
-<meta name="description" content="A single-variable test site from the VAKSEL lab: ${f.en.replace(/"/g, '&quot;').replace(/</g, '&lt;').slice(0, 200)}">
+<meta name="description" content="A single-variable test site from the VAKSEL lab (${f.slug}). Each lab site changes one thing so AI visibility tools can be checked.">
 ${robots}<link rel="canonical" href="${canon}">
 <meta property="og:title" content="${name}"><meta property="og:image" content="https://vaksel.com/og/site.png"><meta property="og:site_name" content="${name}">
 <script type="application/ld+json">${ld}</script>${faq}</head><body>${body}</body></html>`;

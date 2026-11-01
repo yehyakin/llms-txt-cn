@@ -333,7 +333,9 @@ export async function checkSitemap(domain, robotsText, deps, deadline) {
   const m = /^\s*sitemap\s*:\s*(\S+)/im.exec(robotsText || '');
   let url = m ? m[1] : 'https://' + domain + '/sitemap.xml';
   try { url = new URL(url).href; } catch (e) { return { ok: false, declared: !!m, url, status: 'bad_url' }; }
-  const r = await fetchLimited(url, { maxBytes: LIMITS.sitemapMax, accept: 'application/xml,text/xml,*/*', deadline }, deps);
+  const so = { maxBytes: LIMITS.sitemapMax, accept: 'application/xml,text/xml,*/*', deadline };
+  let r = await fetchLimited(url, so, deps);
+  if (deps.relay && deps.relay.url && deps.relay.key && looksBlocked(r)) { const r2 = await fetchViaRelay(url, so, deps); if (r2 && !(r2.kind === 'error' && r2.transport && r.kind === 'response')) r = r2; }
   if (r.kind !== 'response') return { ok: false, declared: !!m, url, status: r.code || r.kind };
   const head = decodeBody(r.bytes, r.content_type).slice(0, 2000);
   const ok = r.status === 200 && (/<(urlset|sitemapindex)\b/i.test(head) || (/^\s*https?:\/\//.test(head) && /text\/plain/i.test(r.content_type)) || /gzip/i.test(r.content_type));

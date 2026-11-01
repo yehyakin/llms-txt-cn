@@ -1,0 +1,708 @@
+{
+ "run_at": "2026-11-01T21:52:23.634Z",
+ "rules": "2026-11-02.1",
+ "api": "https://cetxt-preview.kin3.workers.dev",
+ "results": [
+  {
+   "slug": "baseline",
+   "domain": "baseline-lab.vaksel.com",
+   "expect": [
+    "S",
+    "S",
+    "S"
+   ],
+   "got": [
+    "S",
+    "A",
+    "S"
+   ],
+   "ok": false,
+   "why": {
+    "access": [
+     {
+      "id": "all_open",
+      "status": "pass",
+      "total": 8
+     }
+    ],
+    "read": [
+     {
+      "id": "sitemap",
+      "status": "warn"
+     }
+    ],
+    "cite": []
+   },
+   "error": null
+  },
+  {
+   "slug": "robots-disallow-all",
+   "domain": "robots-disallow-all-lab.vaksel.com",
+   "expect": [
+    "C",
+    "S",
+    "S"
+   ],
+   "got": [
+    "B",
+    "A",
+    "S"
+   ],
+   "ok": false,
+   "why": {
+    "access": [
+     {
+      "id": "some_blocked",
+      "status": "warn",
+      "n": 7,
+      "total": 8,
+      "bots": [
+       "OAI-SearchBot",
+       "ChatGPT-User",
+       "PerplexityBot",
+       "Perplexity-User",
+       "Claude-SearchBot",
+       "Claude-User",
+       "Bytespider"
+      ]
+     }
+    ],
+    "read": [
+     {
+      "id": "sitemap",
+      "status": "warn"
+     }
+    ],
+    "cite": []
+   },
+   "error": null
+  },
+  {
+   "slug": "robots-block-oai",
+   "domain": "robots-block-oai-lab.vaksel.com",
+   "expect": [
+    "B",
+    "S",
+    "S"
+   ],
+   "got": [
+    "B",
+    "A",
+    "S"
+   ],
+   "ok": false,
+   "why": {
+    "access": [
+     {
+      "id": "some_blocked",
+      "status": "warn",
+      "n": 1,
+      "total": 8,
+      "bots": [
+       "OAI-SearchBot"
+      ]
+     }
+    ],
+    "read": [
+     {
+      "id": "sitemap",
+      "status": "warn"
+     }
+    ],
+    "cite": []
+   },
+   "error": null
+  },
+  {
+   "slug": "robots-block-training",
+   "domain": "robots-block-training-lab.vaksel.com",
+   "expect": [
+    "S",
+    "S",
+    "S"
+   ],
+   "got": [
+    "S",
+    "A",
+    "S"
+   ],
+   "ok": false,
+   "why": {
+    "access": [
+     {
+      "id": "all_open",
+      "status": "pass",
+      "total": 8
+     }
+    ],
+    "read": [
+     {
+      "id": "sitemap",
+      "status": "warn"
+     }
+    ],
+    "cite": []
+   },
+   "error": null
+  },
+  {
+   "slug": "robots-503",
+   "domain": "robots-503-lab.vaksel.com",
+   "expect": [
+    "C",
+    "S",
+    "S"
+   ],
+   "got": [
+    "B",
+    "A",
+    "S"
+   ],
+   "ok": false,
+   "why": {
+    "access": [
+     {
+      "id": "some_blocked",
+      "status": "warn",
+      "n": 7,
+      "total": 8,
+      "bots": [
+       "OAI-SearchBot",
+       "ChatGPT-User",
+       "PerplexityBot",
+       "Perplexity-User",
+       "Claude-SearchBot",
+       "Claude-User",
+       "Bytespider"
+      ]
+     }
+    ],
+    "read": [
+     {
+      "id": "sitemap",
+      "status": "warn"
+     }
+    ],
+    "cite": []
+   },
+   "error": null
+  },
+  {
+   "slug": "robots-404",
+   "domain": "robots-404-lab.vaksel.com",
+   "expect": [
+    "S",
+    "S",
+    "S"
+   ],
+   "got": [
+    "S",
+    "A",
+    "S"
+   ],
+   "ok": false,
+   "why": {
+    "access": [
+     {
+      "id": "all_open",
+      "status": "pass",
+      "total": 8
+     }
+    ],
+    "read": [
+     {
+      "id": "sitemap",
+      "status": "warn"
+     }
+    ],
+    "cite": []
+   },
+   "error": null
+  },
+  {
+   "slug": "fw-ai-403",
+   "domain": "fw-ai-403-lab.vaksel.com",
+   "expect": [
+    "C",
+    "S",
+    "S"
+   ],
+   "got": [
+    "C",
+    "A",
+    "S"
+   ],
+   "ok": false,
+   "why": {
+    "access": [
+     {
+      "id": "silent",
+      "status": "fail",
+      "n": 6,
+      "bots": [
+       "OAI-SearchBot",
+       "ChatGPT-User",
+       "PerplexityBot",
+       "Perplexity-User",
+       "Claude-SearchBot",
+       "Claude-User"
+      ]
+     }
+    ],
+    "read": [
+     {
+      "id": "sitemap",
+      "status": "warn"
+     }
+    ],
+    "cite": []
+   },
+   "error": null
+  },
+  {
+   "slug": "fw-verify-bots",
+   "domain": "fw-verify-bots-lab.vaksel.com",
+   "expect": [
+    "A",
+    "S",
+    "S"
+   ],
+   "got": [
+    "A",
+    "A",
+    "S"
+   ],
+   "ok": false,
+   "why": {
+    "access": [
+     {
+      "id": "some_warn",
+      "status": "warn",
+      "n": 8,
+      "bots": [
+       "OAI-SearchBot",
+       "ChatGPT-User",
+       "PerplexityBot",
+       "Perplexity-User",
+       "Claude-SearchBot",
+       "Claude-User",
+       "Bytespider",
+       "PetalBot"
+      ]
+     }
+    ],
+    "read": [
+     {
+      "id": "sitemap",
+      "status": "warn"
+     }
+    ],
+    "cite": []
+   },
+   "error": null
+  },
+  {
+   "slug": "fw-unknown-bots",
+   "domain": "fw-unknown-bots-lab.vaksel.com",
+   "expect": [
+    "C",
+    "S",
+    "S"
+   ],
+   "got": [
+    "C",
+    "A",
+    "S"
+   ],
+   "ok": false,
+   "why": {
+    "access": [
+     {
+      "id": "all_blocked",
+      "status": "fail",
+      "n": 8
+     }
+    ],
+    "read": [
+     {
+      "id": "sitemap",
+      "status": "warn"
+     }
+    ],
+    "cite": []
+   },
+   "error": null
+  },
+  {
+   "slug": "fw-ai-challenge",
+   "domain": "fw-ai-challenge-lab.vaksel.com",
+   "expect": [
+    "C",
+    "S",
+    "S"
+   ],
+   "got": [
+    "A",
+    "A",
+    "S"
+   ],
+   "ok": false,
+   "why": {
+    "access": [
+     {
+      "id": "robots_only",
+      "status": "info"
+     }
+    ],
+    "read": [
+     {
+      "id": "sitemap",
+      "status": "warn"
+     }
+    ],
+    "cite": []
+   },
+   "error": null
+  },
+  {
+   "slug": "fw-ai-thin",
+   "domain": "fw-ai-thin-lab.vaksel.com",
+   "expect": [
+    "A",
+    "S",
+    "S"
+   ],
+   "got": [
+    "A",
+    "A",
+    "S"
+   ],
+   "ok": false,
+   "why": {
+    "access": [
+     {
+      "id": "some_warn",
+      "status": "warn",
+      "n": 6,
+      "bots": [
+       "OAI-SearchBot",
+       "ChatGPT-User",
+       "PerplexityBot",
+       "Perplexity-User",
+       "Claude-SearchBot",
+       "Claude-User"
+      ]
+     }
+    ],
+    "read": [
+     {
+      "id": "sitemap",
+      "status": "warn"
+     }
+    ],
+    "cite": []
+   },
+   "error": null
+  },
+  {
+   "slug": "meta-noindex",
+   "domain": "meta-noindex-lab.vaksel.com",
+   "expect": [
+    "C",
+    "C",
+    "S"
+   ],
+   "got": [
+    "C",
+    "C",
+    "S"
+   ],
+   "ok": true,
+   "why": {
+    "access": [
+     {
+      "id": "noindex",
+      "status": "fail"
+     }
+    ],
+    "read": [
+     {
+      "id": "indexable",
+      "status": "fail"
+     },
+     {
+      "id": "description",
+      "status": "warn"
+     },
+     {
+      "id": "sitemap",
+      "status": "warn"
+     }
+    ],
+    "cite": []
+   },
+   "error": null
+  },
+  {
+   "slug": "header-noindex",
+   "domain": "header-noindex-lab.vaksel.com",
+   "expect": [
+    "C",
+    "C",
+    "S"
+   ],
+   "got": [
+    "C",
+    "A",
+    "S"
+   ],
+   "ok": false,
+   "why": {
+    "access": [
+     {
+      "id": "noindex",
+      "status": "fail"
+     }
+    ],
+    "read": [
+     {
+      "id": "sitemap",
+      "status": "warn"
+     }
+    ],
+    "cite": []
+   },
+   "error": null
+  },
+  {
+   "slug": "nosnippet",
+   "domain": "nosnippet-lab.vaksel.com",
+   "expect": [
+    "S",
+    "C",
+    "S"
+   ],
+   "got": [
+    "S",
+    "C",
+    "S"
+   ],
+   "ok": true,
+   "why": {
+    "access": [
+     {
+      "id": "all_open",
+      "status": "pass",
+      "total": 8
+     }
+    ],
+    "read": [
+     {
+      "id": "indexable",
+      "status": "fail"
+     },
+     {
+      "id": "description",
+      "status": "warn"
+     },
+     {
+      "id": "sitemap",
+      "status": "warn"
+     }
+    ],
+    "cite": []
+   },
+   "error": null
+  },
+  {
+   "slug": "js-only",
+   "domain": "js-only-lab.vaksel.com",
+   "expect": [
+    "S",
+    "C",
+    "S"
+   ],
+   "got": [
+    "S",
+    "C",
+    "S"
+   ],
+   "ok": true,
+   "why": {
+    "access": [
+     {
+      "id": "all_open",
+      "status": "pass",
+      "total": 8
+     }
+    ],
+    "read": [
+     {
+      "id": "text",
+      "status": "fail"
+     },
+     {
+      "id": "description",
+      "status": "warn"
+     },
+     {
+      "id": "sitemap",
+      "status": "warn"
+     },
+     {
+      "id": "links",
+      "status": "warn"
+     }
+    ],
+    "cite": []
+   },
+   "error": null
+  },
+  {
+   "slug": "llms-html",
+   "domain": "llms-html-lab.vaksel.com",
+   "expect": [
+    "S",
+    "S",
+    "S"
+   ],
+   "got": [
+    "S",
+    "A",
+    "S"
+   ],
+   "ok": false,
+   "why": {
+    "access": [
+     {
+      "id": "all_open",
+      "status": "pass",
+      "total": 8
+     }
+    ],
+    "read": [
+     {
+      "id": "sitemap",
+      "status": "warn"
+     }
+    ],
+    "cite": []
+   },
+   "error": null
+  },
+  {
+   "slug": "faq-mismatch",
+   "domain": "faq-mismatch-lab.vaksel.com",
+   "expect": [
+    "S",
+    "S",
+    "B"
+   ],
+   "got": [
+    "S",
+    "A",
+    "B"
+   ],
+   "ok": false,
+   "why": {
+    "access": [
+     {
+      "id": "all_open",
+      "status": "pass",
+      "total": 8
+     }
+    ],
+    "read": [
+     {
+      "id": "sitemap",
+      "status": "warn"
+     }
+    ],
+    "cite": [
+     {
+      "id": "faq",
+      "status": "warn"
+     }
+    ]
+   },
+   "error": null
+  },
+  {
+   "slug": "jsonld-broken",
+   "domain": "jsonld-broken-lab.vaksel.com",
+   "expect": [
+    "S",
+    "S",
+    "B"
+   ],
+   "got": [
+    "S",
+    "A",
+    "B"
+   ],
+   "ok": false,
+   "why": {
+    "access": [
+     {
+      "id": "all_open",
+      "status": "pass",
+      "total": 8
+     }
+    ],
+    "read": [
+     {
+      "id": "sitemap",
+      "status": "warn"
+     }
+    ],
+    "cite": [
+     {
+      "id": "jsonld",
+      "status": "fail"
+     },
+     {
+      "id": "entity",
+      "status": "info"
+     }
+    ]
+   },
+   "error": null
+  },
+  {
+   "slug": "canonical-other-host",
+   "domain": "canonical-other-host-lab.vaksel.com",
+   "expect": [
+    "S",
+    "A",
+    "S"
+   ],
+   "got": [
+    "S",
+    "B",
+    "S"
+   ],
+   "ok": false,
+   "why": {
+    "access": [
+     {
+      "id": "all_open",
+      "status": "pass",
+      "total": 8
+     }
+    ],
+    "read": [
+     {
+      "id": "canonical",
+      "status": "warn"
+     },
+     {
+      "id": "sitemap",
+      "status": "warn"
+     }
+    ],
+    "cite": []
+   },
+   "error": null
+  }
+ ]
+}
