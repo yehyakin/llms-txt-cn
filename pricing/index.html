@@ -43,6 +43,7 @@
     <input type="email" name="email" required placeholder="you@company.com" aria-label="邮箱" autocomplete="email">
     <select name="plan" aria-label="方案"><option value="pro">专业版 · 最多 10 个网站</option><option value="agency">代理商版 · 最多 50 个网站</option></select>
     <input name="site" placeholder="主要网站（选填）" aria-label="主要网站（选填）" autocapitalize="off" spellcheck="false">
+    <label class="wlplug"><input type="checkbox" name="watch" value="1"> 现在就开始监控这个网站，早期体验期间免费（会先发一封确认邮件）</label>
     <label class="wlplug"><input type="checkbox" name="plugin" value="1"> 我愿意装一个插件或 Worker 片段，查看真实 AI 爬虫的访问记录</label>
     <input name="hp" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
     <input type="hidden" name="lang" value="zh">
@@ -52,13 +53,13 @@
 <section class="sec tight"><h2>常见问题</h2><div class="faq"><details open><summary>监测会检查什么？</summary><p>与免费检测相同的三个层面（robots.txt、以各 AI 搜索爬虫身份发起并带对照组的实际请求，以及页面可读性），按每日计划执行。结果发生变化时你会收到邮件，例如某次 CDN 更新开始拦截 OAI-SearchBot。</p></details><details><summary>什么时候上线？</summary><p>监测功能目前处于抢先体验阶段。加入名单后，账号就绪时我们会发邮件通知你。中文版价格尚未公布，价格公布并经你确认订阅之前，不会收取任何费用。</p></details><details><summary>为什么我的网站会自己开始拦截 AI 爬虫？</summary><p>CDN 的默认设置会变化（Cloudflare 在 2026 年 9 月 15 日调整了 AI 爬虫控制项），安全插件会更新爬虫名单，改版时 robots.txt 也可能被修改。这些变化都不会通知你。</p></details><details><summary>你们是从爬虫的真实 IP 地址测试的吗？</summary><p>这些公司以外的人都做不到。我们从数据中心以各爬虫的 user agent 测试，并与普通浏览器、Googlebot 和未知爬虫的结果对比。这样可以区分专门针对 AI 的拦截和通用的爬虫验证规则，报告会标注每个结果的置信度。</p></details></div></section>
 </main>
 <script>
-{const q=new URLSearchParams(location.search),st=q.get('site'),pl=q.get('plan');if(st)document.querySelector('#wl [name=site]').value=st;if(pl==='agency'||pl==='pro')document.querySelector('#wl [name=plan]').value=pl}
+{const q=new URLSearchParams(location.search),st=q.get('site'),pl=q.get('plan');if(st){document.querySelector('#wl [name=site]').value=st;document.querySelector('#wl [name=watch]').checked=true}if(pl==='agency'||pl==='pro')document.querySelector('#wl [name=plan]').value=pl}
 document.querySelectorAll('[data-plan]').forEach(a=>a.addEventListener('click',()=>{document.querySelector('#wl [name=plan]').value=a.dataset.plan}));
 const wl=document.getElementById('wl'),msg=document.getElementById('wlmsg');
 wl.addEventListener('submit',async e=>{e.preventDefault();const b=wl.querySelector('button');b.disabled=true;msg.textContent='';
   const fd=Object.fromEntries(new FormData(wl));
   try{const r=await fetch('/api/waitlist',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(fd)});const j=await r.json();
-    if(r.ok&&j.ok){wl.hidden=true;msg.className='wlmsg ok';msg.textContent='已加入。账号准备好后，我们会发邮件到 '+fd.email+'。'}
+    if(r.ok&&j.ok){wl.hidden=true;msg.className='wlmsg ok';msg.textContent=j.watch&&j.watch.ok?(j.watch.already?'已加入，'+fd.site+' 已经在监控中。':'已加入。点开刚发到 '+fd.email+' 的确认邮件，就开始监控 '+fd.site+'。'):j.watch&&j.watch.error==='limit'?'已加入。早期体验每个邮箱最多监控 3 个网站，这个没有加上。':'已加入。账号准备好后，我们会发邮件到 '+fd.email+'。'}
     else{msg.className='wlmsg bad';msg.textContent=j.error==='bad_email'?'邮箱格式似乎不正确。':j.error==='rate_limited'?'尝试次数过多，请稍等一分钟。':'出了点问题，请重试。';b.disabled=false}
   }catch{msg.className='wlmsg bad';msg.textContent='网络错误，请重试。';b.disabled=false}
 });

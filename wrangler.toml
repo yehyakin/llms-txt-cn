@@ -39,3 +39,7 @@ RELAY_URL = "https://relay.cetxt.com/fetch"
 [[kv_namespaces]]
 binding = "WAITLIST"
 id = "dcb3d65c6bb74c9ea3d69cfe4f47d496"
+
+# 监控复测：每 10 分钟一次，每次复测 MON_PER_RUN 个到期站点（worker/monitor.js）
+[triggers]
+crons = ["*/10 * * * *"]

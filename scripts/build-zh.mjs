@@ -297,6 +297,7 @@ write('pricing/index.html', page({
     <input type="email" name="email" required placeholder="you@company.com" aria-label="邮箱" autocomplete="email">
     <select name="plan" aria-label="方案"><option value="pro">专业版 · 最多 10 个网站</option><option value="agency">代理商版 · 最多 50 个网站</option></select>
     <input name="site" placeholder="主要网站（选填）" aria-label="主要网站（选填）" autocapitalize="off" spellcheck="false">
+    <label class="wlplug"><input type="checkbox" name="watch" value="1"> 现在就开始监控这个网站，早期体验期间免费（会先发一封确认邮件）</label>
     <label class="wlplug"><input type="checkbox" name="plugin" value="1"> 我愿意装一个插件或 Worker 片段，查看真实 AI 爬虫的访问记录</label>
     <input name="hp" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
     <input type="hidden" name="lang" value="zh">
@@ -306,13 +307,13 @@ write('pricing/index.html', page({
 <section class="sec tight"><h2>常见问题</h2><div class="faq">${PRICING_FAQ_ZH.map(([q, a], i) => `<details${i ? '' : ' open'}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div></section>
 </main>
 <script>
-{const q=new URLSearchParams(location.search),st=q.get('site'),pl=q.get('plan');if(st)document.querySelector('#wl [name=site]').value=st;if(pl==='agency'||pl==='pro')document.querySelector('#wl [name=plan]').value=pl}
+{const q=new URLSearchParams(location.search),st=q.get('site'),pl=q.get('plan');if(st){document.querySelector('#wl [name=site]').value=st;document.querySelector('#wl [name=watch]').checked=true}if(pl==='agency'||pl==='pro')document.querySelector('#wl [name=plan]').value=pl}
 document.querySelectorAll('[data-plan]').forEach(a=>a.addEventListener('click',()=>{document.querySelector('#wl [name=plan]').value=a.dataset.plan}));
 const wl=document.getElementById('wl'),msg=document.getElementById('wlmsg');
 wl.addEventListener('submit',async e=>{e.preventDefault();const b=wl.querySelector('button');b.disabled=true;msg.textContent='';
   const fd=Object.fromEntries(new FormData(wl));
   try{const r=await fetch('/api/waitlist',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(fd)});const j=await r.json();
-    if(r.ok&&j.ok){wl.hidden=true;msg.className='wlmsg ok';msg.textContent='已加入。账号准备好后，我们会发邮件到 '+fd.email+'。'}
+    if(r.ok&&j.ok){wl.hidden=true;msg.className='wlmsg ok';msg.textContent=j.watch&&j.watch.ok?(j.watch.already?'已加入，'+fd.site+' 已经在监控中。':'已加入。点开刚发到 '+fd.email+' 的确认邮件，就开始监控 '+fd.site+'。'):j.watch&&j.watch.error==='limit'?'已加入。早期体验每个邮箱最多监控 3 个网站，这个没有加上。':'已加入。账号准备好后，我们会发邮件到 '+fd.email+'。'}
     else{msg.className='wlmsg bad';msg.textContent=j.error==='bad_email'?'邮箱格式似乎不正确。':j.error==='rate_limited'?'尝试次数过多，请稍等一分钟。':'出了点问题，请重试。';b.disabled=false}
   }catch{msg.className='wlmsg bad';msg.textContent='网络错误，请重试。';b.disabled=false}
 });

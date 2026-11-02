@@ -455,7 +455,7 @@ export function createApi(libs) {
     if (request.method !== 'GET' && request.method !== 'HEAD') return json(405, { error: 'method_not_allowed' });
     const domain = cleanDomain(url.searchParams.get('domain'));
     if (!domain) return json(400, { error: 'bad_domain', reason: '域名不合法' });
-    if (!(await rateOk(request, env))) return json(429, { error: 'rate_limited', reason: '请求太频繁，稍后再试' });
+    if (!(deps && deps.internal) && !(await rateOk(request, env))) return json(429, { error: 'rate_limited', reason: '请求太频繁，稍后再试' });
 
     const withAccess = url.searchParams.get('access') === '1';
     if (withAccess) deps = Object.assign({}, deps, { withAccess: true });

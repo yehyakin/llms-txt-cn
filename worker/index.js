@@ -9,6 +9,7 @@ import { handleReport, rebase } from './report.js';
 import { cleanDomain, ogData } from '../en/view.js';
 import { confirmEmail } from './mail.js';
 import { isLabHost, handleLab } from './lab.js';
+import { handleMonitor, createMonitor, runDue } from './monitor.js';
 
 /* 品牌域名：根目录直接是英文版（站内文件仍放在 /en/ 下） */
 const BRAND_HOSTS = new Set(['vaksel.com', 'www.vaksel.com']);
@@ -80,8 +81,32 @@ export default {
       }
     }
     return route(request, env, ctx, '/en');
+  },
+  // 监控复测（wrangler.toml [triggers] crons）
+  async scheduled(event, env, ctx) {
+    if (!env.WAITLIST) return;
+    ctx.waitUntil(runDue(env, monitorDeps(env, ctx, 'https://vaksel.com', 'en'), Number(env.MON_PER_RUN || 1)));
   }
 };
+
+function baseDeps(env, request) {
+  const f = (u, init) => fetch(u, init);
+  const relay = env.RELAY_URL && env.RELAY_KEY ? { url: env.RELAY_URL, key: env.RELAY_KEY } : null;
+  return { fetch: f, resolve: makeDohResolver(f), relay, assetsFetch: EMBED && !env.ASSETS && request ? (p) => embedResponse(p, request) : null };
+}
+/* 监控用：内部调用 /api/check（不限频、不走缓存） */
+function monitorDeps(env, ctx, origin, lang) {
+  const deps = Object.assign(baseDeps(env, null), { internal: true, noCache: true });
+  return {
+    cleanDomain, origin, lang,
+    repFor: (l) => (l === 'zh' || isBrandHost(new URL(origin).hostname) ? '/report/' : '/en/report/'),
+    send: async (to, m) => { if (!env.RESEND_KEY) throw new Error('no RESEND_KEY'); const r = await sendMail(env, to, m); if (!r.ok) throw new Error('resend ' + r.status); },
+    check: async (domain) => {
+      const r = await api(new Request('https://monitor.invalid/api/check?access=1&domain=' + encodeURIComponent(domain)), env, ctx, deps);
+      return r.json();
+    }
+  };
+}
 
 /* 分享图：/en/og/<domain>.png（报告）与 /en/og/site.png（站点通用），边缘缓存 1 小时 */
 async function ogImage(name, request, env, ctx, apiDeps) {
@@ -125,7 +150,14 @@ async function waitlist(request, env) {
   const isNew = !(await env.WAITLIST.get('wl:' + email));
   await env.WAITLIST.put('wl:' + email, JSON.stringify(rec), { metadata: { plan, at: now } });
   if (isNew && env.RESEND_KEY) { try { await sendMail(env, email, confirmEmail(plan, site, lang)); } catch (e) {} }
-  return J({ ok: true });
+  // 勾选“现在就开始监控”：另发一封双重确认邮件
+  let watch = null;
+  if (b.watch && site && env.RESEND_KEY) {
+    const u = new URL(request.url);
+    try { watch = await createMonitor(env, { email, domain: site, lang, origin: u.origin, rep: monitorDeps(env, null, u.origin, lang).repFor(lang) }, async (to, m) => { const r = await sendMail(env, to, m); if (!r.ok) throw new Error('resend'); }); }
+    catch (e) { watch = { ok: false, error: 'mail' }; }
+  }
+  return J({ ok: true, watch });
 }
 
 /* 联系表单：存 KV（ct:<时间>:<随机>），不存 IP */
@@ -150,7 +182,7 @@ async function contact(request, env) {
 /* 确认邮件：只有配置了 RESEND_KEY（wrangler secret）才发；发件域 mail.vaksel.com */
 export async function sendMail(env, to, m) {
   return fetch('https://api.resend.com/emails', { method: 'POST', headers: { authorization: 'Bearer ' + env.RESEND_KEY, 'content-type': 'application/json' },
-    body: JSON.stringify({ from: m.from || env.MAIL_FROM || 'VAKSEL <hello@mail.vaksel.com>', to: [to], subject: m.subject, text: m.text, html: m.html, reply_to: env.MAIL_REPLY_TO || undefined }) });
+    body: JSON.stringify({ from: m.from || env.MAIL_FROM || 'VAKSEL <hello@mail.vaksel.com>', to: [to], subject: m.subject, text: m.text, html: m.html, reply_to: env.MAIL_REPLY_TO || undefined, headers: m.headers || undefined }) });
 }
 
 async function route(request, env, ctx, base) {
@@ -160,6 +192,9 @@ async function route(request, env, ctx, base) {
     const apiDeps = { fetch: f, resolve: makeDohResolver(f), relay, assetsFetch: EMBED && !env.ASSETS ? (p) => embedResponse(p, request) : null };
     if (url.pathname === '/api/waitlist') return waitlist(request, env);
     if (url.pathname === '/api/contact') return contact(request, env);
+    if (url.pathname === '/api/monitor' || url.pathname.startsWith('/api/monitor/')) {
+      return handleMonitor(request, env, ctx, monitorDeps(env, ctx, url.origin, isBrandHost(url.hostname) ? 'en' : 'zh'));
+    }
     if (url.pathname.startsWith('/api/')) return api(request, env, ctx, apiDeps);
     const og = url.pathname.match(/^\/(?:en\/)?og\/([a-z0-9.-]+)\.png$/);
     if (og && (request.method === 'GET' || request.method === 'HEAD')) return ogImage(og[1], request, env, ctx, apiDeps);

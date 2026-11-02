@@ -323,6 +323,7 @@ out.push(write('en/pricing/index.html', page({
     <input type="email" name="email" required placeholder="you@company.com" aria-label="Email" autocomplete="email">
     <select name="plan" aria-label="Plan"><option value="pro">Pro · up to 10 sites</option><option value="agency">Agency · up to 50 sites</option></select>
     <input name="site" placeholder="Main site (optional)" aria-label="Main site (optional)" autocapitalize="off" spellcheck="false">
+    <label class="wlplug"><input type="checkbox" name="watch" value="1"> Start monitoring this site now, free during early access (we’ll email you a link to confirm)</label>
     <label class="wlplug"><input type="checkbox" name="plugin" value="1"> I’d install a plugin or Worker snippet to see real AI crawler visits</label>
     <input name="hp" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
     <button class="btn">Join the list</button>
@@ -331,13 +332,13 @@ out.push(write('en/pricing/index.html', page({
 <section class="sec tight"><h2>Questions</h2><div class="faq">${FAQ.map(([q, a], i) => `<details${i ? '' : ' open'}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div></section>
 </main>
 <script>
-{const q=new URLSearchParams(location.search),st=q.get('site'),pl=q.get('plan');if(st)document.querySelector('#wl [name=site]').value=st;if(pl==='agency'||pl==='pro')document.querySelector('#wl [name=plan]').value=pl}
+{const q=new URLSearchParams(location.search),st=q.get('site'),pl=q.get('plan');if(st){document.querySelector('#wl [name=site]').value=st;document.querySelector('#wl [name=watch]').checked=true}if(pl==='agency'||pl==='pro')document.querySelector('#wl [name=plan]').value=pl}
 document.querySelectorAll('[data-plan]').forEach(a=>a.addEventListener('click',()=>{document.querySelector('#wl [name=plan]').value=a.dataset.plan}));
 const wl=document.getElementById('wl'),msg=document.getElementById('wlmsg');
 wl.addEventListener('submit',async e=>{e.preventDefault();const b=wl.querySelector('button');b.disabled=true;msg.textContent='';
   const fd=Object.fromEntries(new FormData(wl));
   try{const r=await fetch('/api/waitlist',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(fd)});const j=await r.json();
-    if(r.ok&&j.ok){wl.hidden=true;msg.className='wlmsg ok';msg.textContent='You’re on the list. We’ll email '+fd.email+' when your account is ready.'}
+    if(r.ok&&j.ok){wl.hidden=true;msg.className='wlmsg ok';msg.textContent=j.watch&&j.watch.ok?(j.watch.already?'You’re on the list, and '+fd.site+' is already being monitored.':'You’re on the list. To start monitoring '+fd.site+', click the link we just sent to '+fd.email+'.'):j.watch&&j.watch.error==='limit'?'You’re on the list. Early access monitors up to 3 sites per email, so we didn’t add this one.':'You’re on the list. We’ll email '+fd.email+' when your account is ready.'}
     else{msg.className='wlmsg bad';msg.textContent=j.error==='bad_email'?'That email doesn’t look right.':j.error==='rate_limited'?'Too many tries. Please wait a minute.':'Something went wrong. Please try again.';b.disabled=false}
   }catch{msg.className='wlmsg bad';msg.textContent='Network error. Please try again.';b.disabled=false}
 });
@@ -534,6 +535,11 @@ legal('/en/privacy/', 'Privacy policy · VAKSEL', 'What VAKSEL collects when you
 <ul><li>We store the email address, plan and site you enter, the message if you send one, and the country your request came from (as reported by our hosting provider). We don't store your IP address.</li>
 <li>We use this only to tell you when your account is ready and to reply to you. We don't sell it or share it for marketing.</li>
 <li>To have your details deleted, send a request through the <a href="/en/contact/">contact form</a> from the same email address. We delete it within 30 days.</li></ul>
+<h2>When you turn on monitoring</h2>
+<ul><li>We store your email address, the site you asked us to watch, your language, and a short summary of each re-test: the three grades and which AI crawlers were blocked. We don't store your IP address.</li>
+<li>Monitoring starts only after you click the link in the confirmation email. We use the email address only to send alerts about that site.</li>
+<li>Every alert has a stop link. Stopping deletes the site, its summaries and the link between them and your email straight away.</li>
+<li>Alert emails are sent through Resend.</li></ul>
 <h2>Service providers</h2>
 <p>The site runs on Cloudflare (hosting, caching and storage). Some checks are sent through our own server when a site blocks Cloudflare's network. Cloudflare processes requests under its <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener" target="_blank">privacy policy</a>.</p>
 <h2>Changes</h2>

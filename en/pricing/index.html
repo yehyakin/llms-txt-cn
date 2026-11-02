@@ -41,6 +41,7 @@
     <input type="email" name="email" required placeholder="you@company.com" aria-label="Email" autocomplete="email">
     <select name="plan" aria-label="Plan"><option value="pro">Pro · up to 10 sites</option><option value="agency">Agency · up to 50 sites</option></select>
     <input name="site" placeholder="Main site (optional)" aria-label="Main site (optional)" autocapitalize="off" spellcheck="false">
+    <label class="wlplug"><input type="checkbox" name="watch" value="1"> Start monitoring this site now, free during early access (we’ll email you a link to confirm)</label>
     <label class="wlplug"><input type="checkbox" name="plugin" value="1"> I’d install a plugin or Worker snippet to see real AI crawler visits</label>
     <input name="hp" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
     <button class="btn">Join the list</button>
@@ -49,13 +50,13 @@
 <section class="sec tight"><h2>Questions</h2><div class="faq"><details open><summary>What does monitoring check?</summary><p>The same three layers as the free check (robots.txt, live requests as each AI search crawler with control groups, and page readability) on a daily schedule. You get an email when a result changes, for example when a CDN update starts blocking OAI-SearchBot.</p></details><details><summary>When does it launch?</summary><p>Monitoring is in early access. Join the list and we will email you when your account is ready. You pay nothing until then.</p></details><details><summary>Why would my site start blocking AI crawlers by itself?</summary><p>CDN defaults change (Cloudflare changed its AI bot controls on September 15, 2026), security plugins update their bot lists, and robots.txt gets edited during redesigns. None of these tell you.</p></details><details><summary>Do you test from the crawlers’ real IP addresses?</summary><p>No one outside those companies can. We test from a data center with each crawler’s user agent and compare against a normal browser, Googlebot and an unknown bot. That tells a targeted AI block apart from a general bot-verification rule, and the report shows the confidence for each result.</p></details></div></section>
 </main>
 <script>
-{const q=new URLSearchParams(location.search),st=q.get('site'),pl=q.get('plan');if(st)document.querySelector('#wl [name=site]').value=st;if(pl==='agency'||pl==='pro')document.querySelector('#wl [name=plan]').value=pl}
+{const q=new URLSearchParams(location.search),st=q.get('site'),pl=q.get('plan');if(st){document.querySelector('#wl [name=site]').value=st;document.querySelector('#wl [name=watch]').checked=true}if(pl==='agency'||pl==='pro')document.querySelector('#wl [name=plan]').value=pl}
 document.querySelectorAll('[data-plan]').forEach(a=>a.addEventListener('click',()=>{document.querySelector('#wl [name=plan]').value=a.dataset.plan}));
 const wl=document.getElementById('wl'),msg=document.getElementById('wlmsg');
 wl.addEventListener('submit',async e=>{e.preventDefault();const b=wl.querySelector('button');b.disabled=true;msg.textContent='';
   const fd=Object.fromEntries(new FormData(wl));
   try{const r=await fetch('/api/waitlist',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(fd)});const j=await r.json();
-    if(r.ok&&j.ok){wl.hidden=true;msg.className='wlmsg ok';msg.textContent='You’re on the list. We’ll email '+fd.email+' when your account is ready.'}
+    if(r.ok&&j.ok){wl.hidden=true;msg.className='wlmsg ok';msg.textContent=j.watch&&j.watch.ok?(j.watch.already?'You’re on the list, and '+fd.site+' is already being monitored.':'You’re on the list. To start monitoring '+fd.site+', click the link we just sent to '+fd.email+'.'):j.watch&&j.watch.error==='limit'?'You’re on the list. Early access monitors up to 3 sites per email, so we didn’t add this one.':'You’re on the list. We’ll email '+fd.email+' when your account is ready.'}
     else{msg.className='wlmsg bad';msg.textContent=j.error==='bad_email'?'That email doesn’t look right.':j.error==='rate_limited'?'Too many tries. Please wait a minute.':'Something went wrong. Please try again.';b.disabled=false}
   }catch{msg.className='wlmsg bad';msg.textContent='Network error. Please try again.';b.disabled=false}
 });
