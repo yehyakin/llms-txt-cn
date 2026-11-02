@@ -1,4 +1,4 @@
-import { classifyAccess, blockReason } from '../worker/access.js';
+import { classifyAccess, blockReason, detectCdn } from '../worker/access.js';
 import { readFileSync } from 'node:fs';
 let pass = 0, fail = 0;
 const t = (name, ok) => { ok ? pass++ : (fail++, console.log('FAIL', name)); };
@@ -35,5 +35,10 @@ t('degraded content warns', a.bots[0].firewall === 'degraded' && a.verdict === '
 for (const [f, want] of [['/tmp/p_smithsonianmag.com.json', 'all_blocked'], ['/tmp/p_github.com.json', 'open']]) {
   try { const v = classifyAccess(JSON.parse(readFileSync(f)), [], data).verdict; t('real ' + f + ' → ' + v, v === want); } catch (e) {}
 }
+t('cdn EdgeOne server', detectCdn({ headers: { server: 'TencentEdgeOne' } }) === 'EdgeOne');
+t('cdn EdgeOne eo-log-uuid', detectCdn({ headers: { server: 'tencent-cos', 'eo-log-uuid': '1' } }) === 'EdgeOne');
+t('cdn Aliyun ESA', detectCdn({ headers: { server: 'ESA', eagleid: 'x' } }) === 'Alibaba Cloud ESA');
+t('cdn Aliyun CDN', detectCdn({ headers: { server: 'Tengine', eagleid: 'x' } }) === 'Alibaba Cloud CDN');
+t('cdn plain Tengine', detectCdn({ headers: { server: 'Tengine' } }) === 'Tengine');
 console.log(`access: ${pass} 通过，${fail} 失败`);
 if (fail) process.exit(1);

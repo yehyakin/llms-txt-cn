@@ -115,6 +115,73 @@ Disallow: /</pre>
 <h2>3. 让商品页可读</h2>
 <p>大多数 AI 爬虫不执行 JavaScript。如果报告显示在不运行 JavaScript 时页面文字很少，请确认商品标题、价格和描述写在主题的 HTML 里，而不是在页面加载后由应用注入。</p>`,
     sources: [['https://help.shopify.com/en/manual/promoting-marketing/seo/editing-robots-txt', 'Shopify Help: Editing robots.txt.liquid（Shopify 帮助中心：编辑 robots.txt.liquid）']]
+  },
+  {
+    slug: 'edgeone', name: '腾讯云 EdgeOne', title: '腾讯云 EdgeOne 拦截了 AI 爬虫：修复方法',
+    desc: 'EdgeOne 的“AI 爬虫处置”按 User-Agent 识别 20 多个 AI 爬虫，名单里包括 AI 搜索用的 PerplexityBot。本文说明怎样拦训练、留搜索。',
+    body: `
+<p class="lead l">如果报告显示 EdgeOne 对 AI 爬虫返回拦截或挑战，先看“AI 爬虫处置”。它按请求的 User-Agent 识别一份 AI 爬虫名单，设置一个处置方式，对名单里所有爬虫生效。</p>
+<div class="callout"><b>要注意的一点。</b>腾讯云公布的识别名单里有 <code>PerplexityBot</code>，它是 Perplexity 的搜索爬虫。把 AI 爬虫处置设成“拦截”，Perplexity 搜索也就看不到你的网站。名单里没有 <code>OAI-SearchBot</code>、<code>Claude-SearchBot</code>，如果它们也被拦，原因在别的规则。</div>
+<h2>1. 找到 AI 爬虫处置</h2>
+<ol><li>登录 EdgeOne 控制台，<b>服务总览</b> → 选择站点。</li>
+<li><b>安全防护 → Web 防护</b>，切到 <b>域名级防护策略</b>，点目标域名。</li>
+<li>在 <b>Bot 管理</b> 卡片里进入 <b>基础 Bot 管理 → AI 爬虫处置</b>，点编辑。</li></ol>
+<p>处置方式有观察、拦截、放行、JavaScript 挑战、托管挑战。大多数 AI 爬虫不执行 JavaScript，JavaScript 挑战和托管挑战对它们等同于拦截。</p>
+<h2>2. 拦训练、留搜索</h2>
+<p>腾讯云文档列出的名单包括 GPTBot、ClaudeBot、Google-Extended、Meta-ExternalAgent、PerplexityBot、pangu（华为）等。名单里大部分是训练爬虫，PerplexityBot 是例外。两种做法：</p>
+<ul><li><b>想拦训练：</b>AI 爬虫处置设为“拦截”，再加一条 <b>防护例外规则</b>，对 User-Agent 包含 <code>PerplexityBot</code> 的请求跳过 AI 爬虫处置。腾讯云文档写明误拦时用防护例外规则恢复。</li>
+<li><b>只想看看：</b>设为“观察”，不影响访问，先看 AI 爬虫的流量。</li></ul>
+<p>只按 UA 放行有被伪造的风险。PerplexityBot 公布了 IP 段，需要更严时可以在例外规则里加上 IP 条件。</p>
+<h2>3. 排查其他会拦爬虫的地方</h2>
+<ol><li><b>Bot 基础特征管理</b>：检查有没有把“来自 IDC（数据中心）的请求”设为拦截或 JavaScript 挑战。AI 爬虫都从数据中心发出请求，这一项会把它们一起拦掉。搜索引擎特征规则应设为放行。</li>
+<li><b>Bot 智能分析</b>：确认“正常 Bot 请求”不是拦截。</li>
+<li><b>自定义规则</b>：查 UA 黑名单、区域封禁。只允许中国大陆访问会拦掉海外的 AI 爬虫（OAI-SearchBot、PerplexityBot 等从海外机房发出）。</li></ol>
+<p>按腾讯云文档，AI 爬虫处置本身不影响百度、Google 等搜索引擎爬虫，免费套餐也带这个功能。</p>
+<h2>4. 重新检测</h2>
+<p>保存后再跑一次检测，确认 AI 搜索各行显示“能进”。</p>`,
+    sources: [['https://cloud.tencent.com/document/product/1552/127868', '腾讯云文档：EdgeOne AI 爬虫处置（含识别名单）'], ['https://cloud.tencent.com/document/product/1552/98207', '腾讯云文档：Bot 基础特征管理'], ['https://cloud.tencent.com/document/product/1552/93131', '腾讯云文档：防护例外规则'], ['https://cloud.tencent.com/document/product/1552/129054', '腾讯云文档：免费套餐自带 AI 爬虫处置']]
+  },
+  {
+    slug: 'aliyun', name: '阿里云 ESA / CDN', title: '阿里云 ESA 或 CDN 拦截了 AI 爬虫：修复方法',
+    desc: '阿里云 ESA 有专门的“AI 爬虫管理”，可以按爬虫逐个拦截或观察，被拦请求默认返回 403。本文说明怎样只拦训练爬虫，并排查 Bots 与 WAF 规则。',
+    body: `
+<p class="lead l">阿里云边缘安全加速 ESA 把 AI 爬虫单独放在“AI 爬虫管理”里，按爬虫逐个开关。好处是可以只拦训练、不拦搜索；坏处是批量勾选时容易把搜索爬虫一起选上。</p>
+<div class="callout"><b>简要做法。</b>在 <b>安全防护 → AI 爬虫管理 → 爬虫客户端</b> 里，只把训练爬虫（GPTBot、ClaudeBot、Google-Extended 等）设为“拦截”，OAI-SearchBot、PerplexityBot、Claude-SearchBot 保持关闭或“观察”。</div>
+<h2>1. 检查 AI 爬虫管理</h2>
+<ol><li>ESA 控制台 → <b>站点管理</b> → 选择站点。</li>
+<li>左侧 <b>安全防护 → AI 爬虫管理</b>，打开 <b>爬虫客户端</b> 页签，列出可管理的爬网程序。</li>
+<li>看每个爬虫的 <b>状态</b> 和 <b>处置动作</b>：拦截会拦下该爬虫的所有请求，观察只记录不拦。</li></ol>
+<p>被拦的爬虫默认收到 403，可在 <b>设置 → 拦截响应</b> 里改。AI 爬虫管理只在付费套餐（基础版及以上）可用。</p>
+<h2>2. 检查 Bots</h2>
+<p><b>安全防护 → Bots</b> 的简易模式把流量分为“绝对是 Bot”“可能是 Bot”“已通过验证的 Bot”。阿里云建议对“已通过验证的 Bot”（主要是搜索引擎爬虫）放行。AI 搜索爬虫不一定被算作已验证，如果它们落在“绝对是 Bot”或“可能是 Bot”并被设为拦截或滑块挑战，也会进不来。</p>
+<p>阿里云文档给出的优先级是：简易 Bots 配置 &gt; AI 爬虫配置 &gt; 高级 Bots 配置。也就是说，简易模式里的拦截会先于 AI 爬虫管理生效。</p>
+<h2>3. 检查 WAF 与自定义规则</h2>
+<ol><li>在 WAF 规则里查 User-Agent 黑名单、区域封禁。只允许中国大陆访问会拦掉从海外机房发出的 AI 爬虫。</li>
+<li>误拦时可以建白名单规则，让特定 UA 或 IP 跳过 Bots 检查。只按 UA 放行容易被伪造，能用官方 IP 段更好。</li>
+<li>用的是老版阿里云 CDN / DCDN 加 WAF 的，同样在 WAF 的 Bot 管理和自定义规则里查。</li></ol>
+<h2>4. 重新检测</h2>
+<p>改完再跑一次检测，确认 AI 搜索各行显示“能进”。</p>`,
+    sources: [['https://help.aliyun.com/zh/edge-security-acceleration/esa/user-guide/ai-crawler-management/', '阿里云文档：什么是 AI 爬虫管理（含与 Bots 的优先级）'], ['https://help.aliyun.com/zh/edge-security-acceleration/esa/user-guide/ai-crawl-get-started', '阿里云文档：AI 爬虫管理快速上手'], ['https://help.aliyun.com/zh/edge-security-acceleration/esa/user-guide/bots', '阿里云文档：Bots 快速上手']]
+  },
+  {
+    slug: 'baota', name: '宝塔面板', title: '宝塔 Nginx 防火墙拦了 ChatGPT、Perplexity 爬虫？检查这四个地方',
+    desc: '宝塔 Nginx 防火墙默认放行国内外主要搜索引擎蜘蛛，但不认识 OAI-SearchBot 等 AI 爬虫，“非浏览器拦截”“禁止海外访问”都会拦它们。本文说明怎样放行。',
+    body: `
+<p class="lead l">宝塔 Nginx 防火墙会放行百度、谷歌、必应、360、搜狗、头条、神马等搜索引擎蜘蛛，但它的蜘蛛名单里没有 OAI-SearchBot、PerplexityBot 这类 AI 搜索爬虫。宝塔官方论坛里已有站长反馈 OAI-SearchBot、Applebot 被防火墙封掉。</p>
+<div class="callout"><b>简要做法。</b>宝塔官方客服的建议是：需要放行的爬虫，把 UA 加入 <b>UA 白名单</b>；被“禁止海外访问”误拦的，把爬虫 IP 段加入 <b>IP 白名单</b>，IP 白名单优先级最高。</div>
+<h2>1. 非浏览器拦截</h2>
+<p>宝塔的说明是：这项“拦截非浏览器请求，通过 UA 判断是否是爬虫”，并说明“不会拦截真实的蜘蛛爬虫”。AI 爬虫不在它的蜘蛛名单里，很可能被当作非浏览器请求拦掉。要么关掉这项，要么把 AI 搜索爬虫加进 UA 白名单。</p>
+<h2>2. 禁止海外访问</h2>
+<p>OAI-SearchBot、PerplexityBot、Claude-SearchBot 都从海外机房发出请求。开了“禁止海外访问”，它们一定进不来。宝塔官方论坛 2026 年 9 月的答复还提到，“蜘蛛 IP 放行”和“禁止海外访问”存在冲突（已知问题），连 Googlebot 也会时拦时放，建议把爬虫 IP 段加到 IP 白名单（路径：安全 → Nginx 防火墙 → 全局配置 → IP 白名单）。</p>
+<p>IP 段以爬虫官方公布的为准，例如 OpenAI 的 <code>searchbot.json</code>、<code>chatgpt-user.json</code>，各爬虫的出处见 <a href="/bots/">AI 爬虫百科</a>。</p>
+<h2>3. UA 白名单与 UA 黑名单</h2>
+<p>宝塔的规则顺序里，UA 白名单排在大多数拦截规则之前。白名单按关键词匹配，填 <code>OAI-SearchBot</code>、<code>PerplexityBot</code>、<code>Claude-SearchBot</code>、<code>ChatGPT-User</code> 即可。同时检查 UA 黑名单和“User-Agent 过滤”里有没有 <code>bot</code>、<code>spider</code>、<code>python</code> 这类宽泛关键词，它们会误伤。</p>
+<p>注意：宝塔说明里写明 UA 白名单命中后“直接跳过任何拦截”，包括 CC 防御。UA 可以伪造，所以只填具体的爬虫名，不要填 <code>bot</code> 这样的宽泛词；更稳妥的是 IP 白名单。</p>
+<h2>4. 伪静态与 Nginx 配置</h2>
+<p>很多站长按网上教程在 <b>网站 → 设置 → 伪静态</b> 或配置文件里写了 <code>if ($http_user_agent ~* "GPTBot|ChatGPT|Perplexity|...")</code> 返回 403 或 444 的规则。这类规则常把 <code>ChatGPT</code>、<code>Perplexity</code> 这样的宽泛词写进去，会连 ChatGPT-User、PerplexityBot 一起拦。只想拦训练的话，改成只匹配 <code>GPTBot</code>、<code>ClaudeBot</code>、<code>CCBot</code>、<code>Google-Extended</code> 等训练爬虫，或者干脆改用 robots.txt。</p>
+<h2>5. 重新检测</h2>
+<p>改完保存，再跑一次检测，确认 AI 搜索各行显示“能进”。宝塔防火墙的“封锁历史”里也能看到被拦的 UA 和原因。</p>`,
+    sources: [['https://www.bt.cn/bbs/thread-132479-1-1.html', '宝塔官方论坛：Nginx 防火墙针对蜘蛛的规则说明（2024）'], ['https://www.bt.cn/bbs/thread-146016-1-1.html', '宝塔官方论坛：蜘蛛池缺少 ChatGPT 等，官方答复加 UA 白名单（2025）'], ['https://www.bt.cn/bbs/thread-155793-1-1.html', '宝塔官方论坛：Nginx 防火墙拦截爬虫，官方答复加 IP 白名单（2026-09）'], ['https://www.bt.cn/bbs/thread-73847-1-1.html', '宝塔官方论坛：Nginx 网站防火墙使用说明'], ['https://openai.com/searchbot.json', 'OpenAI：OAI-SearchBot IP 段']]
   }
 ];
 

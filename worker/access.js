@@ -28,6 +28,9 @@ export function detectCdn(sig) {
   if (h['x-akamai-transformed'] || server.includes('akamai')) return 'Akamai';
   if (h['x-sucuri-id'] || server.includes('sucuri')) return 'Sucuri';
   if (h['x-iinfo']) return 'Imperva';
+  if (h['eo-log-uuid'] || server.includes('edgeone')) return 'EdgeOne';
+  if (server === 'esa') return 'Alibaba Cloud ESA';
+  if (h.eagleid || /ens-cache|\.l[12]cn/.test(String(h.via || ''))) return 'Alibaba Cloud CDN';
   if (server.includes('tengine')) return 'Tengine';
   if (/fastly|varnish/.test(String(h.via || '') + server)) return 'Fastly';
   return server ? server.slice(0, 30) : null;

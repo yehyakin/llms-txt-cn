@@ -31,7 +31,7 @@ export const NAV = (active, enPath) => `<a class="skip" href="#main">跳到正�
 export const FOOT = (enPath) => `<footer><div class="wrap fgrid">
   <div class="fbrand"><a class="logo" href="/"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><span class="zhtag">中文版</span></a><p>AI 搜索到底能不能访问你的网站？免费检测 robots.txt、防火墙和 CDN 拦截。</p></div>
   <div><h2 class="fh">产品</h2><a href="/">可访问性检测</a><a href="/pricing/">监控（早期体验）</a><a href="/research/">研究方法</a><a href="/tools/">llms.txt 工具</a></div>
-  <div><h2 class="fh">修复指南</h2><a href="/guides/cloudflare/">Cloudflare</a><a href="/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/guides/wordpress/">WordPress</a><a href="/guides/shopify/">Shopify</a></div>
+  <div><h2 class="fh">修复指南</h2><a href="/guides/cloudflare/">Cloudflare</a><a href="/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/guides/wordpress/">WordPress</a><a href="/guides/shopify/">Shopify</a><a href="/guides/edgeone/">腾讯云 EdgeOne</a><a href="/guides/aliyun/">阿里云 ESA</a><a href="/guides/baota/">宝塔面板</a></div>
   <div><h2 class="fh">资料</h2><a href="/bots/">AI 爬虫百科</a><a href="/survey/">中文大站普查</a><a href="/guide/what-is-llms-txt/">llms.txt 是什么</a><a href="/faq/">常见问题</a></div>
   <div class="fsmall"><span>© 2026 VAKSEL · cetxt.com 是 VAKSEL 中文版</span><a href="/privacy/">隐私</a><a href="/terms/">条款</a><a href="/contact/">联系</a><a href="${EN}${enPath || '/'}" hreflang="en" lang="en">English</a><span>我们不保存你检测的域名和 IP。</span></div>
 </div></footer>`;
@@ -166,14 +166,14 @@ ${same.length ? `<h2>${esc(c.vendor)} 的其他爬虫</h2><div class="bgrid s">$
 
 /* ---------- 修复指南 ---------- */
 write('guides/index.html', page({
-  path: '/guides/', active: 'guides', title: '修复指南：在 Cloudflare、CloudFront、WordPress、Shopify 上放行 AI 搜索爬虫 · VAKSEL',
+  path: '/guides/', active: 'guides', title: '修复指南：在 Cloudflare、EdgeOne、阿里云、宝塔等平台放行 AI 搜索爬虫 · VAKSEL',
   desc: '最常拦住 AI 搜索爬虫的几个平台，分步修复，同时保留拒绝 AI 训练的设置。',
   body: `<main class="wrap doc-head">${crumbs([['/', '首页'], [null, '修复指南']])}
 <h1>修复指南</h1>
 <p class="lead l">既出现在 ChatGPT、Perplexity、Claude 的搜索里，又不让内容被拿去训练。按报告指出的那一层来修。</p>
 <div class="bgrid g2">${GUIDES_ZH.map((g) => `<a class="bcard g" href="/guides/${g.slug}/"><div class="bt">${esc(g.name)}</div><p>${esc(g.desc)}</p></a>`).join('')}</div>
 <section class="sec tight">${checkBox('不确定拦截出在哪一层？', '报告会写明是哪家 CDN 应答的，并链接对应的指南。')}</section>
-<p class="note">国内 CDN（阿里云、腾讯云 EdgeOne、百度智能云）与宝塔面板的指南正在整理。也可以看 <a href="/guide/what-is-llms-txt/">llms.txt 入门</a>。</p>
+<p class="note">百度智能云的指南正在整理。也可以看 <a href="/guide/what-is-llms-txt/">llms.txt 入门</a>。</p>
 </main>${CHECK_JS}`
 }));
 for (const g of GUIDES_ZH) {

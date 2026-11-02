@@ -11,6 +11,7 @@ const isMain=b=>(b.category==='search'||b.category==='user')&&b.region!=='cn';
 const isCnB=b=>(b.category==='search'||b.category==='user')&&b.region==='cn';
 export const botSlug=t=>String(t).toLowerCase().replace(/[^a-z0-9]+/g,'-');
 const GUIDE={Cloudflare:'cloudflare',CloudFront:'cloudfront'};
+const GUIDE_ZH={Cloudflare:'cloudflare',CloudFront:'cloudfront',EdgeOne:'edgeone','Alibaba Cloud ESA':'aliyun','Alibaba Cloud CDN':'aliyun'};
 const TONE={open:'v-ok',warn:'v-warn',js_only:'v-warn',partly_blocked:'v-warn',silent_block:'v-bad',all_blocked:'v-bad',noindex:'v-bad',inconclusive:'v-gray',unknown:'v-gray'};
 const ICON={'v-ok':'✓','v-warn':'!','v-bad':'✕','v-gray':'?'};
 
@@ -52,6 +53,8 @@ const EN={
     cloudflare:'<p><b>Cloudflare</b> is answering these requests. In <b>Security → Settings</b>, check the AI bot controls (since Sep 15, 2026):</p><ol><li><b>Search</b>: set to <i>Allow</i>.</li><li><b>Training</b>: use <i>Disallow AI Training</i>, not <i>Block</i>. Block now also stops Googlebot, Bingbot and Applebot.</li><li><b>Agent</b>: <i>Block on pages with ads</i> blocks ChatGPT-User and Claude-User on those pages.</li><li>Look for older <b>custom WAF rules</b> matching <code>cf.verified_bot_category</code> or AI user agents, and check <b>Bot Fight Mode</b>.</li></ol>',
     cloudfront:'<p><b>Amazon CloudFront</b> is answering these requests, most likely through AWS WAF. The Bot Control rule <code>CategoryAI</code> blocks AI crawlers even when they are verified. Override it to <i>Count</i>, then re-block only the training crawlers with your own rule.</p>',
     akamai:'<p><b>Akamai</b> is answering these requests. In Bot Manager, find the AI crawler categories and change their action from deny to allow or monitor.</p>',
+    edgeone:'<p><b>Tencent Cloud EdgeOne</b> is answering these requests. In <b>Security → Web Protection → Bot Management → AI Crawler Control</b>, check the action. Its list includes PerplexityBot, so <i>Block</i> also blocks an AI search crawler. Add an exception rule for the search crawlers you want, and check custom rules and Bot Basic Feature Management for user-agent blocks.</p>',
+    aliyun:'<p><b>Alibaba Cloud</b> is answering these requests. In ESA, check <b>Security → AI Crawler Management</b> for crawlers set to <i>Block</i> (blocked requests get 403 by default), then <b>Security → Bots</b> and WAF custom rules for user-agent blocks.</p>',
     other:c=>'<p>Your server or security layer'+(c?' (<b>'+c+'</b>)':'')+' rejects these user agents. Look for user-agent block lists in your WAF, security plugin (Wordfence, Sucuri), or web-server config.</p>',
     allow:n=>'Crawlers to allow for AI search: <span class="mono">'+n+'</span>.',
     robo:n=>'robots.txt disallows <span class="mono">'+n+'</span>. To stay out of AI training but appear in AI search, use:',
@@ -109,6 +112,8 @@ const ZH={
     cloudflare:'<p>这些请求由 <b>Cloudflare</b> 应答。在 <b>Security → Settings</b> 里检查 AI 爬虫三项设置（2026 年 9 月 15 日起）：</p><ol><li><b>Search</b>：设为 <i>Allow</i>。</li><li><b>Training</b>：用 <i>Disallow AI Training</i>，不要用 <i>Block</i>。现在 Block 会连 Googlebot、Bingbot、Applebot 一起拦。</li><li><b>Agent</b>：<i>Block on pages with ads</i> 会在有广告的页面拦掉 ChatGPT-User 和 Claude-User。</li><li>检查早先写的 <b>自定义 WAF 规则</b> 里有没有匹配 <code>cf.verified_bot_category</code> 或 AI 爬虫 UA 的，以及 <b>Bot Fight Mode</b>。</li></ol>',
     cloudfront:'<p>这些请求由 <b>Amazon CloudFront</b> 应答，多半是 AWS WAF 在拦。Bot Control 的 <code>CategoryAI</code> 规则连已验证的 AI 爬虫也会拦。把它覆盖为 <i>Count</i>，再用你自己的规则只拦训练爬虫。</p>',
     akamai:'<p>这些请求由 <b>Akamai</b> 应答。在 Bot Manager 里找到 AI 爬虫分类，把动作从拒绝改为允许或监控。</p>',
+    edgeone:'<p>这些请求由 <b>腾讯云 EdgeOne</b> 应答。到 <b>安全防护 → Web 防护 → 域名级防护策略 → Bot 管理 → AI 爬虫处置</b> 看处置方式。它的识别名单里有 PerplexityBot，设成“拦截”会连这个 AI 搜索爬虫一起拦。用“防护例外规则”放行你要的搜索爬虫，再查自定义规则和 Bot 基础特征管理里的 UA 拦截。</p>',
+    aliyun:'<p>这些请求由 <b>阿里云</b> 应答。ESA 用户到 <b>安全防护 → AI 爬虫管理</b> 看哪些爬虫是“拦截”（默认返回 403），再查 <b>安全防护 → Bots</b> 和 WAF 自定义规则里的 UA 拦截。</p>',
     other:c=>'<p>你的服务器或安全层'+(c?'（<b>'+c+'</b>）':'')+'拒绝了这些 UA。检查 WAF、安全插件（如宝塔防火墙、Wordfence）或 Web 服务器配置里的 UA 黑名单。</p>',
     allow:n=>'想出现在 AI 搜索里，需要放行：<span class="mono">'+n+'</span>。',
     robo:n=>'robots.txt 禁止了 <span class="mono">'+n+'</span>。既想拒绝 AI 训练、又想出现在 AI 搜索里，可以这样写：',
@@ -163,12 +168,12 @@ function fixFor(a,B,L){
   let h='';
   if(blocked.length){
     const names=blocked.filter(b=>b.category!=='training').map(b=>b.token);
-    h+=a.cdn==='Cloudflare'?F.cloudflare:a.cdn==='CloudFront'?F.cloudfront:a.cdn==='Akamai'?F.akamai:F.other(a.cdn?esc(a.cdn):'');
+    h+=a.cdn==='Cloudflare'?F.cloudflare:a.cdn==='CloudFront'?F.cloudfront:a.cdn==='Akamai'?F.akamai:a.cdn==='EdgeOne'?F.edgeone:/^Alibaba Cloud/.test(a.cdn||'')?F.aliyun:F.other(a.cdn?esc(a.cdn):'');
     if(names.length)h+='<p style="margin-top:8px">'+F.allow(names.map(esc).join(', '))+'</p>';
   }
   if(robo.length)h+='<p style="margin-top:10px">'+F.robo(robo.map(b=>esc(b.token)).join(', '))+'</p><pre><button class="copy">'+L.share.copy+'</button>User-agent: GPTBot\nDisallow: /\n\nUser-agent: ClaudeBot\nDisallow: /\n\nUser-agent: OAI-SearchBot\nUser-agent: PerplexityBot\nUser-agent: Claude-SearchBot\nAllow: /</pre>';
   if(a.page&&a.page.js_only)h+='<p style="margin-top:10px">'+F.js(a.page.text_chars)+'</p>';
-  if(blocked.length){const g=GUIDE[a.cdn];h+='<p style="margin-top:10px"><a href="'+B+'/guides/'+(g?g+'/':'')+'">'+(g?F.guide(esc(a.cdn)):F.guides)+'</a></p>'}
+  if(blocked.length){const g=(L===ZH?GUIDE_ZH:GUIDE)[a.cdn];h+='<p style="margin-top:10px"><a href="'+B+'/guides/'+(g?g+'/':'')+'">'+(g?F.guide(esc(a.cdn)):F.guides)+'</a></p>'}
   if(a.page&&a.page.noindex)h+='<p style="margin-top:10px">'+F.noindex+'</p>';
   return h;
 }
