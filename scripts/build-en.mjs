@@ -419,7 +419,7 @@ const homeBody = `<header class="hero"><div class="wrap">
 
 <section class="sec" id="monitor"><div class="wrap">
   <div class="cta">
-    <div><h3>Rules change. Get told when they do.</h3><p>Daily re-checks and an email when a CDN update, plugin or robots.txt edit cuts off an AI crawler. Multi-site reports for agencies.</p></div>
+    <div><h3>Rules change. Get told when they do.</h3><p>Daily re-checks and an email when a CDN update, plugin or robots.txt edit cuts off an AI crawler. Agencies with many client sites: talk to us.</p></div>
     <a class="btn" href="/en/pricing/">See plans</a>
   </div>
 </div></section>
