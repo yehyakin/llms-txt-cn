@@ -34,7 +34,7 @@
 <h2>1. 非浏览器拦截</h2>
 <p>宝塔的说明是：这项“拦截非浏览器请求，通过 UA 判断是否是爬虫”，并说明“不会拦截真实的蜘蛛爬虫”。AI 爬虫不在它的蜘蛛名单里，很可能被当作非浏览器请求拦掉。要么关掉这项，要么把 AI 搜索爬虫加进 UA 白名单。</p>
 <h2>2. 禁止海外访问</h2>
-<p>OAI-SearchBot、PerplexityBot、Claude-SearchBot 都从海外机房发出请求。开了“禁止海外访问”，它们一定进不来。宝塔官方论坛 2026 年 9 月的答复还提到，“蜘蛛 IP 放行”和“禁止海外访问”存在冲突（已知问题），连 Googlebot 也会时拦时放，建议把爬虫 IP 段加到 IP 白名单（路径：安全 → Nginx 防火墙 → 全局配置 → IP 白名单）。</p>
+<p>OAI-SearchBot、PerplexityBot、Claude-SearchBot 都从海外机房发出请求。开了“禁止海外访问”，它们基本进不来。宝塔官方论坛 2026 年 9 月的答复还提到，“蜘蛛 IP 放行”和“禁止海外访问”存在冲突（已知问题），连 Googlebot 也会时拦时放，建议把爬虫 IP 段加到 IP 白名单（路径：安全 → Nginx 防火墙 → 全局配置 → IP 白名单）。</p>
 <p>IP 段以爬虫官方公布的为准，例如 OpenAI 的 <code>searchbot.json</code>、<code>chatgpt-user.json</code>，各爬虫的出处见 <a href="/bots/">AI 爬虫百科</a>。</p>
 <h2>3. UA 白名单与 UA 黑名单</h2>
 <p>宝塔的规则顺序里，UA 白名单排在大多数拦截规则之前。白名单按关键词匹配，填 <code>OAI-SearchBot</code>、<code>PerplexityBot</code>、<code>Claude-SearchBot</code>、<code>ChatGPT-User</code> 即可。同时检查 UA 黑名单和“User-Agent 过滤”里有没有 <code>bot</code>、<code>spider</code>、<code>python</code> 这类宽泛关键词，它们会误伤。</p>
