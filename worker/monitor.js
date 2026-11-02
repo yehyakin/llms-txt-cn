@@ -136,9 +136,14 @@ export async function handleMonitor(request, env, ctx, deps) {
 /* 复测一个站点并按需发提醒 */
 export async function runOne(env, rec, deps, now) {
   now = now || Date.now();
-  let cur = null;
-  try { cur = summarize(await deps.check(rec.domain)); } catch (e) {}
+  let cur = null, err = null;
+  try {
+    const r = await deps.check(rec.domain);
+    cur = summarize(r);
+    if (!cur) err = (r && (r.error || r.code || (r.access && r.access.verdict))) || 'no_result';
+  } catch (e) { err = 'throw:' + ((e && e.message) || e).toString().slice(0, 80); }
   const { rec: next, alert } = step(rec, cur, now);
+  next.err = err;
   if (alert) { try { await deps.send(rec.email, alertMail(next, alert)); next.alerts = (next.alerts || 0) + 1; next.alerted_at = new Date(now).toISOString(); } catch (e) {} }
   // 记录可能在复测期间被退订
   if (await env.WAITLIST.get('mon:' + rec.id)) await put(env, next);
