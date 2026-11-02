@@ -1,6 +1,6 @@
 {
- "run_at": "2026-11-01T22:01:05.345Z",
- "rules": "2026-11-02.1",
+ "run_at": "2026-11-02T06:37:03.324Z",
+ "rules": "2026-11-02.2",
  "api": "https://cetxt-preview.kin3.workers.dev",
  "results": [
   {
@@ -16,13 +16,15 @@
     "S",
     "S"
    ],
+   "cn_expect": "all_open",
+   "cn_got": "all_open",
    "ok": true,
    "why": {
     "access": [
      {
       "id": "all_open",
       "status": "pass",
-      "total": 8
+      "total": 6
      }
     ],
     "read": [],
@@ -43,13 +45,15 @@
     "S",
     "S"
    ],
+   "cn_expect": null,
+   "cn_got": "all_blocked",
    "ok": true,
    "why": {
     "access": [
      {
       "id": "all_blocked",
       "status": "fail",
-      "n": 8
+      "n": 6
      }
     ],
     "read": [],
@@ -70,6 +74,8 @@
     "S",
     "S"
    ],
+   "cn_expect": null,
+   "cn_got": "all_open",
    "ok": true,
    "why": {
     "access": [
@@ -77,7 +83,7 @@
       "id": "some_blocked",
       "status": "warn",
       "n": 1,
-      "total": 8,
+      "total": 6,
       "bots": [
        "OAI-SearchBot"
       ]
@@ -101,13 +107,15 @@
     "S",
     "S"
    ],
+   "cn_expect": null,
+   "cn_got": "all_open",
    "ok": true,
    "why": {
     "access": [
      {
       "id": "all_open",
       "status": "pass",
-      "total": 8
+      "total": 6
      }
     ],
     "read": [],
@@ -128,6 +136,8 @@
     "S",
     "S"
    ],
+   "cn_expect": null,
+   "cn_got": "all_blocked",
    "ok": true,
    "why": {
     "access": [
@@ -139,7 +149,7 @@
      {
       "id": "all_blocked",
       "status": "fail",
-      "n": 8
+      "n": 6
      }
     ],
     "read": [],
@@ -160,13 +170,15 @@
     "S",
     "S"
    ],
+   "cn_expect": null,
+   "cn_got": "all_open",
    "ok": true,
    "why": {
     "access": [
      {
       "id": "all_open",
       "status": "pass",
-      "total": 8
+      "total": 6
      }
     ],
     "read": [],
@@ -187,21 +199,15 @@
     "S",
     "S"
    ],
+   "cn_expect": null,
+   "cn_got": "all_open",
    "ok": true,
    "why": {
     "access": [
      {
-      "id": "silent",
+      "id": "all_blocked",
       "status": "fail",
-      "n": 6,
-      "bots": [
-       "OAI-SearchBot",
-       "ChatGPT-User",
-       "PerplexityBot",
-       "Perplexity-User",
-       "Claude-SearchBot",
-       "Claude-User"
-      ]
+      "n": 6
      }
     ],
     "read": [],
@@ -222,22 +228,22 @@
     "S",
     "S"
    ],
+   "cn_expect": null,
+   "cn_got": "all_open",
    "ok": true,
    "why": {
     "access": [
      {
       "id": "some_warn",
       "status": "warn",
-      "n": 8,
+      "n": 6,
       "bots": [
        "OAI-SearchBot",
        "ChatGPT-User",
        "PerplexityBot",
        "Perplexity-User",
        "Claude-SearchBot",
-       "Claude-User",
-       "Bytespider",
-       "PetalBot"
+       "Claude-User"
       ]
      }
     ],
@@ -259,13 +265,15 @@
     "S",
     "S"
    ],
+   "cn_expect": null,
+   "cn_got": "all_blocked",
    "ok": true,
    "why": {
     "access": [
      {
       "id": "all_blocked",
       "status": "fail",
-      "n": 8
+      "n": 6
      }
     ],
     "read": [],
@@ -286,21 +294,15 @@
     "S",
     "S"
    ],
+   "cn_expect": null,
+   "cn_got": "all_open",
    "ok": true,
    "why": {
     "access": [
      {
-      "id": "silent",
+      "id": "all_blocked",
       "status": "fail",
-      "n": 6,
-      "bots": [
-       "OAI-SearchBot",
-       "ChatGPT-User",
-       "PerplexityBot",
-       "Perplexity-User",
-       "Claude-SearchBot",
-       "Claude-User"
-      ]
+      "n": 6
      }
     ],
     "read": [],
@@ -321,6 +323,8 @@
     "S",
     "S"
    ],
+   "cn_expect": null,
+   "cn_got": "all_open",
    "ok": true,
    "why": {
     "access": [
@@ -344,6 +348,35 @@
    "error": null
   },
   {
+   "slug": "fw-cn-403",
+   "domain": "fw-cn-403-lab.vaksel.com",
+   "expect": [
+    "S",
+    "S",
+    "S"
+   ],
+   "got": [
+    "S",
+    "S",
+    "S"
+   ],
+   "cn_expect": "all_blocked",
+   "cn_got": "all_blocked",
+   "ok": true,
+   "why": {
+    "access": [
+     {
+      "id": "all_open",
+      "status": "pass",
+      "total": 6
+     }
+    ],
+    "read": [],
+    "cite": []
+   },
+   "error": null
+  },
+  {
    "slug": "meta-noindex",
    "domain": "meta-noindex-lab.vaksel.com",
    "expect": [
@@ -356,6 +389,8 @@
     "C",
     "S"
    ],
+   "cn_expect": null,
+   "cn_got": "all_open",
    "ok": true,
    "why": {
     "access": [
@@ -387,6 +422,8 @@
     "C",
     "S"
    ],
+   "cn_expect": null,
+   "cn_got": "all_open",
    "ok": true,
    "why": {
     "access": [
@@ -418,13 +455,15 @@
     "C",
     "S"
    ],
+   "cn_expect": null,
+   "cn_got": "all_open",
    "ok": true,
    "why": {
     "access": [
      {
       "id": "all_open",
       "status": "pass",
-      "total": 8
+      "total": 6
      }
     ],
     "read": [
@@ -450,13 +489,15 @@
     "C",
     "S"
    ],
+   "cn_expect": null,
+   "cn_got": "all_open",
    "ok": true,
    "why": {
     "access": [
      {
       "id": "all_open",
       "status": "pass",
-      "total": 8
+      "total": 6
      }
     ],
     "read": [
@@ -486,13 +527,15 @@
     "S",
     "S"
    ],
+   "cn_expect": null,
+   "cn_got": "all_open",
    "ok": true,
    "why": {
     "access": [
      {
       "id": "all_open",
       "status": "pass",
-      "total": 8
+      "total": 6
      }
     ],
     "read": [],
@@ -513,13 +556,15 @@
     "S",
     "B"
    ],
+   "cn_expect": null,
+   "cn_got": "all_open",
    "ok": true,
    "why": {
     "access": [
      {
       "id": "all_open",
       "status": "pass",
-      "total": 8
+      "total": 6
      }
     ],
     "read": [],
@@ -545,13 +590,15 @@
     "S",
     "B"
    ],
+   "cn_expect": null,
+   "cn_got": "all_open",
    "ok": true,
    "why": {
     "access": [
      {
       "id": "all_open",
       "status": "pass",
-      "total": 8
+      "total": 6
      }
     ],
     "read": [],
@@ -581,13 +628,15 @@
     "A",
     "S"
    ],
+   "cn_expect": null,
+   "cn_got": "all_open",
    "ok": true,
    "why": {
     "access": [
      {
       "id": "all_open",
       "status": "pass",
-      "total": 8
+      "total": 6
      }
     ],
     "read": [

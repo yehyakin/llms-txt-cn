@@ -421,7 +421,7 @@ write('404.html', page({
   const nOk = LAB.results.filter((r) => r.ok).length;
   write('research/lab/index.html', page({
     path: '/research/lab/', title: 'VAKSEL 对照测试集：给 AI 可达性工具用的公开测试站 · VAKSEL',
-    desc: '19 个公开测试站，每个只改一处（防火墙 403、robots.txt 503、假 llms.txt、FAQ 标记与页面不符等），可以用来检验任何 AI 可达性工具，包括我们自己的。',
+    desc: '20 个公开测试站，每个只改一处（防火墙 403、robots.txt 503、假 llms.txt、FAQ 标记与页面不符等），可以用来检验任何 AI 可达性工具，包括我们自己的。',
     body: `<main class="wrap doc">${crumbs([['/', '首页'], ['/research/', '研究方法'], [null, '对照测试集']])}
 <h1>对照测试集</h1><p class="upd">最近一次运行 ${new Date(LAB.run_at).toLocaleDateString('sv-SE', { timeZone: 'Asia/Shanghai' })} · 规则版本 ${LAB.rules}</p>
 <p class="lead l">${FIXTURES.length} 个公开测试站，每个和对照组相比只改一处，用来看 AI 可达性工具能不能发现问题。任何工具都可以拿来测，包括我们自己的。</p>

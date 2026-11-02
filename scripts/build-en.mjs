@@ -583,7 +583,7 @@ write('en/site.webmanifest', JSON.stringify({ name: 'VAKSEL', short_name: 'VAKSE
   const nOk = LAB.results.filter((r) => r.ok).length;
   out.push(write('en/research/lab/index.html', page({
     path: '/en/research/lab/', title: 'VAKSEL Lab: open test sites for AI visibility tools · VAKSEL',
-    desc: 'Nineteen public test sites, each changing one thing (a firewall 403, a robots.txt 503, a fake llms.txt, mismatched FAQ markup). Use them to check any AI visibility tool, ours included.',
+    desc: 'Twenty public test sites, each changing one thing (a firewall 403, a robots.txt 503, a fake llms.txt, mismatched FAQ markup). Use them to check any AI visibility tool, ours included.',
     body: `<main class="wrap doc">${crumbs([['/en/', 'Home'], ['/en/research/', 'Research'], [null, 'Lab']])}
 <h1>VAKSEL Lab</h1><p class="upd">Last run ${new Date(LAB.run_at).toLocaleDateString('sv-SE', { timeZone: 'Asia/Shanghai' })} · rules ${LAB.rules}</p>
 <p class="lead l">${FIXTURES.length} public test sites. Each one changes exactly one thing from the control, so you can see whether an AI visibility tool notices. Point any tool at them, ours included.</p>
