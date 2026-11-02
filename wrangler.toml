@@ -33,6 +33,8 @@ simple = { limit = 20, period = 60 }
 
 [vars]
 RELAY_URL = "https://relay.cetxt.com/fetch"
+# 2026-11-03 KiN 批准：vaksel.com 内容页开放收录（报告页仍 noindex，由 INDEX_REPORTS 控制）
+INDEX_SITE = "1"
 # RELAY_KEY 是 secret（wrangler secret put RELAY_KEY），与服务器 /etc/cetxt-relay/key 一致
 
 # 早鸟名单（/api/waitlist）

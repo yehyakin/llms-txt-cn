@@ -326,7 +326,11 @@ const demo = renderReport(FIXT, { lang: 'zh', base: '', when: '2026-11-02T18:38:
 write('index.html', page({
   path: '/', type: 'website', title: 'AI 搜索能访问你的网站吗？免费 AI 爬虫可访问性检测 · VAKSEL',
   desc: '检测 ChatGPT、Perplexity、Claude 的搜索爬虫能否真正访问你的网站：robots.txt、防火墙和 CDN 拦截、noindex、只靠 JavaScript 渲染的页面。免费，无需注册。',
-  ld: { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'VAKSEL', alternateName: 'VAKSEL 中文版', url: SITE + '/', inLanguage: 'zh-CN', applicationCategory: 'DeveloperApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'CNY' } },
+  ld: { '@context': 'https://schema.org', '@graph': [
+    { '@type': 'Organization', '@id': 'https://vaksel.com/#org', name: 'VAKSEL', url: 'https://vaksel.com/', logo: 'https://vaksel.com/brand/icon-512.png' },
+    { '@type': 'WebSite', name: 'VAKSEL 中文版', alternateName: 'cetxt', url: SITE + '/', inLanguage: 'zh-CN', publisher: { '@id': 'https://vaksel.com/#org' } },
+    { '@type': 'WebApplication', name: 'VAKSEL', alternateName: 'VAKSEL 中文版', url: SITE + '/', inLanguage: 'zh-CN', applicationCategory: 'DeveloperApplication', operatingSystem: 'Web', publisher: { '@id': 'https://vaksel.com/#org' }, offers: { '@type': 'Offer', price: '0', priceCurrency: 'CNY' } }
+  ] },
   body: `<header class="hero"><div class="wrap">
   <span class="eyebrow"><b></b>免费 · 无需注册 · 几秒出结果</span>
   <h1>AI 搜索<span class="grad">真的能访问</span>你的网站吗？</h1>

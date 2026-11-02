@@ -433,7 +433,11 @@ function go(v){const c=clean(v);if(!c){f.classList.remove('shake');void f.offset
 f.addEventListener('submit',e=>{e.preventDefault();go(d.value)});
 document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>go(b.dataset.d));
 </script>`;
-const homeLd = { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'VAKSEL', url: SITE + '/', applicationCategory: 'DeveloperApplication', operatingSystem: 'Web', description: 'Checks whether AI search crawlers can reach a website through robots.txt, firewalls and CDNs.', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } };
+const homeLd = { '@context': 'https://schema.org', '@graph': [
+  { '@type': 'Organization', '@id': SITE + '/#org', name: 'VAKSEL', url: SITE + '/', logo: SITE + '/brand/icon-512.png' },
+  { '@type': 'WebSite', '@id': SITE + '/#site', name: 'VAKSEL', url: SITE + '/', publisher: { '@id': SITE + '/#org' } },
+  { '@type': 'WebApplication', name: 'VAKSEL', url: SITE + '/', applicationCategory: 'DeveloperApplication', operatingSystem: 'Web', description: 'Checks whether AI search crawlers can reach a website through robots.txt, firewalls and CDNs.', publisher: { '@id': SITE + '/#org' }, offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } }
+] };
 out.push(write('en/index.html', page({
   path: '/en/', title: 'Can AI search reach your site? Free AI crawler access check · VAKSEL',
   desc: 'Test whether ChatGPT, Perplexity and Claude search crawlers can actually reach your site: robots.txt, firewall and CDN blocks, noindex and JavaScript-only pages. Free, no sign-up.',
