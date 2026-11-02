@@ -173,7 +173,7 @@
 <main id="main" tabindex="-1" class="lg">
 <div class="wrap">
 
-  <div class="kicker">cetxt 中文大站普查 · 2026-11-01 重测 · 大型站 1000 · robots.txt + llms.txt · 只读检测</div>
+  <div class="kicker">VAKSEL 中文大站普查 · 2026-11-01 重测 · 大型站 1000 · robots.txt + llms.txt · 只读检测</div>
   <h1>1000 个大站，<br>只有 47 个拦了 <span class="acc">AI 训练</span></h1>
   <p class="lede">我们重新抓了 <b>1000 个大型中文站</b>的 <b>/robots.txt</b> 和 <b>/llms.txt</b>，用 RFC 9309 规则逐个判定 22 个 AI 与搜索爬虫。拦了至少一个 AI 训练爬虫的只有 <b>47 个</b>（<b>4.7%</b>），写了新提案 <span class="mono">__usage_ai-training</span> 的是 <b>0</b>。真正的 llms.txt 从 30 个涨到 <b>38 个</b>。</p>
   <div class="bcards">
@@ -305,7 +305,7 @@
       <li>大型站名单与 10 月相同：公开流量排名（Tranco/Umbrella 系）按 .cn 等归属中国的 TLD 过滤，另人工补全知名非 .cn 中文大站，去重后 1000。</li>
       <li>2026-11-01 从一台境外服务器逐站 GET https://域名/robots.txt 与 /llms.txt：https 优先、传输失败回退 http；手动跟随跳转最多 5 跳、每跳重新校验；单次 10 秒超时；robots 只取前 512KiB、llms 前 200KB；UA 为 cetxt-check/2.0。裸域没有 DNS 记录时再查 www（237 站）。</li>
       <li>robots.txt 按 RFC 9309 判定：User-agent 大小写不敏感前缀匹配、最长路径优先、Allow 平局优先、* 与 $ 通配；4xx 视为全部允许，5xx 与不可达视为全部禁止。逐个判定 22 个 AI 与搜索爬虫（清单与来源见 <a href="/data/ai-crawlers.json">ai-crawlers.json</a>）。</li>
-      <li>llms.txt 判定与 10 月一致：200 且内容为 Markdown 记为真文件，用 cetxt 校验引擎（llmstxt.org v2 确定性规则）打分。</li>
+      <li>llms.txt 判定与 10 月一致：200 且内容为 Markdown 记为真文件，用 VAKSEL 的 llms.txt 校验引擎（llmstxt.org v2 确定性规则）打分。</li>
       <li>局限：境外出口会被部分站的 WAF 拦截或超时（美团、CSDN、上海交大、央视等），14.1% 的 robots 和 27.3% 的 llms 没测到；只测根目录；robots 规则只代表站方声明，不代表爬虫一定遵守。</li>
     </ul>
   </section>

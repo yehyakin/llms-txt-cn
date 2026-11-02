@@ -35,7 +35,7 @@
 <div class="mb"><p>昨天 OAI-SearchBot 拿到的页面和浏览器一样。今天早上它从 Cloudflare 收到 <code>403</code>，而浏览器和 Googlebot 仍是 <code>200</code>。</p>
 <div class="mrow"><span>OAI-SearchBot</span><span class="tag t-ok">可访问</span><span class="arr">→</span><span class="tag t-bad">静默拦截</span></div>
 <div class="mrow"><span>PerplexityBot</span><span class="tag t-ok">可访问</span><span class="arr">→</span><span class="tag t-bad">静默拦截</span></div>
-<p><b>可能原因：</b>Cloudflare 的 Training 选项被设成了 <i>Block</i>，它现在也会拦搜索爬虫。</p><span class="mbtn">查看报告和修法</span></div></div></div></section>
+<p><b>可能原因：</b>Cloudflare 的 Search 选项被设成了 <i>Block</i>，或者有条 WAF 规则命中了这些爬虫。</p><span class="mbtn">查看报告和修法</span></div></div></div></section>
 <section class="sec" id="join"><div class="join card">
   <img class="vava" src="/en/brand/vava/vava3d-working-mini.webp" width="96" height="100" alt="" loading="lazy">
   <div class="jtext"><h2>加入早期体验</h2><p class="sub">价格公布并经你确认之前不会收费。早期用户锁定首发价。</p>
@@ -50,7 +50,7 @@
     <button class="btn">加入</button>
   </form><p class="wlmsg" id="wlmsg" role="status"></p></div>
 </div></section>
-<section class="sec tight"><h2>常见问题</h2><div class="faq"><details open><summary>监测会检查什么？</summary><p>与免费检测相同的三个层面（robots.txt、以各 AI 搜索爬虫身份发起并带对照组的实际请求，以及页面可读性），按每日计划执行。结果发生变化时你会收到邮件，例如某次 CDN 更新开始拦截 OAI-SearchBot。</p></details><details><summary>什么时候上线？</summary><p>监测功能目前处于抢先体验阶段。加入名单后，账号就绪时我们会发邮件通知你。中文版价格尚未公布，价格公布并经你确认订阅之前，不会收取任何费用。</p></details><details><summary>为什么我的网站会自己开始拦截 AI 爬虫？</summary><p>CDN 的默认设置会变化（Cloudflare 在 2026 年 9 月 15 日调整了 AI 爬虫控制项），安全插件会更新爬虫名单，改版时 robots.txt 也可能被修改。这些变化都不会通知你。</p></details><details><summary>你们是从爬虫的真实 IP 地址测试的吗？</summary><p>这些公司以外的人都做不到。我们从数据中心以各爬虫的 user agent 测试，并与普通浏览器、Googlebot 和未知爬虫的结果对比。这样可以区分专门针对 AI 的拦截和通用的爬虫验证规则，报告会标注每个结果的置信度。</p></details></div></section>
+<section class="sec tight"><h2>常见问题</h2><div class="faq"><details open><summary>监控会检查什么？</summary><p>与免费检测相同的三个层面（robots.txt、以各 AI 搜索爬虫身份发起并带对照组的实际请求，以及页面可读性），按每日计划执行。结果发生变化时你会收到邮件，例如某次 CDN 更新开始拦截 OAI-SearchBot。</p></details><details><summary>什么时候上线？</summary><p>监控功能目前处于早期体验阶段。加入名单后，账号就绪时我们会发邮件通知你。中文版价格尚未公布，价格公布并经你确认订阅之前，不会收取任何费用。</p></details><details><summary>为什么我的网站会自己开始拦截 AI 爬虫？</summary><p>CDN 的默认设置会变化（Cloudflare 在 2026 年 9 月 15 日调整了 AI 爬虫控制项），安全插件会更新爬虫名单，改版时 robots.txt 也可能被修改。这些变化都不会通知你。</p></details><details><summary>你们是从爬虫的真实 IP 地址测试的吗？</summary><p>这些公司以外的人都做不到。我们从数据中心以各爬虫的 user agent 测试，并与普通浏览器、Googlebot 和未知爬虫的结果对比。这样可以区分专门针对 AI 的拦截和通用的爬虫验证规则，报告会标注每个结果的置信度。</p></details></div></section>
 </main>
 <script>
 {const q=new URLSearchParams(location.search),st=q.get('site'),pl=q.get('plan');if(st){document.querySelector('#wl [name=site]').value=st;document.querySelector('#wl [name=watch]').checked=true}if(pl==='agency'||pl==='pro')document.querySelector('#wl [name=plan]').value=pl}

@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">
 <link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/app.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"CloudFront 或 AWS WAF 拦截了 AI 爬虫：修复方法","dateModified":"2026-11-01","inLanguage":"zh-CN"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"CloudFront 或 AWS WAF 拦截了 AI 爬虫：修复方法","dateModified":"2026-11-03","inLanguage":"zh-CN"}</script>
 </head><body class="zh">
 <a class="skip" href="#main">跳到正文</a>
 <nav class="nav" aria-label="主导航"><div class="wrap">
@@ -27,7 +27,7 @@
 </div></nav>
 <script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
 <main id="main" tabindex="-1" class="wrap doc"><div class="crumb"><a href="/">首页</a> <span>/</span> <a href="/guides/">修复指南</a> <span>/</span> CloudFront / AWS WAF</div>
-<h1>CloudFront 或 AWS WAF 拦截了 AI 爬虫：修复方法</h1><p class="upd">更新于 2026-11-01</p>
+<h1>CloudFront 或 AWS WAF 拦截了 AI 爬虫：修复方法</h1><p class="upd">更新于 2026-11-03</p>
 
 <p class="lead l">如果检测报告显示 CloudFront 对 AI 爬虫返回 403，常见原因是你的分发所关联的 Web ACL 中启用了 <b>AWS WAF Bot Control</b> 托管规则组。</p>
 <div class="callout"><b>原因。</b>Bot Control 的大多数类别规则只拦截<i>未验证</i>的爬虫，<code>CategoryAI</code> 却不同：AWS 文档写明它 “applies the action to all matches, regardless of whether the bots are verified or unverified.”（对所有匹配项执行该操作，无论爬虫是否已验证。）因此 OAI-SearchBot 和 PerplexityBot 会和训练爬虫一起被拦截。</div>
@@ -54,7 +54,7 @@ Disallow: /</pre>
 <p>WAF 的修改大约一分钟内生效。再次运行检测即可。</p>
 <h2>参考来源</h2><ul class="src"><li><a href="https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html" rel="nofollow noopener" target="_blank">AWS WAF docs: Bot Control rule group（AWS WAF 文档：Bot Control 规则组） ↗</a></li></ul>
 <div style="margin-top:28px">
-<div class="cta mini"><div><h3>修完再测一次</h3><p>免费，无需注册。我们以 13 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
+<div class="cta mini"><div><h3>修完再测一次</h3><p>免费，无需注册。我们以 18 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
 <form class="field inv" data-check autocomplete="off"><input placeholder="你的域名，例如 example.com" aria-label="域名" spellcheck="false" autocapitalize="off"><button class="btn">检测</button></form></div></div>
 <p class="more">其他指南：<a href="/guides/cloudflare/">Cloudflare</a> · <a href="/guides/wordpress/">WordPress</a> · <a href="/guides/shopify/">Shopify</a> · <a href="/guides/edgeone/">腾讯云 EdgeOne</a> · <a href="/guides/aliyun/">阿里云 ESA / CDN</a> · <a href="/guides/baota/">宝塔面板</a> · <a href="/guides/baidu/">百度智能云 CDN / WAF</a></p>
 </main><script>

@@ -11,7 +11,7 @@ const LAB = JSON.parse(readFileSync(new URL('../data/lab-results.json', import.m
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://vaksel.com';
-const UPDATED = '2026-11-01';
+const UPDATED = '2026-11-03';
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const slug = (t) => String(t).toLowerCase().replace(/[^a-z0-9]+/g, '-');
 const canon = (p) => SITE + p.replace(/^\/en/, '');
@@ -69,7 +69,7 @@ function write(rel, html) {
 }
 
 const crumbs = (items) => '<div class="crumb">' + items.map(([h, t]) => (h ? `<a href="${h}">${esc(t)}</a>` : esc(t))).join(' <span>/</span> ') + '</div>';
-const checkBox = (title = 'Check your site now', sub = 'Free, no sign-up. We request your homepage as 13 different clients and show what each one gets.') => `
+const checkBox = (title = 'Check your site now', sub = 'Free, no sign-up. We request your homepage as 18 different clients and show what each one gets.') => `
 <div class="cta mini"><div><h3>${esc(title)}</h3><p>${esc(sub)}</p></div>
 <form class="field inv" data-check autocomplete="off"><input placeholder="yourdomain.com" aria-label="Domain" spellcheck="false" autocapitalize="off"><button class="btn">Check</button></form></div>`;
 const CHECK_JS = `<script>
@@ -315,7 +315,7 @@ out.push(write('en/pricing/index.html', page({
 <div class="mb"><p>Yesterday OAI-SearchBot got the same page a browser gets. This morning it got <code>403</code> from Cloudflare, while a browser and Googlebot still get <code>200</code>.</p>
 <div class="mrow"><span>OAI-SearchBot</span><span class="tag t-ok">Reachable</span><span class="arr">→</span><span class="tag t-bad">Silent block</span></div>
 <div class="mrow"><span>PerplexityBot</span><span class="tag t-ok">Reachable</span><span class="arr">→</span><span class="tag t-bad">Silent block</span></div>
-<p><b>Likely cause:</b> Cloudflare's Training control was set to <i>Block</i>, which now also blocks search crawlers.</p><span class="mbtn">View report and fix</span></div></div></div></section>
+<p><b>Likely cause:</b> Cloudflare's Search control was set to <i>Block</i>, or a WAF rule now matches these crawlers.</p><span class="mbtn">View report and fix</span></div></div></div></section>
 <section class="sec" id="join"><div class="join card">
   <img class="vava" src="/en/brand/vava/vava3d-working-mini.webp" width="96" height="100" alt="" loading="lazy">
   <div class="jtext"><h2>Join early access</h2><p class="sub">Founding members keep the launch price for as long as they stay subscribed. No card needed today.</p>
@@ -355,16 +355,16 @@ out.push(write('en/404.html', page({
 })));
 
 /* ---------- 首页 ---------- */
-const FIXT = JSON.parse(readFileSync(join(root, 'tests/fixture-toyota.json'), 'utf8'));
-const demo = renderReport(FIXT, { base: '/en', when: '2026-11-01T09:12:00Z', url: SITE + '/report/toyota.com' });
+const FIXT = JSON.parse(readFileSync(join(root, 'data/demo-toyota.json'), 'utf8'));
+const demo = renderReport(FIXT, { base: '/en', when: '2026-11-02T18:38:00Z', url: SITE + '/report/toyota.com' });
 const EXAMPLES = [
-  ['toyota.com', 'Silent block', 'v-bad', 'CloudFront rejects OAI-SearchBot and PerplexityBot. A browser and Googlebot get through.'],
+  ['toyota.com', 'Silent block', 'v-bad', 'CloudFront rejects OAI-SearchBot and three user-triggered crawlers that robots.txt allows. A browser and Googlebot get through.'],
   ['smithsonianmag.com', 'All blocked', 'v-bad', 'Cloudflare turns away all 8 AI search and user-triggered crawlers we sent.'],
   ['torontosun.com', 'Silent block', 'v-bad', '6 of 8 AI search crawlers rejected while robots.txt allows them.']
 ];
 const HOME_FAQ = [
   ['Isn’t robots.txt enough?', 'robots.txt is only a request. Your CDN, firewall or a security plugin decides what actually gets through, and it can reject a crawler that robots.txt welcomes. That is the silent block we test for.'],
-  ['Will allowing AI search let my content be used for training?', 'No. Search and training are separate crawlers at OpenAI, Anthropic, Perplexity, Apple and Google. You can allow OAI-SearchBot and block GPTBot, for example. Our guides show how on each platform.'],
+  ['Will allowing AI search let my content be used for training?', 'No. OpenAI and Anthropic use separate crawlers for search and training, and Apple and Google give training its own robots.txt name (Applebot-Extended, Google-Extended). Perplexity says PerplexityBot isn’t used to train models. So you can allow OAI-SearchBot and block GPTBot, for example. Our guides show how on each platform.'],
   ['How accurate is a test from a data center?', 'Real crawlers come from their own IP ranges, which we can’t use. So every test runs with control groups (a normal browser, Googlebot and an unknown bot) and each result carries a confidence level.']
 ];
 const homeBody = `<header class="hero"><div class="wrap">
@@ -382,7 +382,7 @@ const homeBody = `<header class="hero"><div class="wrap">
   <div class="win"><div class="bar"><i></i><i></i><i></i><span>vaksel.com/report/toyota.com</span></div>
     <div class="wbody" inert><div class="rp-head"><div><div class="crumb">AI crawler access report</div><h2 class="dh">toyota.com</h2><div class="meta">${demo.meta}</div></div></div>${demo.html}</div>
     <a class="wopen" href="/en/report/toyota.com">Open the live report →</a></div>
-  <p class="cap">A real report from November 1, 2026. Toyota's robots.txt welcomes AI search crawlers; its firewall turns them away.</p>
+  <p class="cap">A real report from November 3, 2026. Toyota's robots.txt lets OAI-SearchBot in; its firewall turns it away.</p>
 </div></section>
 
 <section class="sec" id="checks"><div class="wrap">
@@ -536,12 +536,13 @@ legal('/en/privacy/', 'Privacy policy · VAKSEL', 'What VAKSEL collects when you
 <li>We use this only to tell you when your account is ready and to reply to you. We don't sell it or share it for marketing.</li>
 <li>To have your details deleted, send a request through the <a href="/en/contact/">contact form</a> from the same email address. We delete it within 30 days.</li></ul>
 <h2>When you turn on monitoring</h2>
-<ul><li>We store your email address, the site you asked us to watch, your language, and a short summary of each re-test: the three grades and which AI crawlers were blocked. We don't store your IP address.</li>
+<ul><li>We store your email address, the site you asked us to watch, your language, and a short summary of the latest re-test: the three grades and which AI crawlers were blocked. We don't store your IP address.</li>
+<li>If you don't confirm, the request is deleted after two days.</li>
 <li>Monitoring starts only after you click the link in the confirmation email. We use the email address only to send alerts about that site.</li>
-<li>Every alert has a stop link. Stopping deletes the site, its summaries and the link between them and your email straight away.</li>
-<li>Alert emails are sent through Resend.</li></ul>
+<li>Every alert has a stop link. Stopping deletes the site, its summary and the link between them and your email straight away.</li>
+<li>Re-tests run the same way as a normal check, including through our own server when needed.</li></ul>
 <h2>Service providers</h2>
-<p>The site runs on Cloudflare (hosting, caching and storage). Some checks are sent through our own server when a site blocks Cloudflare's network. Cloudflare processes requests under its <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener" target="_blank">privacy policy</a>.</p>
+<p>The site runs on Cloudflare (hosting, caching and storage). Some checks are sent through our own server when a site blocks Cloudflare's network. Cloudflare processes requests under its <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener" target="_blank">privacy policy</a>. Confirmation and alert emails are sent through <a href="https://resend.com/legal/privacy-policy" rel="noopener" target="_blank">Resend</a>.</p>
 <h2>Changes</h2>
 <p>If this policy changes, we'll update the date at the top. If we start collecting something new, we'll say so here first.</p>`);
 legal('/en/terms/', 'Terms of use · VAKSEL', 'The terms for using VAKSEL’s AI crawler access checks.', 'Terms of use', `
@@ -602,7 +603,7 @@ write('en/site.webmanifest', JSON.stringify({ name: 'VAKSEL', short_name: 'VAKSE
 <div class="tscroll" style="overflow-x:auto"><table class="tbl tg"><thead><tr><th>Site</th><th>What changes</th><th>Expected</th><th>VAKSEL</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
 <p>VAKSEL matches ${nOk} of ${LAB.results.length} on the latest run.</p>
 <h2>What it caught in our own engine</h2>
-<p>Our first run matched 3 of 19. The lab found four bugs, now fixed:</p>
+<p>Our first run, on the first 19 sites, matched 3. The lab found four bugs, now fixed:</p>
 <ul><li>Huawei’s PetalBot wasn’t in our crawler list, so a site that blocked everyone in robots.txt was graded B instead of C. The same bug hid a robots.txt 503.</li>
 <li>An X-Robots-Tag: noindex header was missed when we fetched through our fallback server.</li>
 <li>When a site refused our direct request, its sitemap was reported missing, because the sitemap check had no fallback server.</li>

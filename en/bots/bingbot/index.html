@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" href="/en/apple-touch-icon.png"><link rel="manifest" href="/en/site.webmanifest">
 <link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/app.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Bingbot: what it is and how to block or allow it","dateModified":"2026-11-01","author":{"@type":"Organization","name":"VAKSEL"},"about":"Bingbot","citation":"https://www.bing.com/webmasters/help/which-crawlers-does-bing-use-8c184ec0"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Bingbot: what it is and how to block or allow it","dateModified":"2026-11-03","author":{"@type":"Organization","name":"VAKSEL"},"about":"Bingbot","citation":"https://www.bing.com/webmasters/help/which-crawlers-does-bing-use-8c184ec0"}</script>
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
 <nav class="nav" aria-label="Main"><div class="wrap">
@@ -38,7 +38,7 @@ Allow: /</pre>
 <h2>robots.txt allows it, but is it really getting through?</h2><p>A firewall or CDN rule can reject Bingbot even when robots.txt welcomes it, and nothing in your CMS shows it. Our check sends a live request as Bingbot alongside a normal browser and a Googlebot control, so a bot-verification rule isn't mistaken for a block.</p>
 
 <div style="margin-top:28px">
-<div class="cta mini"><div><h3>Can Bingbot reach your site?</h3><p>Free, no sign-up. We request your homepage as 13 different clients and show what each one gets.</p></div>
+<div class="cta mini"><div><h3>Can Bingbot reach your site?</h3><p>Free, no sign-up. We request your homepage as 18 different clients and show what each one gets.</p></div>
 <form class="field inv" data-check autocomplete="off"><input placeholder="yourdomain.com" aria-label="Domain" spellcheck="false" autocapitalize="off"><button class="btn">Check</button></form></div></div>
 </main><script>
 document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();let v=(f.querySelector('input').value||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0];if(/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v))location.href='/en/report/'+v;else{f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake')}}));

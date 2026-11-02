@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">
 <link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/app.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"百度智能云 CDN 或 WAF 拦截了 AI 爬虫：修复方法","dateModified":"2026-11-01","inLanguage":"zh-CN"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"百度智能云 CDN 或 WAF 拦截了 AI 爬虫：修复方法","dateModified":"2026-11-03","inLanguage":"zh-CN"}</script>
 </head><body class="zh">
 <a class="skip" href="#main">跳到正文</a>
 <nav class="nav" aria-label="主导航"><div class="wrap">
@@ -27,9 +27,9 @@
 </div></nav>
 <script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
 <main id="main" tabindex="-1" class="wrap doc"><div class="crumb"><a href="/">首页</a> <span>/</span> <a href="/guides/">修复指南</a> <span>/</span> 百度智能云 CDN / WAF</div>
-<h1>百度智能云 CDN 或 WAF 拦截了 AI 爬虫：修复方法</h1><p class="upd">更新于 2026-11-01</p>
+<h1>百度智能云 CDN 或 WAF 拦截了 AI 爬虫：修复方法</h1><p class="upd">更新于 2026-11-03</p>
 
-<p class="lead l">和 EdgeOne、阿里云 ESA 不同，百度智能云目前没有专门的 AI 爬虫开关。AI 爬虫进不来，多半是通用的防盗链或 Bot 规则顺带拦掉的。</p>
+<p class="lead l">和 EdgeOne、阿里云 ESA 不同，我们在百度智能云的公开文档里没找到专门的 AI 爬虫开关（截至 2026 年 11 月）。AI 爬虫进不来，多半是通用的防盗链或 Bot 规则顺带拦掉的。</p>
 <div class="callout"><b>最常见的两个原因。</b>一是 CDN 的 User-Agent 防盗链设成了“白名单生效”，名单外的 UA 全部被拒；二是 WAF Bot 管理开了 JS 验证，按百度文档，“无法执行 JS 的非浏览器类工具将被过滤”，而大多数 AI 爬虫不执行 JavaScript。</div>
 <h2>1. CDN：User-Agent 黑白名单</h2>
 <ol><li>CDN 控制台 → <b>域名管理</b> → 目标域名 <b>管理</b> → <b>访问控制</b> → <b>防盗链</b> 编辑，找到 <b>User-Agent 防盗链配置</b>。</li>
@@ -37,7 +37,7 @@
 <li>如果是 <b>黑名单生效</b>：百度文档写明匹配方式是“包含”且忽略大小写。填了 <code>bot</code>、<code>spider</code>、<code>python</code> 这类宽泛词，会把所有 AI 爬虫一起拦掉。只想拦训练，改成具体名字：<code>GPTBot</code>、<code>ClaudeBot</code>、<code>CCBot</code>。</li></ol>
 <p>同一页的 <b>IP 黑白名单</b> 也要看一眼：开了 IP 白名单，名单外的 IP 都进不来。</p>
 <h2>2. CDN：区域封禁</h2>
-<p>OAI-SearchBot、PerplexityBot、Claude-SearchBot 都从海外机房发出请求。只允许中国大陆访问，它们基本进不来。需要保留区域封禁时，至少放行这些爬虫的官方 IP 段（例如 OpenAI 的 <code>searchbot.json</code>），各爬虫的出处见 <a href="/bots/">AI 爬虫百科</a>。</p>
+<p>按各家公布的 IP 段，OAI-SearchBot、PerplexityBot 等 AI 搜索爬虫都从海外机房发出请求。只允许中国大陆访问，它们基本进不来。需要保留区域封禁时，至少放行这些爬虫的官方 IP 段（例如 OpenAI 的 <code>searchbot.json</code>），各爬虫的出处见 <a href="/bots/">AI 爬虫百科</a>。</p>
 <h2>3. WAF：Bot 管理</h2>
 <p>Bot 管理只在 SaaS WAF 企业版提供，新建模板时各模块默认关闭。逐项检查你开了哪些：</p>
 <ul><li><b>JS 验证</b>：会过滤不执行 JS 的客户端，等于拦掉大多数 AI 爬虫。只对需要保护的路径（登录、接口）开，不要全站开。</li>
@@ -49,7 +49,7 @@
 <p>改完再跑一次检测，确认 AI 搜索各行显示“能进”。</p>
 <h2>参考来源</h2><ul class="src"><li><a href="https://cloud.baidu.com/doc/CDN/s/Ujwvyep4z" rel="nofollow noopener" target="_blank">百度智能云文档：CDN 设置防盗链（含 User-Agent 黑白名单匹配规则） ↗</a></li><li><a href="https://cloud.baidu.com/doc/WAF/s/nlvf00cp9" rel="nofollow noopener" target="_blank">百度智能云文档：WAF Bot 防护配置 ↗</a></li><li><a href="https://cloud.baidu.com/doc/WAF/s/4meshgwm8" rel="nofollow noopener" target="_blank">百度智能云文档：Bot 防护最佳实践 ↗</a></li><li><a href="https://openai.com/searchbot.json" rel="nofollow noopener" target="_blank">OpenAI：OAI-SearchBot IP 段 ↗</a></li></ul>
 <div style="margin-top:28px">
-<div class="cta mini"><div><h3>修完再测一次</h3><p>免费，无需注册。我们以 13 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
+<div class="cta mini"><div><h3>修完再测一次</h3><p>免费，无需注册。我们以 18 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
 <form class="field inv" data-check autocomplete="off"><input placeholder="你的域名，例如 example.com" aria-label="域名" spellcheck="false" autocapitalize="off"><button class="btn">检测</button></form></div></div>
 <p class="more">其他指南：<a href="/guides/cloudflare/">Cloudflare</a> · <a href="/guides/cloudfront/">CloudFront / AWS WAF</a> · <a href="/guides/wordpress/">WordPress</a> · <a href="/guides/shopify/">Shopify</a> · <a href="/guides/edgeone/">腾讯云 EdgeOne</a> · <a href="/guides/aliyun/">阿里云 ESA / CDN</a> · <a href="/guides/baota/">宝塔面板</a></p>
 </main><script>

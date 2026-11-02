@@ -158,7 +158,7 @@ Disallow: /</pre>
 <h2>3. 检查 WAF 与自定义规则</h2>
 <ol><li>在 WAF 规则里查 User-Agent 黑名单、区域封禁。只允许中国大陆访问会拦掉从海外机房发出的 AI 爬虫。</li>
 <li>误拦时可以建白名单规则，让特定 UA 或 IP 跳过 Bots 检查。只按 UA 放行容易被伪造，能用官方 IP 段更好。</li>
-<li>用的是老版阿里云 CDN / DCDN 加 WAF 的，同样在 WAF 的 Bot 管理和自定义规则里查。</li></ol>
+<li>用的是老版阿里云 CDN / DCDN 加 WAF 的，我们没有逐项核对老版控制台，思路相同：查 WAF 的 Bot 管理和自定义规则。</li></ol>
 <h2>4. 重新检测</h2>
 <p>改完再跑一次检测，确认 AI 搜索各行显示“能进”。</p>`,
     sources: [['https://help.aliyun.com/zh/edge-security-acceleration/esa/user-guide/ai-crawler-management/', '阿里云文档：什么是 AI 爬虫管理（含与 Bots 的优先级）'], ['https://help.aliyun.com/zh/edge-security-acceleration/esa/user-guide/ai-crawl-get-started', '阿里云文档：AI 爬虫管理快速上手'], ['https://help.aliyun.com/zh/edge-security-acceleration/esa/user-guide/bots', '阿里云文档：Bots 快速上手']]
@@ -168,11 +168,11 @@ Disallow: /</pre>
     desc: '宝塔 Nginx 防火墙默认放行国内外主要搜索引擎蜘蛛，但不认识 OAI-SearchBot 等 AI 爬虫，“非浏览器拦截”“禁止海外访问”都会拦它们。本文说明怎样放行。',
     body: `
 <p class="lead l">宝塔 Nginx 防火墙会放行百度、谷歌、必应、360、搜狗、头条、神马等搜索引擎蜘蛛，但它的蜘蛛名单里没有 OAI-SearchBot、PerplexityBot 这类 AI 搜索爬虫。宝塔官方论坛里已有站长反馈 OAI-SearchBot、Applebot 被防火墙封掉。</p>
-<div class="callout"><b>简要做法。</b>宝塔官方客服的建议是：需要放行的爬虫，把 UA 加入 <b>UA 白名单</b>；被“禁止海外访问”误拦的，把爬虫 IP 段加入 <b>IP 白名单</b>，IP 白名单优先级最高。</div>
+<div class="callout"><b>简要做法。</b>宝塔论坛里官方人员的答复是：需要放行的爬虫，把 UA 加入 <b>UA 白名单</b>；被“禁止海外访问”误拦的，把爬虫 IP 段加入 <b>IP 白名单</b>，IP 白名单优先级最高。</div>
 <h2>1. 非浏览器拦截</h2>
 <p>宝塔的说明是：这项“拦截非浏览器请求，通过 UA 判断是否是爬虫”，并说明“不会拦截真实的蜘蛛爬虫”。AI 爬虫不在它的蜘蛛名单里，很可能被当作非浏览器请求拦掉。要么关掉这项，要么把 AI 搜索爬虫加进 UA 白名单。</p>
 <h2>2. 禁止海外访问</h2>
-<p>OAI-SearchBot、PerplexityBot、Claude-SearchBot 都从海外机房发出请求。开了“禁止海外访问”，它们基本进不来。宝塔官方论坛 2026 年 9 月的答复还提到，“蜘蛛 IP 放行”和“禁止海外访问”存在冲突（已知问题），连 Googlebot 也会时拦时放，建议把爬虫 IP 段加到 IP 白名单（路径：安全 → Nginx 防火墙 → 全局配置 → IP 白名单）。</p>
+<p>按各家公布的 IP 段，OAI-SearchBot、PerplexityBot 等 AI 搜索爬虫都从海外机房发出请求。开了“禁止海外访问”，它们基本进不来。宝塔官方论坛 2026 年 9 月的答复还提到，“蜘蛛 IP 放行”和“禁止海外访问”存在冲突（已知问题），连 Googlebot 也会时拦时放，建议把爬虫 IP 段加到 IP 白名单（路径：安全 → Nginx 防火墙 → 全局配置 → IP 白名单）。</p>
 <p>IP 段以爬虫官方公布的为准，例如 OpenAI 的 <code>searchbot.json</code>、<code>chatgpt-user.json</code>，各爬虫的出处见 <a href="/bots/">AI 爬虫百科</a>。</p>
 <h2>3. UA 白名单与 UA 黑名单</h2>
 <p>宝塔的规则顺序里，UA 白名单排在大多数拦截规则之前。白名单按关键词匹配，填 <code>OAI-SearchBot</code>、<code>PerplexityBot</code>、<code>Claude-SearchBot</code>、<code>ChatGPT-User</code> 即可。同时检查 UA 黑名单和“User-Agent 过滤”里有没有 <code>bot</code>、<code>spider</code>、<code>python</code> 这类宽泛关键词，它们会误伤。</p>
@@ -187,7 +187,7 @@ Disallow: /</pre>
     slug: 'baidu', name: '百度智能云 CDN / WAF', title: '百度智能云 CDN 或 WAF 拦截了 AI 爬虫：修复方法',
     desc: '百度智能云没有单独的 AI 爬虫开关，拦截通常来自 CDN 的 User-Agent 黑白名单、区域封禁，或 WAF Bot 管理的 JS 验证与 IDC 规则。本文逐项说明怎样放行 AI 搜索爬虫。',
     body: `
-<p class="lead l">和 EdgeOne、阿里云 ESA 不同，百度智能云目前没有专门的 AI 爬虫开关。AI 爬虫进不来，多半是通用的防盗链或 Bot 规则顺带拦掉的。</p>
+<p class="lead l">和 EdgeOne、阿里云 ESA 不同，我们在百度智能云的公开文档里没找到专门的 AI 爬虫开关（截至 2026 年 11 月）。AI 爬虫进不来，多半是通用的防盗链或 Bot 规则顺带拦掉的。</p>
 <div class="callout"><b>最常见的两个原因。</b>一是 CDN 的 User-Agent 防盗链设成了“白名单生效”，名单外的 UA 全部被拒；二是 WAF Bot 管理开了 JS 验证，按百度文档，“无法执行 JS 的非浏览器类工具将被过滤”，而大多数 AI 爬虫不执行 JavaScript。</div>
 <h2>1. CDN：User-Agent 黑白名单</h2>
 <ol><li>CDN 控制台 → <b>域名管理</b> → 目标域名 <b>管理</b> → <b>访问控制</b> → <b>防盗链</b> 编辑，找到 <b>User-Agent 防盗链配置</b>。</li>
@@ -195,7 +195,7 @@ Disallow: /</pre>
 <li>如果是 <b>黑名单生效</b>：百度文档写明匹配方式是“包含”且忽略大小写。填了 <code>bot</code>、<code>spider</code>、<code>python</code> 这类宽泛词，会把所有 AI 爬虫一起拦掉。只想拦训练，改成具体名字：<code>GPTBot</code>、<code>ClaudeBot</code>、<code>CCBot</code>。</li></ol>
 <p>同一页的 <b>IP 黑白名单</b> 也要看一眼：开了 IP 白名单，名单外的 IP 都进不来。</p>
 <h2>2. CDN：区域封禁</h2>
-<p>OAI-SearchBot、PerplexityBot、Claude-SearchBot 都从海外机房发出请求。只允许中国大陆访问，它们基本进不来。需要保留区域封禁时，至少放行这些爬虫的官方 IP 段（例如 OpenAI 的 <code>searchbot.json</code>），各爬虫的出处见 <a href="/bots/">AI 爬虫百科</a>。</p>
+<p>按各家公布的 IP 段，OAI-SearchBot、PerplexityBot 等 AI 搜索爬虫都从海外机房发出请求。只允许中国大陆访问，它们基本进不来。需要保留区域封禁时，至少放行这些爬虫的官方 IP 段（例如 OpenAI 的 <code>searchbot.json</code>），各爬虫的出处见 <a href="/bots/">AI 爬虫百科</a>。</p>
 <h2>3. WAF：Bot 管理</h2>
 <p>Bot 管理只在 SaaS WAF 企业版提供，新建模板时各模块默认关闭。逐项检查你开了哪些：</p>
 <ul><li><b>JS 验证</b>：会过滤不执行 JS 的客户端，等于拦掉大多数 AI 爬虫。只对需要保护的路径（登录、接口）开，不要全站开。</li>
@@ -243,25 +243,26 @@ export const RESEARCH_ZH = {
 
 export const PRIVACY_ZH = {
   title: '隐私政策 · VAKSEL',
-  desc: '你运行检测或加入抢先体验名单时，我们收集哪些信息，以及不收集哪些信息。',
+  desc: '你运行检测或加入早期体验名单时，我们收集哪些信息，以及不收集哪些信息。',
   h1: '隐私政策',
   body: `
-<p class="lead l">我们尽可能少地收集信息。运行检测无需注册账号，不设置 Cookie，也不使用广告追踪。llms.txt 工具页、调查报告和旧版指南页使用自托管的 Umami 统计访问量，它不设置 Cookie，也不识别个人身份。</p>
+<p class="lead l">我们尽可能少地收集信息。运行检测无需注册账号，不设置 Cookie，也不使用广告追踪。llms.txt 工具页、调查报告、常见问题和旧版指南页使用自托管的 Umami 统计访问量，它不设置 Cookie，也不识别个人身份。</p>
 <h2>当你检测一个域名时</h2>
 <ul><li>我们的服务器会请求该域名的公开文件：<code>robots.txt</code>、<code>llms.txt</code> 和首页。这些请求由我们发出，而不是由你的浏览器发出。</li>
 <li>我们不保存你检测的域名，也不保存你的 IP 地址。你的 IP 地址只会被短暂用于请求限速，随后即被丢弃。</li>
 <li>每个检测结果以域名为键缓存约五分钟，以免重复检测再次访问该网站。报告的分享图片最多缓存一小时。</li></ul>
-<h2>当你加入抢先体验名单或联系我们时</h2>
+<h2>当你加入早期体验名单或联系我们时</h2>
 <ul><li>我们会保存你填写的邮箱地址、方案和网站，你发送的留言（如有），以及请求来源的国家或地区（由我们的托管服务商提供）。我们不保存你的 IP 地址。</li>
 <li>这些信息仅用于在你的账号就绪时通知你，以及回复你。我们不会出售这些信息，也不会将其用于营销或分享给他人。</li>
 <li>如需删除你的信息，请用同一邮箱通过<a href="/contact/">联系表单</a>提交请求。我们会在 30 天内删除。</li></ul>
 <h2>当你开启监控时</h2>
-<ul><li>我们会保存你的邮箱、你要求监控的网站、语言，以及每次复测的摘要（三项评级和哪些 AI 爬虫被拦）。我们不保存你的 IP 地址。</li>
+<ul><li>我们会保存你的邮箱、你要求监控的网站、语言，以及最近一次复测的摘要（三项评级和哪些 AI 爬虫被拦）。我们不保存你的 IP 地址。</li>
+<li>如果你没有确认，这条请求会在两天后删除。</li>
 <li>只有在你点了确认邮件里的链接之后，监控才会开始。邮箱只用来发这个网站的提醒。</li>
 <li>每封提醒邮件都有“停止监控”链接。停止后，该网站、它的复测摘要以及与你邮箱的关联会立即删除。</li>
-<li>提醒邮件通过 Resend 发送。</li></ul>
+<li>复测和普通检测走同样的流程，必要时也会经由我们自己的服务器发出。</li></ul>
 <h2>服务提供商</h2>
-<p>本站运行在 Cloudflare 上（托管、缓存和存储）。当某个网站屏蔽 Cloudflare 的网络时，部分检测会经由我们自己的服务器发出。Cloudflare 依据其<a href="https://www.cloudflare.com/privacypolicy/" rel="noopener" target="_blank">隐私政策</a>处理请求。</p>
+<p>本站运行在 Cloudflare 上（托管、缓存和存储）。当某个网站屏蔽 Cloudflare 的网络时，部分检测会经由我们自己的服务器发出。Cloudflare 依据其<a href="https://www.cloudflare.com/privacypolicy/" rel="noopener" target="_blank">隐私政策</a>处理请求。确认邮件和提醒邮件通过 <a href="https://resend.com/legal/privacy-policy" rel="noopener" target="_blank">Resend</a> 发送。</p>
 <h2>变更</h2>
 <p>如果本政策有变更，我们会更新页面顶部的日期。如果开始收集新的信息，我们会先在这里说明。</p>`
 };
@@ -279,7 +280,7 @@ export const TERMS_ZH = {
 <h2>免责声明</h2>
 <p>本服务按“现状”提供，不作任何形式的保证。在法律允许的范围内，我们不对依据报告作出的决定，或因使用本服务产生的任何损失承担责任。</p>
 <h2>付费方案</h2>
-<p>监测方案目前处于抢先体验阶段。加入名单不代表你需要付费。付费方案开放时，我们会在你订阅前展示其条款和价格。</p>
+<p>监控方案目前处于早期体验阶段。加入名单不代表你需要付费。付费方案开放时，我们会在你订阅前展示其条款和价格。</p>
 <h2>变更与联系</h2>
 <p>我们可能会更新这些条款，页面顶部的日期即为最新版本日期。如有疑问，请使用<a href="/contact/">联系表单</a>。</p>`
 };
@@ -303,20 +304,20 @@ export const CONTACT_ZH = {
 
 export const HOME_FAQ_ZH = [
   ['有 robots.txt 不就够了吗？', 'robots.txt 只是一种请求。真正决定哪些请求能通过的是你的 CDN、防火墙或安全插件，它们可能会拒绝 robots.txt 明明欢迎的爬虫。这正是我们检测的静默拦截。'],
-  ['允许 AI 搜索，会让我的内容被用于训练吗？', '不会。在 OpenAI、Anthropic、Perplexity、Apple 和 Google，搜索和训练使用的是不同的爬虫。例如，你可以允许 OAI-SearchBot，同时拦截 GPTBot。我们的修复指南介绍了在各个平台上的设置方法。'],
+  ['允许 AI 搜索，会让我的内容被用于训练吗？', '不会。OpenAI 和 Anthropic 的搜索与训练是不同的爬虫；Apple 和 Google 给训练单独设了 robots.txt 名称（Applebot-Extended、Google-Extended）；Perplexity 表示 PerplexityBot 不用于训练模型。所以你可以允许 OAI-SearchBot，同时拦截 GPTBot。我们的修复指南介绍了在各个平台上的设置方法。'],
   ['从数据中心发起的测试有多准确？', '真实爬虫来自它们自己的 IP 段，我们无法使用。因此每次测试都带有对照组（普通浏览器、Googlebot 和未知爬虫），每个结果都标注置信度。']
 ];
 
 // 中文版定价尚未确定：不出现任何具体价格。
 export const PRICING_FAQ_ZH = [
-  ['监测会检查什么？', '与免费检测相同的三个层面（robots.txt、以各 AI 搜索爬虫身份发起并带对照组的实际请求，以及页面可读性），按每日计划执行。结果发生变化时你会收到邮件，例如某次 CDN 更新开始拦截 OAI-SearchBot。'],
-  ['什么时候上线？', '监测功能目前处于抢先体验阶段。加入名单后，账号就绪时我们会发邮件通知你。中文版价格尚未公布，价格公布并经你确认订阅之前，不会收取任何费用。'],
+  ['监控会检查什么？', '与免费检测相同的三个层面（robots.txt、以各 AI 搜索爬虫身份发起并带对照组的实际请求，以及页面可读性），按每日计划执行。结果发生变化时你会收到邮件，例如某次 CDN 更新开始拦截 OAI-SearchBot。'],
+  ['什么时候上线？', '监控功能目前处于早期体验阶段。加入名单后，账号就绪时我们会发邮件通知你。中文版价格尚未公布，价格公布并经你确认订阅之前，不会收取任何费用。'],
   ['为什么我的网站会自己开始拦截 AI 爬虫？', 'CDN 的默认设置会变化（Cloudflare 在 2026 年 9 月 15 日调整了 AI 爬虫控制项），安全插件会更新爬虫名单，改版时 robots.txt 也可能被修改。这些变化都不会通知你。'],
   ['你们是从爬虫的真实 IP 地址测试的吗？', '这些公司以外的人都做不到。我们从数据中心以各爬虫的 user agent 测试，并与普通浏览器、Googlebot 和未知爬虫的结果对比。这样可以区分专门针对 AI 的拦截和通用的爬虫验证规则，报告会标注每个结果的置信度。']
 ];
 
 export const EXAMPLES_ZH = [
-  ['toyota.com', '静默拦截', 'v-bad', 'CloudFront 拒绝了 OAI-SearchBot 和 PerplexityBot，浏览器和 Googlebot 可以正常访问。'],
+  ['toyota.com', '静默拦截', 'v-bad', 'robots.txt 允许的 OAI-SearchBot 和三个用户触发爬虫被 CloudFront 拒绝，浏览器和 Googlebot 可以正常访问。'],
   ['smithsonianmag.com', '全部拦截', 'v-bad', 'Cloudflare 拒绝了我们发出的全部 8 个 AI 搜索及用户触发类爬虫。'],
   ['torontosun.com', '静默拦截', 'v-bad', '8 个 AI 搜索爬虫中有 6 个被拒绝，而 robots.txt 允许它们访问。']
 ];

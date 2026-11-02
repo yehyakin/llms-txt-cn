@@ -13,7 +13,7 @@ import { GUIDES_ZH, RESEARCH_ZH, PRIVACY_ZH, TERMS_ZH, CONTACT_ZH, HOME_FAQ_ZH, 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://cetxt.com';
 const EN = 'https://vaksel.com';
-const UPDATED = '2026-11-01';
+const UPDATED = '2026-11-03';
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const slug = (t) => String(t).toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
@@ -62,7 +62,7 @@ ${FOOT(enPath)}
 const out = [];
 function write(rel, html) { const abs = join(root, rel); mkdirSync(dirname(abs), { recursive: true }); writeFileSync(abs, html); out.push(rel); return rel; }
 const crumbs = (items) => '<div class="crumb">' + items.map(([h, t]) => (h ? `<a href="${h}">${esc(t)}</a>` : esc(t))).join(' <span>/</span> ') + '</div>';
-const checkBox = (title = '现在检测你的网站', sub = '免费，无需注册。我们以 13 种不同身份请求你的首页，告诉你每个请求拿到了什么。') => `
+const checkBox = (title = '现在检测你的网站', sub = '免费，无需注册。我们以 18 种不同身份请求你的首页，告诉你每个请求拿到了什么。') => `
 <div class="cta mini"><div><h3>${esc(title)}</h3><p>${esc(sub)}</p></div>
 <form class="field inv" data-check autocomplete="off"><input placeholder="你的域名，例如 example.com" aria-label="域名" spellcheck="false" autocapitalize="off"><button class="btn">检测</button></form></div>`;
 const CHECK_JS = `<script>
@@ -82,7 +82,7 @@ ${NAV('', '/report/')}
     <div><div class="crumb">AI 爬虫可访问性报告</div><h1 id="dom"><!--DOM-->…<!--/DOM--></h1><div class="meta" id="meta"><!--META--><!--/META--></div></div>
     <form class="rp-search" id="f" autocomplete="off"><div class="field" style="flex:1"><input id="d" placeholder="检测其他域名" aria-label="域名" spellcheck="false" autocapitalize="off"><button class="btn">检测</button></div></form>
   </div>
-  <div id="out"><!--OUT--><div class="loading" id="ld"><img class="vava" src="/en/brand/vava/vava3d-searching-mini.webp" width="96" height="121" alt="">正在以 13 种不同身份请求首页…</div><!--/OUT--></div>
+  <div id="out"><!--OUT--><div class="loading" id="ld"><img class="vava" src="/en/brand/vava/vava3d-searching-mini.webp" width="96" height="121" alt="">正在以 18 种不同身份请求首页…</div><!--/OUT--></div>
 </main>
 ${FOOT('/')}
 <script type="module">
@@ -289,7 +289,7 @@ write('pricing/index.html', page({
 <div class="mb"><p>昨天 OAI-SearchBot 拿到的页面和浏览器一样。今天早上它从 Cloudflare 收到 <code>403</code>，而浏览器和 Googlebot 仍是 <code>200</code>。</p>
 <div class="mrow"><span>OAI-SearchBot</span><span class="tag t-ok">可访问</span><span class="arr">→</span><span class="tag t-bad">静默拦截</span></div>
 <div class="mrow"><span>PerplexityBot</span><span class="tag t-ok">可访问</span><span class="arr">→</span><span class="tag t-bad">静默拦截</span></div>
-<p><b>可能原因：</b>Cloudflare 的 Training 选项被设成了 <i>Block</i>，它现在也会拦搜索爬虫。</p><span class="mbtn">查看报告和修法</span></div></div></div></section>
+<p><b>可能原因：</b>Cloudflare 的 Search 选项被设成了 <i>Block</i>，或者有条 WAF 规则命中了这些爬虫。</p><span class="mbtn">查看报告和修法</span></div></div></div></section>
 <section class="sec" id="join"><div class="join card">
   <img class="vava" src="/en/brand/vava/vava3d-working-mini.webp" width="96" height="100" alt="" loading="lazy">
   <div class="jtext"><h2>加入早期体验</h2><p class="sub">价格公布并经你确认之前不会收费。早期用户锁定首发价。</p>
@@ -321,8 +321,8 @@ wl.addEventListener('submit',async e=>{e.preventDefault();const b=wl.querySelect
 }));
 
 /* ---------- 首页 ---------- */
-const FIXT = JSON.parse(readFileSync(join(root, 'tests/fixture-toyota.json'), 'utf8'));
-const demo = renderReport(FIXT, { lang: 'zh', base: '', when: '2026-11-01T09:12:00Z', url: SITE + '/report/toyota.com' });
+const FIXT = JSON.parse(readFileSync(join(root, 'data/demo-toyota.json'), 'utf8'));
+const demo = renderReport(FIXT, { lang: 'zh', base: '', when: '2026-11-02T18:38:00Z', url: SITE + '/report/toyota.com' });
 write('index.html', page({
   path: '/', type: 'website', title: 'AI 搜索能访问你的网站吗？免费 AI 爬虫可访问性检测 · VAKSEL',
   desc: '检测 ChatGPT、Perplexity、Claude 的搜索爬虫能否真正访问你的网站：robots.txt、防火墙和 CDN 拦截、noindex、只靠 JavaScript 渲染的页面。免费，无需注册。',
@@ -342,7 +342,7 @@ write('index.html', page({
   <div class="win"><div class="bar"><i></i><i></i><i></i><span>cetxt.com/report/toyota.com</span></div>
     <div class="wbody" inert><div class="rp-head"><div><div class="crumb">AI 爬虫可访问性报告</div><h2 class="dh">toyota.com</h2><div class="meta">${demo.meta}</div></div></div>${demo.html}</div>
     <a class="wopen" href="/report/toyota.com">打开实时报告 →</a></div>
-  <p class="cap">2026 年 11 月 1 日的真实报告。丰田的 robots.txt 欢迎 AI 搜索爬虫，防火墙却把它们挡在了外面。</p>
+  <p class="cap">2026 年 11 月 3 日的真实报告。丰田的 robots.txt 放行了 OAI-SearchBot，防火墙却把它挡在了外面。</p>
 </div></section>
 
 <section class="sec" id="checks"><div class="wrap">
@@ -435,7 +435,7 @@ write('404.html', page({
 <div class="tscroll" style="overflow-x:auto"><table class="tbl tg"><thead><tr><th>测试站</th><th>改了什么</th><th>应得</th><th>VAKSEL</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
 <p>最近一次运行，VAKSEL 结果与预期一致 ${nOk}/${LAB.results.length}。</p>
 <h2>它在我们自己的引擎里找到了什么</h2>
-<p>第一次运行只对了 3/19。测试集找出四个问题，现已修复：</p>
+<p>第一次运行（当时 19 个站）只对了 3 个。测试集找出四个问题，现已修复：</p>
 <ul><li>爬虫名单里漏了华为 PetalBot，导致 robots.txt 全站禁止的站被评成 B 而不是 C。robots.txt 返回 503 的情况也被同一个问题掩盖。</li>
 <li>经备用服务器抓取时，响应头里的 X-Robots-Tag: noindex 没有读到。</li>
 <li>站点拒绝我们直接请求时，站点地图检查没有走备用服务器，被误报为缺失。</li>

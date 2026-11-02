@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">
 <link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/app.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"阿里云 ESA 或 CDN 拦截了 AI 爬虫：修复方法","dateModified":"2026-11-01","inLanguage":"zh-CN"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"阿里云 ESA 或 CDN 拦截了 AI 爬虫：修复方法","dateModified":"2026-11-03","inLanguage":"zh-CN"}</script>
 </head><body class="zh">
 <a class="skip" href="#main">跳到正文</a>
 <nav class="nav" aria-label="主导航"><div class="wrap">
@@ -27,7 +27,7 @@
 </div></nav>
 <script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
 <main id="main" tabindex="-1" class="wrap doc"><div class="crumb"><a href="/">首页</a> <span>/</span> <a href="/guides/">修复指南</a> <span>/</span> 阿里云 ESA / CDN</div>
-<h1>阿里云 ESA 或 CDN 拦截了 AI 爬虫：修复方法</h1><p class="upd">更新于 2026-11-01</p>
+<h1>阿里云 ESA 或 CDN 拦截了 AI 爬虫：修复方法</h1><p class="upd">更新于 2026-11-03</p>
 
 <p class="lead l">阿里云边缘安全加速 ESA 把 AI 爬虫单独放在“AI 爬虫管理”里，按爬虫逐个开关。好处是可以只拦训练、不拦搜索；坏处是批量勾选时容易把搜索爬虫一起选上。</p>
 <div class="callout"><b>简要做法。</b>在 <b>安全防护 → AI 爬虫管理 → 爬虫客户端</b> 里，只把训练爬虫（GPTBot、ClaudeBot、Google-Extended 等）设为“拦截”，OAI-SearchBot、PerplexityBot、Claude-SearchBot 保持关闭或“观察”。</div>
@@ -42,12 +42,12 @@
 <h2>3. 检查 WAF 与自定义规则</h2>
 <ol><li>在 WAF 规则里查 User-Agent 黑名单、区域封禁。只允许中国大陆访问会拦掉从海外机房发出的 AI 爬虫。</li>
 <li>误拦时可以建白名单规则，让特定 UA 或 IP 跳过 Bots 检查。只按 UA 放行容易被伪造，能用官方 IP 段更好。</li>
-<li>用的是老版阿里云 CDN / DCDN 加 WAF 的，同样在 WAF 的 Bot 管理和自定义规则里查。</li></ol>
+<li>用的是老版阿里云 CDN / DCDN 加 WAF 的，我们没有逐项核对老版控制台，思路相同：查 WAF 的 Bot 管理和自定义规则。</li></ol>
 <h2>4. 重新检测</h2>
 <p>改完再跑一次检测，确认 AI 搜索各行显示“能进”。</p>
 <h2>参考来源</h2><ul class="src"><li><a href="https://help.aliyun.com/zh/edge-security-acceleration/esa/user-guide/ai-crawler-management/" rel="nofollow noopener" target="_blank">阿里云文档：什么是 AI 爬虫管理（含与 Bots 的优先级） ↗</a></li><li><a href="https://help.aliyun.com/zh/edge-security-acceleration/esa/user-guide/ai-crawl-get-started" rel="nofollow noopener" target="_blank">阿里云文档：AI 爬虫管理快速上手 ↗</a></li><li><a href="https://help.aliyun.com/zh/edge-security-acceleration/esa/user-guide/bots" rel="nofollow noopener" target="_blank">阿里云文档：Bots 快速上手 ↗</a></li></ul>
 <div style="margin-top:28px">
-<div class="cta mini"><div><h3>修完再测一次</h3><p>免费，无需注册。我们以 13 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
+<div class="cta mini"><div><h3>修完再测一次</h3><p>免费，无需注册。我们以 18 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
 <form class="field inv" data-check autocomplete="off"><input placeholder="你的域名，例如 example.com" aria-label="域名" spellcheck="false" autocapitalize="off"><button class="btn">检测</button></form></div></div>
 <p class="more">其他指南：<a href="/guides/cloudflare/">Cloudflare</a> · <a href="/guides/cloudfront/">CloudFront / AWS WAF</a> · <a href="/guides/wordpress/">WordPress</a> · <a href="/guides/shopify/">Shopify</a> · <a href="/guides/edgeone/">腾讯云 EdgeOne</a> · <a href="/guides/baota/">宝塔面板</a> · <a href="/guides/baidu/">百度智能云 CDN / WAF</a></p>
 </main><script>

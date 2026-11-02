@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">
 <link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/app.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"宝塔 Nginx 防火墙拦了 ChatGPT、Perplexity 爬虫？检查这四个地方","dateModified":"2026-11-01","inLanguage":"zh-CN"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"宝塔 Nginx 防火墙拦了 ChatGPT、Perplexity 爬虫？检查这四个地方","dateModified":"2026-11-03","inLanguage":"zh-CN"}</script>
 </head><body class="zh">
 <a class="skip" href="#main">跳到正文</a>
 <nav class="nav" aria-label="主导航"><div class="wrap">
@@ -27,14 +27,14 @@
 </div></nav>
 <script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
 <main id="main" tabindex="-1" class="wrap doc"><div class="crumb"><a href="/">首页</a> <span>/</span> <a href="/guides/">修复指南</a> <span>/</span> 宝塔面板</div>
-<h1>宝塔 Nginx 防火墙拦了 ChatGPT、Perplexity 爬虫？检查这四个地方</h1><p class="upd">更新于 2026-11-01</p>
+<h1>宝塔 Nginx 防火墙拦了 ChatGPT、Perplexity 爬虫？检查这四个地方</h1><p class="upd">更新于 2026-11-03</p>
 
 <p class="lead l">宝塔 Nginx 防火墙会放行百度、谷歌、必应、360、搜狗、头条、神马等搜索引擎蜘蛛，但它的蜘蛛名单里没有 OAI-SearchBot、PerplexityBot 这类 AI 搜索爬虫。宝塔官方论坛里已有站长反馈 OAI-SearchBot、Applebot 被防火墙封掉。</p>
-<div class="callout"><b>简要做法。</b>宝塔官方客服的建议是：需要放行的爬虫，把 UA 加入 <b>UA 白名单</b>；被“禁止海外访问”误拦的，把爬虫 IP 段加入 <b>IP 白名单</b>，IP 白名单优先级最高。</div>
+<div class="callout"><b>简要做法。</b>宝塔论坛里官方人员的答复是：需要放行的爬虫，把 UA 加入 <b>UA 白名单</b>；被“禁止海外访问”误拦的，把爬虫 IP 段加入 <b>IP 白名单</b>，IP 白名单优先级最高。</div>
 <h2>1. 非浏览器拦截</h2>
 <p>宝塔的说明是：这项“拦截非浏览器请求，通过 UA 判断是否是爬虫”，并说明“不会拦截真实的蜘蛛爬虫”。AI 爬虫不在它的蜘蛛名单里，很可能被当作非浏览器请求拦掉。要么关掉这项，要么把 AI 搜索爬虫加进 UA 白名单。</p>
 <h2>2. 禁止海外访问</h2>
-<p>OAI-SearchBot、PerplexityBot、Claude-SearchBot 都从海外机房发出请求。开了“禁止海外访问”，它们基本进不来。宝塔官方论坛 2026 年 9 月的答复还提到，“蜘蛛 IP 放行”和“禁止海外访问”存在冲突（已知问题），连 Googlebot 也会时拦时放，建议把爬虫 IP 段加到 IP 白名单（路径：安全 → Nginx 防火墙 → 全局配置 → IP 白名单）。</p>
+<p>按各家公布的 IP 段，OAI-SearchBot、PerplexityBot 等 AI 搜索爬虫都从海外机房发出请求。开了“禁止海外访问”，它们基本进不来。宝塔官方论坛 2026 年 9 月的答复还提到，“蜘蛛 IP 放行”和“禁止海外访问”存在冲突（已知问题），连 Googlebot 也会时拦时放，建议把爬虫 IP 段加到 IP 白名单（路径：安全 → Nginx 防火墙 → 全局配置 → IP 白名单）。</p>
 <p>IP 段以爬虫官方公布的为准，例如 OpenAI 的 <code>searchbot.json</code>、<code>chatgpt-user.json</code>，各爬虫的出处见 <a href="/bots/">AI 爬虫百科</a>。</p>
 <h2>3. UA 白名单与 UA 黑名单</h2>
 <p>宝塔的规则顺序里，UA 白名单排在大多数拦截规则之前。白名单按关键词匹配，填 <code>OAI-SearchBot</code>、<code>PerplexityBot</code>、<code>Claude-SearchBot</code>、<code>ChatGPT-User</code> 即可。同时检查 UA 黑名单和“User-Agent 过滤”里有没有 <code>bot</code>、<code>spider</code>、<code>python</code> 这类宽泛关键词，它们会误伤。</p>
@@ -45,7 +45,7 @@
 <p>改完保存，再跑一次检测，确认 AI 搜索各行显示“能进”。宝塔防火墙的“封锁历史”里也能看到被拦的 UA 和原因。</p>
 <h2>参考来源</h2><ul class="src"><li><a href="https://www.bt.cn/bbs/thread-132479-1-1.html" rel="nofollow noopener" target="_blank">宝塔官方论坛：Nginx 防火墙针对蜘蛛的规则说明（2024） ↗</a></li><li><a href="https://www.bt.cn/bbs/thread-146016-1-1.html" rel="nofollow noopener" target="_blank">宝塔官方论坛：蜘蛛池缺少 ChatGPT 等，官方答复加 UA 白名单（2025） ↗</a></li><li><a href="https://www.bt.cn/bbs/thread-155793-1-1.html" rel="nofollow noopener" target="_blank">宝塔官方论坛：Nginx 防火墙拦截爬虫，官方答复加 IP 白名单（2026-09） ↗</a></li><li><a href="https://www.bt.cn/bbs/thread-73847-1-1.html" rel="nofollow noopener" target="_blank">宝塔官方论坛：Nginx 网站防火墙使用说明 ↗</a></li><li><a href="https://openai.com/searchbot.json" rel="nofollow noopener" target="_blank">OpenAI：OAI-SearchBot IP 段 ↗</a></li></ul>
 <div style="margin-top:28px">
-<div class="cta mini"><div><h3>修完再测一次</h3><p>免费，无需注册。我们以 13 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
+<div class="cta mini"><div><h3>修完再测一次</h3><p>免费，无需注册。我们以 18 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
 <form class="field inv" data-check autocomplete="off"><input placeholder="你的域名，例如 example.com" aria-label="域名" spellcheck="false" autocapitalize="off"><button class="btn">检测</button></form></div></div>
 <p class="more">其他指南：<a href="/guides/cloudflare/">Cloudflare</a> · <a href="/guides/cloudfront/">CloudFront / AWS WAF</a> · <a href="/guides/wordpress/">WordPress</a> · <a href="/guides/shopify/">Shopify</a> · <a href="/guides/edgeone/">腾讯云 EdgeOne</a> · <a href="/guides/aliyun/">阿里云 ESA / CDN</a> · <a href="/guides/baidu/">百度智能云 CDN / WAF</a></p>
 </main><script>

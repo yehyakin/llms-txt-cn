@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">
 <link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/app.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"PerplexityBot 是什么，要不要屏蔽","dateModified":"2026-11-01","inLanguage":"zh-CN","citation":"https://docs.perplexity.ai/guides/bots"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"PerplexityBot 是什么，要不要屏蔽","dateModified":"2026-11-03","inLanguage":"zh-CN","citation":"https://docs.perplexity.ai/guides/bots"}</script>
 </head><body class="zh">
 <a class="skip" href="#main">跳到正文</a>
 <nav class="nav" aria-label="主导航"><div class="wrap">
@@ -39,7 +39,7 @@ Allow: /</pre>
 <h2>robots.txt 允许了，它就真能进来吗？</h2><p>即使 robots.txt 欢迎 PerplexityBot，防火墙或 CDN 规则也可能拒绝它，而后台不会有任何提示。我们的检测会以 PerplexityBot 的身份实际请求，同时用浏览器和 Googlebot 做对照，避免把爬虫 IP 核验误判成拦截。</p>
 <h2>Perplexity 的其他爬虫</h2><div class="bgrid s"><a class="bcard" href="/bots/perplexity-user/"><div class="bt">Perplexity-User</div><div class="bv">Perplexity</div><p>用户在 Perplexity 提问时代为访问页面。</p></a></div>
 <div style="margin-top:28px">
-<div class="cta mini"><div><h3>PerplexityBot 能访问你的网站吗？</h3><p>免费，无需注册。我们以 13 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
+<div class="cta mini"><div><h3>PerplexityBot 能访问你的网站吗？</h3><p>免费，无需注册。我们以 18 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
 <form class="field inv" data-check autocomplete="off"><input placeholder="你的域名，例如 example.com" aria-label="域名" spellcheck="false" autocapitalize="off"><button class="btn">检测</button></form></div></div>
 </main><script>
 document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();let v=(f.querySelector('input').value||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0];if(/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v))location.href='/report/'+v;else{f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake')}}));

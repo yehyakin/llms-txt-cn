@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">
 <link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/app.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"腾讯云 EdgeOne 拦截了 AI 爬虫：修复方法","dateModified":"2026-11-01","inLanguage":"zh-CN"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"腾讯云 EdgeOne 拦截了 AI 爬虫：修复方法","dateModified":"2026-11-03","inLanguage":"zh-CN"}</script>
 </head><body class="zh">
 <a class="skip" href="#main">跳到正文</a>
 <nav class="nav" aria-label="主导航"><div class="wrap">
@@ -27,7 +27,7 @@
 </div></nav>
 <script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
 <main id="main" tabindex="-1" class="wrap doc"><div class="crumb"><a href="/">首页</a> <span>/</span> <a href="/guides/">修复指南</a> <span>/</span> 腾讯云 EdgeOne</div>
-<h1>腾讯云 EdgeOne 拦截了 AI 爬虫：修复方法</h1><p class="upd">更新于 2026-11-01</p>
+<h1>腾讯云 EdgeOne 拦截了 AI 爬虫：修复方法</h1><p class="upd">更新于 2026-11-03</p>
 
 <p class="lead l">如果报告显示 EdgeOne 对 AI 爬虫返回拦截或挑战，先看“AI 爬虫处置”。它按请求的 User-Agent 识别一份 AI 爬虫名单，设置一个处置方式，对名单里所有爬虫生效。</p>
 <div class="callout"><b>要注意的一点。</b>腾讯云公布的识别名单里有 <code>PerplexityBot</code>，它是 Perplexity 的搜索爬虫。把 AI 爬虫处置设成“拦截”，Perplexity 搜索也就看不到你的网站。名单里没有 <code>OAI-SearchBot</code>、<code>Claude-SearchBot</code>，如果它们也被拦，原因在别的规则。</div>
@@ -50,7 +50,7 @@
 <p>保存后再跑一次检测，确认 AI 搜索各行显示“能进”。</p>
 <h2>参考来源</h2><ul class="src"><li><a href="https://cloud.tencent.com/document/product/1552/127868" rel="nofollow noopener" target="_blank">腾讯云文档：EdgeOne AI 爬虫处置（含识别名单） ↗</a></li><li><a href="https://cloud.tencent.com/document/product/1552/98207" rel="nofollow noopener" target="_blank">腾讯云文档：Bot 基础特征管理 ↗</a></li><li><a href="https://cloud.tencent.com/document/product/1552/93131" rel="nofollow noopener" target="_blank">腾讯云文档：防护例外规则 ↗</a></li><li><a href="https://cloud.tencent.com/document/product/1552/129054" rel="nofollow noopener" target="_blank">腾讯云文档：免费套餐自带 AI 爬虫处置 ↗</a></li></ul>
 <div style="margin-top:28px">
-<div class="cta mini"><div><h3>修完再测一次</h3><p>免费，无需注册。我们以 13 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
+<div class="cta mini"><div><h3>修完再测一次</h3><p>免费，无需注册。我们以 18 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
 <form class="field inv" data-check autocomplete="off"><input placeholder="你的域名，例如 example.com" aria-label="域名" spellcheck="false" autocapitalize="off"><button class="btn">检测</button></form></div></div>
 <p class="more">其他指南：<a href="/guides/cloudflare/">Cloudflare</a> · <a href="/guides/cloudfront/">CloudFront / AWS WAF</a> · <a href="/guides/wordpress/">WordPress</a> · <a href="/guides/shopify/">Shopify</a> · <a href="/guides/aliyun/">阿里云 ESA / CDN</a> · <a href="/guides/baota/">宝塔面板</a> · <a href="/guides/baidu/">百度智能云 CDN / WAF</a></p>
 </main><script>

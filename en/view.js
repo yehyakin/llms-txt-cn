@@ -199,7 +199,8 @@ export function renderReport(r,opt){
   let rows='';
   const grp=(t,list)=>{if(!list.length)return;rows+='<tr class="grp"><td colspan="5">'+t+'</td></tr>';list.forEach(b=>{rows+='<tr class="row" data-i="'+b.token+'"><td><div class="bot"><a href="'+B+'/bots/'+botSlug(b.token)+'/">'+esc(b.token)+'</a></div><div class="vd">'+esc(b.vendor||'')+'</div></td><td class="hide-s">'+(L.purpose[b.category]||L.purpose.unknown)+'</td><td>'+robotsTag(b.robots,L)+'</td><td class="hide-s">'+liveTag(b,L)+'</td><td><div class="rcell">'+resultTag(b,L)+'<button type="button" class="evb" aria-expanded="false" aria-controls="ev-'+b.token+'">'+L.table.details+'</button></div></td></tr><tr class="ev" id="ev-'+b.token+'" hidden><td colspan="5">'+evidence(b,a,B,L)+'</td></tr>'})};
   grp(L.table.grpS,search);grp(L.table.grpC,bots.filter(isCnB));grp(L.table.grpT,train);
-  const page=a.page||{};
+  const page=Object.assign({},a.page||{});
+  {const tc=r.seo&&Array.isArray(r.seo.checks)&&r.seo.checks.find(c=>c.id==='text');if(tc&&tc.data&&typeof tc.data.chars==='number')page.text_chars=tc.data.chars;}
   const fix=fixFor(a,B,L);
   const C=L.checks;
   const chk=(label,val,cls)=>'<li><span>'+label+'</span><span class="tag '+cls+'">'+val+'</span></li>';
