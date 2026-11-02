@@ -165,9 +165,9 @@ Disallow: /</pre>
   },
   {
     slug: 'baota', name: '宝塔面板', title: '宝塔 Nginx 防火墙拦了 ChatGPT、Perplexity 爬虫？检查这四个地方',
-    desc: '宝塔 Nginx 防火墙默认放行国内外主要搜索引擎蜘蛛，但不认识 OAI-SearchBot 等 AI 爬虫，“非浏览器拦截”“禁止海外访问”都会拦它们。本文说明怎样放行。',
+    desc: '宝塔 Nginx 防火墙认得主要搜索引擎蜘蛛，但不认识 OAI-SearchBot 等 AI 爬虫，“非浏览器拦截”“禁止海外访问”都会拦它们。本文说明怎样放行。',
     body: `
-<p class="lead l">宝塔 Nginx 防火墙会放行百度、谷歌、必应、360、搜狗、头条、神马等搜索引擎蜘蛛，但它的蜘蛛名单里没有 OAI-SearchBot、PerplexityBot 这类 AI 搜索爬虫。宝塔官方论坛里已有站长反馈 OAI-SearchBot、Applebot 被防火墙封掉。</p>
+<p class="lead l">宝塔 Nginx 防火墙的旧版说明（2024）写的是放行百度、谷歌、必应、360、搜狗、头条、神马等搜索引擎蜘蛛；新版的规则优先级里已经看不到“蜘蛛池”这一项，具体放行逻辑以你装的版本为准。不管哪一版，名单里都没有 OAI-SearchBot、PerplexityBot 这类 AI 搜索爬虫，最稳的做法都是把它们加进 UA 或 IP 白名单。宝塔官方论坛里已有站长反馈 OAI-SearchBot、Applebot 被防火墙封掉。</p>
 <div class="callout"><b>简要做法。</b>宝塔论坛里官方人员的答复是：需要放行的爬虫，把 UA 加入 <b>UA 白名单</b>；被“禁止海外访问”误拦的，把爬虫 IP 段加入 <b>IP 白名单</b>，IP 白名单优先级最高。</div>
 <h2>1. 非浏览器拦截</h2>
 <p>宝塔的说明是：这项“拦截非浏览器请求，通过 UA 判断是否是爬虫”，并说明“不会拦截真实的蜘蛛爬虫”。AI 爬虫不在它的蜘蛛名单里，很可能被当作非浏览器请求拦掉。要么关掉这项，要么把 AI 搜索爬虫加进 UA 白名单。</p>
@@ -181,7 +181,7 @@ Disallow: /</pre>
 <p>很多站长按网上教程在 <b>网站 → 设置 → 伪静态</b> 或配置文件里写了 <code>if ($http_user_agent ~* "GPTBot|ChatGPT|Perplexity|...")</code> 返回 403 或 444 的规则。这类规则常把 <code>ChatGPT</code>、<code>Perplexity</code> 这样的宽泛词写进去，会连 ChatGPT-User、PerplexityBot 一起拦。只想拦训练的话，改成只匹配 <code>GPTBot</code>、<code>ClaudeBot</code>、<code>CCBot</code>、<code>Google-Extended</code> 等训练爬虫，或者干脆改用 robots.txt。</p>
 <h2>5. 重新检测</h2>
 <p>改完保存，再跑一次检测，确认 AI 搜索各行显示“能进”。宝塔防火墙的“封锁历史”里也能看到被拦的 UA 和原因。</p>`,
-    sources: [['https://www.bt.cn/bbs/thread-132479-1-1.html', '宝塔官方论坛：Nginx 防火墙针对蜘蛛的规则说明（2024）'], ['https://www.bt.cn/bbs/thread-146016-1-1.html', '宝塔官方论坛：蜘蛛池缺少 ChatGPT 等，官方答复加 UA 白名单（2025）'], ['https://www.bt.cn/bbs/thread-155793-1-1.html', '宝塔官方论坛：Nginx 防火墙拦截爬虫，官方答复加 IP 白名单（2026-09）'], ['https://www.bt.cn/bbs/thread-73847-1-1.html', '宝塔官方论坛：Nginx 网站防火墙使用说明'], ['https://openai.com/searchbot.json', 'OpenAI：OAI-SearchBot IP 段']]
+    sources: [['https://www.bt.cn/bbs/thread-132479-1-1.html', '宝塔官方论坛：Nginx 防火墙针对蜘蛛的规则说明（2024）'], ['https://www.bt.cn/bbs/thread-146016-1-1.html', '宝塔官方论坛：蜘蛛池缺少 ChatGPT 等，论坛管理员答复加 UA 白名单（2025）'], ['https://www.bt.cn/bbs/thread-155793-1-1.html', '宝塔官方论坛：Nginx 防火墙拦截爬虫，论坛管理员答复加 IP 白名单（2026-09）'], ['https://www.bt.cn/bbs/thread-73847-1-1.html', '宝塔官方论坛：Nginx 网站防火墙使用说明'], ['https://openai.com/searchbot.json', 'OpenAI：OAI-SearchBot IP 段']]
   },
   {
     slug: 'baidu', name: '百度智能云 CDN / WAF', title: '百度智能云 CDN 或 WAF 拦截了 AI 爬虫：修复方法',
@@ -318,6 +318,6 @@ export const PRICING_FAQ_ZH = [
 
 export const EXAMPLES_ZH = [
   ['toyota.com', '静默拦截', 'v-bad', 'robots.txt 允许的 OAI-SearchBot 和三个用户触发爬虫被 CloudFront 拒绝，浏览器和 Googlebot 可以正常访问。'],
-  ['smithsonianmag.com', '全部拦截', 'v-bad', 'Cloudflare 拒绝了我们发出的全部 8 个 AI 搜索及用户触发类爬虫。'],
-  ['torontosun.com', '静默拦截', 'v-bad', '8 个 AI 搜索爬虫中有 6 个被拒绝，而 robots.txt 允许它们访问。']
+  ['smithsonianmag.com', '全部拦截', 'v-bad', 'Cloudflare 拒绝了我们发出的全部 6 个 AI 搜索及用户触发类爬虫。'],
+  ['torontosun.com', '静默拦截', 'v-bad', 'robots.txt 允许，OpenAI 和 Perplexity 的爬虫却收到 403；Claude 的能进。']
 ];

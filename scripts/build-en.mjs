@@ -292,8 +292,8 @@ ${g.body}
 /* ---------- 定价 ---------- */
 const PLANS = [
   { id: 'free', name: 'Free', price: '$0', unit: '', tag: 'Available now', items: ['Unlimited one-off checks', 'robots.txt, firewall and page checks', 'Shareable report link', 'Fix guides for your CDN'], cta: '<a class="btn ghost" href="/en/">Run a check</a>' },
-  { id: 'pro', name: 'Pro', price: '$19', unit: '/month', tag: 'Early access', hi: true, items: ['Up to 10 sites', 'Daily re-checks', 'Email alert when a crawler gets cut off', '90-day history per crawler', 'Founding price locked for life'], cta: '<a class="btn" href="#join" data-plan="pro">Join early access</a>' },
-  { id: 'agency', name: 'Agency', price: '$79', unit: '/month', tag: 'Early access', items: ['Up to 50 client sites', 'Everything in Pro', 'White-label PDF reports', 'Weekly client digest', 'Priority support'], cta: '<a class="btn" href="#join" data-plan="agency">Join early access</a>' }
+  { id: 'pro', name: 'Pro', price: '$19', unit: '/month', tag: 'Early access', hi: true, items: ['Up to 10 sites', 'Daily re-checks', 'Email alert when a crawler gets cut off', 'Re-tested before we alert, so no false alarms', 'Founding price locked for life'], cta: '<a class="btn" href="#join" data-plan="pro">Join early access</a>' },
+  { id: 'agency', name: 'Agency', price: 'Let’s talk', unit: '', tag: 'Early access', items: ['Many client sites', 'Everything in Pro', 'Client reporting built with you', 'Pricing agreed with you'], cta: '<a class="btn ghost" href="/en/contact/">Contact us</a>' }
 ];
 const FAQ = [
   ['What does monitoring check?', 'The same three layers as the free check (robots.txt, live requests as each AI search crawler with control groups, and page readability) on a daily schedule. You get an email when a result changes, for example when a CDN update starts blocking OAI-SearchBot.'],
@@ -304,7 +304,7 @@ const FAQ = [
 out.push(write('en/pricing/index.html', page({
   path: '/en/pricing/', active: 'pricing',
   title: 'Pricing: free AI crawler checks, monitoring from $19/month · VAKSEL',
-  desc: 'Free one-off AI crawler access checks. Daily monitoring and alerts for up to 10 sites from $19/month, or 50 client sites for agencies.',
+  desc: 'Free one-off AI crawler access checks. Daily monitoring and alerts for up to 10 sites for $19/month. Agencies: contact us.',
   body: `<main class="wrap">
 <header class="hero s"><h1>Know the day AI search <span class="grad">stops reaching you</span></h1>
 <p class="lead">Checks are free. Monitoring re-tests every day and emails you when a robots.txt edit, a plugin or a CDN default cuts off an AI crawler.</p></header>
@@ -321,7 +321,7 @@ out.push(write('en/pricing/index.html', page({
   <div class="jtext"><h2>Join early access</h2><p class="sub">Founding members keep the launch price for as long as they stay subscribed. No card needed today.</p>
   <form id="wl" class="wl" autocomplete="on">
     <input type="email" name="email" required placeholder="you@company.com" aria-label="Email" autocomplete="email">
-    <select name="plan" aria-label="Plan"><option value="pro">Pro · up to 10 sites</option><option value="agency">Agency · up to 50 sites</option></select>
+    <select name="plan" aria-label="Plan"><option value="pro">Pro · up to 10 sites</option><option value="agency">Agency · client sites</option></select>
     <input name="site" placeholder="Main site (optional)" aria-label="Main site (optional)" autocapitalize="off" spellcheck="false">
     <label class="wlplug"><input type="checkbox" name="watch" value="1"> Start monitoring this site now, free during early access (we’ll email you a link to confirm)</label>
     <label class="wlplug"><input type="checkbox" name="plugin" value="1"> I’d install a plugin or Worker snippet to see real AI crawler visits</label>
@@ -359,8 +359,8 @@ const FIXT = JSON.parse(readFileSync(join(root, 'data/demo-toyota.json'), 'utf8'
 const demo = renderReport(FIXT, { base: '/en', when: '2026-11-02T18:38:00Z', url: SITE + '/report/toyota.com' });
 const EXAMPLES = [
   ['toyota.com', 'Silent block', 'v-bad', 'CloudFront rejects OAI-SearchBot and three user-triggered crawlers that robots.txt allows. A browser and Googlebot get through.'],
-  ['smithsonianmag.com', 'All blocked', 'v-bad', 'Cloudflare turns away all 8 AI search and user-triggered crawlers we sent.'],
-  ['torontosun.com', 'Silent block', 'v-bad', '6 of 8 AI search crawlers rejected while robots.txt allows them.']
+  ['smithsonianmag.com', 'All blocked', 'v-bad', 'Cloudflare turns away all 6 AI search and user-triggered crawlers we sent.'],
+  ['torontosun.com', 'Silent block', 'v-bad', 'OpenAI and Perplexity crawlers get a 403 while robots.txt lets them in. Claude’s get through.']
 ];
 const HOME_FAQ = [
   ['Isn’t robots.txt enough?', 'robots.txt is only a request. Your CDN, firewall or a security plugin decides what actually gets through, and it can reject a crawler that robots.txt welcomes. That is the silent block we test for.'],

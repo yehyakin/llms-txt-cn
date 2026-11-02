@@ -74,17 +74,20 @@ const EN = {
 };
 const TAG = { pass: 't-ok', warn: 't-warn', fail: 't-bad', info: 't-gray' };
 const ORDER = { fail: 0, warn: 1, pass: 2, info: 3 };
+/* 计入“能不能被引用”评级的 5 个信号（与 en/grade.js CITE_SIGNALS 一致）：没通过就显示为待改，免得评级扣了分面板却写 0 项待改 */
+const CITE_GRADED = ['jsonld', 'entity', 'sitename', 'og', 'semantic'];
+const shown = (c) => (c.layer === 'cite' && c.status === 'info' && CITE_GRADED.includes(c.id) ? 'warn' : c.status);
 export const seoLabel = (id, lang) => { const L = lang === 'zh' ? ZH : EN; return L.c[id] ? L.c[id][0] : id; };
 export function renderSeo(seo, lang) {
   const L = lang === 'zh' ? ZH : EN;
   if (!seo) return '';
   if (!seo.ok) return '<div class="panel seo"><h3>' + L.layers.read[0] + ' · ' + L.layers.cite[0] + '</h3><p class="seo-skip">' + L.fail + '</p></div>';
   const layer = (k) => {
-    const list = seo.checks.filter((c) => c.layer === k && L.c[c.id]).sort((a, b) => ORDER[a.status] - ORDER[b.status]);
-    const cnt = { pass: 0, warn: 0, fail: 0, info: 0 }; list.forEach((c) => cnt[c.status]++);
+    const list = seo.checks.filter((c) => c.layer === k && L.c[c.id]).sort((a, b) => ORDER[shown(a)] - ORDER[shown(b)]);
+    const cnt = { pass: 0, warn: 0, fail: 0, info: 0 }; list.forEach((c) => cnt[shown(c)]++);
     return '<div class="panel seo" id="seo-' + k + '"><h3>' + L.layers[k][0] + ' <span>' + L.counts(cnt) + '</span></h3><p class="seo-sub">' + L.layers[k][1] + '</p><ul class="seol">' +
       list.map((c) => { const [label, fn] = L.c[c.id]; const ref = REFS[c.id];
-        return '<li class="s-' + c.status + '"><span class="tag ' + TAG[c.status] + '">' + L.st[c.status] + '</span><div><b>' + label + '</b><p>' + fn(c.status, c.data) + '</p></div><span class="bs b-' + c.basis + '">' +
+        const st = shown(c); return '<li class="s-' + st + '"><span class="tag ' + TAG[st] + '">' + L.st[st] + '</span><div><b>' + label + '</b><p>' + fn(c.status, c.data) + '</p></div><span class="bs b-' + c.basis + '">' +
           (ref && c.basis === 'official' ? '<a href="' + ref + '" target="_blank" rel="noopener">' + L.basis[c.basis] + ' ↗</a>' : L.basis[c.basis]) + '</span></li>'; }).join('') + '</ul></div>';
   };
   return layer('read') + layer('cite') + '<p class="seo-note">' + L.note + '</p>';

@@ -273,8 +273,8 @@ ct.addEventListener('submit',async e=>{e.preventDefault();const b=ct.querySelect
 /* ---------- 监控（早期体验，不写价格） ---------- */
 const PLANS = [
   { name: '免费', price: '免费', tag: '现在可用', items: ['不限次数的单次检测', 'robots.txt、防火墙、页面检查', '可分享的报告链接', '对应 CDN 的修复指南'], cta: '<a class="btn ghost" href="/">去检测</a>' },
-  { name: '专业版', price: '价格待公布', tag: '早期体验', hi: true, items: ['最多 10 个网站', '每天自动复测', 'AI 爬虫被拦时邮件提醒', '每个爬虫 90 天历史', '早期用户锁定首发价'], cta: '<a class="btn" href="#join" data-plan="pro">加入早期体验</a>' },
-  { name: '代理商版', price: '价格待公布', tag: '早期体验', items: ['最多 50 个客户网站', '包含专业版全部功能', '白标 PDF 报告', '每周客户摘要', '优先支持'], cta: '<a class="btn" href="#join" data-plan="agency">加入早期体验</a>' }
+  { name: '专业版', price: '价格待公布', tag: '早期体验', hi: true, items: ['最多 10 个网站', '每天自动复测', 'AI 爬虫被拦时邮件提醒', '复测确认后才提醒，不误报', '早期用户锁定首发价'], cta: '<a class="btn" href="#join" data-plan="pro">加入早期体验</a>' },
+  { name: '代理商版', price: '面议', tag: '早期体验', items: ['多个客户网站', '包含专业版全部功能', '客户报告按你的需要一起做', '价格单独商定'], cta: '<a class="btn ghost" href="/contact/">联系我们</a>' }
 ];
 write('pricing/index.html', page({
   path: '/pricing/', active: 'pricing', title: '监控：AI 爬虫一被拦就通知你（早期体验）· VAKSEL',
@@ -295,7 +295,7 @@ write('pricing/index.html', page({
   <div class="jtext"><h2>加入早期体验</h2><p class="sub">价格公布并经你确认之前不会收费。早期用户锁定首发价。</p>
   <form id="wl" class="wl" autocomplete="on">
     <input type="email" name="email" required placeholder="you@company.com" aria-label="邮箱" autocomplete="email">
-    <select name="plan" aria-label="方案"><option value="pro">专业版 · 最多 10 个网站</option><option value="agency">代理商版 · 最多 50 个网站</option></select>
+    <select name="plan" aria-label="方案"><option value="pro">专业版 · 最多 10 个网站</option><option value="agency">代理商版 · 客户网站</option></select>
     <input name="site" placeholder="主要网站（选填）" aria-label="主要网站（选填）" autocapitalize="off" spellcheck="false">
     <label class="wlplug"><input type="checkbox" name="watch" value="1"> 现在就开始监控这个网站，早期体验期间免费（会先发一封确认邮件）</label>
     <label class="wlplug"><input type="checkbox" name="plugin" value="1"> 我愿意装一个插件或 Worker 片段，查看真实 AI 爬虫的访问记录</label>

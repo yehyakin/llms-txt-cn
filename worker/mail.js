@@ -1,7 +1,7 @@
 /* worker/mail.js — 早鸟确认邮件（HTML + 纯文本）。表格布局 + 内联样式，兼容 Gmail / Outlook / Apple Mail。 */
 const SITE = 'https://vaksel.com';
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const PLAN = { pro: ['Pro', 'up to 10 sites', '$19/month'], agency: ['Agency', 'up to 50 client sites', '$79/month'] };
+const PLAN = { pro: ['Pro', 'up to 10 sites', '$19/month'], agency: ['Agency', 'client sites', ''] };
 
 export function confirmEmail(plan, site, lang) {
   if (lang === 'zh') return confirmEmailZh(plan, site);
@@ -14,7 +14,7 @@ export function confirmEmail(plan, site, lang) {
     "What happens next:",
     '1. We email you once when your monitoring account is ready.',
     '2. You pay nothing until then. Joining commits you to nothing.',
-    `3. Your founding price (${price}) stays for as long as you remain subscribed.`,
+    price ? `3. Your founding price (${price}) stays for as long as you remain subscribed.` : '3. We will agree pricing with you before you pay anything.',
     '',
     site ? `Meanwhile, here is today's free check for ${site}: ${checkUrl}` : `Meanwhile, free checks are at ${checkUrl}`,
     '',
@@ -34,7 +34,7 @@ export function confirmEmail(plan, site, lang) {
   <div style="font:600 12px/1 ${F};color:#0C63F1;letter-spacing:.04em;text-transform:uppercase">Early access · ${esc(name)}</div>
   <h1 style="margin:12px 0 10px;font:700 26px/1.2 ${F};color:#080B14;letter-spacing:-.5px">You’re on the list.</h1>
   <p style="margin:0 0 22px;font:16px/1.55 ${F};color:#333336">Thanks for joining VAKSEL ${esc(name)} (${esc(sites)}). Monitoring re-tests your sites every day and emails you when an AI crawler gets cut off.</p>
-  <table role="presentation" cellpadding="0" cellspacing="0">${step(1, 'We email you <b>once</b> when your monitoring account is ready.')}${step(2, 'You pay nothing until then. Joining commits you to nothing.')}${step(3, `Your founding price, <b>${esc(price)}</b>, stays for as long as you remain subscribed.`)}</table>
+  <table role="presentation" cellpadding="0" cellspacing="0">${step(1, 'We email you <b>once</b> when your monitoring account is ready.')}${step(2, 'You pay nothing until then. Joining commits you to nothing.')}${step(3, price ? `Your founding price, <b>${esc(price)}</b>, stays for as long as you remain subscribed.` : 'We agree pricing with you before you pay anything.')}</table>
   <table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:10px"><tr><td style="border-radius:10px;background:#080B14"><a href="${checkUrl}" style="display:inline-block;padding:12px 20px;font:600 15px/1 ${F};color:#ffffff;text-decoration:none">${site ? 'See today’s check for ' + esc(site) : 'Run a free check'}</a></td></tr></table>
 </td></tr>
 <tr><td style="padding:18px 6px 0;font:12px/1.6 ${F};color:#6e6e73">You’re getting this because this address joined the VAKSEL early-access list. To be removed, use the <a href="${SITE}/contact/" style="color:#6e6e73">contact form</a>; replies to this address are not read.<br><a href="${SITE}/privacy/" style="color:#6e6e73">Privacy</a> · <a href="${SITE}/" style="color:#6e6e73">vaksel.com</a></td></tr>
@@ -42,7 +42,7 @@ export function confirmEmail(plan, site, lang) {
   return { subject, text, html };
 }
 
-const ZPLAN = { pro: ['专业版', '最多 10 个网站'], agency: ['代理商版', '最多 50 个客户网站'] };
+const ZPLAN = { pro: ['专业版', '最多 10 个网站'], agency: ['代理商版', '客户网站'] };
 function confirmEmailZh(plan, site) {
   const [name, sites] = ZPLAN[plan] || ZPLAN.pro;
   const Z = 'https://cetxt.com';
