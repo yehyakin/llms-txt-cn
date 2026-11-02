@@ -182,6 +182,30 @@ Disallow: /</pre>
 <h2>5. 重新检测</h2>
 <p>改完保存，再跑一次检测，确认 AI 搜索各行显示“能进”。宝塔防火墙的“封锁历史”里也能看到被拦的 UA 和原因。</p>`,
     sources: [['https://www.bt.cn/bbs/thread-132479-1-1.html', '宝塔官方论坛：Nginx 防火墙针对蜘蛛的规则说明（2024）'], ['https://www.bt.cn/bbs/thread-146016-1-1.html', '宝塔官方论坛：蜘蛛池缺少 ChatGPT 等，官方答复加 UA 白名单（2025）'], ['https://www.bt.cn/bbs/thread-155793-1-1.html', '宝塔官方论坛：Nginx 防火墙拦截爬虫，官方答复加 IP 白名单（2026-09）'], ['https://www.bt.cn/bbs/thread-73847-1-1.html', '宝塔官方论坛：Nginx 网站防火墙使用说明'], ['https://openai.com/searchbot.json', 'OpenAI：OAI-SearchBot IP 段']]
+  },
+  {
+    slug: 'baidu', name: '百度智能云 CDN / WAF', title: '百度智能云 CDN 或 WAF 拦截了 AI 爬虫：修复方法',
+    desc: '百度智能云没有单独的 AI 爬虫开关，拦截通常来自 CDN 的 User-Agent 黑白名单、区域封禁，或 WAF Bot 管理的 JS 验证与 IDC 规则。本文逐项说明怎样放行 AI 搜索爬虫。',
+    body: `
+<p class="lead l">和 EdgeOne、阿里云 ESA 不同，百度智能云目前没有专门的 AI 爬虫开关。AI 爬虫进不来，多半是通用的防盗链或 Bot 规则顺带拦掉的。</p>
+<div class="callout"><b>最常见的两个原因。</b>一是 CDN 的 User-Agent 防盗链设成了“白名单生效”，名单外的 UA 全部被拒；二是 WAF Bot 管理开了 JS 验证，按百度文档，“无法执行 JS 的非浏览器类工具将被过滤”，而大多数 AI 爬虫不执行 JavaScript。</div>
+<h2>1. CDN：User-Agent 黑白名单</h2>
+<ol><li>CDN 控制台 → <b>域名管理</b> → 目标域名 <b>管理</b> → <b>访问控制</b> → <b>防盗链</b> 编辑，找到 <b>User-Agent 防盗链配置</b>。</li>
+<li>如果是 <b>白名单生效</b>：名单外的请求都会被拒，需要把 <code>OAI-SearchBot</code>、<code>PerplexityBot</code>、<code>Claude-SearchBot</code>、<code>ChatGPT-User</code> 加进去。</li>
+<li>如果是 <b>黑名单生效</b>：百度文档写明匹配方式是“包含”且忽略大小写。填了 <code>bot</code>、<code>spider</code>、<code>python</code> 这类宽泛词，会把所有 AI 爬虫一起拦掉。只想拦训练，改成具体名字：<code>GPTBot</code>、<code>ClaudeBot</code>、<code>CCBot</code>。</li></ol>
+<p>同一页的 <b>IP 黑白名单</b> 也要看一眼：开了 IP 白名单，名单外的 IP 都进不来。</p>
+<h2>2. CDN：区域封禁</h2>
+<p>OAI-SearchBot、PerplexityBot、Claude-SearchBot 都从海外机房发出请求。只允许中国大陆访问，它们基本进不来。需要保留区域封禁时，至少放行这些爬虫的官方 IP 段（例如 OpenAI 的 <code>searchbot.json</code>），各爬虫的出处见 <a href="/bots/">AI 爬虫百科</a>。</p>
+<h2>3. WAF：Bot 管理</h2>
+<p>Bot 管理只在 SaaS WAF 企业版提供，新建模板时各模块默认关闭。逐项检查你开了哪些：</p>
+<ul><li><b>JS 验证</b>：会过滤不执行 JS 的客户端，等于拦掉大多数 AI 爬虫。只对需要保护的路径（登录、接口）开，不要全站开。</li>
+<li><b>基础特征库</b>：其中的 <b>IDC 规则</b> 按 IP 归属识别数据中心流量，AI 爬虫都从数据中心发出；<b>UA 规则</b> 也可能命中爬虫 UA。确认这两组没有设成拦截。</li>
+<li><b>AI 智能防护</b>：把流量分为恶意 Bot、疑似 Bot、友好 Bot、正常请求四类。“友好 Bot 请求”应设为放行，“疑似 Bot”先观察。</li>
+<li><b>客户端画像分析</b>：“网络代理”包括“云服务器中转访问”的客户端，高置信度设为拦截时可能误伤从云上发出的爬虫。</li></ul>
+<p>百度的建议是首次配置时先把各项设为“观察”，看日志确认没有误拦再收紧。需要放行时，用 WAF 的 <b>白名单</b> 让指定 IP 或请求特征跳过检测。</p>
+<h2>4. 重新检测</h2>
+<p>改完再跑一次检测，确认 AI 搜索各行显示“能进”。</p>`,
+    sources: [['https://cloud.baidu.com/doc/CDN/s/Ujwvyep4z', '百度智能云文档：CDN 设置防盗链（含 User-Agent 黑白名单匹配规则）'], ['https://cloud.baidu.com/doc/WAF/s/nlvf00cp9', '百度智能云文档：WAF Bot 防护配置'], ['https://cloud.baidu.com/doc/WAF/s/4meshgwm8', '百度智能云文档：Bot 防护最佳实践'], ['https://openai.com/searchbot.json', 'OpenAI：OAI-SearchBot IP 段']]
   }
 ];
 
