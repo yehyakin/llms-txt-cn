@@ -37,7 +37,7 @@ TIMEOUT = 10
 HARD_MAX = 512 * 1024
 MAX_REDIRECTS = 5
 UA = "cetxt-check/2.0 (+https://cetxt.com/)"
-ALLOWED_PATHS = ("/robots.txt", "/llms.txt")
+ALLOWED_PATHS = ("/robots.txt", "/llms.txt", "/", "/sitemap.xml")
 HOST_RE = re.compile(r"^(?=.{1,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+([a-z]{2,63}|xn--[a-z0-9-]{1,59})$", re.I)
 
 GLOBAL_N, GLOBAL_T = 240, 60
@@ -193,6 +193,12 @@ PROBE_UAS = [
     ("ClaudeBot", "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; ClaudeBot/1.0; +claudebot@anthropic.com)"),
     ("Bytespider", "Mozilla/5.0 (Linux; Android 5.0) AppleWebKit/537.36 (KHTML, like Gecko) Mobile Safari/537.36 (compatible; Bytespider; spider-feedback@bytedance.com)"),
     ("PetalBot", "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (KHTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)"),
+    # 11-02：中文搜索与 AI 引擎（Worker 侧单独成组，不计入主评级）
+    ("Sogou web spider", "Sogou web spider/4.0(+http://www.sogou.com/docs/help/webmasters.htm#07)"),
+    ("360Spider", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0; 360Spider"),
+    ("YisouSpider", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.81 YisouSpider/5.0 Safari/537.36"),
+    ("Kimi-SearchBot", "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; Kimi-SearchBot/1.0; +https://www.kimi.com/policies/kimi-crawlers"),
+    ("Kimi-User", "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; Kimi-User/1.0; +https://www.kimi.com/policies/kimi-crawlers"),
 ]
 PROBE_MAX = 300 * 1024
 _probe_sem = threading.Semaphore(4)  # 同时最多 4 个探测（每个约 13 次请求）
@@ -255,7 +261,7 @@ def probe(domain):
         results = {"browser": base}
         target = base.get("final_url") or start
         import concurrent.futures as cf
-        with cf.ThreadPoolExecutor(6) as ex:
+        with cf.ThreadPoolExecutor(8) as ex:
             futs = {n: ex.submit(follow, target, ua, PROBE_MAX, deadline) for n, ua in PROBE_UAS[1:]}
             for n, f in futs.items():
                 try:
@@ -270,7 +276,7 @@ def probe(domain):
 def relay(url, max_bytes, accept):
     u0 = urllib.parse.urlsplit(url)
     if u0.path not in ALLOWED_PATHS or u0.query or u0.fragment:
-        return {"kind": "error", "code": "bad_path", "reason": "只允许 /robots.txt 或 /llms.txt"}
+        return {"kind": "error", "code": "bad_path", "reason": "只允许首页、/robots.txt、/llms.txt、/sitemap.xml"}
     redirects = 0
     deadline = time.time() + 25
     while True:

@@ -283,3 +283,4 @@ footer .fgrid>.fbrand>a.logo{display:inline-flex;align-items:center;margin:0}
 @media print{.seol li{break-inside:avoid}}
 .cols>div{min-width:0}
 .tg th:first-child,.tg td:first-child{white-space:nowrap;width:1%}
+.gcn{font-size:13px;color:var(--mut);margin:-4px 0 10px}

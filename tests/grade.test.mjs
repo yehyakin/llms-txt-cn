@@ -55,5 +55,14 @@ t('faq mismatch caps cite at B', gradeCite(fq).grade === 'B');
 t('faq render', renderGrades({ seo: fq }, 'zh').includes('FAQ 标记与页面不符') && !renderGrades({ seo: fq }, 'zh').includes('缺FAQ'));
 t('faq pass no cap', gradeCite(seo([...all.map((id) => [id, 'cite', 'pass']), ['faq', 'cite', 'pass']])).grade === 'S');
 t('rules version shown', renderGrades({}, 'en').includes('Rules version') && renderGrades({}, 'zh').includes('/research/grading/'));
+/* 2026-11-02.2：中文引擎单独成组，不计入主评级 */
+const cnb = (t, o) => bot(t, Object.assign({ region: 'cn' }, o || {}));
+t('cn blocked does not affect access', gradeAccess(acc([bot('A'), cnb('Bytespider', { effective: 'blocked', silent: true, confidence: 'high' })])).grade === 'S');
+t('cn alone not all_blocked', gradeAccess(acc([bot('A', { effective: 'blocked' }), cnb('Kimi-SearchBot')])).grade === 'C');
+const cs = gradeReport(acc([bot('A'), cnb('Bytespider', { effective: 'blocked' }), cnb('Kimi-SearchBot')])).cn;
+t('cn summary', cs && cs.total === 2 && cs.open === 1 && cs.blocked[0] === 'Bytespider' && cs.live);
+t('cn summary null when none', gradeReport(acc([bot('A')])).cn === null);
+t('cn line rendered', renderGrades(acc([bot('A'), cnb('Bytespider', { effective: 'blocked' })]), 'zh').includes('中文搜索与 AI 引擎（不计入评级）：0/1 能进'));
+t('cn robots-only', gradeReport({ access: {}, robots: { analysis: { access: [{ token: 'YisouSpider', category: 'search', region: 'cn', status: 'blocked' }] } } }).cn.open === 0);
 console.log(`grade: ${pass} passed, ${fail} failed`);
 if (fail) process.exit(1);

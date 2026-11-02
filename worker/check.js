@@ -464,7 +464,7 @@ export function createApi(libs) {
     let result = null, cached = false;
     const hit = memCache.get(ck);
     if (hit && now - hit.t < LIMITS.cacheTtlMs) { result = hit.v; cached = true; }
-    const cacheKey = new Request('https://cetxt-check-cache.invalid/' + (withAccess ? 'v4a/' : 'v3/') + encodeURIComponent(domain));
+    const cacheKey = new Request('https://cetxt-check-cache.invalid/' + (withAccess ? 'v5a/' : 'v3/') + encodeURIComponent(domain));
     const cacheApi = (typeof caches !== 'undefined' && caches.default) ? caches.default : null;
     if (!result && cacheApi && !deps.noCache) {
       try { const c = await cacheApi.match(cacheKey); if (c) { result = await c.json(); cached = true; } } catch (e) {}

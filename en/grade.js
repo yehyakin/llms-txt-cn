@@ -14,13 +14,16 @@
  * 能不能被引用（cite）：5 个信号 jsonld、entity、sitename、og、semantic 中通过几个
  *   5 → S，4 → A，2–3 → B，0–1 → C；JSON-LD 解析失败最高 B；FAQPage 标记的问题在页面上找不到，最高 B。
  *   robots.txt 返回 5xx / 不可达：按 RFC 9309 视为全站禁止，归到“全部被拦”，并单独说明原因。
+ * 中文搜索与 AI 引擎（data 里 region=cn：Baiduspider、Bytespider、PetalBot、搜狗、360、神马、Kimi）不计入三层评级，
+ *   只在 cn 字段给出“能进几个”（2026-11-02.2 起；之前 Bytespider、PetalBot 计入能不能进）。
  * 规则版本：GRADE_VERSION，改规则时加一。
  */
 const RANK = ['S', 'A', 'B', 'C'];
 const worse = (a, b) => RANK[Math.max(RANK.indexOf(a), RANK.indexOf(b))];
-const isSearch = (b) => b.category === 'search' || b.category === 'user';
+const isSearch = (b) => (b.category === 'search' || b.category === 'user') && b.region !== 'cn';
+const isCn = (b) => (b.category === 'search' || b.category === 'user') && b.region === 'cn';
 const CLASSIC = new Set(['Googlebot', 'Bingbot', 'Applebot', 'Baiduspider']);
-export const GRADE_VERSION = '2026-11-02.1';
+export const GRADE_VERSION = '2026-11-02.2';
 export const CITE_SIGNALS = ['jsonld', 'entity', 'sitename', 'og', 'semantic'];
 
 const robots5xx = (r) => !!(r && r.robots && r.robots.analysis && r.robots.analysis.fetch && r.robots.analysis.fetch.policy === 'disallow_all');
@@ -79,6 +82,16 @@ export function gradeCite(seo) {
   return { grade: g, why: missing, passed: n, total: CITE_SIGNALS.length };
 }
 
+/* 中文搜索与 AI 引擎：不评级，只数能进几个。live=false 表示只看了 robots.txt */
+export function cnSummary(r) {
+  const a = (r && r.access) || {};
+  const live = a.bots && a.bots.length && a.verdict !== 'inconclusive' && a.verdict !== 'unknown';
+  const list = live ? a.bots.filter(isCn).map((b) => ({ token: b.token, blocked: b.effective === 'blocked', warn: b.effective === 'warn', silent: !!b.silent }))
+    : ((r && r.robots && r.robots.analysis && r.robots.analysis.access) || []).filter(isCn).map((b) => ({ token: b.token, blocked: b.status === 'blocked' }));
+  if (!list.length) return null;
+  if (robots5xx(r)) list.forEach((b) => { b.blocked = true; });
+  return { live: !!live, total: list.length, open: list.filter((b) => !b.blocked).length, blocked: list.filter((b) => b.blocked).map((b) => b.token), silent: list.filter((b) => b.silent).map((b) => b.token) };
+}
 export function gradeReport(r) {
-  return { access: gradeAccess(r), read: gradeRead(r && r.seo), cite: gradeCite(r && r.seo) };
+  return { access: gradeAccess(r), read: gradeRead(r && r.seo), cite: gradeCite(r && r.seo), cn: cnSummary(r) };
 }

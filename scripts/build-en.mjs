@@ -463,6 +463,7 @@ out.push(write('en/research/grading/index.html', page({
 </tbody></table>
 <p>A robots.txt that returns 5xx or can’t be reached counts as C: under <a href="https://www.rfc-editor.org/rfc/rfc9309#section-2.3.1.4">RFC 9309 §2.3.1.4</a>, compliant crawlers must then assume everything is disallowed. A 404 or other 4xx means no restrictions and costs nothing.</p>
 <p>The firewall test runs two controls: a request claiming to be Googlebot and one from an unknown bot. If the fake Googlebot is rejected too, the site is verifying crawler IP addresses and the real AI crawlers will likely get through, so we record low confidence and don’t grade it C. Our requests don’t come from the vendors’ own IP ranges, so a result means “likely”, not proof.</p>
+<p><b>China search and AI engines</b> (Baidu, ByteDance, Huawei, Sogou, 360, Shenma, Kimi) are tested the same way but shown as a separate line, “x of y can get in”, and don’t affect the grade. Many sites outside China block them on purpose, and that shouldn’t read as a failure. Doubao and Tencent Yuanbao publish no crawler of their own, so we don’t list one.</p>
 <h2>Can they read it</h2>
 <table class="tbl tg"><thead><tr><th>Grade</th><th>When</th></tr></thead><tbody>
 <tr><td><b>S</b></td><td>No official or common check needs work</td></tr>
@@ -481,7 +482,7 @@ out.push(write('en/research/grading/index.html', page({
 <p>Caps: a JSON-LD parse error, or FAQPage markup whose questions aren’t on the page, holds this grade at B. Google’s <a href="https://developers.google.com/search/docs/appearance/structured-data/sd-policies">structured data guidelines</a> require marked-up content to be visible to users.</p>
 <p>This layer measures the signals that help engines recognise you. It doesn’t promise citations. Whether AI answers actually mention you takes live queries, which the free check doesn’t run.</p>
 <h2>Changelog</h2>
-<ul><li><b>2026-11-02.1</b>: first public version. Adds robots.txt 5xx as “disallow everything” and caps cite at B for FAQ markup that doesn’t match the page.</li></ul>
+<ul><li><b>2026-11-02.2</b>: China search and AI engines (Baiduspider, Bytespider, PetalBot, Sogou, 360Spider, YisouSpider, Kimi) are tested and listed on their own and no longer count toward “Can they get in”. Before this, Bytespider and PetalBot counted. Kimi-SearchBot, Kimi-User, Sogou, 360Spider and YisouSpider join the live test.</li><li><b>2026-11-02.1</b>: first public version. Adds robots.txt 5xx as “disallow everything” and caps cite at B for FAQ markup that doesn’t match the page.</li></ul>
 <p>Every rule change bumps the version, and each report says which version it used, so grades from different dates can be compared.</p>
 <div style="margin-top:28px">${checkBox('Check your own site')}</div></main>${CHECK_JS}`
 })));
@@ -578,7 +579,7 @@ write('en/site.webmanifest', JSON.stringify({ name: 'VAKSEL', short_name: 'VAKSE
   const byLab = Object.fromEntries(LAB.results.map((r) => [r.slug, r]));
   const g3 = (a) => a.map((x) => x || '–').join('/');
   const rows = FIXTURES.map((f) => { const r = byLab[f.slug] || {}; const d = f.slug + LAB_SUFFIX;
-    return `<tr><td><a href="https://${d}/" rel="nofollow">${d}</a></td><td>${esc(f.en)}</td><td style="white-space:nowrap">${g3(f.expect)}</td><td style="white-space:nowrap">${r.got ? g3(r.got) + (r.ok ? ' ✓' : ' ✗') : '–'}</td><td><a href="/en/report/${d}">Report</a></td></tr>`; }).join('');
+    return `<tr><td><a href="https://${d}/" rel="nofollow">${d}</a></td><td>${esc(f.en)}</td><td style="white-space:nowrap">${g3(f.expect)}${f.cn === 'all_blocked' ? '<br>China engines: blocked' : ''}</td><td style="white-space:nowrap">${r.got ? g3(r.got) + (r.ok ? ' ✓' : ' ✗') : '–'}</td><td><a href="/en/report/${d}">Report</a></td></tr>`; }).join('');
   const nOk = LAB.results.filter((r) => r.ok).length;
   out.push(write('en/research/lab/index.html', page({
     path: '/en/research/lab/', title: 'VAKSEL Lab: open test sites for AI visibility tools · VAKSEL',

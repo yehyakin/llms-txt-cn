@@ -70,6 +70,10 @@ export function renderGrades(r, lang) {
   const G = gradeReport(r);
   const tile = (k) => { const g = G[k]; const [name, href] = L.layers[k];
     return '<a class="gtile g-' + (g.grade || 'none') + '" href="' + href + '"><span class="gl">' + name + '</span><span class="gg">' + (g.grade || '–') + '</span><span class="gw">' + E(line(k, g, L, lang)) + '</span></a>'; };
-  return '<div class="grades" aria-label="' + L.title + '">' + tile('access') + tile('read') + tile('cite') + '</div>' +
+  const c = G.cn;
+  const cnLine = c ? '<p class="gcn">' + (lang === 'zh'
+    ? '中文搜索与 AI 引擎（不计入评级）：' + c.open + '/' + c.total + ' 能进' + (c.blocked.length ? '，被拦：' + E(c.blocked.join('、')) : '') + (c.live ? '' : '（只查了 robots.txt）')
+    : 'China search & AI engines (not graded): ' + c.open + ' of ' + c.total + ' can get in' + (c.blocked.length ? '. Blocked: ' + E(c.blocked.join(', ')) : '') + (c.live ? '' : ' (robots.txt only)')) + '</p>' : '';
+  return '<div class="grades" aria-label="' + L.title + '">' + tile('access') + tile('read') + tile('cite') + '</div>' + cnLine +
     '<details class="grules"><summary>' + L.rulesT + '</summary>' + L.rules + '</details>';
 }

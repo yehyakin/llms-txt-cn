@@ -24,7 +24,7 @@
 </div></nav>
 <script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
 <main id="main" tabindex="-1" class="wrap doc"><div class="crumb"><a href="/en/">Home</a> <span>/</span> <a href="/en/research/">Research</a> <span>/</span> How we grade</div>
-<h1>How we grade</h1><p class="upd">Rules version 2026-11-02.1</p>
+<h1>How we grade</h1><p class="upd">Rules version 2026-11-02.2</p>
 <p class="lead l">Every report gets three grades: can AI crawlers get in, can they read the page, and can they cite it. Each is S, A, B or C. There’s no overall score.</p>
 <h2>Why no overall score</h2>
 <p>One number hides the problem that matters most. A site that turns every AI crawler away can still post a decent weighted average if its markup is tidy. So each layer is graded on its own: if crawlers can’t get in, nothing after that helps.</p>
@@ -42,6 +42,7 @@
 </tbody></table>
 <p>A robots.txt that returns 5xx or can’t be reached counts as C: under <a href="https://www.rfc-editor.org/rfc/rfc9309#section-2.3.1.4">RFC 9309 §2.3.1.4</a>, compliant crawlers must then assume everything is disallowed. A 404 or other 4xx means no restrictions and costs nothing.</p>
 <p>The firewall test runs two controls: a request claiming to be Googlebot and one from an unknown bot. If the fake Googlebot is rejected too, the site is verifying crawler IP addresses and the real AI crawlers will likely get through, so we record low confidence and don’t grade it C. Our requests don’t come from the vendors’ own IP ranges, so a result means “likely”, not proof.</p>
+<p><b>China search and AI engines</b> (Baidu, ByteDance, Huawei, Sogou, 360, Shenma, Kimi) are tested the same way but shown as a separate line, “x of y can get in”, and don’t affect the grade. Many sites outside China block them on purpose, and that shouldn’t read as a failure. Doubao and Tencent Yuanbao publish no crawler of their own, so we don’t list one.</p>
 <h2>Can they read it</h2>
 <table class="tbl tg"><thead><tr><th>Grade</th><th>When</th></tr></thead><tbody>
 <tr><td><b>S</b></td><td>No official or common check needs work</td></tr>
@@ -60,7 +61,7 @@
 <p>Caps: a JSON-LD parse error, or FAQPage markup whose questions aren’t on the page, holds this grade at B. Google’s <a href="https://developers.google.com/search/docs/appearance/structured-data/sd-policies">structured data guidelines</a> require marked-up content to be visible to users.</p>
 <p>This layer measures the signals that help engines recognise you. It doesn’t promise citations. Whether AI answers actually mention you takes live queries, which the free check doesn’t run.</p>
 <h2>Changelog</h2>
-<ul><li><b>2026-11-02.1</b>: first public version. Adds robots.txt 5xx as “disallow everything” and caps cite at B for FAQ markup that doesn’t match the page.</li></ul>
+<ul><li><b>2026-11-02.2</b>: China search and AI engines (Baiduspider, Bytespider, PetalBot, Sogou, 360Spider, YisouSpider, Kimi) are tested and listed on their own and no longer count toward “Can they get in”. Before this, Bytespider and PetalBot counted. Kimi-SearchBot, Kimi-User, Sogou, 360Spider and YisouSpider join the live test.</li><li><b>2026-11-02.1</b>: first public version. Adds robots.txt 5xx as “disallow everything” and caps cite at B for FAQ markup that doesn’t match the page.</li></ul>
 <p>Every rule change bumps the version, and each report says which version it used, so grades from different dates can be compared.</p>
 <div style="margin-top:28px">
 <div class="cta mini"><div><h3>Check your own site</h3><p>Free, no sign-up. We request your homepage as 13 different clients and show what each one gets.</p></div>

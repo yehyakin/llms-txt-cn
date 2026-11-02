@@ -222,6 +222,7 @@ write('research/grading/index.html', page({
 </tbody></table>
 <p>robots.txt 返回 5xx 或打不开时，按 <a href="https://www.rfc-editor.org/rfc/rfc9309#section-2.3.1.4">RFC 9309 §2.3.1.4</a>，遵守规范的爬虫会当作全站禁止，所以归到 C。robots.txt 返回 404 等 4xx 时等于没有限制，不扣分。</p>
 <p>防火墙实测带两个对照组：伪装成 Googlebot 的请求和一个未知爬虫。伪装 Googlebot 也被拦，说明网站在核验爬虫 IP，真正的 AI 爬虫多半能过，这种情况只记低可信度，不判 C。我们的请求不是从各家官方 IP 发出的，结论是“很可能”，不是证明。</p>
+<p><b>中文搜索与 AI 引擎</b>（百度、字节、华为、搜狗、360、神马、Kimi）用同样方法实测，但单独显示一行“x/y 能进”，不影响评级。很多海外网站是有意拦它们的，不该算作问题。豆包和腾讯元宝没有公开自己的爬虫，所以我们不单列。</p>
 <h2>能不能读</h2>
 <table class="tbl tg"><thead><tr><th>等级</th><th>条件</th></tr></thead><tbody>
 <tr><td><b>S</b></td><td>官方和常用检查没有待改项</td></tr>
@@ -240,7 +241,7 @@ write('research/grading/index.html', page({
 <p>封顶：JSON-LD 解析失败，最高 B；FAQPage 标记的问题在页面上找不到，最高 B。Google 的<a href="https://developers.google.com/search/docs/appearance/structured-data/sd-policies">结构化数据通用规则</a>要求标记的内容对用户可见。</p>
 <p>这一层衡量的是“让引擎认出你”的信号，不保证一定被引用。有没有被 AI 回答提到，要靠实际查询，不在免费体检范围内。</p>
 <h2>规则更新记录</h2>
-<ul><li><b>2026-11-02.1</b>：首个公开版本。新增 robots.txt 5xx 视为全禁、FAQ 标记与页面不符封顶 B。</li></ul>
+<ul><li><b>2026-11-02.2</b>：中文搜索与 AI 引擎（Baiduspider、Bytespider、PetalBot、搜狗、360Spider、YisouSpider、Kimi）单独实测、单独列出，不再计入“能不能进”。此前 Bytespider、PetalBot 计入。Kimi-SearchBot、Kimi-User、搜狗、360Spider、YisouSpider 加入实测。</li><li><b>2026-11-02.1</b>：首个公开版本。新增 robots.txt 5xx 视为全禁、FAQ 标记与页面不符封顶 B。</li></ul>
 <p>规则改动会加版本号，报告里会写明用的是哪一版，所以不同时间的评级可以对比。</p>
 <div style="margin-top:28px">${checkBox('检测你自己的网站')}</div></main>${CHECK_JS}`
 }));
@@ -416,7 +417,7 @@ write('404.html', page({
   const byLab = Object.fromEntries(LAB.results.map((r) => [r.slug, r]));
   const g3 = (a) => a.map((x) => x || '–').join('/');
   const rows = FIXTURES.map((f) => { const r = byLab[f.slug] || {}; const d = f.slug + LAB_SUFFIX;
-    return `<tr><td><a href="https://${d}/" rel="nofollow">${d}</a></td><td>${esc(f.zh)}</td><td style="white-space:nowrap">${g3(f.expect)}</td><td style="white-space:nowrap">${r.got ? g3(r.got) + (r.ok ? ' ✓' : ' ✗') : '–'}</td><td><a href="/report/${d}">报告</a></td></tr>`; }).join('');
+    return `<tr><td><a href="https://${d}/" rel="nofollow">${d}</a></td><td>${esc(f.zh)}</td><td style="white-space:nowrap">${g3(f.expect)}${f.cn === 'all_blocked' ? '<br>中文引擎：全拦' : ''}</td><td style="white-space:nowrap">${r.got ? g3(r.got) + (r.ok ? ' ✓' : ' ✗') : '–'}</td><td><a href="/report/${d}">报告</a></td></tr>`; }).join('');
   const nOk = LAB.results.filter((r) => r.ok).length;
   write('research/lab/index.html', page({
     path: '/research/lab/', title: 'VAKSEL 对照测试集：给 AI 可达性工具用的公开测试站 · VAKSEL',

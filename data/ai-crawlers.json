@@ -116,7 +116,7 @@
       "unverified_fields": ["training_use"]
     },
     {
-      "token": "Bytespider", "vendor": "ByteDance", "category": "search", "purposes": ["search"],
+      "token": "Bytespider", "region": "cn", "vendor": "ByteDance", "category": "search", "purposes": ["search"],
       "respects_robots": "unverified",
       "summary_zh": "官方文档称其为头条搜索爬虫（建立搜索索引）。是否用于 AI 训练、是否遵守 robots.txt，本页官方文档均未写明。",
       "quote": "头条搜索的爬虫UA为“Bytespider”",
@@ -125,7 +125,7 @@
       "unverified_fields": ["training_use", "respects_robots"]
     },
     {
-      "token": "PetalBot", "vendor": "Huawei", "category": "search", "purposes": ["search"],
+      "token": "PetalBot", "region": "cn", "vendor": "Huawei", "category": "search", "purposes": ["search"],
       "respects_robots": "yes",
       "summary_zh": "华为花瓣搜索（Petal Search）的爬虫。官方写明它建立的索引供花瓣搜索、华为小艺助手和 AI 搜索使用，并遵守 robots.txt。",
       "quote": "establish an index database which enables users to search the content of your site in Petal search engine and present content recommendations for the user in Huawei Assistant and AI Search services",
@@ -183,12 +183,63 @@
       "docs_url": "https://duckduckgo.com/duckduckgo-help-pages/results/duckassistbot", "verified_on": "2026-10-31", "verification": "verified"
     },
     {
-      "token": "Baiduspider", "vendor": "百度", "category": "search", "purposes": ["search"],
+      "token": "Baiduspider", "region": "cn", "vendor": "百度", "category": "search", "purposes": ["search"],
       "respects_robots": "yes",
       "summary_zh": "百度搜索引擎爬虫，遵守 robots 协议。百度没有公开独立的“AI 训练用途”控制 token（未找到官方说明）。",
       "quote": "Baiduspider遵守互联网robots协议……禁止Baiduspider访问您的网站，将使您的网站上的网页，在百度搜索引擎以及所有百度提供搜索引擎服务的搜索引擎中无法被搜索到。",
       "block_consequence_zh": "网页在百度及所有使用百度搜索服务的搜索引擎中都搜不到。",
       "docs_url": "https://help.baidu.com/question?prod_id=99&class=476&id=2996", "verified_on": "2026-10-31", "verification": "verified"
+    },
+    {
+      "token": "Sogou web spider", "region": "cn", "vendor": "搜狗（腾讯）", "category": "search", "purposes": ["search"],
+      "respects_robots": "yes",
+      "summary_zh": "搜狗搜索的网页爬虫。官方写明它支持 robots 协议，可用 DNS 反查（主机名 *.sogou.com）或 Web Bot Auth 签名验证真伪。",
+      "quote": "PC端UA为 Sogou web spider",
+      "block_consequence_zh": "被禁止的网页将不能在搜狗搜索中检索到。腾讯元宝等产品是否用到搜狗索引，官方没有说明。",
+      "docs_url": "https://zhanzhang.sogou.com/index.php/help/spider", "verified_on": "2026-11-02", "verification": "partial",
+      "unverified_fields": ["training_use"]
+    },
+    {
+      "token": "360Spider", "region": "cn", "vendor": "360", "category": "search", "purposes": ["search"],
+      "respects_robots": "yes",
+      "summary_zh": "360 搜索的网页爬虫。官方 Robots 协议说明列出网页搜索 UA 为 360Spider，图片、视频分别是 360Spider-Image、360Spider-Video。",
+      "quote": "网页搜索 360Spider",
+      "block_consequence_zh": "会影响 360 搜索收录。是否用于 360 的 AI 产品，官方没有说明。",
+      "docs_url": "https://www.so.com/help/help_3_2.html", "verified_on": "2026-11-02", "verification": "partial",
+      "unverified_fields": ["training_use"]
+    },
+    {
+      "token": "YisouSpider", "region": "cn", "vendor": "神马搜索（阿里）", "category": "search", "purposes": ["search"],
+      "respects_robots": "unverified",
+      "summary_zh": "神马搜索（UC、夸克系移动搜索）的爬虫。神马站长平台写明其爬虫 UA 是 yisouspider，并建议对正常网页放开 robots.txt。",
+      "quote": "神马搜索的爬虫user agent是yisouspider",
+      "block_consequence_zh": "会影响神马搜索收录。是否供夸克、通义等 AI 产品使用，官方没有说明。",
+      "docs_url": "https://zhanzhang.sm.cn/open/optimizaGuide", "verified_on": "2026-11-02", "verification": "partial",
+      "unverified_fields": ["training_use", "respects_robots"]
+    },
+    {
+      "token": "Kimi-SearchBot", "region": "cn", "vendor": "月之暗面 Kimi", "category": "search", "purposes": ["search"],
+      "respects_robots": "yes",
+      "summary_zh": "Kimi 搜索功能的爬虫，用来建立搜索索引。官方公布了 IP 段，可按 IP 验证。",
+      "quote": "Kimi-SearchBot powers Kimi's search features: it analyzes pages for relevance and builds the search index.",
+      "block_consequence_zh": "官方写明：禁止后你的网站不会出现在 Kimi 搜索结果里。",
+      "docs_url": "https://www.kimi.com/policies/kimi-crawlers", "verified_on": "2026-11-02", "verification": "official"
+    },
+    {
+      "token": "Kimi-User", "region": "cn", "vendor": "月之暗面 Kimi", "category": "user", "purposes": ["user"],
+      "respects_robots": "partial",
+      "summary_zh": "用户在 Kimi 里让它读某篇文章或联网回答时按需抓取。官方说明它不做批量抓取，因为是用户触发，robots.txt 可能不直接适用。",
+      "quote": "because actions are user-triggered, robots.txt rules may not directly apply",
+      "block_consequence_zh": "官方写明：禁止后可能降低你的网站在用户通过 Kimi 发起的联网搜索中的可见度。",
+      "docs_url": "https://www.kimi.com/policies/kimi-crawlers", "verified_on": "2026-11-02", "verification": "official"
+    },
+    {
+      "token": "KimiBot", "region": "cn", "vendor": "月之暗面 Kimi", "category": "training", "purposes": ["training"],
+      "respects_robots": "yes",
+      "summary_zh": "Kimi 的训练爬虫。官方写明它抓取的内容可能用于训练基础模型，禁止它表示你的内容不应被用于训练。",
+      "quote": "KimiBot crawls content potentially used to train Kimi's foundation models.",
+      "block_consequence_zh": "只表示不用于训练，官方没有说会影响 Kimi 搜索。",
+      "docs_url": "https://www.kimi.com/policies/kimi-crawlers", "verified_on": "2026-11-02", "verification": "official"
     }
   ],
   "vendor_training_tokens": {

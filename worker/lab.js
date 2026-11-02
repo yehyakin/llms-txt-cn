@@ -8,9 +8,10 @@ export const LAB_SUFFIX = '-lab.vaksel.com';
 const AI_SEARCH = /OAI-SearchBot|ChatGPT-User|PerplexityBot|Perplexity-User|Claude-SearchBot|Claude-User/i;
 const ANY_BOT = /bot|spider|crawl|ChatGPT-User|Perplexity-User|Claude-User/i;
 const KNOWN_GOOD = /Googlebot|bingbot|Applebot|Baiduspider/i;
+const CN_BOTS = /Bytespider|PetalBot|Sogou web spider|360Spider|YisouSpider|Kimi-SearchBot|Kimi-User/i;
 
 export const FIXTURES = [
-  { slug: 'baseline', expect: ['S', 'S', 'S'],
+  { slug: 'baseline', expect: ['S', 'S', 'S'], cn: 'all_open',
     zh: '对照组：什么都不改。robots 全开、结构化数据齐全、正文不靠 JS。', en: 'Control: nothing changed. robots.txt allows all, full structured data, text without JavaScript.' },
   { slug: 'robots-disallow-all', expect: ['C', 'S', 'S'], robots: 'User-agent: *\nDisallow: /\n',
     zh: 'robots.txt 写 Disallow: /，全站禁止。', en: 'robots.txt says Disallow: / for everyone.' },
@@ -32,6 +33,8 @@ export const FIXTURES = [
     zh: 'AI 搜索爬虫拿到 200，但内容是“Just a moment...”验证页。状态码看起来正常。', en: 'AI search crawlers get HTTP 200, but the body is a “Just a moment...” challenge page. The status code looks fine.' },
   { slug: 'fw-ai-thin', expect: ['A', 'S', 'S'], fw: 'aithin',
     zh: 'AI 搜索爬虫拿到 200，但正文被删得只剩一句话。', en: 'AI search crawlers get HTTP 200, but the text is cut down to one sentence.' },
+  { slug: 'fw-cn-403', expect: ['S', 'S', 'S'], cn: 'all_blocked', fw: 'cn403',
+    zh: '防火墙只拦中文搜索与 AI 引擎（字节、华为、搜狗、360、神马、Kimi），海外 AI 爬虫正常。主评级不受影响，中文引擎一栏应显示全部被拦。', en: 'The firewall rejects only Chinese search and AI engines (ByteDance, Huawei, Sogou, 360, Shenma, Kimi); other AI crawlers get through. Main grades are unaffected; the China engines line should show all blocked.' },
   { slug: 'meta-noindex', expect: ['C', 'C', 'S'], page: 'noindex',
     zh: '首页 <meta name="robots" content="noindex">。', en: 'Homepage has <meta name="robots" content="noindex">.' },
   { slug: 'header-noindex', expect: ['C', 'C', 'S'], header: { 'X-Robots-Tag': 'noindex' },
@@ -111,6 +114,7 @@ export function handleLab(request) {
   if (f.fw === 'allbots403' && isBot) return new Response('Forbidden', { status: 403, headers: H });
   if (f.fw === 'unknown403' && isBot && !KNOWN_GOOD.test(ua)) return new Response('Forbidden', { status: 403, headers: H });
   if (f.fw === 'aichallenge' && isAiSearch) return new Response(CHALLENGE, { headers: Object.assign({ 'content-type': 'text/html; charset=utf-8' }, H) });
+  if (f.fw === 'cn403' && CN_BOTS.test(ua)) return new Response('Forbidden', { status: 403, headers: H });
   if (f.fw === 'aithin' && isAiSearch) return new Response(THIN(f), { headers: Object.assign({ 'content-type': 'text/html; charset=utf-8' }, H) });
 
   const hdr = Object.assign({ 'content-type': 'text/html; charset=utf-8' }, H, f.header || {});

@@ -10,7 +10,11 @@
  */
 
 export const PROBE_BOTS = ['OAI-SearchBot', 'ChatGPT-User', 'PerplexityBot', 'Perplexity-User', 'Claude-SearchBot',
-  'Claude-User', 'GPTBot', 'ClaudeBot', 'Bytespider', 'PetalBot'];
+  'Claude-User', 'GPTBot', 'ClaudeBot', 'Bytespider', 'PetalBot',
+  'Sogou web spider', '360Spider', 'YisouSpider', 'Kimi-SearchBot', 'Kimi-User'];
+/* region=cn 的爬虫（data/ai-crawlers.json）单独成组：不计入主评级，报告里另列“中文搜索与 AI 引擎” */
+export const isMainSearch = (b) => (b.category === 'search' || b.category === 'user') && b.region !== 'cn';
+export const isCnSearch = (b) => (b.category === 'search' || b.category === 'user') && b.region === 'cn';
 const FALLBACK_CAT = { PetalBot: 'search', 'Perplexity-User': 'user', 'Claude-User': 'user' };
 const BLOCK_CODES = new Set([401, 403, 406, 429, 451, 503, 520, 521, 522, 523, 524, 525, 526, 530]);
 
@@ -92,11 +96,12 @@ export function classifyAccess(probe, robotsAccess, crawlerData) {
     let effective = 'open';
     if (robotsBlocked || (firewall === 'blocked')) effective = 'blocked';
     else if (firewall === 'unverified' || firewall === 'degraded') effective = 'warn';
-    return { token, vendor: meta.vendor || (token === 'PetalBot' ? 'Huawei' : null), category, robots, firewall, confidence,
+    return { token, vendor: meta.vendor || (token === 'PetalBot' ? 'Huawei' : null), category, region: meta.region || (token === 'PetalBot' ? 'cn' : null), robots, firewall, confidence,
       reason: why, status: sig && sig.status, silent: firewall === 'blocked' && !robotsBlocked, effective };
   });
 
-  const search = bots.filter(b => b.category === 'search' || b.category === 'user');
+  const search = bots.filter(isMainSearch);
+  const cn = bots.filter(isCnSearch);
   const silent = search.filter(b => b.silent);
   const blockedSearch = search.filter(b => b.effective === 'blocked');
   const page = noJsInfo(base);
@@ -112,7 +117,8 @@ export function classifyAccess(probe, robotsAccess, crawlerData) {
     verdict, cdn, target: probe.target,
     controls: { googlebot_spoof_blocked: gbBlocked, unknown_bot_blocked: ctlBlocked },
     counts: { search_total: search.length, search_blocked: blockedSearch.length, silent: silent.length,
-      training_blocked: bots.filter(b => b.category === 'training' && b.effective === 'blocked').length },
+      training_blocked: bots.filter(b => b.category === 'training' && b.effective === 'blocked').length,
+      cn_total: cn.length, cn_blocked: cn.filter(b => b.effective === 'blocked').length },
     page, bots
   };
 }

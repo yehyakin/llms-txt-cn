@@ -115,6 +115,36 @@
       "summary": "Baidu's search crawler. It follows robots.txt.",
       "block": "Your pages can't be found on Baidu or on any search engine that uses Baidu's search service.",
       "advice": "Keep it allowed if you want traffic from China."
+    },
+    "Sogou web spider": {
+      "summary": "Sogou search's web crawler. Sogou says it follows robots.txt and can be verified by reverse DNS (*.sogou.com) or Web Bot Auth signatures.",
+      "block": "Pages you disallow can't be found on Sogou. Sogou doesn't say whether Tencent's Yuanbao uses its index.",
+      "advice": "Keep it if you want search traffic in China."
+    },
+    "360Spider": {
+      "summary": "360 Search's web crawler. 360's robots.txt help page lists 360Spider for web search, plus 360Spider-Image and 360Spider-Video.",
+      "block": "Your site may drop out of 360 Search. 360 doesn't say whether its AI products use it.",
+      "advice": "Keep it if you want search traffic in China."
+    },
+    "YisouSpider": {
+      "summary": "The crawler for Shenma, the mobile search engine behind UC and Quark. Shenma's webmaster guide names yisouspider as its user agent.",
+      "block": "Your site may drop out of Shenma search. Alibaba doesn't say whether Quark or Qwen use this index.",
+      "advice": "Keep it if you want mobile search traffic in China."
+    },
+    "Kimi-SearchBot": {
+      "summary": "Builds the search index for Kimi, Moonshot AI's assistant. Moonshot publishes its IP ranges.",
+      "block": "Moonshot says your site won't appear in Kimi search results.",
+      "advice": "Keep it if you want to show up in Kimi."
+    },
+    "Kimi-User": {
+      "summary": "Fetches pages when a Kimi user asks it to read a page or answer with live web results. Moonshot says it doesn't bulk-crawl and robots.txt may not directly apply.",
+      "block": "Moonshot says blocking it may reduce your visibility in searches users run through Kimi.",
+      "advice": "Keep it allowed if you want Kimi to read your pages for users."
+    },
+    "KimiBot": {
+      "summary": "Kimi's training crawler. Moonshot says disallowing it signals your content shouldn't be used to train its foundation models.",
+      "block": "Only opts you out of training. Moonshot doesn't say it affects Kimi search.",
+      "advice": "Block it if you don't want your content in Kimi's training data."
     }
   }
 }

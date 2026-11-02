@@ -7,6 +7,8 @@ export const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<'
 export function cleanDomain(v){v=(v||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0].replace(/\.$/,'');return /^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v)?v:null}
 /* 传统搜索引擎爬虫：不算“AI 搜索”，robots-only 回落时不列入 */
 export const CLASSIC=new Set(['Googlebot','Bingbot','Applebot','Baiduspider']);
+const isMain=b=>(b.category==='search'||b.category==='user')&&b.region!=='cn';
+const isCnB=b=>(b.category==='search'||b.category==='user')&&b.region==='cn';
 export const botSlug=t=>String(t).toLowerCase().replace(/[^a-z0-9]+/g,'-');
 const GUIDE={Cloudflare:'cloudflare',CloudFront:'cloudfront'};
 const TONE={open:'v-ok',warn:'v-warn',js_only:'v-warn',partly_blocked:'v-warn',silent_block:'v-bad',all_blocked:'v-bad',noindex:'v-bad',inconclusive:'v-gray',unknown:'v-gray'};
@@ -60,7 +62,7 @@ const EN={
   meta:{checked:'checked',servedBy:'served by'},
   mon:d=>'<span><b>Watch '+d+'</b> · get an email if AI crawler access changes</span><span class="mb2">Early access →</span>',
   kpi:{reach:'AI search crawlers reachable',reachRobots:'AI search crawlers allowed by robots.txt',silent:'Silent firewall blocks',train:'Training crawlers blocked',text:'Text without JavaScript',chars:'chars'},
-  table:{title:'Crawler by crawler',hint:'Open Details for the evidence',cols:['Crawler','Purpose','robots.txt','Live request','Result'],grpS:'AI search & user-triggered',grpT:'AI training',details:'Details',hide:'Hide'},
+  table:{title:'Crawler by crawler',hint:'Open Details for the evidence',cols:['Crawler','Purpose','robots.txt','Live request','Result'],grpS:'AI search & user-triggered',grpC:'China search & AI engines (not graded)',grpT:'AI training',details:'Details',hide:'Hide'},
   fixTitle:'How to fix',
   method:B=>'<h4>How we test, and what it can’t tell you</h4><p>We request your homepage from a data-center IP as a normal browser, with a Googlebot user agent, as an unknown bot, and with each AI crawler’s user agent. We don’t come from the crawlers’ own networks, so a site that verifies crawler IP addresses may treat the real crawler differently. The control groups separate a rule aimed at AI crawlers (high confidence) from a general bot rule (medium) or an IP-verification rule (low). To be certain, check your CDN or WAF logs for requests from the crawler’s published IP ranges. <a href="'+B+'/research/">Methodology</a></p>',
   checks:{title:'Page checks',ptitle:'Page title',present:'Present',missing:'Missing',yes:'Yes',no:'No',js:'Content without JS',thin:'Thin',ok:'OK',na:'n/a',llms:'llms.txt (optional)',
@@ -117,7 +119,7 @@ const ZH={
   meta:{checked:'检测于',servedBy:'应答方'},
   mon:d=>'<span><b>监控 '+d+'</b> · AI 爬虫访问一有变化就邮件通知你</span><span class="mb2">加入早期体验 →</span>',
   kpi:{reach:'可访问的 AI 搜索爬虫',reachRobots:'robots.txt 允许的 AI 搜索爬虫',silent:'防火墙静默拦截',train:'被拦的训练爬虫',text:'不跑 JS 时的文字',chars:'字符'},
-  table:{title:'逐个爬虫',hint:'点“详情”查看证据',cols:['爬虫','用途','robots.txt','实测请求','结论'],grpS:'AI 搜索与用户触发',grpT:'AI 训练',details:'详情',hide:'收起'},
+  table:{title:'逐个爬虫',hint:'点“详情”查看证据',cols:['爬虫','用途','robots.txt','实测请求','结论'],grpS:'AI 搜索与用户触发',grpC:'中文搜索与 AI 引擎（不计入评级）',grpT:'AI 训练',details:'详情',hide:'收起'},
   fixTitle:'怎么修',
   method:B=>'<h4>我们怎么测，以及测不出什么</h4><p>我们从数据中心 IP 分别以普通浏览器、Googlebot UA、未知机器人和每个 AI 爬虫的 UA 请求你的首页。我们不是从这些爬虫自己的网络发出请求，所以核验爬虫 IP 的网站可能会区别对待真实爬虫。对照组用来区分专门针对 AI 爬虫的规则（高可信）、通用机器人规则（中）和 IP 核验规则（低）。要百分之百确定，请在 CDN 或 WAF 日志里查看来自爬虫官方 IP 段的请求。<a href="'+B+'/research/">方法说明</a></p>',
   checks:{title:'页面检查',ptitle:'页面标题',present:'有',missing:'缺失',yes:'是',no:'否',js:'不跑 JS 的内容',thin:'很少',ok:'正常',na:'无',llms:'llms.txt（可选）',
@@ -127,7 +129,7 @@ const ZH={
 };
 const T=lang=>lang==='zh'?ZH:EN;
 
-export function summary(r,lang){const L=T(lang);const a=(r&&r.access)||{};const bots=a.bots||[];const s=bots.filter(b=>b.category==='search'||b.category==='user');const reach=s.filter(b=>b.effective!=='blocked').length;const v=L.v[a.verdict]||L.v.unknown;return v[0]+(s.length?L.summaryTail(reach,s.length):'')+(lang==='zh'?'。':'.')}
+export function summary(r,lang){const L=T(lang);const a=(r&&r.access)||{};const bots=a.bots||[];const s=bots.filter(b=>isMain(b));const reach=s.filter(b=>b.effective!=='blocked').length;const v=L.v[a.verdict]||L.v.unknown;return v[0]+(s.length?L.summaryTail(reach,s.length):'')+(lang==='zh'?'。':'.')}
 export function bindReport(root,lang){const L=T(lang||(document.documentElement.lang==='zh-CN'||document.documentElement.lang==='zh'?'zh':'en'));const tg=(id,force)=>{const e=root.querySelector('#ev-'+id),b=root.querySelector('[aria-controls="ev-'+id+'"]');if(!e)return;const open=force!=null?force:e.hidden;e.hidden=!open;if(b){b.setAttribute('aria-expanded',open);b.textContent=open?L.table.hide:L.table.details}};root.querySelectorAll('tr.row').forEach(tr=>tr.onclick=e=>{if(e.target.closest('a,button'))return;tg(tr.dataset.i)});root.querySelectorAll('button.evb').forEach(b=>b.onclick=()=>tg(b.getAttribute('aria-controls').slice(3)));root.querySelectorAll('.copy').forEach(b=>b.onclick=()=>{navigator.clipboard.writeText(b.parentNode.textContent.replace(/^(Copy|复制)/,''));b.textContent=L.share.copied});const cp=root.querySelector('#cp');if(cp){const sl=root.querySelector('#sl');if(sl&&!sl.value)sl.value=location.href;cp.onclick=()=>{navigator.clipboard.writeText(sl.value);cp.textContent=L.share.copied}}const pr=root.querySelector('#pdf');if(pr)pr.onclick=()=>{root.querySelectorAll('tr.ev').forEach(e=>e.hidden=false);window.print()};root.querySelectorAll('time[datetime]').forEach(t=>{const d=new Date(t.getAttribute('datetime'));if(!isNaN(d))t.textContent=d.toLocaleString(L.locale,{dateStyle:'medium',timeStyle:'short'})})}
 
 function robotsTag(s,L){return s==='blocked'?'<span class="tag t-bad">'+L.robots.blocked+'</span>':s==='partial'?'<span class="tag t-warn">'+L.robots.partial+'</span>':s==='allowed'?'<span class="tag t-ok">'+L.robots.allowed+'</span>':'<span class="tag t-gray">'+L.robots.na+'</span>'}
@@ -157,7 +159,7 @@ function evidence(b,a,B,L){
 function fixFor(a,B,L){
   const F=L.fix;
   const blocked=(a.bots||[]).filter(b=>b.firewall==='blocked');
-  const robo=(a.bots||[]).filter(b=>b.robots==='blocked'&&(b.category==='search'||b.category==='user'));
+  const robo=(a.bots||[]).filter(b=>b.robots==='blocked'&&isMain(b));
   let h='';
   if(blocked.length){
     const names=blocked.filter(b=>b.category!=='training').map(b=>b.token);
@@ -172,8 +174,8 @@ function fixFor(a,B,L){
 }
 /* 分享图用：结论、色调、AI 搜索爬虫可达数（分享图只出英文） */
 export function ogData(r,lang){const L=T(lang);const a=(r&&r.access)||{};const verdict=L.v[a.verdict]?a.verdict:'unknown';const ra=(r&&r.robots&&r.robots.analysis&&r.robots.analysis.access)||[];const live=a.bots&&a.bots.length;
-  const bots=live?a.bots:ra.filter(b=>(b.category==='search'||b.category==='user')&&!CLASSIC.has(b.token)).map(b=>({category:b.category,effective:b.status==='blocked'?'blocked':'ok'}));
-  const s=bots.filter(b=>b.category==='search'||b.category==='user');
+  const bots=live?a.bots:ra.filter(b=>isMain(b)&&!CLASSIC.has(b.token)).map(b=>({category:b.category,effective:b.status==='blocked'?'blocked':'ok'}));
+  const s=bots.filter(b=>isMain(b));
   return {verdict:a.verdict||'unknown',title:L.v[verdict][0],tone:{'v-ok':'ok','v-warn':'warn','v-bad':'bad','v-gray':'gray'}[TONE[verdict]],reach:s.filter(b=>b.effective!=='blocked').length,total:s.length,live:!!live,grades:(G=>({access:G.access.grade,read:G.read.grade,cite:G.cite.grade}))(gradeReport(r||{}))}}
 export function renderReport(r,opt){
   opt=opt||{};const L=T(opt.lang);const when=opt.when||new Date().toISOString();const shareUrl=opt.url||'';
@@ -182,8 +184,8 @@ export function renderReport(r,opt){
   const ra=(r.robots&&r.robots.analysis&&r.robots.analysis.access)||[];
   const untested=!(a.bots&&a.bots.length);
   const B=opt.base==null?(opt.lang==='zh'?'':'/en'):opt.base;
-  const bots=!untested?a.bots:ra.filter(b=>['search','user','training'].includes(b.category)&&!CLASSIC.has(b.token)).map(b=>({token:b.token,vendor:b.vendor,category:b.category,robots:b.status,firewall:'untested',effective:b.status==='blocked'?'blocked':'ok'}));
-  const search=bots.filter(b=>b.category==='search'||b.category==='user');
+  const bots=!untested?a.bots:ra.filter(b=>['search','user','training'].includes(b.category)&&!CLASSIC.has(b.token)).map(b=>({token:b.token,vendor:b.vendor,category:b.category,region:b.region,robots:b.status,firewall:'untested',effective:b.status==='blocked'?'blocked':'ok'}));
+  const search=bots.filter(b=>isMain(b));
   const train=bots.filter(b=>b.category==='training');
   const reach=search.filter(b=>b.effective!=='blocked').length;
   const llm=r.llms||{};
@@ -191,7 +193,7 @@ export function renderReport(r,opt){
   const meta=(a.target?esc(a.target)+' · ':'')+L.meta.checked+' <time datetime="'+esc(when)+'">'+esc(when.slice(0,16).replace('T',' '))+' UTC</time>'+(a.cdn?' · '+L.meta.servedBy+' '+esc(a.cdn):'');
   let rows='';
   const grp=(t,list)=>{if(!list.length)return;rows+='<tr class="grp"><td colspan="5">'+t+'</td></tr>';list.forEach(b=>{rows+='<tr class="row" data-i="'+b.token+'"><td><div class="bot"><a href="'+B+'/bots/'+botSlug(b.token)+'/">'+esc(b.token)+'</a></div><div class="vd">'+esc(b.vendor||'')+'</div></td><td class="hide-s">'+(L.purpose[b.category]||L.purpose.unknown)+'</td><td>'+robotsTag(b.robots,L)+'</td><td class="hide-s">'+liveTag(b,L)+'</td><td><div class="rcell">'+resultTag(b,L)+'<button type="button" class="evb" aria-expanded="false" aria-controls="ev-'+b.token+'">'+L.table.details+'</button></div></td></tr><tr class="ev" id="ev-'+b.token+'" hidden><td colspan="5">'+evidence(b,a,B,L)+'</td></tr>'})};
-  grp(L.table.grpS,search);grp(L.table.grpT,train);
+  grp(L.table.grpS,search);grp(L.table.grpC,bots.filter(isCnB));grp(L.table.grpT,train);
   const page=a.page||{};
   const fix=fixFor(a,B,L);
   const C=L.checks;
