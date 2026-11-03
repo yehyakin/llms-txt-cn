@@ -404,6 +404,51 @@ const LABROWS = ['Robots.txt rules', 'Firewall and CDN', 'Page directives', 'Ren
 });
 const LABRO = LAB.results.filter((r) => !ROBOTS_ONLY_WRONG.has(r.slug)).length;
 const FIXT_DATE = 'Nov 3, 2026';
+
+const SV = (body) => `<svg viewBox="0 0 400 250" role="img" xmlns="http://www.w3.org/2000/svg">${body}</svg>`;
+const HD = (t, sub) => `<text x="200" y="22" class="t">${t}</text><text x="200" y="37" class="s">${sub}</text>`;
+const FIG1 = (() => {
+  let o = HD('Access verdict accuracy', `${LAB.results.length} lab sites with known configurations · ${LAB.run_at.slice(0, 10)}`);
+  o += `<circle cx="128" cy="56" r="3.5" class="f1"/><text x="136" y="59" class="l">VAKSEL (live requests)</text><circle cx="250" cy="56" r="3.5" class="f2"/><text x="258" y="59" class="l">robots.txt only</text>`;
+  const X0 = 140, X1 = 372, x = (v) => X0 + ((X1 - X0) * v) / 100;
+  [0, 25, 50, 75, 100].forEach((t) => { o += `<line x1="${x(t)}" y1="74" x2="${x(t)}" y2="214" class="g"/><text x="${x(t)}" y="228" class="a">${t}${t === 100 ? '%' : ''}</text>`; });
+  LABROWS.forEach(([n, k, v, r], i) => {
+    const y = 92 + i * 34;
+    o += `<text x="28" y="${y - 1}" class="n">${n}</text><text x="28" y="${y + 10}" class="k">n = ${k}</text>`;
+    o += `<line x1="${x(Math.min(v, r))}" y1="${y}" x2="${x(Math.max(v, r))}" y2="${y}" class="c"/>`;
+    o += `<circle cx="${x(r)}" cy="${y}" r="4" class="f2"/><circle cx="${x(v)}" cy="${y}" r="4" class="f1"/>`;
+    if (r < v) o += `<text x="${x(r)}" y="${y - 8}" class="v2">${r}%</text>`;
+  });
+  return SV(o);
+})();
+const FIG2 = (() => {
+  const ai = TB.length, aiOk = TB.filter((b) => b.effective === 'open' || b.status === 200).length;
+  const rows = [['Browser', 1, 'passed'], ['Googlebot', FIXT.access.controls.googlebot_spoof_blocked ? 0 : 1, 'passed'], ['Unknown bot', FIXT.access.controls.unknown_bot_blocked ? 0 : 1, 'passed'], ['AI agents', aiOk / ai, `${aiOk} of ${ai}`]];
+  let o = HD('Who gets through: toyota.com', `Same page, same IP, different user agent · ${FIXT_DATE}`);
+  const B = 214, H = 140;
+  [0, .5, 1].forEach((t) => { o += `<line x1="40" y1="${B - H * t}" x2="372" y2="${B - H * t}" class="g"/><text x="34" y="${B - H * t + 3}" class="a" text-anchor="end">${t * 100}%</text>`; });
+  rows.forEach(([n, v, lab], i) => {
+    const cx = 86 + i * 82, h = Math.max(3, H * v), last = i === 3;
+    o += `<rect x="${cx - 24}" y="${B - h}" width="48" height="${h}" class="${last ? 'b2' : 'b1'}"/><text x="${cx}" y="${B - h - 6}" class="${last ? 'v1' : 'v'}">${lab}</text><text x="${cx}" y="${B + 14}" class="n" text-anchor="middle">${n}</text>`;
+  });
+  o += `<text x="86" y="${B + 26}" class="k" text-anchor="middle">control</text><text x="168" y="${B + 26}" class="k" text-anchor="middle">control</text><text x="250" y="${B + 26}" class="k" text-anchor="middle">control</text><text x="332" y="${B + 26}" class="k" text-anchor="middle">robots.txt allows most</text>`;
+  return SV(o);
+})();
+const FIG3 = (() => {
+  let o = HD('Sample: Tranco top 20k', 'Random 600 domains · homepage requests · Nov 2026');
+  const box = (x, y, w, n, l, cls = '') => `<rect x="${x}" y="${y}" width="${w}" height="34" class="bx ${cls}"/><text x="${x + w / 2}" y="${y + 15}" class="bn ${cls}">${n}</text><text x="${x + w / 2}" y="${y + 27}" class="bl">${l}</text>`;
+  const ln = (x1, y1, x2, y2) => `<path d="M${x1} ${y1} V${(y1 + y2) / 2} H${x2} V${y2}" class="ln"/>`;
+  o += box(150, 52, 100, '600', 'sampled');
+  o += ln(200, 86, 110, 104) + ln(200, 86, 290, 104);
+  o += box(50, 104, 120, '362', 'reachable') + box(230, 104, 120, '238', 'excluded', 'm');
+  o += ln(110, 138, 110, 156);
+  o += box(30, 156, 160, '45', 'rejected an AI search UA');
+  o += ln(110, 190, 70, 206) + ln(110, 190, 150, 206);
+  o += box(30, 206, 76, '13', 'aimed at AI', 'h') + box(114, 206, 76, '32', 'other', 'm');
+  o += `<text x="230" y="156" class="k" text-anchor="start">125 no connection</text><text x="230" y="167" class="k" text-anchor="start">80 got 403 or a challenge</text><text x="230" y="178" class="k" text-anchor="start">33 other status</text>`;
+  o += `<text x="230" y="220" class="v1" text-anchor="start">1 in 28</text><text x="230" y="232" class="k" text-anchor="start">of reachable sites (3.6%)</text>`;
+  return SV(o);
+})();
 const SAMPLE = [
   ['toyota.com', 'Silent block', 'CloudFront', 'CloudFront rejects OAI-SearchBot and three user-triggered crawlers that robots.txt allows. A browser and Googlebot get through.'],
   ['smithsonianmag.com', 'All blocked', 'Cloudflare', 'Cloudflare turns away all 6 AI search and user-triggered crawlers we sent.'],
@@ -462,30 +507,11 @@ const homeBody = `<header class="hero"><div class="hbg" aria-hidden="true"><vide
 <section class="sec eval" id="data"><div class="wrap">
   <p class="kick">Evaluation</p><h2>Checked against sites with known answers.</h2>
   <div class="ecards">
-    <div class="ec"><div class="ev tk g2"><div class="fig">
-      <p class="ft">Access verdict accuracy, lab sites</p><p class="fs">${LAB.results.length} sites with known configurations · run ${LAB.run_at.slice(0, 10)}</p>
-      <p class="lg"><span><i class="d1"></i>VAKSEL, live requests</span><span><i class="d2"></i>robots.txt only (by our rules)</span></p>
-      <div class="dp">${LABROWS.map(([n, k, v, r]) => `<div class="dr"><span class="dl">${n}<small>n = ${k}</small></span><span class="dt"><i class="d2" style="left:${r}%"></i><i class="d1" style="left:${v}%"></i><em style="left:${r}%">${r}%</em><b style="left:${v}%">${v}%</b></span></div>`).join('')}</div>
-      <div class="ax"><span></span><span>0</span><span>25</span><span>50</span><span>75</span><span>100%</span></div>
-    </div></div>
+    <div class="ec"><div class="ev tk g2"><div class="fig">${FIG1}</div></div>
       <h3>${labOk} of ${LAB.results.length} lab verdicts right</h3><p>Sites we configured ourselves, re-run whenever the rules change. Reading robots.txt alone gets ${LABRO} of ${LAB.results.length} right; the misses are mostly firewall and CDN blocks.</p><a href="/en/research/lab/">See the lab →</a></div>
-    <div class="ec"><div class="ev tk"><div class="fig">
-      <p class="ft">Declared vs. served: toyota.com</p><p class="fs">robots.txt rule and live HTTP response · ${FIXT_DATE}</p>
-      <table class="mx"><thead><tr><th>Agent</th><th>robots.txt</th><th>HTTP</th><th>Layer</th></tr></thead><tbody>
-      ${['Browser', 'Googlebot', 'Unknown bot'].map((n) => `<tr class="cg"><td>${n}<small>control</small></td><td>–</td><td class="ok">200</td><td>–</td></tr>`).join('')}
-      ${TB.map((b) => `<tr><td>${esc(b.token)}</td><td><i class="rb2 ${(RB[b.robots] || ['', 'mid'])[1]}"></i>${(RB[b.robots] || ['—'])[0]}</td><td class="${b.effective === 'open' ? 'ok' : 'no'}">${b.status}</td><td>${b.status === 200 ? '–' : b.robots === 'blocked' ? 'robots + CDN' : 'CDN / WAF'}</td></tr>`).join('')}
-      </tbody></table>
-    </div></div>
+    <div class="ec"><div class="ev tk"><div class="fig">${FIG2}</div></div>
       <h3>Control groups on every check</h3><p>A data-center IP isn’t a crawler’s real IP. So each result is compared with a browser, Googlebot and an unknown bot, and carries a confidence level.</p><a href="/en/research/grading/">How grading works →</a></div>
-    <div class="ec"><div class="ev tk"><div class="fig">
-      <p class="ft">Sample: Tranco top 20k</p><p class="fs">Random 600 domains · homepage · Nov 2026</p>
-      <div class="tree">
-        <div class="tn root"><b>600</b>sampled</div>
-        <div class="tl"><div class="tn"><b>362</b>reachable</div><div class="tn mute"><b>238</b>excluded<small>125 no connection · 80 403 or challenge · 33 other</small></div></div>
-        <div class="tl one"><div class="tn"><b>45</b>rejected an AI search UA robots.txt allowed<small>12.4% of reachable</small></div></div>
-        <div class="tl"><div class="tn hi"><b>13</b>aimed at AI crawlers<small>3.6% · 1 in 28</small></div><div class="tn mute"><b>32</b>other rejections</div></div>
-      </div>
-    </div></div>
+    <div class="ec"><div class="ev tk"><div class="fig">${FIG3}</div></div>
       <h3>Measured on real sites</h3><p>13 of 362 reachable sites silently block AI search crawlers while robots.txt allows them and Googlebot gets through.</p><a href="/en/research/">Read the study →</a></div>
   </div>
 </div></section>

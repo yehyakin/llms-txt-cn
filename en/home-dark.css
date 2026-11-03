@@ -334,3 +334,24 @@ body.dk .menu span{background:#f5f5f7}
 .tree{gap:7px}.tn{padding:2px 6px 3px}.tn b{font-size:11px;line-height:1.15}.tn small{font-size:6px;line-height:1.2}
 .tn::before{top:-8px;height:7px}
 @media (max-width:860px){.rep .wrap.rgrid{grid-template-columns:minmax(0,1fr);gap:28px}.pp-top span{font-size:7.5px}.dk .paper h3{font-size:22px}}
+/* v4.1 SVG 图表 */
+.ev{aspect-ratio:1.42/1;padding:20px}
+.fig{padding:0;display:block;background:#f7f7f4}
+.fig svg{display:block;width:100%;height:100%;font-family:var(--sans)}
+.fig .t{font-size:11.5px;font-weight:650;fill:#1d1d1f;text-anchor:middle}
+.fig .s{font-size:8px;fill:#8e8e93;text-anchor:middle}
+.fig .l{font-size:8px;fill:#48484a}
+.fig .n{font-size:8.5px;font-weight:600;fill:#1d1d1f}
+.fig .k{font-size:7px;fill:#8e8e93}
+.fig .a{font-size:7.5px;fill:#aeaeb2;text-anchor:middle}
+.fig .g{stroke:#e6e6e1;stroke-width:1}
+.fig .c{stroke:#c7c7c2;stroke-width:1.2}
+.fig .f1{fill:#1e7a46}.fig .f2{fill:#fff;stroke:#8e8e93;stroke-width:1.4}
+.fig .v,.fig .v1,.fig .v2{font-size:8px;text-anchor:middle;fill:#8e8e93;font-weight:600}
+.fig .v1{fill:#1d1d1f;font-size:9px}
+.fig .b1{fill:#d8d8d3}.fig .b2{fill:#1d1d1f}
+.fig .bx{fill:#fff;stroke:#c7c7c2;stroke-width:1}.fig .bx.m{fill:#f7f7f4;stroke-dasharray:3 2}.fig .bx.h{stroke:#1e7a46;fill:#eef6f0}
+.fig .bn{font-size:11px;font-weight:700;fill:#1d1d1f;text-anchor:middle}.fig .bn.m{fill:#8e8e93}.fig .bn.h{fill:#1e7a46}
+.fig .bl{font-size:7px;fill:#6e6e73;text-anchor:middle}
+.fig .ln{fill:none;stroke:#aeaeb2;stroke-width:1}
+@media (max-width:860px){.ev{height:auto;aspect-ratio:1.42/1;padding:12px}}
