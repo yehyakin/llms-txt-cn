@@ -42,20 +42,20 @@ export const HEADX = `<link rel="icon" href="/en/brand/vaksel-favicon.svg" type=
 <link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/app.css">`;
 
-function page({ path, title, desc, body, active, ld, type = 'article' }) {
+function page({ path, title, desc, body, active, ld, type = 'article', theme = '' }) {
   return `<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
-<meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
+<meta name="robots" content="noindex"><meta name="theme-color" content="${theme ? '#0a0a0a' : '#ffffff'}">
 <link rel="canonical" href="${canon(path)}">
 <link rel="alternate" hreflang="en" href="${canon(path)}"><link rel="alternate" hreflang="zh-CN" href="https://cetxt.com${path.replace(/^\/en/, '') || '/'}">
 <meta property="og:type" content="${type}"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${canon(path)}"><meta property="og:image" content="${SITE}/og/site.png"><meta name="twitter:card" content="summary_large_image">
-${HEADX}${ld ? `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>` : ''}
-</head><body>
-${NAV(active, path)}
+${HEADX}${theme ? '<link rel="stylesheet" href="/en/home-dark.css">' : ''}${ld ? `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>` : ''}
+</head><body${theme ? ` class="${theme}"` : ''}>
+${theme ? NAV(active, path).replace('vaksel-horizontal-primary.svg', 'vaksel-horizontal-reverse.svg') : NAV(active, path)}
 ${body.includes('<main') ? body.replace('<main ', '<main id="main" tabindex="-1" ') : '<main id="main" tabindex="-1">' + body + '</main>'}
-${FOOT}
+${theme ? FOOT.replace('vaksel-horizontal-primary.svg', 'vaksel-horizontal-reverse.svg') : FOOT}
 </body></html>
 `;
 }
@@ -367,15 +367,28 @@ const HOME_FAQ = [
   ['Will allowing AI search let my content be used for training?', 'No. OpenAI and Anthropic use separate crawlers for search and training, and Apple and Google give training its own robots.txt name (Applebot-Extended, Google-Extended). Perplexity says PerplexityBot isn’t used to train models. So you can allow OAI-SearchBot and block GPTBot, for example. Our guides show how on each platform.'],
   ['How accurate is a test from a data center?', 'Real crawlers come from their own IP ranges, which we can’t use. So every test runs with control groups (a normal browser, Googlebot and an unknown bot) and each result carries a confidence level.']
 ];
-const homeBody = `<header class="hero"><div class="wrap">
-  <span class="eyebrow"><b></b>Free · no sign-up · results in seconds</span>
-  <h1>Can AI search <span class="grad">actually reach</span> your site?</h1>
+const homeBody = `<header class="hero"><div class="wrap hgrid"><div>
+  <span class="eyebrow"><b></b>AI search · access check</span>
+  <h1>Can AI search <em>actually reach</em> your site?</h1>
   <p class="lead">Your robots.txt may say yes while your firewall says no. We request your page with the user agents of ChatGPT, Perplexity and Claude, compare against a browser and Googlebot, and show you what each one got back.</p>
   <form class="field" id="f" autocomplete="off" role="search">
     <input id="d" name="d" placeholder="yourdomain.com" inputmode="url" autocapitalize="off" spellcheck="false" aria-label="Your domain">
     <button class="btn" type="submit">Check access</button>
   </form>
-  <p class="hint">Try <button type="button" data-d="toyota.com">toyota.com</button>·<button type="button" data-d="github.com">github.com</button>·<button type="button" data-d="shopify.com">shopify.com</button></p>
+  <p class="hint">Try <button type="button" data-d="toyota.com">toyota.com</button>·<button type="button" data-d="github.com">github.com</button>·<button type="button" data-d="shopify.com">shopify.com</button> · free, no sign-up</p>
+  </div>
+  <div class="rcard" aria-label="Example result for toyota.com">
+    <div class="rh"><b>toyota.com</b><span>served by CloudFront</span></div>
+    <div class="rs">From the live report below</div>
+    <ul>
+      <li>Googlebot <span class="pill ok">got in</span></li>
+      <li>OAI-SearchBot <span class="pill no">403</span></li>
+      <li>ChatGPT-User <span class="pill no">403</span></li>
+      <li>Perplexity-User <span class="pill no">403</span></li>
+      <li>Claude-SearchBot <span class="pill ok">got in</span></li>
+    </ul>
+    <div class="rv"><i></i>Silent block: robots.txt allows, firewall rejects</div>
+  </div>
 </div></header>
 
 <section class="sec demo-sec" aria-label="Example report"><div class="wrap">
@@ -386,12 +399,12 @@ const homeBody = `<header class="hero"><div class="wrap">
 </div></section>
 
 <section class="sec" id="checks"><div class="wrap">
-  <h2>Three layers, tested for real</h2>
+  <p class="kick">How it works</p><h2>Three layers, tested for real</h2>
   <p class="sub">Most checkers only read robots.txt. We also send live requests, with control groups so a bot-verification rule isn't mistaken for a block.</p>
   <div class="grid3">
-    <div class="card c1"><div class="ic" aria-hidden="true">1</div><h3>robots.txt rules</h3><p>A verdict for each of 20+ AI agents, with search and training crawlers kept apart, so you can opt out of training without leaving AI answers.</p></div>
-    <div class="card c2"><div class="ic" aria-hidden="true">2</div><h3>Firewall &amp; CDN</h3><p>Live requests as OAI-SearchBot, PerplexityBot, Claude-SearchBot and more. We name the CDN that answered: Cloudflare, CloudFront, Akamai and others.</p></div>
-    <div class="card c3"><div class="ic" aria-hidden="true">3</div><h3>Page readability</h3><p>noindex and nosnippet, and whether your content exists without JavaScript, which most AI crawlers don't run.</p></div>
+    <div class="card c1"><div class="ic" aria-hidden="true">01</div><h3>robots.txt rules</h3><p>A verdict for each of 20+ AI agents, with search and training crawlers kept apart, so you can opt out of training without leaving AI answers.</p></div>
+    <div class="card c2"><div class="ic" aria-hidden="true">02</div><h3>Firewall &amp; CDN</h3><p>Live requests as OAI-SearchBot, PerplexityBot, Claude-SearchBot and more. We name the CDN that answered: Cloudflare, CloudFront, Akamai and others.</p></div>
+    <div class="card c3"><div class="ic" aria-hidden="true">03</div><h3>Page readability</h3><p>noindex and nosnippet, and whether your content exists without JavaScript, which most AI crawlers don't run.</p></div>
   </div>
 </div></section>
 
@@ -399,7 +412,7 @@ const homeBody = `<header class="hero"><div class="wrap">
   <div class="stat">
     <div class="card dark" style="padding:30px">
       <p class="k1">Our November 2026 sample of popular sites</p>
-      <div class="big grad">1 in 28</div>
+      <div class="big">1 in 28</div>
       <p class="k2">reachable sites silently block AI search crawlers at the firewall, while robots.txt allows them and Googlebot gets through.</p>
       <p class="k3">13 of 362 reachable sites, from a random 600 of the Tranco top 20k. Requests sent from a data-center IP with crawler user agents and control groups.</p>
     </div>
@@ -412,7 +425,7 @@ const homeBody = `<header class="hero"><div class="wrap">
 </div></section>
 
 <section class="sec"><div class="wrap">
-  <h2>Fix it where the block is</h2>
+  <p class="kick">Fix guides</p><h2>Fix it where the block is</h2>
   <p class="sub">Each report names the layer that rejected the crawler and links the matching guide.</p>
   <div class="bgrid g4">${GUIDES.map((g) => `<a class="bcard g" href="/en/guides/${g.slug}/"><div class="bt">${esc(g.name)}</div><p>${esc(g.desc.split('. ')[0].replace(/\.$/, ''))}.</p></a>`).join('')}</div>
 </div></section>
@@ -424,7 +437,7 @@ const homeBody = `<header class="hero"><div class="wrap">
   </div>
 </div></section>
 
-<section class="sec tight"><div class="wrap"><h2>Questions</h2><div class="faq">${HOME_FAQ.map(([q, a], i) => `<details${i ? '' : ' open'}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div></div></section>
+<section class="sec tight"><div class="wrap"><p class="kick">FAQ</p><h2>Questions</h2><div class="faq">${HOME_FAQ.map(([q, a], i) => `<details${i ? '' : ' open'}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div></div></section>
 
 <script>
 const f=document.getElementById('f'),d=document.getElementById('d');
@@ -441,7 +454,7 @@ const homeLd = { '@context': 'https://schema.org', '@graph': [
 out.push(write('en/index.html', page({
   path: '/en/', title: 'Can AI search reach your site? Free AI crawler access check · VAKSEL',
   desc: 'Test whether ChatGPT, Perplexity and Claude search crawlers can actually reach your site: robots.txt, firewall and CDN blocks, noindex and JavaScript-only pages. Free, no sign-up.',
-  body: homeBody, ld: homeLd, type: 'website'
+  body: homeBody, ld: homeLd, type: 'website', theme: 'dk'
 })));
 
 

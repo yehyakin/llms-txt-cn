@@ -2,19 +2,19 @@
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Can AI search reach your site? Free AI crawler access check · VAKSEL</title>
 <meta name="description" content="Test whether ChatGPT, Perplexity and Claude search crawlers can actually reach your site: robots.txt, firewall and CDN blocks, noindex and JavaScript-only pages. Free, no sign-up.">
-<meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
+<meta name="robots" content="noindex"><meta name="theme-color" content="#0a0a0a">
 <link rel="canonical" href="https://vaksel.com/">
 <link rel="alternate" hreflang="en" href="https://vaksel.com/"><link rel="alternate" hreflang="zh-CN" href="https://cetxt.com/">
 <meta property="og:type" content="website"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="Can AI search reach your site? Free AI crawler access check · VAKSEL"><meta property="og:description" content="Test whether ChatGPT, Perplexity and Claude search crawlers can actually reach your site: robots.txt, firewall and CDN blocks, noindex and JavaScript-only pages. Free, no sign-up."><meta property="og:url" content="https://vaksel.com/"><meta property="og:image" content="https://vaksel.com/og/site.png"><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/en/apple-touch-icon.png"><link rel="manifest" href="/en/site.webmanifest">
 <link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/en/app.css">
+<link rel="stylesheet" href="/en/app.css"><link rel="stylesheet" href="/en/home-dark.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://vaksel.com/#org","name":"VAKSEL","url":"https://vaksel.com/","logo":"https://vaksel.com/brand/icon-512.png"},{"@type":"WebSite","@id":"https://vaksel.com/#site","name":"VAKSEL","url":"https://vaksel.com/","publisher":{"@id":"https://vaksel.com/#org"}},{"@type":"WebApplication","name":"VAKSEL","url":"https://vaksel.com/","applicationCategory":"DeveloperApplication","operatingSystem":"Web","description":"Checks whether AI search crawlers can reach a website through robots.txt, firewalls and CDNs.","publisher":{"@id":"https://vaksel.com/#org"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}]}</script>
-</head><body>
+</head><body class="dk">
 <a class="skip" href="#main">Skip to content</a>
 <nav class="nav" aria-label="Main"><div class="wrap">
-  <a class="logo" href="/en/" aria-label="VAKSEL home"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"></a>
+  <a class="logo" href="/en/" aria-label="VAKSEL home"><img src="/en/brand/vaksel-horizontal-reverse.svg" alt="VAKSEL" width="164" height="31"></a>
   <div class="links" id="navlinks">
     <a class="n" href="/en/guides/">Fix guides</a>
     <a class="n" href="/en/bots/">AI crawlers</a>
@@ -24,15 +24,28 @@
   <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
 </div></nav>
 <script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
-<main id="main" tabindex="-1"><header class="hero"><div class="wrap">
-  <span class="eyebrow"><b></b>Free · no sign-up · results in seconds</span>
-  <h1>Can AI search <span class="grad">actually reach</span> your site?</h1>
+<main id="main" tabindex="-1"><header class="hero"><div class="wrap hgrid"><div>
+  <span class="eyebrow"><b></b>AI search · access check</span>
+  <h1>Can AI search <em>actually reach</em> your site?</h1>
   <p class="lead">Your robots.txt may say yes while your firewall says no. We request your page with the user agents of ChatGPT, Perplexity and Claude, compare against a browser and Googlebot, and show you what each one got back.</p>
   <form class="field" id="f" autocomplete="off" role="search">
     <input id="d" name="d" placeholder="yourdomain.com" inputmode="url" autocapitalize="off" spellcheck="false" aria-label="Your domain">
     <button class="btn" type="submit">Check access</button>
   </form>
-  <p class="hint">Try <button type="button" data-d="toyota.com">toyota.com</button>·<button type="button" data-d="github.com">github.com</button>·<button type="button" data-d="shopify.com">shopify.com</button></p>
+  <p class="hint">Try <button type="button" data-d="toyota.com">toyota.com</button>·<button type="button" data-d="github.com">github.com</button>·<button type="button" data-d="shopify.com">shopify.com</button> · free, no sign-up</p>
+  </div>
+  <div class="rcard" aria-label="Example result for toyota.com">
+    <div class="rh"><b>toyota.com</b><span>served by CloudFront</span></div>
+    <div class="rs">From the live report below</div>
+    <ul>
+      <li>Googlebot <span class="pill ok">got in</span></li>
+      <li>OAI-SearchBot <span class="pill no">403</span></li>
+      <li>ChatGPT-User <span class="pill no">403</span></li>
+      <li>Perplexity-User <span class="pill no">403</span></li>
+      <li>Claude-SearchBot <span class="pill ok">got in</span></li>
+    </ul>
+    <div class="rv"><i></i>Silent block: robots.txt allows, firewall rejects</div>
+  </div>
 </div></header>
 
 <section class="sec demo-sec" aria-label="Example report"><div class="wrap">
@@ -52,12 +65,12 @@ Allow: /</pre><p style="margin-top:10px"><a href="/en/guides/cloudfront/">Step-b
 </div></section>
 
 <section class="sec" id="checks"><div class="wrap">
-  <h2>Three layers, tested for real</h2>
+  <p class="kick">How it works</p><h2>Three layers, tested for real</h2>
   <p class="sub">Most checkers only read robots.txt. We also send live requests, with control groups so a bot-verification rule isn't mistaken for a block.</p>
   <div class="grid3">
-    <div class="card c1"><div class="ic" aria-hidden="true">1</div><h3>robots.txt rules</h3><p>A verdict for each of 20+ AI agents, with search and training crawlers kept apart, so you can opt out of training without leaving AI answers.</p></div>
-    <div class="card c2"><div class="ic" aria-hidden="true">2</div><h3>Firewall &amp; CDN</h3><p>Live requests as OAI-SearchBot, PerplexityBot, Claude-SearchBot and more. We name the CDN that answered: Cloudflare, CloudFront, Akamai and others.</p></div>
-    <div class="card c3"><div class="ic" aria-hidden="true">3</div><h3>Page readability</h3><p>noindex and nosnippet, and whether your content exists without JavaScript, which most AI crawlers don't run.</p></div>
+    <div class="card c1"><div class="ic" aria-hidden="true">01</div><h3>robots.txt rules</h3><p>A verdict for each of 20+ AI agents, with search and training crawlers kept apart, so you can opt out of training without leaving AI answers.</p></div>
+    <div class="card c2"><div class="ic" aria-hidden="true">02</div><h3>Firewall &amp; CDN</h3><p>Live requests as OAI-SearchBot, PerplexityBot, Claude-SearchBot and more. We name the CDN that answered: Cloudflare, CloudFront, Akamai and others.</p></div>
+    <div class="card c3"><div class="ic" aria-hidden="true">03</div><h3>Page readability</h3><p>noindex and nosnippet, and whether your content exists without JavaScript, which most AI crawlers don't run.</p></div>
   </div>
 </div></section>
 
@@ -65,7 +78,7 @@ Allow: /</pre><p style="margin-top:10px"><a href="/en/guides/cloudfront/">Step-b
   <div class="stat">
     <div class="card dark" style="padding:30px">
       <p class="k1">Our November 2026 sample of popular sites</p>
-      <div class="big grad">1 in 28</div>
+      <div class="big">1 in 28</div>
       <p class="k2">reachable sites silently block AI search crawlers at the firewall, while robots.txt allows them and Googlebot gets through.</p>
       <p class="k3">13 of 362 reachable sites, from a random 600 of the Tranco top 20k. Requests sent from a data-center IP with crawler user agents and control groups.</p>
     </div>
@@ -78,7 +91,7 @@ Allow: /</pre><p style="margin-top:10px"><a href="/en/guides/cloudfront/">Step-b
 </div></section>
 
 <section class="sec"><div class="wrap">
-  <h2>Fix it where the block is</h2>
+  <p class="kick">Fix guides</p><h2>Fix it where the block is</h2>
   <p class="sub">Each report names the layer that rejected the crawler and links the matching guide.</p>
   <div class="bgrid g4"><a class="bcard g" href="/en/guides/cloudflare/"><div class="bt">Cloudflare</div><p>Since September 15, 2026 Cloudflare has separate Search, Training and Agent controls.</p></a><a class="bcard g" href="/en/guides/cloudfront/"><div class="bt">CloudFront / AWS WAF</div><p>AWS WAF Bot Control&#39;s CategoryAI rule blocks verified AI crawlers too.</p></a><a class="bcard g" href="/en/guides/wordpress/"><div class="bt">WordPress</div><p>A WordPress setting, an SEO plugin, a security plugin or your host can each block AI crawlers.</p></a><a class="bcard g" href="/en/guides/shopify/"><div class="bt">Shopify</div><p>How to change which AI crawlers can access a Shopify store with robots.txt.liquid, keep product pages in AI search, and what to do when the block isn&#39;t yours.</p></a></div>
 </div></section>
@@ -90,7 +103,7 @@ Allow: /</pre><p style="margin-top:10px"><a href="/en/guides/cloudfront/">Step-b
   </div>
 </div></section>
 
-<section class="sec tight"><div class="wrap"><h2>Questions</h2><div class="faq"><details open><summary>Isn’t robots.txt enough?</summary><p>robots.txt is only a request. Your CDN, firewall or a security plugin decides what actually gets through, and it can reject a crawler that robots.txt welcomes. That is the silent block we test for.</p></details><details><summary>Will allowing AI search let my content be used for training?</summary><p>No. OpenAI and Anthropic use separate crawlers for search and training, and Apple and Google give training its own robots.txt name (Applebot-Extended, Google-Extended). Perplexity says PerplexityBot isn’t used to train models. So you can allow OAI-SearchBot and block GPTBot, for example. Our guides show how on each platform.</p></details><details><summary>How accurate is a test from a data center?</summary><p>Real crawlers come from their own IP ranges, which we can’t use. So every test runs with control groups (a normal browser, Googlebot and an unknown bot) and each result carries a confidence level.</p></details></div></div></section>
+<section class="sec tight"><div class="wrap"><p class="kick">FAQ</p><h2>Questions</h2><div class="faq"><details open><summary>Isn’t robots.txt enough?</summary><p>robots.txt is only a request. Your CDN, firewall or a security plugin decides what actually gets through, and it can reject a crawler that robots.txt welcomes. That is the silent block we test for.</p></details><details><summary>Will allowing AI search let my content be used for training?</summary><p>No. OpenAI and Anthropic use separate crawlers for search and training, and Apple and Google give training its own robots.txt name (Applebot-Extended, Google-Extended). Perplexity says PerplexityBot isn’t used to train models. So you can allow OAI-SearchBot and block GPTBot, for example. Our guides show how on each platform.</p></details><details><summary>How accurate is a test from a data center?</summary><p>Real crawlers come from their own IP ranges, which we can’t use. So every test runs with control groups (a normal browser, Googlebot and an unknown bot) and each result carries a confidence level.</p></details></div></div></section>
 
 <script>
 const f=document.getElementById('f'),d=document.getElementById('d');
@@ -100,7 +113,7 @@ f.addEventListener('submit',e=>{e.preventDefault();go(d.value)});
 document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>go(b.dataset.d));
 </script></main>
 <footer><div class="wrap fgrid">
-  <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
+  <div class="fbrand"><img src="/en/brand/vaksel-horizontal-reverse.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
   <div><h2 class="fh">Product</h2><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/research/">Research</a></div>
   <div><h2 class="fh">Fix guides</h2><a href="/en/guides/cloudflare/">Cloudflare</a><a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/en/guides/wordpress/">WordPress</a><a href="/en/guides/shopify/">Shopify</a></div>
   <div><h2 class="fh">AI crawlers</h2><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a></div>
