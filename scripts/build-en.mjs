@@ -42,6 +42,14 @@ export const HEADX = `<link rel="icon" href="/en/brand/vaksel-favicon.svg" type=
 <link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/app.css">`;
 
+// 深色页的浅色模式（2026-11-04，参考 atypica 菜单里的“外观”切换）：默认深色，用户切换后存在 localStorage 'vk-theme'。
+const THEME_BOOT = `<script>try{if(localStorage.getItem('vk-theme')==='light'){document.documentElement.classList.add('lt');document.querySelector('meta[name=theme-color]').content='#ffffff'}}catch(e){}</script>`;
+function themeNav(html) {
+  return html
+    .replace(/<img src="\/en\/brand\/vaksel-horizontal-primary.svg"([^>]*)>/, '<img class="lg-d" src="/en/brand/vaksel-horizontal-reverse.svg"$1><img class="lg-l" src="/en/brand/vaksel-horizontal-primary.svg"$1>')
+    .replace(/(<a class="n lang"[^>]*>[^<]*<\/a>)/, `$1\n    <button class="n thm" type="button" aria-label="Switch appearance" title="Light / dark"><svg class="i-sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg> <svg class="i-moon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>`)
+    .replace('</script>', `;(()=>{const b=document.querySelector('.thm'),r=document.documentElement,m=document.querySelector('meta[name=theme-color]');const set=l=>{r.classList.toggle('lt',l);b.setAttribute('aria-pressed',l);m&&(m.content=l?'#ffffff':'#0a0a0a');try{localStorage.setItem('vk-theme',l?'light':'dark')}catch(e){}};b.setAttribute('aria-pressed',r.classList.contains('lt'));b.onclick=()=>set(!r.classList.contains('lt'))})()</script>`);
+}
 function page({ path, title, desc, body, active, ld, type = 'article', theme = '' }) {
   return `<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -51,11 +59,11 @@ function page({ path, title, desc, body, active, ld, type = 'article', theme = '
 <link rel="canonical" href="${canon(path)}">
 <link rel="alternate" hreflang="en" href="${canon(path)}"><link rel="alternate" hreflang="zh-CN" href="https://cetxt.com${path.replace(/^\/en/, '') || '/'}">
 <meta property="og:type" content="${type}"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${canon(path)}"><meta property="og:image" content="${SITE}/og/site.png"><meta name="twitter:card" content="summary_large_image">
-${HEADX}${theme ? '<link rel="stylesheet" href="/en/home-dark.css">' : ''}${ld ? `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>` : ''}
+${HEADX}${theme ? '<link rel="stylesheet" href="/en/home-dark.css">' + THEME_BOOT : ''}${ld ? `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>` : ''}
 </head><body${theme ? ` class="${theme}"` : ''}>
-${theme ? NAV(active, path).replace('vaksel-horizontal-primary.svg', 'vaksel-horizontal-reverse.svg') : NAV(active, path)}
+${theme ? themeNav(NAV(active, path)) : NAV(active, path)}
 ${body.includes('<main') ? body.replace('<main ', '<main id="main" tabindex="-1" ') : '<main id="main" tabindex="-1">' + body + '</main>'}
-${theme ? FOOT.replace('vaksel-horizontal-primary.svg', 'vaksel-horizontal-reverse.svg') : FOOT}
+${theme ? FOOT.replace(/<img src="\/en\/brand\/vaksel-horizontal-primary.svg"([^>]*)>/, '<img class="lg-d" src="/en/brand/vaksel-horizontal-reverse.svg"$1><img class="lg-l" src="/en/brand/vaksel-horizontal-primary.svg"$1>') : FOOT}
 </body></html>
 `;
 }
