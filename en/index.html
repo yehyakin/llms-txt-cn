@@ -24,7 +24,7 @@
   <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
 </div></nav>
 <script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
-<main id="main" tabindex="-1"><header class="hero"><div class="wrap hgrid"><div>
+<main id="main" tabindex="-1"><header class="hero"><div class="hbg" aria-hidden="true"><img class="on" src="/en/img/hero-1.webp" alt="" width="1376" height="768" fetchpriority="high"><img src="/en/img/hero-2.webp" alt="" width="1376" height="768" loading="lazy"><img src="/en/img/hero-3.webp" alt="" width="1376" height="768" loading="lazy"></div><div class="wrap hgrid"><div>
   <span class="eyebrow"><b></b>AI search · access check</span>
   <h1>Can AI search <em>actually reach</em> your site?</h1>
   <p class="lead">Your robots.txt may say yes while your firewall says no. We request your page with the user agents of ChatGPT, Perplexity and Claude, compare against a browser and Googlebot, and show you what each one got back.</p>
@@ -34,9 +34,9 @@
   </form>
   <p class="hint">Try <button type="button" data-d="toyota.com">toyota.com</button>·<button type="button" data-d="github.com">github.com</button>·<button type="button" data-d="shopify.com">shopify.com</button> · free, no sign-up</p>
   </div>
-  <div class="rcard" aria-label="Example result for toyota.com">
+  <div class="rcard" id="rc" aria-live="off">
     <div class="rh"><b>toyota.com</b><span>served by CloudFront</span></div>
-    <div class="rs">From the live report below</div>
+    <div class="rs">Live check, November 3, 2026</div>
     <ul>
       <li>Googlebot <span class="pill ok">got in</span></li>
       <li>OAI-SearchBot <span class="pill no">403</span></li>
@@ -45,6 +45,7 @@
       <li>Claude-SearchBot <span class="pill ok">got in</span></li>
     </ul>
     <div class="rv"><i></i>Silent block: robots.txt allows, firewall rejects</div>
+    <div class="rdots"><b class="on"></b><b></b><b></b></div>
   </div>
 </div></header>
 
@@ -111,6 +112,13 @@ function clean(v){v=(v||'').trim().toLowerCase().replace(/^https?:\/\//,'').spli
 function go(v){const c=clean(v);if(!c){f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake');d.focus();return}location.href='/en/report/'+c}
 f.addEventListener('submit',e=>{e.preventDefault();go(d.value)});
 document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>go(b.dataset.d));
+(()=>{const S=[
+ ['toyota.com','served by CloudFront',[['Googlebot',1],['OAI-SearchBot',0],['ChatGPT-User',0],['Perplexity-User',0],['Claude-SearchBot',1]],'Silent block: robots.txt allows, firewall rejects'],
+ ['smithsonianmag.com','served by Cloudflare',[['Googlebot',1],['OAI-SearchBot',0],['PerplexityBot',0],['Claude-SearchBot',0],['ChatGPT-User',0]],'All 6 AI search and user crawlers rejected'],
+ ['torontosun.com','server: istio-envoy',[['Googlebot',1],['OAI-SearchBot',0],['PerplexityBot',0],['Claude-SearchBot',1],['Claude-User',1]],'Silent block: OpenAI and Perplexity rejected']];
+const imgs=document.querySelectorAll('.hbg img'),rc=document.getElementById('rc'),dots=rc.querySelectorAll('.rdots b');let k=0;
+if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+setInterval(()=>{k=(k+1)%3;const [d,c,rows,v]=S[k];rc.classList.add('sw');setTimeout(()=>{rc.querySelector('.rh').innerHTML='<b>'+d+'</b><span>'+c+'</span>';rc.querySelector('ul').innerHTML=rows.map(([n,o])=>'<li>'+n+' <span class="pill '+(o?'ok">got in':'no">403')+'</span></li>').join('');rc.querySelector('.rv').innerHTML='<i></i>'+v;dots.forEach((x,i)=>x.classList.toggle('on',i===k));rc.classList.remove('sw')},350);imgs.forEach((x,i)=>x.classList.toggle('on',i===k))},7000)})();
 </script></main>
 <footer><div class="wrap fgrid">
   <div class="fbrand"><img src="/en/brand/vaksel-horizontal-reverse.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
