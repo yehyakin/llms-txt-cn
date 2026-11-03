@@ -369,118 +369,140 @@ const HOME_FAQ = [
 ];
 const TB = FIXT.access.bots.filter((b) => !b.region);
 const labOk = LAB.results.filter((r) => r.ok).length;
-const STEP_ROWS = TB.map((b) => `<li><span class="mono">${esc(b.token)}</span><span class="pill ${b.firewall === 'open' ? 'ok">' + b.status : 'no">' + b.status}</span></li>`).join('');
-const homeBody = `<header class="hero"><div class="hbg" aria-hidden="true"><video class="on" muted playsinline preload="auto" poster="/en/img/hero-1.webp" data-src="/en/img/hero-1.mp4"></video><video muted playsinline preload="none" poster="/en/img/hero-2.webp" data-src="/en/img/hero-2.mp4"></video><video muted playsinline preload="none" poster="/en/img/hero-3.webp" data-src="/en/img/hero-3.mp4"></video><video muted playsinline preload="none" poster="/en/img/hero-4.webp" data-src="/en/img/hero-4.mp4"></video></div><div class="wrap hgrid"><div>
-  <span class="eyebrow"><b></b>AI search · access check</span>
+const MARK = (n, cls = '') => readFileSync(join(root, `data/marks/${n}.svg`), 'utf8').replace('<svg ', `<svg class="mk ${cls}" aria-hidden="true" fill="currentColor" `).replace(/<title>.*?<\/title>/, '');
+const VEND = { OpenAI: 'openai', Anthropic: 'anthropic', Perplexity: 'perplexity' };
+const ROLE = { search: 'Search', user: 'User', training: 'Training' };
+const DOES = {
+  'OAI-SearchBot': 'Indexes pages for ChatGPT search results.',
+  'ChatGPT-User': 'Fetches a page when a ChatGPT user asks about it.',
+  'PerplexityBot': 'Indexes pages for Perplexity answers.',
+  'Perplexity-User': 'Fetches a page during a Perplexity question.',
+  'Claude-SearchBot': 'Indexes pages for Claude’s web search.',
+  'Claude-User': 'Fetches a page when a Claude user asks.',
+  'GPTBot': 'Collects pages to train OpenAI models.',
+  'ClaudeBot': 'Collects pages to train Anthropic models.'
+};
+const RB = { allow: ['allow', 'ok'], partial: ['partial', 'mid'], blocked: ['disallow', 'bad'] };
+const agentCard = (b, live) => {
+  const r = RB[b.robots] || ['—', 'mid'];
+  const st = live ? `<span class="st ${b.effective === 'open' ? 'ok' : 'no'}">${b.status}</span>` : '<span class="st q">queued</span>';
+  return `<div class="ag${live && b.silent ? ' sil' : ''}"><div class="agh">${MARK(VEND[b.vendor])}<div><b>${esc(b.token)}</b><span>${esc(b.vendor)}</span></div><em>${ROLE[b.category]}</em></div><p>${esc(DOES[b.token] || '')}</p><div class="agf"><span class="rb ${r[1]}">robots: ${r[0]}</span>${st}</div></div>`;
+};
+const AGENTS_Q = TB.map((b) => agentCard(b, false)).join('');
+const AGENTS_L = TB.map((b) => agentCard(b, true)).join('');
+const silentN = TB.filter((b) => b.silent).length;
+const LOG = (n) => {
+  const L = [['exec', 'fetch robots.txt', '200 · 1 redirect'], ['exec', 'probe 8 AI agents', '7 × 403 · 1 × 200'], ['exec', 'control: browser, Googlebot, unknown bot', '3 × 200'], ['detect', 'CDN', 'CloudFront'], ['match', 'fix guide', 'CloudFront / AWS WAF']];
+  return `<div class="log"><p class="lh">Process</p>${L.map(([k, a, r], i) => `<div class="ll${i < n ? ' done' : i === n ? ' run' : ''}"><i></i><code>${k}</code><span>${a}</span>${i < n ? `<small>${r}</small>` : ''}</div>`).join('')}</div>`;
+};
+const SAMPLE = [
+  ['toyota.com', 'Silent block', 'CloudFront', 'CloudFront rejects OAI-SearchBot and three user-triggered crawlers that robots.txt allows. A browser and Googlebot get through.'],
+  ['smithsonianmag.com', 'All blocked', 'Cloudflare', 'Cloudflare turns away all 6 AI search and user-triggered crawlers we sent.'],
+  ['torontosun.com', 'Silent block', 'istio-envoy', 'OpenAI and Perplexity crawlers get a 403 while robots.txt lets them in. Claude’s get through.']
+];
+const homeBody = `<header class="hero"><div class="hbg" aria-hidden="true"><video class="on" muted playsinline preload="auto" poster="/en/img/hero-1.webp" data-src="/en/img/hero-1.mp4"></video><video muted playsinline preload="none" poster="/en/img/hero-2.webp" data-src="/en/img/hero-2.mp4"></video><video muted playsinline preload="none" poster="/en/img/hero-3.webp" data-src="/en/img/hero-3.mp4"></video><video muted playsinline preload="none" poster="/en/img/hero-4.webp" data-src="/en/img/hero-4.mp4"></video></div>
+<div class="reti" id="rt" style="left:63%;top:29%" aria-hidden="true"><i></i></div>
+<div class="wrap hin"><div class="hcopy">
   <h1>See what AI search actually gets from your site.</h1>
-  <p class="lead">Your robots.txt may say yes while your firewall says no. VAKSEL requests your page as ChatGPT, Perplexity and Claude, checks the result against a browser and Googlebot, and shows what each one got back.</p>
-  <form class="field" id="f" autocomplete="off" role="search">
+  <p class="lead">Your robots.txt may say yes while your firewall says no. VAKSEL requests your page as ChatGPT, Perplexity and Claude, checks it against a browser and Googlebot, and shows what each one got back.</p>
+  <form class="field hf" id="f" autocomplete="off" role="search">
     <input id="d" name="d" placeholder="yourdomain.com" inputmode="url" autocapitalize="off" spellcheck="false" aria-label="Your domain">
-    <button class="btn go" type="submit" aria-label="Check access">›</button>
+    <button class="go" type="submit" aria-label="Check access"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </form>
-  <p class="hint">Try <button type="button" data-d="toyota.com">toyota.com</button>·<button type="button" data-d="github.com">github.com</button>·<button type="button" data-d="shopify.com">shopify.com</button> · free, no sign-up</p>
-  </div>
-  <div class="rcard" id="rc" aria-live="off">
-    <div class="rh"><b>toyota.com</b><span>served by CloudFront</span></div>
-    <div class="rs">Live check, November 3, 2026</div>
-    <ul>
-      <li>Googlebot <span class="pill ok">got in</span></li>
-      <li>OAI-SearchBot <span class="pill no">403</span></li>
-      <li>ChatGPT-User <span class="pill no">403</span></li>
-      <li>Perplexity-User <span class="pill no">403</span></li>
-      <li>Claude-SearchBot <span class="pill ok">got in</span></li>
-    </ul>
-    <div class="rv"><i></i>Silent block: robots.txt allows, firewall rejects</div>
-    <div class="rdots"><b class="on"></b><b></b><b></b><b></b></div>
-  </div>
-</div></header>
+  <p class="hint">Try <button type="button" data-d="toyota.com">toyota.com</button><button type="button" data-d="github.com">github.com</button><button type="button" data-d="shopify.com">shopify.com</button><span>Free, no sign-up</span></p>
+</div></div>
+<div class="icard" id="rc" style="left:57%;top:37%" aria-live="off">
+  <p class="ik">toyota.com · CloudFront</p>
+  <h3>Silent block</h3>
+  <p class="ix">robots.txt lets OAI-SearchBot in. The firewall answers 403.</p>
+  <span class="ichip"><i></i>Googlebot · 200</span>
+</div>
+<div class="hdots" id="hd" aria-hidden="true"><b class="on"></b><b></b><b></b><b></b></div>
+</header>
 
 <section class="strip" aria-label="Crawlers we test"><div class="wrap">
   <p class="kick c">We test the crawlers behind</p>
-  <div class="marks"><span>OpenAI</span><span>Anthropic</span><span>Perplexity</span><span>Google</span><span>Microsoft</span><span>Apple</span><span>Meta</span></div>
+  <div class="marks">${[['openai', 'OpenAI'], ['anthropic', 'Anthropic'], ['perplexity', 'Perplexity'], ['google', 'Google'], ['microsoft', 'Microsoft'], ['apple', 'Apple'], ['meta', 'Meta']].map(([k, n]) => `<span>${MARK(k)}${n}</span>`).join('')}</div>
 </div></section>
 
-<section class="prod" id="checks"><div class="wrap pgrid">
+<section class="prod gridbg" id="checks"><div class="wrap pgrid">
   <div class="pl">
     <div class="phead"><p class="kick">Product</p><h2>AI crawler access, tested for real.</h2><p class="sub">Most checkers read robots.txt and stop. VAKSEL sends live requests through your CDN and firewall, with control groups, and tells you which layer said no.</p></div>
-    <div class="step" data-s="0"><div class="num">01</div><h3>Enter your domain</h3><p>One field, no sign-up. We read robots.txt for 20+ AI agents and keep search, user-triggered and training crawlers apart.</p><p class="tags">Domain · Agents · robots.txt</p>
-      <div class="pm m"></div></div>
-    <div class="step" data-s="1"><div class="num">02</div><h3>We request as each crawler</h3><p>Live requests as OAI-SearchBot, PerplexityBot, Claude-SearchBot and the rest, next to a normal browser and Googlebot, so a bot check isn't mistaken for a block.</p><p class="tags">Firewall · CDN · Control groups</p>
-      <div class="pm m"></div></div>
-    <div class="step" data-s="2"><div class="num">03</div><h3>Fix it, then keep watching</h3><p>Each finding names the layer that rejected the crawler and links the guide for your platform. Turn on monitoring and we email you when a rule change cuts one off.</p><p class="tags">Fix guide · Re-checks · Alerts</p>
-      <div class="pm m"></div></div>
+    <div class="step cur" data-s="0"><div class="num">01</div><h3>Enter your domain</h3><p>One field, no sign-up. We read robots.txt for 20+ AI agents and keep search, user-triggered and training crawlers apart.</p><p class="tags"><span>Domain</span><span>Agents</span><span>robots.txt</span></p><div class="pm"></div></div>
+    <div class="step" data-s="1"><div class="num">02</div><h3>We request as each crawler</h3><p>Live requests as OAI-SearchBot, PerplexityBot, Claude-SearchBot and the rest, next to a normal browser and Googlebot, so a bot check isn’t mistaken for a block.</p><p class="tags"><span>Firewall</span><span>CDN</span><span>Control groups</span></p><div class="pm"></div></div>
+    <div class="step" data-s="2"><div class="num">03</div><h3>Fix it, then keep watching</h3><p>Each finding names the layer that rejected the crawler and links the guide for your platform. Turn on monitoring and we email you when a rule change cuts one off.</p><p class="tags"><span>Fix guide</span><span>Re-checks</span><span>Alerts</span></p><div class="pm"></div></div>
   </div>
-  <div class="pr"><div class="app">
-    <div class="abar"><i></i><i></i><i></i></div>
-    <div class="atop"><img src="/en/brand/vaksel-horizontal-reverse.svg" alt="" width="96" height="18"><span>vaksel.com</span></div>
-    <div class="pane on" data-p="0">
-      <p class="ptitle">⌘ Check a site</p>
-      <div class="pin"><span>toyota.com</span><b>Check ›</b></div>
-      <p class="plab">Layers tested</p>
-      <div class="chips"><span class="on">robots.txt rules</span><span class="on">Firewall &amp; CDN</span><span class="on">Page readability</span></div>
-      <p class="plab">Agents included</p>
-      <div class="chips sm"><span>OAI-SearchBot</span><span>ChatGPT-User</span><span>PerplexityBot</span><span>Perplexity-User</span><span>Claude-SearchBot</span><span>Claude-User</span><span>GPTBot</span><span>ClaudeBot</span><span class="off">Browser</span><span class="off">Googlebot</span></div>
-    </div>
-    <div class="pane" data-p="1">
-      <p class="ptitle">toyota.com · served by CloudFront</p>
-      <div class="ctrl"><span>Browser <b class="pill ok">200</b></span><span>Googlebot <b class="pill ok">200</b></span><span>Unknown bot <b class="pill ok">200</b></span></div>
-      <ul class="rows">${STEP_ROWS}</ul>
-      <div class="rv"><i></i>Silent block: robots.txt allows, firewall rejects</div>
-    </div>
-    <div class="pane" data-p="2">
-      <p class="ptitle">Fix · CloudFront / AWS WAF</p>
-      <div class="code">Rule: Bot Control → Category AI<br>OAI-SearchBot&nbsp;&nbsp;Block → <b>Allow</b><br>PerplexityBot&nbsp;&nbsp;Block → <b>Allow</b><br>GPTBot&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;keep Block</div>
-      <div class="mail"><p class="plab">Sample alert email</p><b>OAI-SearchBot can no longer reach example.com</b><span>Re-checked twice, 15 minutes apart: 200 → 403 at the firewall. robots.txt unchanged.</span></div>
-    </div>
+  <div class="pr"><div class="app tk">
+    <div class="abar"><i></i><i></i><i></i><span class="aurl">vaksel.com/report/toyota.com</span></div>
+    <div class="pane on" data-p="0"><div class="pbody">${LOG(0)}<div class="pmain">
+      <div class="phd"><span>New check</span><small>8 agents · 3 controls</small></div>
+      <div class="pin"><span class="mono">https://</span><b>toyota.com</b><em>Check access</em></div>
+      <div class="ags">${AGENTS_Q}</div></div></div></div>
+    <div class="pane" data-p="1"><div class="pbody">${LOG(3)}<div class="pmain">
+      <div class="phd"><span>toyota.com · served by CloudFront</span><small>${silentN} silent blocks</small></div>
+      <div class="ctrl"><span><i></i>Browser<b>200</b></span><span><i></i>Googlebot<b>200</b></span><span><i></i>Unknown bot<b>200</b></span></div>
+      <div class="ags">${AGENTS_L}</div></div></div></div>
+    <div class="pane" data-p="2"><div class="pbody">${LOG(5)}<div class="pmain">
+      <div class="phd"><span>Fix · CloudFront / AWS WAF</span><small>Guide</small></div>
+      <div class="fix tk"><p class="fk">AWS WAF · Bot Control rule group</p><ol><li><span>Category</span><code>AI</code></li><li><span>OAI-SearchBot</span><code>Block</code><b>→ Allow</b></li><li><span>ChatGPT-User</span><code>Block</code><b>→ Allow</b></li><li><span>PerplexityBot</span><code>Block</code><b>→ Allow</b></li><li><span>GPTBot</span><code>Block</code><em>keep</em></li></ol></div>
+      <div class="mail tk"><div class="mh"><img src="/en/brand/vaksel-favicon.svg" alt="" width="22" height="22"><div><b>VAKSEL alerts</b><span>Sample alert</span></div></div><p class="ms">OAI-SearchBot can no longer reach example.com</p><p class="mb">Re-checked twice, 15 minutes apart: <code>200 → 403</code> at the firewall. robots.txt unchanged.</p></div>
+    </div></div></div>
   </div></div>
 </div></section>
 
 <section class="sec eval" id="data"><div class="wrap">
   <p class="kick">Evaluation</p><h2>Checked against sites with known answers.</h2>
   <div class="ecards">
-    <div class="ec"><div class="ev"><div class="sq">${LAB.results.map((r) => `<i class="${r.ok ? 'y' : 'n'}"></i>`).join('')}</div><span>${labOk} / ${LAB.results.length} match</span></div>
-      <h3>A lab of ${LAB.results.length} test sites</h3><p>We run sites we configured ourselves (open, robots-blocked, firewall-blocked, noindex, JavaScript-only) and check that every verdict matches the setup.</p><a href="/en/research/lab/">See the lab →</a></div>
-    <div class="ec"><div class="ev"><div class="bars"><p>Browser<i></i><em>200</em></p><p>Googlebot<i></i><em>200</em></p><p>Unknown bot<i></i><em>200</em></p><p class="r">OAI-SearchBot<i></i><em>403</em></p></div></div>
-      <h3>Control groups on every check</h3><p>A data-center IP isn't a crawler's real IP. So each result is compared with a browser, Googlebot and an unknown bot, and carries a confidence level.</p><a href="/en/research/grading/">How grading works →</a></div>
-    <div class="ec"><div class="ev"><div class="big">1 in 28</div><span>reachable sites, Nov 2026 sample</span></div>
-      <h3>Measured on real sites</h3><p>13 of 362 reachable sites from a random 600 of the Tranco top 20k silently block AI search crawlers while robots.txt allows them and Googlebot gets through.</p><a href="/en/research/">Read the study →</a></div>
+    <div class="ec"><div class="ev tk"><p class="evk">Lab · ${LAB.results.length} sites</p><div class="sq">${LAB.results.map((r) => `<i class="${r.ok ? 'y' : 'n'}" title="${esc(r.slug)}"></i>`).join('')}</div><p class="evn"><b>${labOk}/${LAB.results.length}</b> verdicts match the setup</p></div>
+      <h3>A lab of ${LAB.results.length} test sites</h3><p>Sites we configured ourselves (open, robots-blocked, firewall-blocked, noindex, JavaScript-only), re-run whenever the rules change.</p><a href="/en/research/lab/">See the lab →</a></div>
+    <div class="ec"><div class="ev tk"><p class="evk">Controls · toyota.com</p><div class="bars"><p>Browser<i></i><em>200</em></p><p>Googlebot<i></i><em>200</em></p><p>Unknown bot<i></i><em>200</em></p><p class="r">OAI-SearchBot<i></i><em>403</em></p></div></div>
+      <h3>Control groups on every check</h3><p>A data-center IP isn’t a crawler’s real IP. So each result is compared with a browser, Googlebot and an unknown bot, and carries a confidence level.</p><a href="/en/research/grading/">How grading works →</a></div>
+    <div class="ec"><div class="ev tk"><p class="evk">Sample · Nov 2026</p><div class="big">1<span>in</span>28</div><p class="evn">13 of 362 reachable sites</p></div>
+      <h3>Measured on real sites</h3><p>A random 600 of the Tranco top 20k. 13 of 362 reachable sites silently block AI search crawlers while robots.txt allows them and Googlebot gets through.</p><a href="/en/research/">Read the study →</a></div>
   </div>
 </div></section>
 
 <section class="sec rep" aria-label="Example report"><div class="wrap rgrid">
   <div>
-    <p class="kick">From check to report</p><h2>A clear verdict. Evidence for every line.</h2>
-    <p class="sub">Every check ends in a report you can share with your CDN team or client: what each crawler got, which layer decided it, and how to fix it.</p>
+    <p class="kick">From check to report</p><h2>A clear verdict.<br>Evidence for every line.</h2>
+    <p class="sub">Every check ends in a report you can hand to your CDN team or a client: what each crawler got, which layer decided it, and how to fix it.</p>
     <ul class="ticks"><li>Verdict for each AI agent</li><li>The layer that blocked it</li><li>Status codes from live requests</li><li>A fix guide for your platform</li></ul>
-    <a class="more" href="/en/report/toyota.com">Open a real report →</a>
+    <a class="more" href="/en/report/toyota.com">Open a real report <span>→</span></a>
   </div>
-  <div class="tilt"><div class="win"><div class="bar"><i></i><i></i><i></i><span>vaksel.com/report/toyota.com</span></div>
-    <div class="wbody" inert><div class="rp-head"><div><div class="crumb">AI crawler access report</div><h2 class="dh">toyota.com</h2><div class="meta">${demo.meta}</div></div></div>${demo.html}</div></div></div>
+  <div class="tilt"><div class="paper">
+    <div class="pp-top"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="104" height="20"><span>Access report <b>11 / 2026</b></span></div>
+    <div class="pp-hd"><h3>AI crawler<br>access report</h3><ul class="pp-ch">${TB.map((b) => `<li class="${b.effective === 'open' ? 'o' : 'x'}"><i></i>${esc(b.token)}<b>${b.status}</b></li>`).join('')}</ul></div>
+    <p class="pp-site">toyota.com</p>
+    <p class="pp-by">Live check · November 3, 2026 · served by CloudFront</p>
+    <div class="pp-v"><span class="pp-g">C</span><div><b>Silent block</b><span>${silentN} AI crawlers allowed by robots.txt get a 403 at the firewall.</span></div></div>
+    <p class="pp-c">Contents</p>
+    <div class="pp-toc"><div><b>01</b>Verdict</div><div><b>02</b>Crawler results</div><div><b>03</b>Blocking layer</div><div><b>04</b>Fix guide</div></div>
+  </div></div>
 </div></section>
 
-<section class="sec found"><div class="wrap fsplit">
-  <div><p class="lab">Found in our sample</p><p class="lsub">Sites where robots.txt and the firewall disagree. Each link runs a fresh check.</p>
-    <ul class="ex">${EXAMPLES.map(([d, t, c, w]) => `<li><a href="/en/report/${d}"><b>${d}</b><span class="tag ${c === 'v-bad' ? 't-bad' : 't-warn'}">${t}</span></a><p>${w}</p></li>`).join('')}</ul></div>
-  <div><p class="lab">Fix guides</p><p class="lsub">Fix it where the block is.</p>
-    <div class="glist">${GUIDES.map((g) => `<a href="/en/guides/${g.slug}/"><b>${esc(g.name)}</b><span>${esc(g.desc.split('. ')[0].replace(/\.$/, ''))}.</span></a>`).join('')}</div></div>
+<section class="sec found gridbg"><div class="wrap">
+  <p class="lab">Found in our sample</p><p class="lsub">Sites where robots.txt and the firewall disagree. Each card runs a fresh check.</p>
+  <div class="qcards">${SAMPLE.map(([d, t, cdn, w], i) => `<a class="qc tk${i === 1 ? ' g2' : ''}" href="/en/report/${d}"><div class="qh"><b>${d}</b><span>${t}</span></div><p>${w}</p><div class="qf"><span>${cdn}</span><span>Nov 1, 2026</span></div></a>`).join('')}</div>
+  <p class="lab" style="margin-top:56px">Fix guides</p><p class="lsub">Fix it where the block is.</p>
+  <div class="qcards g4">${GUIDES.map((g, i) => `<a class="qc tk${i === 2 ? ' g2' : ''}" href="/en/guides/${g.slug}/"><div class="qh"><b>${esc(g.name)}</b><span>Guide</span></div><p>${esc(g.desc.split('. ')[0].replace(/\.$/, ''))}.</p><div class="qf"><span>Read the guide →</span></div></a>`).join('')}</div>
 </div></section>
 
-<section class="sec tight"><div class="wrap"><p class="kick">FAQ</p><h2>Questions</h2><div class="faq">${HOME_FAQ.map(([q, a], i) => `<details${i ? '' : ' open'}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div></div></section>
+<section class="sec tight faqs"><div class="wrap"><p class="kick">FAQ</p><h2>Questions</h2><div class="faq">${HOME_FAQ.map(([q, a], i) => `<details${i ? '' : ' open'}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div></div></section>
 
 <section class="final" id="monitor"><div class="wrap">
   <h2>See what AI crawlers really get.</h2>
   <p>Check in seconds. Monitoring emails you when a CDN, plugin or robots.txt change cuts one off.</p>
   <div class="fbox">
-    <span class="fl a"><i></i>CloudFront<em>OAI-SearchBot · 403</em></span>
-    <span class="fl b"><i></i>robots.txt<em>allows all AI search</em></span>
-    <span class="fl c"><i></i>Googlebot<em>control · 200</em></span>
-    <span class="fl d"><i></i>Monitoring<em>re-checked daily</em></span>
-    <form class="field" id="f2" autocomplete="off" role="search"><input id="d2" placeholder="Is ChatGPT blocked on my site?" aria-label="Your domain" inputmode="url" autocapitalize="off" spellcheck="false"><button class="btn" type="submit">Check access ›</button></form>
+    <span class="fl a">${MARK('openai')}<b>OAI-SearchBot</b><em>403 · CloudFront</em></span>
+    <span class="fl b"><i class="dot"></i><b>robots.txt</b><em>allows AI search</em></span>
+    <span class="fl c">${MARK('google')}<b>Googlebot</b><em>control · 200</em></span>
+    <span class="fl d"><i class="dot"></i><b>Monitoring</b><em>re-checked daily</em></span>
+    <form class="field ff" id="f2" autocomplete="off" role="search"><input id="d2" placeholder="Is ChatGPT blocked on my site?" aria-label="Your domain" inputmode="url" autocapitalize="off" spellcheck="false"><button class="wb" type="submit">Check access <span>›</span></button></form>
   </div>
   <p class="hint c"><a href="/en/pricing/">See monitoring plans →</a></p>
 </div></section>
 
-<form class="dock" id="dock" autocomplete="off" role="search" aria-hidden="true"><input id="d3" placeholder="yourdomain.com" aria-label="Your domain" inputmode="url" autocapitalize="off" spellcheck="false" tabindex="-1"><button class="btn" type="submit" tabindex="-1">Check access ›</button></form>
+<form class="dock" id="dock" autocomplete="off" role="search" aria-hidden="true"><input id="d3" placeholder="yourdomain.com" aria-label="Your domain" inputmode="url" autocapitalize="off" spellcheck="false" tabindex="-1"><button class="wb" type="submit" tabindex="-1">Check access <span>›</span></button></form>
 
 <script>
 const f=document.getElementById('f'),d=document.getElementById('d');
@@ -488,24 +510,27 @@ function clean(v){v=(v||'').trim().toLowerCase().replace(/^https?:\\/\\//,'').sp
 function go(v,fm,inp){const c=clean(v);fm=fm||f;inp=inp||d;if(!c){fm.classList.remove('shake');void fm.offsetWidth;fm.classList.add('shake');inp.focus();return}location.href='/en/report/'+c}
 [['f','d'],['f2','d2'],['dock','d3']].forEach(([a,b])=>{const fm=document.getElementById(a),i=document.getElementById(b);fm.addEventListener('submit',e=>{e.preventDefault();go(i.value,fm,i)})});
 document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>go(b.dataset.d));
-(()=>{const panes=[...document.querySelectorAll('.pane')];
-document.querySelectorAll('.step').forEach((s,i)=>{const m=s.querySelector('.pm');m.appendChild(panes[i].cloneNode(true)).classList.add('on')});
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const k=+e.target.dataset.s;panes.forEach((p,i)=>p.classList.toggle('on',i===k));document.querySelectorAll('.step').forEach((s,i)=>s.classList.toggle('cur',i===k))}}),{rootMargin:'-45% 0px -45% 0px'});
-document.querySelectorAll('.step').forEach(s=>io.observe(s));
+(()=>{document.querySelectorAll('.gridbg,.final,.eval').forEach((s,j)=>{for(let i=0;i<7;i++){const p=document.createElement('i');p.className='px';p.style.left=((i*37+j*23)%97)+'%';p.style.top=((i*53+j*31)%89+5)+'%';p.style.animationDelay=(i*.9+j*.4)+'s';s.appendChild(p)}});
+const panes=[...document.querySelectorAll('.app .pane')],steps=[...document.querySelectorAll('.step')];
+steps.forEach((s,i)=>{const c=panes[i].cloneNode(true);c.classList.add('on');s.querySelector('.pm').appendChild(c)});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const k=+e.target.dataset.s;panes.forEach((p,i)=>p.classList.toggle('on',i===k));steps.forEach((s,i)=>s.classList.toggle('cur',i===k))}}),{rootMargin:'-45% 0px -45% 0px'});
+steps.forEach(s=>io.observe(s));
 const dock=document.getElementById('dock'),hero=document.querySelector('.hero'),fin=document.querySelector('.final');let hv=true,fv=false;
 const sync=()=>{const on=!hv&&!fv;dock.classList.toggle('show',on);dock.setAttribute('aria-hidden',on?'false':'true');dock.querySelectorAll('input,button').forEach(x=>x.tabIndex=on?0:-1)};
 new IntersectionObserver(([e])=>{hv=e.isIntersecting;sync()}).observe(hero);
 new IntersectionObserver(([e])=>{fv=e.isIntersecting;sync()}).observe(fin)})();
 (()=>{const S=[
- ['toyota.com','served by CloudFront',[['Googlebot',1],['OAI-SearchBot',0],['ChatGPT-User',0],['Perplexity-User',0],['Claude-SearchBot',1]],'Silent block: robots.txt allows, firewall rejects',0],
- ['smithsonianmag.com','served by Cloudflare',[['Googlebot',1],['OAI-SearchBot',0],['PerplexityBot',0],['Claude-SearchBot',0],['ChatGPT-User',0]],'All 6 AI search and user crawlers rejected',0],
- ['torontosun.com','server: istio-envoy',[['Googlebot',1],['OAI-SearchBot',0],['PerplexityBot',0],['Claude-SearchBot',1],['Claude-User',1]],'Silent block: OpenAI and Perplexity rejected',0],
- ['shopify.com','served by Cloudflare',[['Googlebot',1],['OAI-SearchBot',1],['PerplexityBot',1],['Claude-SearchBot',1],['ChatGPT-User',1]],'Open: every AI crawler gets in',1]];
-const V=[...document.querySelectorAll('.hbg video')],rc=document.getElementById('rc'),dots=rc.querySelectorAll('.rdots b');let k=0;
+ ['toyota.com · CloudFront','Silent block','robots.txt lets OAI-SearchBot in. The firewall answers 403.','Googlebot · 200',0,[63,29],[57,37]],
+ ['smithsonianmag.com · Cloudflare','All blocked','Cloudflare turns away all 6 AI search and user-triggered crawlers we sent.','6 of 6 rejected',0,[84,40],[66,48]],
+ ['torontosun.com · istio-envoy','Silent block','OpenAI and Perplexity crawlers get a 403. Claude’s get through.','Claude-SearchBot · 200',0,[64,46],[58,54]],
+ ['shopify.com · Cloudflare','Open','Every AI crawler we sent got the page, same as Googlebot.','8 of 8 got in',1,[76,64],[60,34]]];
+const V=[...document.querySelectorAll('.hbg video')],rc=document.getElementById('rc'),rt=document.getElementById('rt'),dots=document.querySelectorAll('#hd b');let k=0;
+const wide=matchMedia('(min-width:861px)').matches;
+const place=()=>{const s=S[k];if(wide){rt.style.left=s[5][0]+'%';rt.style.top=s[5][1]+'%';rc.style.left=s[6][0]+'%';rc.style.top=s[6][1]+'%'}};place();
 if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-const play=matchMedia('(min-width:861px)').matches&&!(navigator.connection&&navigator.connection.saveData);
+const play=wide&&!(navigator.connection&&navigator.connection.saveData);
 const load=v=>{if(play&&!v.src){v.src=v.dataset.src;v.load()}};
-const card=()=>{const [d,c,rows,v,ok]=S[k];rc.classList.add('sw');setTimeout(()=>{rc.querySelector('.rh').innerHTML='<b>'+d+'</b><span>'+c+'</span>';rc.querySelector('ul').innerHTML=rows.map(([n,o])=>'<li>'+n+' <span class="pill '+(o?'ok">got in':'no">403')+'</span></li>').join('');const r=rc.querySelector('.rv');r.classList.toggle('good',!!ok);r.innerHTML='<i></i>'+v;dots.forEach((x,i)=>x.classList.toggle('on',i===k));rc.classList.remove('sw')},350)};
+const card=()=>{const s=S[k];rc.classList.add('sw');rt.classList.add('sw');setTimeout(()=>{rc.querySelector('.ik').textContent=s[0];rc.querySelector('h3').textContent=s[1];rc.querySelector('.ix').textContent=s[2];rc.querySelector('.ichip').innerHTML='<i></i>'+s[3];rc.classList.toggle('good',!!s[4]);rt.classList.toggle('good',!!s[4]);place();dots.forEach((x,i)=>x.classList.toggle('on',i===k));rc.classList.remove('sw');rt.classList.remove('sw')},450)};
 let t;const next=()=>{clearTimeout(t);V[k].classList.remove('on');k=(k+1)%S.length;const v=V[k];v.classList.add('on');card();load(V[(k+1)%V.length]);if(play){v.currentTime=0;v.play().catch(()=>{})}t=setTimeout(next,6000)};
 if(play){load(V[0]);load(V[1]);V[0].play().catch(()=>{})}t=setTimeout(next,6000)})();
 </script>`;
