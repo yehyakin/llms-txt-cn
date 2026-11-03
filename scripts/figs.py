@@ -185,5 +185,78 @@ def fig_sample():
     save(fig, "fig-sample.webp")
 
 
+# ---------------------------------------------------------------- card versions (home page thumbnails, 2026-11-04)
+# The full figures stay linked; cards show one idea each at a size that is legible at ~360-560 px wide.
+CW, CH = 1200, 750
+
+def ccanvas():
+    fig = plt.figure(figsize=(CW / 72, CH / 72), dpi=72, facecolor=BG)
+    ax = fig.add_axes([0, 0, 1, 1]); ax.set_xlim(0, CW); ax.set_ylim(CH, 0); ax.axis("off")
+    return fig, ax
+
+
+def card_lab():
+    lab = json.load(open(os.path.join(ROOT, "data", "lab-results.json")))
+    R = lab["results"]; n = len(R)
+    wrong = {"robots-503", "fw-ai-403", "fw-verify-bots", "fw-unknown-bots", "fw-ai-challenge",
+             "fw-ai-thin", "meta-noindex", "header-noindex"}
+    v = sum(r["ok"] for r in R); ro = sum(r["slug"] not in wrong for r in R)
+    fig, ax = ccanvas()
+    T(ax, 80, 110, "Correct access verdicts", 44, weight="bold")
+    T(ax, 80, 162, f"{n} lab sites with a known answer", 30, MUT)
+    X0, X1 = 80, 1120
+    for i, (nm, val, col, sub) in enumerate((("VAKSEL", v, GREEN, "live requests + control groups"),
+                                             ("robots.txt only", ro, G2, "rules applied alone (derived)"))):
+        y = 320 + i * 220
+        T(ax, X0, y, nm, 36, INK if i == 0 else MUT, weight="bold")
+        T(ax, X1, y, f"{val} / {n}", 40, col, weight="bold", ha="right")
+        ax.add_patch(FancyBboxPatch((X0, y + 30), X1 - X0, 34, boxstyle="round,pad=0,rounding_size=17", color="#e6e4df", lw=0))
+        ax.add_patch(FancyBboxPatch((X0, y + 30), (X1 - X0) * val / n, 34, boxstyle="round,pad=0,rounding_size=17", color=col, lw=0))
+        T(ax, X0, y + 112, sub, 26, MUT)
+    save(fig, "fig-lab-card.webp")
+
+
+def card_toyota():
+    d = json.load(open(os.path.join(ROOT, "data", "demo-toyota.json")))
+    bots = [b for b in d["access"]["bots"] if not b["region"]]
+    groups = []
+    for cat, nm in (("search", "AI search"), ("user", "User-triggered"), ("training", "Training")):
+        bs = [b for b in bots if b["category"] == cat]
+        groups.append((nm, sum(b["robots"] != "blocked" for b in bs), sum(b["status"] == 200 for b in bs), len(bs)))
+    fig, ax = ccanvas()
+    T(ax, 80, 110, "toyota.com: allowed vs. served", 44, weight="bold")
+    for i, (lab_, col) in enumerate((("robots.txt allows", G1), ("got the page", INK))):
+        x0 = 80 + i * 380
+        ax.add_patch(Rectangle((x0, 150), 30, 30, color=col)); T(ax, x0 + 44, 175, lab_, 28, MUT)
+    B, H = 600, 330
+    ax.plot([80, 1120], [B, B], color="#d6d3cc", lw=2)
+    cw = 1040 / 3; bw = 120
+    for i, (nm, allow, served, n) in enumerate(groups):
+        cx = 80 + cw * (i + .5)
+        for val, col, x0 in ((allow, G1, cx - bw - 8), (served, INK, cx + 8)):
+            hh = max(6, H * val / n)
+            ax.add_patch(Rectangle((x0, B - hh), bw, hh, color=col))
+            T(ax, x0 + bw / 2, B - hh - 16, f"{val}/{n}", 32, INK, weight="bold", ha="center")
+        T(ax, cx, B + 58, nm, 32, INK, ha="center", weight="bold" if i == 1 else "normal")
+    save(fig, "fig-toyota-card.webp")
+
+
+def card_sample():
+    rows = [("Sampled", 600, G1, "Tranco top 20k"), ("Reachable", 362, G2, "answered a browser"),
+            ("Rejected an AI search UA", 45, G3, "12.4% of reachable"), ("Aimed at AI, robots.txt allows", 13, GREEN, "1 in 28 reachable")]
+    fig, ax = ccanvas()
+    T(ax, 80, 110, "Silent blocks in the wild", 44, weight="bold")
+    T(ax, 80, 162, "600 random domains, homepage requests, Nov 2026", 30, MUT)
+    X0, X1 = 80, 1120
+    for i, (nm, val, col, sub) in enumerate(rows):
+        y = 250 + i * 122
+        w = max(10, (X1 - X0) * val / 600)
+        ax.add_patch(Rectangle((X0, y), w, 50, color=col))
+        hi = col == GREEN
+        T(ax, X0 + w + 18 if w < 700 else X0 + 20, y + 37, f"{val}", 34, GREEN if hi else INK, weight="bold")
+        T(ax, X0, y + 88, f"{nm} · {sub}", 26, GREEN if hi else MUT, weight="bold" if hi else "normal")
+    save(fig, "fig-sample-card.webp")
+
+
 if __name__ == "__main__":
-    fig_lab(); fig_toyota(); fig_sample()
+    fig_lab(); fig_toyota(); fig_sample(); card_lab(); card_toyota(); card_sample()

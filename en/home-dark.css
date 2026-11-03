@@ -524,3 +524,19 @@ html.lt body.dk .final .hint a{color:#3a3a3c}
 html.lt body.dk footer{background:#f5f5f7}html.lt body.dk footer h2.fh{color:#1d1d1f}html.lt body.dk footer a{color:#6e6e73}html.lt body.dk footer,html.lt body.dk footer p{color:#6e6e73}
 @media (max-width:860px){html.lt body.dk .hbg::after{background:linear-gradient(180deg,rgba(10,10,10,.55),rgba(10,10,10,.8) 70%,#0a0a0a)}}
 html.lt body.dk .mb code{background:rgba(220,38,38,.08);border-radius:4px;padding:1px 5px}
+
+/* ---------- Design QA 2026-11-04 ---------- */
+/* 评估卡：换成卡片版图（-card.webp，大字号），满铺 */
+.dk .evf{aspect-ratio:16/10}.dk .evf img{padding:0;object-fit:cover}
+/* 卡片标题与标签：标签不再被挤到第二行 */
+.dk .qh{flex-wrap:nowrap;align-items:flex-start}.dk .qh b{min-width:0}.dk .qh span{flex:none;margin-top:4px}
+/* 步骤标签一行放下 */
+.dk .step .tags{letter-spacing:.12em}.dk .step .tags span+span::before{margin:0 8px}
+/* 首屏提示文字对比度 */
+.dk .hero .hint span{color:#a1a1a6}
+@media (max-width:860px){
+  .dk .hero{padding-top:92px}
+  .final{padding-top:56px}
+  .dk .qh b{font-size:19px}
+}
+@media (max-width:860px){.dk .qh{flex-wrap:wrap;row-gap:8px}}
