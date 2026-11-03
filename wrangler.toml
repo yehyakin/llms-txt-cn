@@ -45,3 +45,20 @@ id = "dcb3d65c6bb74c9ea3d69cfe4f47d496"
 # 监控复测：每 10 分钟一次，每次复测 MON_PER_RUN 个到期站点（worker/monitor.js）
 [triggers]
 crons = ["*/10 * * * *"]
+
+# 分支预览（Workers Builds 非生产分支跑 `wrangler preview`）。用独立 KV 和限频命名空间，预览不收录，不碰生产数据。
+[previews.vars]
+RELAY_URL = "https://relay.cetxt.com/fetch"
+INDEX_SITE = "0"
+
+[[previews.kv_namespaces]]
+binding = "WAITLIST"
+id = "89199451c1d84614b5b67d5b191e104e"
+
+[[previews.ratelimits]]
+name = "RL"
+namespace_id = "20261104"
+
+[previews.ratelimits.simple]
+limit = 20
+period = 60
