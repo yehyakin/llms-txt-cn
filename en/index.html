@@ -144,14 +144,14 @@ new IntersectionObserver(([e])=>{fv=e.isIntersecting;sync()}).observe(fin)})();
  ['smithsonianmag.com · Cloudflare','All blocked','Cloudflare turns away all 6 AI search and user-triggered crawlers we sent.','6 of 6 rejected',0,[84,40],[66,48]],
  ['torontosun.com · istio-envoy','Silent block','OpenAI and Perplexity crawlers get a 403. Claude’s get through.','Claude-SearchBot · 200',0,[64,46],[58,54]],
  ['shopify.com · Cloudflare','Open','Every AI crawler we sent got the page, same as Googlebot.','8 of 8 got in',1,[76,64],[60,34]]];
-const L=[...document.querySelectorAll('.hbg .sl')],V=L.map(l=>l.querySelector('video'));V.forEach(v=>v.addEventListener('playing',()=>v.classList.add('pl'))),rc=document.getElementById('rc'),rt=document.getElementById('rt'),dots=document.querySelectorAll('#hd b');let k=0;
+const L=[...document.querySelectorAll('.hbg .sl')];const IOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);if(IOS)L.forEach(l=>{const v=l.querySelector('video'),i=document.createElement('img');i.alt='';i.dataset.src=v.dataset.src;i.decoding='async';i.play=()=>Promise.resolve();l.replaceChild(i,v)});const V=L.map(l=>l.querySelector('video,img'));V.forEach(v=>{v.addEventListener(IOS?'load':'playing',()=>v.classList.add('pl'));if(!IOS)v.addEventListener('webkitbeginfullscreen',()=>{try{v.webkitExitFullscreen()}catch(e){}V.forEach(x=>{x.pause&&x.pause();x.classList.remove('pl');x.removeAttribute('src')})})}),rc=document.getElementById('rc'),rt=document.getElementById('rt'),dots=document.querySelectorAll('#hd b');let k=0;
 const wide=matchMedia('(min-width:861px)').matches;
 const place=()=>{const s=S[k];if(wide){rt.style.left=s[5][0]+'%';rt.style.top=s[5][1]+'%';rc.style.left=s[6][0]+'%';rc.style.top=s[6][1]+'%'}};place();
 if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
 const play=!(navigator.connection&&navigator.connection.saveData);
-const load=v=>{if(play&&!v.src){v.src=v.dataset.src;v.load()}};
+const load=v=>{if(play&&!v.getAttribute('src')){v.src=v.dataset.src;v.load&&v.load()}};
 const card=()=>{const s=S[k];rc.classList.add('sw');rt.classList.add('sw');setTimeout(()=>{rc.querySelector('.ik').textContent=s[0];rc.querySelector('h3').textContent=s[1];rc.querySelector('.ix').textContent=s[2];rc.querySelector('.ichip').innerHTML='<i></i>'+s[3];rc.classList.toggle('good',!!s[4]);rt.classList.toggle('good',!!s[4]);place();dots.forEach((x,i)=>x.classList.toggle('on',i===k));rc.classList.remove('sw');rt.classList.remove('sw')},450)};
-let t;const next=()=>{clearTimeout(t);L[k].classList.remove('on');k=(k+1)%S.length;const v=V[k];L[k].classList.add('on');card();load(V[(k+1)%V.length]);if(play){v.currentTime=0;v.play().catch(()=>{})}t=setTimeout(next,6000)};
+let t;const next=()=>{clearTimeout(t);L[k].classList.remove('on');k=(k+1)%S.length;const v=V[k];L[k].classList.add('on');card();load(V[(k+1)%V.length]);if(play&&!IOS){v.currentTime=0;v.play().catch(()=>{})}t=setTimeout(next,6000)};
 if(play){load(V[0]);load(V[1]);V[0].play().catch(()=>{})}t=setTimeout(next,6000)})();
 </script></main>
 <footer><div class="wrap fgrid">
