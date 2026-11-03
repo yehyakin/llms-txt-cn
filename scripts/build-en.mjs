@@ -541,7 +541,7 @@ const V=[...document.querySelectorAll('.hbg video')],rc=document.getElementById(
 const wide=matchMedia('(min-width:861px)').matches;
 const place=()=>{const s=S[k];if(wide){rt.style.left=s[5][0]+'%';rt.style.top=s[5][1]+'%';rc.style.left=s[6][0]+'%';rc.style.top=s[6][1]+'%'}};place();
 if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-const play=wide&&!(navigator.connection&&navigator.connection.saveData);
+const play=!(navigator.connection&&navigator.connection.saveData);
 const load=v=>{if(play&&!v.src){v.src=v.dataset.src;v.load()}};
 const card=()=>{const s=S[k];rc.classList.add('sw');rt.classList.add('sw');setTimeout(()=>{rc.querySelector('.ik').textContent=s[0];rc.querySelector('h3').textContent=s[1];rc.querySelector('.ix').textContent=s[2];rc.querySelector('.ichip').innerHTML='<i></i>'+s[3];rc.classList.toggle('good',!!s[4]);rt.classList.toggle('good',!!s[4]);place();dots.forEach((x,i)=>x.classList.toggle('on',i===k));rc.classList.remove('sw');rt.classList.remove('sw')},450)};
 let t;const next=()=>{clearTimeout(t);V[k].classList.remove('on');k=(k+1)%S.length;const v=V[k];v.classList.add('on');card();load(V[(k+1)%V.length]);if(play){v.currentTime=0;v.play().catch(()=>{})}t=setTimeout(next,6000)};
