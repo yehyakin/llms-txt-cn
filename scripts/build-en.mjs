@@ -489,10 +489,10 @@ const homeBody = `<header class="hero"><div class="hbg" aria-hidden="true"><vide
   <p class="lab">Found in our sample</p><p class="lsub">Sites where robots.txt and the firewall disagree. Each card runs a fresh check.</p>
   <div class="qcards">${SAMPLE.map(([d, t, cdn, w], i) => `<a class="qc tk${i === 1 ? ' g2' : ''}" href="/en/report/${d}"><div class="qh"><b>${d}</b><span>${t}</span></div><p>${w}</p><div class="qf"><span>${cdn}</span><span>Nov 1, 2026</span></div></a>`).join('')}</div>
   <p class="lab" style="margin-top:56px">Fix guides</p><p class="lsub">Fix it where the block is.</p>
-  <div class="qcards g4">${GUIDES.map((g, i) => `<a class="qc tk${i === 2 ? ' g2' : ''}" href="/en/guides/${g.slug}/"><div class="qh"><b>${esc(g.name)}</b><span>Guide</span></div><p>${esc(g.desc.split('. ')[0].replace(/\.$/, ''))}.</p><div class="qf"><span>Read the guide →</span></div></a>`).join('')}</div>
+  <div class="qcards g4">${GUIDES.map((g, i) => `<a class="qc tk gd${i === 2 ? ' g2' : ''}" href="/en/guides/${g.slug}/"><div class="gmk">${MARK({ cloudfront: 'amazonwebservices' }[g.slug] || g.slug)}</div><div class="qh"><b>${esc(g.name)}</b><span>Guide</span></div><p>${esc(g.desc.split('. ')[0].replace(/\.$/, ''))}.</p><div class="qf"><span>Read the guide →</span></div></a>`).join('')}</div>
 </div></section>
 
-<section class="sec tight faqs"><div class="wrap"><p class="kick">FAQ</p><h2>Questions</h2><div class="faq">${HOME_FAQ.map(([q, a], i) => `<details${i ? '' : ' open'}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div></div></section>
+<section class="sec tight faqs"><div class="wrap fqg"><div><p class="kick">FAQ</p><h2>Questions</h2><p class="sub">How the check works, and what it can’t see.</p></div><div class="faq">${HOME_FAQ.map(([q, a], i) => `<details${i ? '' : ' open'}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div></div></section>
 
 <section class="final" id="monitor"><div class="wrap">
   <h2>See what AI crawlers really get.</h2>

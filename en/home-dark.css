@@ -370,3 +370,78 @@ body.dk .menu span{background:#f5f5f7}
 .rscroll::-webkit-scrollbar{display:none}
 .rscroll img{display:block;width:100%;height:auto}
 @media (max-width:860px){.rcard{transform:none}.rstage{padding:8px 0}}
+
+/* v6 (2026-11-04 02:xx): texture pass for everything below the hero.
+   Material = film grain + tonal surfaces with a lit top edge; light = soft glows behind the key objects;
+   type = bigger, fewer sizes; ornaments removed (corner ticks, grid wash). */
+body.dk::after{content:"";position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.05;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.dk .tk{background-image:none}
+.dk .gridbg::before,.dk .eval::before{opacity:.45}
+.dk .px{display:none}
+/* type scale */
+.dk .sec h2,.dk .phead h2{font-size:clamp(34px,3.8vw,52px)!important;font-weight:600;letter-spacing:-.045em!important;line-height:1.05!important;color:#fff;margin:0 0 18px;text-wrap:balance}
+.dk .kick{color:var(--g);letter-spacing:.16em;font-size:11.5px}
+.dk .phead .sub,.dk .sec .sub{font-size:17.5px;line-height:1.55;color:#a1a1a6;max-width:520px}
+/* surfaces */
+.dk .qc,.dk .app,.dk .evf,.dk .mail,.dk .fix{--sf:linear-gradient(180deg,#191919,#111 70%)}
+.dk .qc{background:var(--sf);border-radius:16px;border:1px solid rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 30px 60px -36px rgba(0,0,0,.9);transition:transform .35s cubic-bezier(.2,.7,.2,1),border-color .35s,box-shadow .35s}
+.dk .qc:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 40px 70px -36px rgba(0,0,0,1)}
+.dk .qcards{gap:18px;background:none}
+/* product window: bigger, lit, sitting in a glow */
+.dk .prod{position:relative}
+.dk .pr{position:relative}
+.dk .pr::before{content:"";position:sticky;top:30vh;display:block;height:0;pointer-events:none}
+.dk .app{border-radius:16px;background:linear-gradient(180deg,#151515,#0e0e0e);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1),inset 0 1px 0 rgba(255,255,255,.12),0 0 0 8px rgba(255,255,255,.02),0 80px 140px -40px rgba(0,0,0,1),0 0 120px -20px rgba(62,224,122,.14)}
+.dk .abar{height:40px;background:linear-gradient(180deg,#1c1c1c,#161616)}
+.dk .abar i:nth-child(1){background:#ff5f57}.dk .abar i:nth-child(2){background:#febc2e}.dk .abar i:nth-child(3){background:#28c840}
+.dk .abar i{opacity:.85}
+.dk .step .num{font-size:88px;letter-spacing:-.07em;background:linear-gradient(180deg,#5ff09a,#1f8a4c);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.dk .step h3{font-size:26px;letter-spacing:-.03em}
+.dk .step p{font-size:16.5px;color:#a1a1a6}
+/* evaluation frames */
+.dk .evf{border-radius:14px;border:1px solid rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 40px 70px -40px rgba(0,0,0,1);transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.dk .evf:hover{transform:translateY(-3px)}
+.dk .ec h3{font-size:19px;letter-spacing:-.02em}
+.dk .ec p{font-size:15px}
+/* report: real imagery behind, card lit from above */
+.dk .rep{position:relative;isolation:isolate;overflow:hidden}
+.dk .rep::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(60% 70% at 70% 50%,transparent,#0a0a0a 75%),url(/en/img/hero-2.webp) center/cover;opacity:.32;filter:saturate(.6) blur(2px)}
+.dk .rep::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#0a0a0a,transparent 22%,transparent 78%,#0a0a0a)}
+.dk .rcard{border-radius:6px;box-shadow:inset 0 1px 0 #fff,0 50px 100px -30px rgba(0,0,0,1),0 0 0 1px rgba(255,255,255,.08)}
+.dk .ticks li{font-size:15px}
+.dk .more{font-size:15px;font-weight:500}
+/* sample + guides */
+.dk .lab{border:0;padding:0;color:var(--g);font-size:11.5px;letter-spacing:.16em}
+.dk .lsub{font-size:clamp(26px,2.6vw,36px);color:#fff;font-weight:600;letter-spacing:-.035em;line-height:1.15;margin:4px 0 30px;max-width:720px}
+.dk .qh b{font-size:21px;letter-spacing:-.025em}
+.dk .qh span{font:600 10px/1 var(--mono);background:rgba(255,90,90,.1);color:#ff8a80;box-shadow:inset 0 0 0 1px rgba(255,90,90,.25)}
+.dk .qc p{font-size:15px;line-height:1.6;color:#b4b4b9}
+.dk .qc .qf{font-size:13px}
+.dk .gd .qh span{background:rgba(255,255,255,.05);color:#a1a1a6;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+.dk .gmk{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;margin-bottom:22px;background:linear-gradient(180deg,#242424,#161616);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1),inset 0 1px 0 rgba(255,255,255,.12)}
+.dk .gmk .mk{width:22px;height:22px;color:#e5e5ea}
+.dk .gd .qh{margin-bottom:12px}.dk .gd .qh b{font-size:18px}
+.dk .g4 .qc{padding:26px 24px 22px}
+/* FAQ: two columns */
+.dk .fqg{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:64px;align-items:start}
+.dk .faqs .faq{max-width:none}
+.dk .faq details{padding:22px 0;border-top:1px solid rgba(255,255,255,.09)}
+.dk .faq details:last-child{border-bottom:1px solid rgba(255,255,255,.09)}
+.dk .faq summary{font-size:18px;letter-spacing:-.015em;list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px}
+.dk .faq summary::-webkit-details-marker{display:none}
+.dk .faq summary::after{content:"+";font-weight:300;font-size:24px;line-height:1;color:#86868b;transition:transform .3s}
+.dk .faq details[open] summary::after{transform:rotate(45deg)}
+.dk .faq p{font-size:15.5px;line-height:1.65;margin:14px 0 0;max-width:620px}
+/* final */
+.dk .final h2{font-size:clamp(40px,5vw,68px)!important;letter-spacing:-.05em!important}
+.dk .fl{border-radius:14px;background:linear-gradient(180deg,rgba(40,40,40,.75),rgba(20,20,20,.75));box-shadow:inset 0 0 0 1px rgba(255,255,255,.12),inset 0 1px 0 rgba(255,255,255,.14),0 30px 50px -25px rgba(0,0,0,.9)}
+@media (max-width:860px){.dk .fqg{grid-template-columns:minmax(0,1fr);gap:20px}.dk .step .num{font-size:60px}.dk .lsub{font-size:24px}}
+.dk .phead h2,.dk .rep h2{font-size:clamp(30px,3vw,42px)!important}
+.dk .rep .wrap.rgrid{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}
+.dk .step .tags{flex-wrap:wrap;row-gap:6px}.dk .step .tags span{white-space:nowrap}
+.dk .qh{flex-wrap:wrap}
+@media (max-width:860px){
+  .dk .rep .wrap.rgrid{grid-template-columns:minmax(0,1fr);gap:32px}
+  .dk .pmain,.dk .ags,.dk .ag{min-width:0}.dk .ag{overflow:hidden}.dk .ag p{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dk .step .tags{font-size:10px;letter-spacing:.12em}
+}

@@ -77,7 +77,7 @@ td.ok{{color:#1f8a4c;font-family:'DejaVu Sans Mono'}}td.no{{color:#b23b2e;font-f
 
 async def main():
     async with async_playwright() as p:
-        b = await p.chromium.launch(executable_path="/usr/bin/chromium", args=["--no-sandbox", "--disable-gpu"])
+        b = await p.chromium.launch(args=["--no-sandbox", "--disable-gpu"])
         for name, html, full in (("report-cover", COVER, False), ("report-p2", P2, True)):
             c = await b.new_context(viewport={"width": 724, "height": 543}, device_scale_factor=2)
             pg = await c.new_page(); await pg.set_content(html); await pg.wait_for_timeout(300)
