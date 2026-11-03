@@ -395,6 +395,15 @@ const LOG = (n) => {
   const L = [['exec', 'fetch robots.txt', '200 · 1 redirect'], ['exec', 'probe 8 AI agents', '7 × 403 · 1 × 200'], ['exec', 'control: browser, Googlebot, unknown bot', '3 × 200'], ['detect', 'CDN', 'CloudFront'], ['match', 'fix guide', 'CloudFront / AWS WAF']];
   return `<div class="log"><p class="lh">Process</p>${L.map(([k, a, r], i) => `<div class="ll${i < n ? ' done' : i === n ? ' run' : ''}"><i></i><code>${k}</code><span>${a}</span>${i < n ? `<small>${r}</small>` : ''}</div>`).join('')}</div>`;
 };
+const LABCAT = (slug) => slug.startsWith('robots-') || slug === 'baseline' ? 0 : slug.startsWith('fw-') ? 1 : /noindex|nosnippet/.test(slug) ? 2 : 3;
+const ROBOTS_ONLY_WRONG = new Set(['robots-503', 'fw-ai-403', 'fw-verify-bots', 'fw-unknown-bots', 'fw-ai-challenge', 'fw-ai-thin', 'meta-noindex', 'header-noindex']);
+const LABROWS = ['Robots.txt rules', 'Firewall and CDN', 'Page directives', 'Rendering and markup'].map((n, c) => {
+  const rs = LAB.results.filter((r) => LABCAT(r.slug) === c);
+  const pct = (k) => Math.round((k / rs.length) * 100);
+  return [n, rs.length, pct(rs.filter((r) => r.ok).length), pct(rs.filter((r) => !ROBOTS_ONLY_WRONG.has(r.slug)).length)];
+});
+const LABRO = LAB.results.filter((r) => !ROBOTS_ONLY_WRONG.has(r.slug)).length;
+const FIXT_DATE = 'Nov 3, 2026';
 const SAMPLE = [
   ['toyota.com', 'Silent block', 'CloudFront', 'CloudFront rejects OAI-SearchBot and three user-triggered crawlers that robots.txt allows. A browser and Googlebot get through.'],
   ['smithsonianmag.com', 'All blocked', 'Cloudflare', 'Cloudflare turns away all 6 AI search and user-triggered crawlers we sent.'],
@@ -453,31 +462,47 @@ const homeBody = `<header class="hero"><div class="hbg" aria-hidden="true"><vide
 <section class="sec eval" id="data"><div class="wrap">
   <p class="kick">Evaluation</p><h2>Checked against sites with known answers.</h2>
   <div class="ecards">
-    <div class="ec"><div class="ev tk"><p class="evk">Lab · ${LAB.results.length} sites</p><div class="sq">${LAB.results.map((r) => `<i class="${r.ok ? 'y' : 'n'}" title="${esc(r.slug)}"></i>`).join('')}</div><p class="evn"><b>${labOk}/${LAB.results.length}</b> verdicts match the setup</p></div>
-      <h3>A lab of ${LAB.results.length} test sites</h3><p>Sites we configured ourselves (open, robots-blocked, firewall-blocked, noindex, JavaScript-only), re-run whenever the rules change.</p><a href="/en/research/lab/">See the lab →</a></div>
-    <div class="ec"><div class="ev tk"><p class="evk">Controls · toyota.com</p><div class="bars"><p>Browser<i></i><em>200</em></p><p>Googlebot<i></i><em>200</em></p><p>Unknown bot<i></i><em>200</em></p><p class="r">OAI-SearchBot<i></i><em>403</em></p></div></div>
+    <div class="ec"><div class="ev tk g2"><div class="fig">
+      <p class="ft">Access verdict accuracy, lab sites</p><p class="fs">${LAB.results.length} sites with known configurations · run ${LAB.run_at.slice(0, 10)}</p>
+      <p class="lg"><span><i class="d1"></i>VAKSEL, live requests</span><span><i class="d2"></i>robots.txt only (by our rules)</span></p>
+      <div class="dp">${LABROWS.map(([n, k, v, r]) => `<div class="dr"><span class="dl">${n}<small>n = ${k}</small></span><span class="dt"><i class="d2" style="left:${r}%"></i><i class="d1" style="left:${v}%"></i><em style="left:${r}%">${r}%</em><b style="left:${v}%">${v}%</b></span></div>`).join('')}</div>
+      <div class="ax"><span></span><span>0</span><span>25</span><span>50</span><span>75</span><span>100%</span></div>
+    </div></div>
+      <h3>${labOk} of ${LAB.results.length} lab verdicts right</h3><p>Sites we configured ourselves, re-run whenever the rules change. Reading robots.txt alone gets ${LABRO} of ${LAB.results.length} right; the misses are mostly firewall and CDN blocks.</p><a href="/en/research/lab/">See the lab →</a></div>
+    <div class="ec"><div class="ev tk"><div class="fig">
+      <p class="ft">Declared vs. served: toyota.com</p><p class="fs">robots.txt rule and live HTTP response · ${FIXT_DATE}</p>
+      <table class="mx"><thead><tr><th>Agent</th><th>robots.txt</th><th>HTTP</th><th>Layer</th></tr></thead><tbody>
+      ${['Browser', 'Googlebot', 'Unknown bot'].map((n) => `<tr class="cg"><td>${n}<small>control</small></td><td>–</td><td class="ok">200</td><td>–</td></tr>`).join('')}
+      ${TB.map((b) => `<tr><td>${esc(b.token)}</td><td><i class="rb2 ${(RB[b.robots] || ['', 'mid'])[1]}"></i>${(RB[b.robots] || ['—'])[0]}</td><td class="${b.effective === 'open' ? 'ok' : 'no'}">${b.status}</td><td>${b.status === 200 ? '–' : b.robots === 'blocked' ? 'robots + CDN' : 'CDN / WAF'}</td></tr>`).join('')}
+      </tbody></table>
+    </div></div>
       <h3>Control groups on every check</h3><p>A data-center IP isn’t a crawler’s real IP. So each result is compared with a browser, Googlebot and an unknown bot, and carries a confidence level.</p><a href="/en/research/grading/">How grading works →</a></div>
-    <div class="ec"><div class="ev tk"><p class="evk">Sample · Nov 2026</p><div class="big">1<span>in</span>28</div><p class="evn">13 of 362 reachable sites</p></div>
-      <h3>Measured on real sites</h3><p>A random 600 of the Tranco top 20k. 13 of 362 reachable sites silently block AI search crawlers while robots.txt allows them and Googlebot gets through.</p><a href="/en/research/">Read the study →</a></div>
+    <div class="ec"><div class="ev tk"><div class="fig">
+      <p class="ft">Sample: Tranco top 20k</p><p class="fs">Random 600 domains · homepage · Nov 2026</p>
+      <div class="tree">
+        <div class="tn root"><b>600</b>sampled</div>
+        <div class="tl"><div class="tn"><b>362</b>reachable</div><div class="tn mute"><b>238</b>excluded<small>125 no connection · 80 403 or challenge · 33 other</small></div></div>
+        <div class="tl one"><div class="tn"><b>45</b>rejected an AI search UA robots.txt allowed<small>12.4% of reachable</small></div></div>
+        <div class="tl"><div class="tn hi"><b>13</b>aimed at AI crawlers<small>3.6% · 1 in 28</small></div><div class="tn mute"><b>32</b>other rejections</div></div>
+      </div>
+    </div></div>
+      <h3>Measured on real sites</h3><p>13 of 362 reachable sites silently block AI search crawlers while robots.txt allows them and Googlebot gets through.</p><a href="/en/research/">Read the study →</a></div>
   </div>
 </div></section>
 
 <section class="sec rep" aria-label="Example report"><div class="wrap rgrid">
   <div>
-    <p class="kick">From check to report</p><h2>A clear verdict.<br>Evidence for every line.</h2>
-    <p class="sub">Every check ends in a report you can hand to your CDN team or a client: what each crawler got, which layer decided it, and how to fix it.</p>
+    <p class="kick">From check to report</p><h2>A clear verdict.<br>Evidence for every line.<br>One report to share.</h2>
+    <p class="sub">Every check ends in a report you can send to your CDN team or a client: what each crawler got back, which layer decided it, and how to fix it.</p>
     <ul class="ticks"><li>Verdict for each AI agent</li><li>The layer that blocked it</li><li>Status codes from live requests</li><li>A fix guide for your platform</li></ul>
     <a class="more" href="/en/report/toyota.com">Open a real report <span>→</span></a>
   </div>
-  <div class="tilt"><div class="paper">
-    <div class="pp-top"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="104" height="20"><span>Access report <b>11 / 2026</b></span></div>
-    <div class="pp-hd"><h3>AI crawler<br>access report</h3><ul class="pp-ch">${TB.map((b) => `<li class="${b.effective === 'open' ? 'o' : 'x'}"><i></i>${esc(b.token)}<b>${b.status}</b></li>`).join('')}</ul></div>
-    <p class="pp-site">toyota.com</p>
-    <p class="pp-by">Live check · November 3, 2026 · served by CloudFront</p>
-    <div class="pp-v"><span class="pp-g">C</span><div><b>Silent block</b><span>${silentN} AI crawlers allowed by robots.txt get a 403 at the firewall.</span></div></div>
+  <div class="tilt"><div class="rframe"><div class="paper">
+    <div class="pp-top"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="92" height="18"><span>Access report <b>11 / 2026</b></span></div>
+    <div class="pp-mid"><div><h3>AI crawler<br>access report</h3><p class="pp-site">toyota.com</p><p class="pp-by">Prepared by VAKSEL<br>November 3, 2026</p></div><img class="pp-img" src="/en/img/report-object.webp" alt="" width="630" height="340"></div>
     <p class="pp-c">Contents</p>
     <div class="pp-toc"><div><b>01</b>Verdict</div><div><b>02</b>Crawler results</div><div><b>03</b>Blocking layer</div><div><b>04</b>Fix guide</div></div>
-  </div></div>
+  </div></div></div>
 </div></section>
 
 <section class="sec found gridbg"><div class="wrap">

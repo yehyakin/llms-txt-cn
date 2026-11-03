@@ -77,31 +77,47 @@
 <section class="sec eval" id="data"><div class="wrap">
   <p class="kick">Evaluation</p><h2>Checked against sites with known answers.</h2>
   <div class="ecards">
-    <div class="ec"><div class="ev tk"><p class="evk">Lab · 20 sites</p><div class="sq"><i class="y" title="baseline"></i><i class="y" title="robots-disallow-all"></i><i class="y" title="robots-block-oai"></i><i class="y" title="robots-block-training"></i><i class="y" title="robots-503"></i><i class="y" title="robots-404"></i><i class="y" title="fw-ai-403"></i><i class="y" title="fw-verify-bots"></i><i class="y" title="fw-unknown-bots"></i><i class="y" title="fw-ai-challenge"></i><i class="y" title="fw-ai-thin"></i><i class="y" title="fw-cn-403"></i><i class="y" title="meta-noindex"></i><i class="y" title="header-noindex"></i><i class="y" title="nosnippet"></i><i class="y" title="js-only"></i><i class="y" title="llms-html"></i><i class="y" title="faq-mismatch"></i><i class="y" title="jsonld-broken"></i><i class="y" title="canonical-other-host"></i></div><p class="evn"><b>20/20</b> verdicts match the setup</p></div>
-      <h3>A lab of 20 test sites</h3><p>Sites we configured ourselves (open, robots-blocked, firewall-blocked, noindex, JavaScript-only), re-run whenever the rules change.</p><a href="/en/research/lab/">See the lab →</a></div>
-    <div class="ec"><div class="ev tk"><p class="evk">Controls · toyota.com</p><div class="bars"><p>Browser<i></i><em>200</em></p><p>Googlebot<i></i><em>200</em></p><p>Unknown bot<i></i><em>200</em></p><p class="r">OAI-SearchBot<i></i><em>403</em></p></div></div>
+    <div class="ec"><div class="ev tk g2"><div class="fig">
+      <p class="ft">Access verdict accuracy, lab sites</p><p class="fs">20 sites with known configurations · run 2026-11-02</p>
+      <p class="lg"><span><i class="d1"></i>VAKSEL, live requests</span><span><i class="d2"></i>robots.txt only (by our rules)</span></p>
+      <div class="dp"><div class="dr"><span class="dl">Robots.txt rules<small>n = 6</small></span><span class="dt"><i class="d2" style="left:83%"></i><i class="d1" style="left:100%"></i><em style="left:83%">83%</em><b style="left:100%">100%</b></span></div><div class="dr"><span class="dl">Firewall and CDN<small>n = 6</small></span><span class="dt"><i class="d2" style="left:17%"></i><i class="d1" style="left:100%"></i><em style="left:17%">17%</em><b style="left:100%">100%</b></span></div><div class="dr"><span class="dl">Page directives<small>n = 3</small></span><span class="dt"><i class="d2" style="left:33%"></i><i class="d1" style="left:100%"></i><em style="left:33%">33%</em><b style="left:100%">100%</b></span></div><div class="dr"><span class="dl">Rendering and markup<small>n = 5</small></span><span class="dt"><i class="d2" style="left:100%"></i><i class="d1" style="left:100%"></i><em style="left:100%">100%</em><b style="left:100%">100%</b></span></div></div>
+      <div class="ax"><span></span><span>0</span><span>25</span><span>50</span><span>75</span><span>100%</span></div>
+    </div></div>
+      <h3>20 of 20 lab verdicts right</h3><p>Sites we configured ourselves, re-run whenever the rules change. Reading robots.txt alone gets 12 of 20 right; the misses are mostly firewall and CDN blocks.</p><a href="/en/research/lab/">See the lab →</a></div>
+    <div class="ec"><div class="ev tk"><div class="fig">
+      <p class="ft">Declared vs. served: toyota.com</p><p class="fs">robots.txt rule and live HTTP response · Nov 3, 2026</p>
+      <table class="mx"><thead><tr><th>Agent</th><th>robots.txt</th><th>HTTP</th><th>Layer</th></tr></thead><tbody>
+      <tr class="cg"><td>Browser<small>control</small></td><td>–</td><td class="ok">200</td><td>–</td></tr><tr class="cg"><td>Googlebot<small>control</small></td><td>–</td><td class="ok">200</td><td>–</td></tr><tr class="cg"><td>Unknown bot<small>control</small></td><td>–</td><td class="ok">200</td><td>–</td></tr>
+      <tr><td>OAI-SearchBot</td><td><i class="rb2 mid"></i>partial</td><td class="no">403</td><td>CDN / WAF</td></tr><tr><td>ChatGPT-User</td><td><i class="rb2 mid"></i>partial</td><td class="no">403</td><td>CDN / WAF</td></tr><tr><td>PerplexityBot</td><td><i class="rb2 bad"></i>disallow</td><td class="no">403</td><td>robots + CDN</td></tr><tr><td>Perplexity-User</td><td><i class="rb2 mid"></i>partial</td><td class="no">403</td><td>CDN / WAF</td></tr><tr><td>Claude-SearchBot</td><td><i class="rb2 mid"></i>partial</td><td class="ok">200</td><td>–</td></tr><tr><td>Claude-User</td><td><i class="rb2 mid"></i>partial</td><td class="no">403</td><td>CDN / WAF</td></tr><tr><td>GPTBot</td><td><i class="rb2 bad"></i>disallow</td><td class="no">403</td><td>robots + CDN</td></tr><tr><td>ClaudeBot</td><td><i class="rb2 bad"></i>disallow</td><td class="no">403</td><td>robots + CDN</td></tr>
+      </tbody></table>
+    </div></div>
       <h3>Control groups on every check</h3><p>A data-center IP isn’t a crawler’s real IP. So each result is compared with a browser, Googlebot and an unknown bot, and carries a confidence level.</p><a href="/en/research/grading/">How grading works →</a></div>
-    <div class="ec"><div class="ev tk"><p class="evk">Sample · Nov 2026</p><div class="big">1<span>in</span>28</div><p class="evn">13 of 362 reachable sites</p></div>
-      <h3>Measured on real sites</h3><p>A random 600 of the Tranco top 20k. 13 of 362 reachable sites silently block AI search crawlers while robots.txt allows them and Googlebot gets through.</p><a href="/en/research/">Read the study →</a></div>
+    <div class="ec"><div class="ev tk"><div class="fig">
+      <p class="ft">Sample: Tranco top 20k</p><p class="fs">Random 600 domains · homepage · Nov 2026</p>
+      <div class="tree">
+        <div class="tn root"><b>600</b>sampled</div>
+        <div class="tl"><div class="tn"><b>362</b>reachable</div><div class="tn mute"><b>238</b>excluded<small>125 no connection · 80 403 or challenge · 33 other</small></div></div>
+        <div class="tl one"><div class="tn"><b>45</b>rejected an AI search UA robots.txt allowed<small>12.4% of reachable</small></div></div>
+        <div class="tl"><div class="tn hi"><b>13</b>aimed at AI crawlers<small>3.6% · 1 in 28</small></div><div class="tn mute"><b>32</b>other rejections</div></div>
+      </div>
+    </div></div>
+      <h3>Measured on real sites</h3><p>13 of 362 reachable sites silently block AI search crawlers while robots.txt allows them and Googlebot gets through.</p><a href="/en/research/">Read the study →</a></div>
   </div>
 </div></section>
 
 <section class="sec rep" aria-label="Example report"><div class="wrap rgrid">
   <div>
-    <p class="kick">From check to report</p><h2>A clear verdict.<br>Evidence for every line.</h2>
-    <p class="sub">Every check ends in a report you can hand to your CDN team or a client: what each crawler got, which layer decided it, and how to fix it.</p>
+    <p class="kick">From check to report</p><h2>A clear verdict.<br>Evidence for every line.<br>One report to share.</h2>
+    <p class="sub">Every check ends in a report you can send to your CDN team or a client: what each crawler got back, which layer decided it, and how to fix it.</p>
     <ul class="ticks"><li>Verdict for each AI agent</li><li>The layer that blocked it</li><li>Status codes from live requests</li><li>A fix guide for your platform</li></ul>
     <a class="more" href="/en/report/toyota.com">Open a real report <span>→</span></a>
   </div>
-  <div class="tilt"><div class="paper">
-    <div class="pp-top"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="104" height="20"><span>Access report <b>11 / 2026</b></span></div>
-    <div class="pp-hd"><h3>AI crawler<br>access report</h3><ul class="pp-ch"><li class="x"><i></i>OAI-SearchBot<b>403</b></li><li class="x"><i></i>ChatGPT-User<b>403</b></li><li class="x"><i></i>PerplexityBot<b>403</b></li><li class="x"><i></i>Perplexity-User<b>403</b></li><li class="o"><i></i>Claude-SearchBot<b>200</b></li><li class="x"><i></i>Claude-User<b>403</b></li><li class="x"><i></i>GPTBot<b>403</b></li><li class="x"><i></i>ClaudeBot<b>403</b></li></ul></div>
-    <p class="pp-site">toyota.com</p>
-    <p class="pp-by">Live check · November 3, 2026 · served by CloudFront</p>
-    <div class="pp-v"><span class="pp-g">C</span><div><b>Silent block</b><span>4 AI crawlers allowed by robots.txt get a 403 at the firewall.</span></div></div>
+  <div class="tilt"><div class="rframe"><div class="paper">
+    <div class="pp-top"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="92" height="18"><span>Access report <b>11 / 2026</b></span></div>
+    <div class="pp-mid"><div><h3>AI crawler<br>access report</h3><p class="pp-site">toyota.com</p><p class="pp-by">Prepared by VAKSEL<br>November 3, 2026</p></div><img class="pp-img" src="/en/img/report-object.webp" alt="" width="630" height="340"></div>
     <p class="pp-c">Contents</p>
     <div class="pp-toc"><div><b>01</b>Verdict</div><div><b>02</b>Crawler results</div><div><b>03</b>Blocking layer</div><div><b>04</b>Fix guide</div></div>
-  </div></div>
+  </div></div></div>
 </div></section>
 
 <section class="sec found gridbg"><div class="wrap">
