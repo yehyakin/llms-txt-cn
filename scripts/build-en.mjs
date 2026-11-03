@@ -367,7 +367,7 @@ const HOME_FAQ = [
   ['Will allowing AI search let my content be used for training?', 'No. OpenAI and Anthropic use separate crawlers for search and training, and Apple and Google give training its own robots.txt name (Applebot-Extended, Google-Extended). Perplexity says PerplexityBot isn’t used to train models. So you can allow OAI-SearchBot and block GPTBot, for example. Our guides show how on each platform.'],
   ['How accurate is a test from a data center?', 'Real crawlers come from their own IP ranges, which we can’t use. So every test runs with control groups (a normal browser, Googlebot and an unknown bot) and each result carries a confidence level.']
 ];
-const homeBody = `<header class="hero"><div class="hbg" aria-hidden="true"><img class="on" src="/en/img/hero-1.webp" alt="" width="1376" height="768" fetchpriority="high"><img src="/en/img/hero-2.webp" alt="" width="1376" height="768" loading="lazy"><img src="/en/img/hero-3.webp" alt="" width="1376" height="768" loading="lazy"></div><div class="wrap hgrid"><div>
+const homeBody = `<header class="hero"><div class="hbg" aria-hidden="true"><video class="on" muted playsinline preload="auto" poster="/en/img/hero-1.webp" data-src="/en/img/hero-1.mp4"></video><video class="" muted playsinline preload="none" poster="/en/img/hero-2.webp" data-src="/en/img/hero-2.mp4"></video><video class="" muted playsinline preload="none" poster="/en/img/hero-3.webp" data-src="/en/img/hero-3.mp4"></video><video class="" muted playsinline preload="none" poster="/en/img/hero-4.webp" data-src="/en/img/hero-4.mp4"></video></div><div class="wrap hgrid"><div>
   <span class="eyebrow"><b></b>AI search · access check</span>
   <h1>Can AI search <em>actually reach</em> your site?</h1>
   <p class="lead">Your robots.txt may say yes while your firewall says no. We request your page with the user agents of ChatGPT, Perplexity and Claude, compare against a browser and Googlebot, and show you what each one got back.</p>
@@ -388,7 +388,7 @@ const homeBody = `<header class="hero"><div class="hbg" aria-hidden="true"><img 
       <li>Claude-SearchBot <span class="pill ok">got in</span></li>
     </ul>
     <div class="rv"><i></i>Silent block: robots.txt allows, firewall rejects</div>
-    <div class="rdots"><b class="on"></b><b></b><b></b></div>
+    <div class="rdots"><b class="on"></b><b></b><b></b><b></b></div>
   </div>
 </div></header>
 
@@ -447,12 +447,17 @@ function go(v){const c=clean(v);if(!c){f.classList.remove('shake');void f.offset
 f.addEventListener('submit',e=>{e.preventDefault();go(d.value)});
 document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>go(b.dataset.d));
 (()=>{const S=[
- ['toyota.com','served by CloudFront',[['Googlebot',1],['OAI-SearchBot',0],['ChatGPT-User',0],['Perplexity-User',0],['Claude-SearchBot',1]],'Silent block: robots.txt allows, firewall rejects'],
- ['smithsonianmag.com','served by Cloudflare',[['Googlebot',1],['OAI-SearchBot',0],['PerplexityBot',0],['Claude-SearchBot',0],['ChatGPT-User',0]],'All 6 AI search and user crawlers rejected'],
- ['torontosun.com','server: istio-envoy',[['Googlebot',1],['OAI-SearchBot',0],['PerplexityBot',0],['Claude-SearchBot',1],['Claude-User',1]],'Silent block: OpenAI and Perplexity rejected']];
-const imgs=document.querySelectorAll('.hbg img'),rc=document.getElementById('rc'),dots=rc.querySelectorAll('.rdots b');let k=0;
+ ['toyota.com','served by CloudFront',[['Googlebot',1],['OAI-SearchBot',0],['ChatGPT-User',0],['Perplexity-User',0],['Claude-SearchBot',1]],'Silent block: robots.txt allows, firewall rejects',0],
+ ['smithsonianmag.com','served by Cloudflare',[['Googlebot',1],['OAI-SearchBot',0],['PerplexityBot',0],['Claude-SearchBot',0],['ChatGPT-User',0]],'All 6 AI search and user crawlers rejected',0],
+ ['torontosun.com','server: istio-envoy',[['Googlebot',1],['OAI-SearchBot',0],['PerplexityBot',0],['Claude-SearchBot',1],['Claude-User',1]],'Silent block: OpenAI and Perplexity rejected',0],
+ ['shopify.com','served by Cloudflare',[['Googlebot',1],['OAI-SearchBot',1],['PerplexityBot',1],['Claude-SearchBot',1],['ChatGPT-User',1]],'Open: every AI crawler gets in',1]];
+const V=[...document.querySelectorAll('.hbg video')],rc=document.getElementById('rc'),dots=rc.querySelectorAll('.rdots b');let k=0;
 if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-setInterval(()=>{k=(k+1)%3;const [d,c,rows,v]=S[k];rc.classList.add('sw');setTimeout(()=>{rc.querySelector('.rh').innerHTML='<b>'+d+'</b><span>'+c+'</span>';rc.querySelector('ul').innerHTML=rows.map(([n,o])=>'<li>'+n+' <span class="pill '+(o?'ok">got in':'no">403')+'</span></li>').join('');rc.querySelector('.rv').innerHTML='<i></i>'+v;dots.forEach((x,i)=>x.classList.toggle('on',i===k));rc.classList.remove('sw')},350);imgs.forEach((x,i)=>x.classList.toggle('on',i===k))},7000)})();
+const play=matchMedia('(min-width:861px)').matches&&!(navigator.connection&&navigator.connection.saveData);
+const load=v=>{if(play&&!v.src){v.src=v.dataset.src;v.load()}};
+const card=()=>{const [d,c,rows,v,ok]=S[k];rc.classList.add('sw');setTimeout(()=>{rc.querySelector('.rh').innerHTML='<b>'+d+'</b><span>'+c+'</span>';rc.querySelector('ul').innerHTML=rows.map(([n,o])=>'<li>'+n+' <span class="pill '+(o?'ok">got in':'no">403')+'</span></li>').join('');const r=rc.querySelector('.rv');r.classList.toggle('good',!!ok);r.innerHTML='<i></i>'+v;dots.forEach((x,i)=>x.classList.toggle('on',i===k));rc.classList.remove('sw')},350)};
+let t;const next=()=>{clearTimeout(t);V[k].classList.remove('on');k=(k+1)%S.length;const v=V[k];v.classList.add('on');card();load(V[(k+1)%V.length]);if(play){v.currentTime=0;v.play().catch(()=>{});t=setTimeout(next,6000)}else t=setTimeout(next,6000)};
+if(play){load(V[0]);load(V[1]);V[0].play().catch(()=>{});t=setTimeout(next,6000)}else t=setTimeout(next,6000)})();
 </script>`;
 const homeLd = { '@context': 'https://schema.org', '@graph': [
   { '@type': 'Organization', '@id': SITE + '/#org', name: 'VAKSEL', url: SITE + '/', logo: SITE + '/brand/icon-512.png' },
