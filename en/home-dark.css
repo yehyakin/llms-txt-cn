@@ -22,8 +22,12 @@ body.dk .menu span{background:#f5f5f7}
 /* ---------- HERO ---------- */
 .dk .hero{position:relative;min-height:calc(100vh - 52px);max-height:980px;display:flex;align-items:center;padding:72px 0 96px;overflow:hidden;isolation:isolate;text-align:left}
 .dk .hbg{position:absolute;inset:0;z-index:-2;overflow:hidden;background:#0a0a0a}
-.dk .hbg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:0;transform:scale(1.02);transition:opacity 1.4s ease,transform 7s linear}
-.dk .hbg video.on{opacity:1;transform:scale(1.06)}
+.dk .hbg,.dk .hbg *{pointer-events:none;-webkit-user-select:none;user-select:none}
+.dk .hbg .sl{position:absolute;inset:0;background:#0a0a0a center/cover no-repeat;opacity:0;transform:scale(1.02);transition:opacity 1.4s ease,transform 7s linear}
+.dk .hbg .sl.on{opacity:1;transform:scale(1.06)}
+.dk .hbg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:0;transition:opacity .6s ease}
+.dk .hbg video.pl{opacity:1}
+.dk .hbg video::-webkit-media-controls,.dk .hbg video::-webkit-media-controls-start-playback-button,.dk .hbg video::-webkit-media-controls-panel{display:none!important;-webkit-appearance:none}
 .dk .hbg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,10,10,.88) 0%,rgba(10,10,10,.62) 32%,rgba(10,10,10,.12) 62%,rgba(10,10,10,0)),linear-gradient(180deg,rgba(10,10,10,.35),transparent 18%,transparent 72%,#0a0a0a)}
 .dk .hin{width:100%}
 .dk .hcopy{max-width:560px}
@@ -222,7 +226,7 @@ body.dk .menu span{background:#f5f5f7}
 @media (max-width:1080px){.fl{display:none}.pbody{grid-template-columns:minmax(0,1fr)}.log{display:none}}
 @media (max-width:860px){
   .dk .hero{min-height:0;padding:56px 0 150px}
-  .dk .hbg video{object-position:68% center}
+  .dk .hbg video{object-position:68% center}.dk .hbg .sl{background-position:68% center}
   .dk .hbg::after{background:linear-gradient(180deg,rgba(10,10,10,.6),rgba(10,10,10,.82) 50%,#0a0a0a)}
   .reti,.hdots{display:none}
   .icard{left:24px!important;right:24px;top:auto!important;bottom:28px;width:auto}
@@ -238,7 +242,7 @@ body.dk .menu span{background:#f5f5f7}
   .final{padding:80px 0 110px}.final>.wrap>p{margin-bottom:30px}.dk .final .hint{margin-top:26px}
   .ff{padding:8px 8px 8px 14px}.ff input{font-size:15px}
 }
-@media (prefers-reduced-motion:reduce){.dk .hbg video{transition:none;transform:none}.pane.on,.fl,.px,.reti i{animation:none}.step{opacity:1}.dock,.icard,.reti{transition:none}}
+@media (prefers-reduced-motion:reduce){.dk .hbg .sl{transition:none;transform:none}.pane.on,.fl,.px,.reti i{animation:none}.step{opacity:1}.dock,.icard,.reti{transition:none}}
 
 .pp-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
 .pp-ch{list-style:none;margin:24px 0 0;padding:10px 12px;background:#fff;border:1px solid #e3e3dc;border-radius:4px;min-width:190px}

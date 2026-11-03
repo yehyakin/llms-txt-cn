@@ -25,7 +25,7 @@
   <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
 </div></nav>
 <script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})();(()=>{const b=document.querySelector('.thm'),r=document.documentElement,m=document.querySelector('meta[name=theme-color]');const set=l=>{r.classList.toggle('lt',l);b.setAttribute('aria-pressed',l);m&&(m.content=l?'#ffffff':'#0a0a0a');try{localStorage.setItem('vk-theme',l?'light':'dark')}catch(e){}};b.setAttribute('aria-pressed',r.classList.contains('lt'));b.onclick=()=>set(!r.classList.contains('lt'))})()</script>
-<main id="main" tabindex="-1"><header class="hero"><div class="hbg" aria-hidden="true"><video class="on" muted playsinline preload="auto" poster="/en/img/hero-1.webp" data-src="/en/img/hero-1.mp4"></video><video muted playsinline preload="none" poster="/en/img/hero-2.webp" data-src="/en/img/hero-2.mp4"></video><video muted playsinline preload="none" poster="/en/img/hero-3.webp" data-src="/en/img/hero-3.mp4"></video><video muted playsinline preload="none" poster="/en/img/hero-4.webp" data-src="/en/img/hero-4.mp4"></video></div>
+<main id="main" tabindex="-1"><header class="hero"><div class="hbg" aria-hidden="true"><div class="sl on" style="background-image:url(/en/img/hero-1.webp)"><video muted playsinline disablepictureinpicture disableremoteplayback x-webkit-airplay="deny" preload="auto" tabindex="-1" data-src="/en/img/hero-1.mp4"></video></div><div class="sl" style="background-image:url(/en/img/hero-2.webp)"><video muted playsinline disablepictureinpicture disableremoteplayback x-webkit-airplay="deny" preload="none" tabindex="-1" data-src="/en/img/hero-2.mp4"></video></div><div class="sl" style="background-image:url(/en/img/hero-3.webp)"><video muted playsinline disablepictureinpicture disableremoteplayback x-webkit-airplay="deny" preload="none" tabindex="-1" data-src="/en/img/hero-3.mp4"></video></div><div class="sl" style="background-image:url(/en/img/hero-4.webp)"><video muted playsinline disablepictureinpicture disableremoteplayback x-webkit-airplay="deny" preload="none" tabindex="-1" data-src="/en/img/hero-4.mp4"></video></div></div>
 <div class="reti" id="rt" style="left:63%;top:29%" aria-hidden="true"><i></i></div>
 <div class="wrap hin"><div class="hcopy">
   <h1>See what AI search actually gets from your site.</h1>
@@ -144,14 +144,14 @@ new IntersectionObserver(([e])=>{fv=e.isIntersecting;sync()}).observe(fin)})();
  ['smithsonianmag.com · Cloudflare','All blocked','Cloudflare turns away all 6 AI search and user-triggered crawlers we sent.','6 of 6 rejected',0,[84,40],[66,48]],
  ['torontosun.com · istio-envoy','Silent block','OpenAI and Perplexity crawlers get a 403. Claude’s get through.','Claude-SearchBot · 200',0,[64,46],[58,54]],
  ['shopify.com · Cloudflare','Open','Every AI crawler we sent got the page, same as Googlebot.','8 of 8 got in',1,[76,64],[60,34]]];
-const V=[...document.querySelectorAll('.hbg video')],rc=document.getElementById('rc'),rt=document.getElementById('rt'),dots=document.querySelectorAll('#hd b');let k=0;
+const L=[...document.querySelectorAll('.hbg .sl')],V=L.map(l=>l.querySelector('video'));V.forEach(v=>v.addEventListener('playing',()=>v.classList.add('pl'))),rc=document.getElementById('rc'),rt=document.getElementById('rt'),dots=document.querySelectorAll('#hd b');let k=0;
 const wide=matchMedia('(min-width:861px)').matches;
 const place=()=>{const s=S[k];if(wide){rt.style.left=s[5][0]+'%';rt.style.top=s[5][1]+'%';rc.style.left=s[6][0]+'%';rc.style.top=s[6][1]+'%'}};place();
 if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
 const play=!(navigator.connection&&navigator.connection.saveData);
 const load=v=>{if(play&&!v.src){v.src=v.dataset.src;v.load()}};
 const card=()=>{const s=S[k];rc.classList.add('sw');rt.classList.add('sw');setTimeout(()=>{rc.querySelector('.ik').textContent=s[0];rc.querySelector('h3').textContent=s[1];rc.querySelector('.ix').textContent=s[2];rc.querySelector('.ichip').innerHTML='<i></i>'+s[3];rc.classList.toggle('good',!!s[4]);rt.classList.toggle('good',!!s[4]);place();dots.forEach((x,i)=>x.classList.toggle('on',i===k));rc.classList.remove('sw');rt.classList.remove('sw')},450)};
-let t;const next=()=>{clearTimeout(t);V[k].classList.remove('on');k=(k+1)%S.length;const v=V[k];v.classList.add('on');card();load(V[(k+1)%V.length]);if(play){v.currentTime=0;v.play().catch(()=>{})}t=setTimeout(next,6000)};
+let t;const next=()=>{clearTimeout(t);L[k].classList.remove('on');k=(k+1)%S.length;const v=V[k];L[k].classList.add('on');card();load(V[(k+1)%V.length]);if(play){v.currentTime=0;v.play().catch(()=>{})}t=setTimeout(next,6000)};
 if(play){load(V[0]);load(V[1]);V[0].play().catch(()=>{})}t=setTimeout(next,6000)})();
 </script></main>
 <footer><div class="wrap fgrid">
