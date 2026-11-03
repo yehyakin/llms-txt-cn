@@ -8,19 +8,15 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 d = json.load(open(os.path.join(ROOT, "data", "demo-toyota.json")))
 bots = [b for b in d["access"]["bots"] if not b["region"]]
 logo = open(os.path.join(ROOT, "en/brand/vaksel-horizontal-primary.svg")).read()
-def keyed(path):
-    # knock out the photo's flat studio background so the object sits on the paper
-    import numpy as np
-    im = Image.open(path).convert("RGB"); a = np.asarray(im).astype(float)
-    bg = np.median(np.concatenate([a[:8].reshape(-1, 3), a[-8:].reshape(-1, 3), a[:, :8].reshape(-1, 3), a[:, -8:].reshape(-1, 3)]), axis=0)
-    dist = np.sqrt(((a - bg) ** 2).sum(-1))
-    alpha = np.clip((dist - 6) / 26, 0, 1)
-    # keep a soft contact shadow: darker-than-bg pixels get partial alpha
-    lum = a.mean(-1); dark = np.clip((bg.mean() - lum - 3) / 40, 0, 1)
-    alpha = np.maximum(alpha, dark * .9)
-    out = np.dstack([a, alpha * 255]).astype("uint8")
-    buf = io.BytesIO(); Image.fromarray(out, "RGBA").save(buf, "PNG"); return base64.b64encode(buf.getvalue()).decode()
-obj = keyed(os.path.join(ROOT, "en/img/report-object.webp"))
+NAMES = {"search": "AI search", "user": "user-triggered", "training": "training"}
+def panel():
+    c = d["access"]["controls"]
+    rows = "".join(
+        f"<tr><td>{b['token']}</td><td class='r'>{'allows' if b['robots'] != 'blocked' else 'disallows'}</td>"
+        f"<td class='s {'ok' if b['status'] == 200 else 'no'}'>{b['status']}</td></tr>" for b in bots)
+    ctrl = [("Browser", True), ("Googlebot", not c["googlebot_spoof_blocked"]), ("Unknown bot", not c["unknown_bot_blocked"])]
+    chips = "".join(f"<span class='{'ok' if v else 'no'}'><i></i>{n}</span>" for n, v in ctrl)
+    return f"<div class='pn'><p class='ph mono'><span>AGENT</span><span>ROBOTS.TXT</span><span>HTTP</span></p><table>{rows}</table><p class='cg mono'>CONTROLS</p><div class='chips'>{chips}</div></div>"
 CSS = """*{box-sizing:border-box;margin:0;padding:0}
 body{background:#fbfbf9;color:#171614;font-family:'DejaVu Sans',sans-serif;-webkit-font-smoothing:antialiased}
 .mono{font-family:'DejaVu Sans Mono',monospace}.serif{font-family:'C059',serif}
@@ -31,19 +27,26 @@ body{background:#fbfbf9;color:#171614;font-family:'DejaVu Sans',sans-serif;-webk
 """
 COVER = f"""<html><head><style>{CSS}
 body{{width:724px;height:543px;padding:46px 60px 40px}}
-.mid{{display:flex;align-items:center;height:300px}}
+.mid{{display:flex;align-items:center;gap:28px;height:300px}}
 .mid .l{{flex:1}}
-h1{{font-weight:400;font-size:34px;line-height:1.08;letter-spacing:.005em;text-transform:uppercase}}
+h1{{font-weight:400;font-size:30px;line-height:1.08;letter-spacing:.005em;text-transform:uppercase}}
 .site{{font-size:13px;letter-spacing:.08em;margin:14px 0 22px}}
 .by{{font-style:italic;font-size:12.5px;line-height:1.75;font-family:'DejaVu Sans'}}
-.mid img{{width:310px;margin-right:-24px;display:block}}
+.pn{{width:300px;border:1px solid #d9d7d1;background:#fff;padding:12px 14px 12px;font-size:11px}}
+.ph{{display:grid;grid-template-columns:1fr 70px 34px;font-size:8.5px;letter-spacing:.1em;color:#8a867e;padding-bottom:6px;border-bottom:1px solid #e4e2dc}}.ph span:last-child{{text-align:right}}
+.pn table{{width:100%;border-collapse:collapse}}.pn td{{padding:4.6px 0;border-bottom:1px solid #f0eee9;font-family:'DejaVu Sans Mono';font-size:10.5px}}
+.pn td.r{{width:70px;color:#8a867e;font-size:9.5px}}.pn td.s{{width:34px;text-align:right;font-weight:700}}
+.ok{{color:#1f8a4c}}.no{{color:#b23b2e}}
+.cg{{font-size:8.5px;letter-spacing:.1em;color:#8a867e;margin:9px 0 6px}}
+.chips{{display:flex;gap:6px}}.chips span{{font-size:9.5px;border:1px solid #e4e2dc;border-radius:99px;padding:3px 7px;color:#3d3a35;display:flex;align-items:center;gap:4px}}
+.chips i{{width:5px;height:5px;border-radius:50%;background:currentColor}}.chips span.ok i{{background:#1f8a4c}}.chips span.no i{{background:#b23b2e}}
 .c{{font-size:11px;letter-spacing:.12em;margin:4px 0 12px}}
 .toc{{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #d9d7d1;padding-top:14px}}
 .toc div{{padding:0 0 0 16px;border-left:1px solid #d9d7d1;font-size:13px}}.toc div:first-child{{border:0;padding-left:0}}
 .toc b{{display:block;font-family:'DejaVu Sans Mono';font-weight:400;font-size:21px;color:#1f8a4c;margin-bottom:6px}}
 </style></head><body>
 <div class="top">{logo}<span class="mono">ACCESS REPORT&nbsp;&nbsp;&nbsp;<span class="g">11 / 2026</span></span></div>
-<div class="mid"><div class="l"><h1 class="serif">AI crawler<br>access report</h1><p class="site mono mut">{d['domain'].upper()}</p><p class="by">Prepared by VAKSEL<br>November 3, 2026</p></div><img src="data:image/png;base64,{obj}"></div>
+<div class="mid"><div class="l"><h1 class="serif">AI crawler<br>access report</h1><p class="site mono mut">{d['domain'].upper()}</p><p class="by">Prepared by VAKSEL<br>November 3, 2026</p></div>{panel()}</div>
 <p class="c mono g">CONTENTS</p>
 <div class="toc"><div><b>01</b>Verdict</div><div><b>02</b>Crawler results</div><div><b>03</b>Blocking layer</div><div><b>04</b>Fix guide</div></div>
 </body></html>"""
@@ -67,7 +70,7 @@ td.ok{{color:#1f8a4c;font-family:'DejaVu Sans Mono'}}td.no{{color:#b23b2e;font-f
 <div class="top">{logo}<span class="mono">{d['domain'].upper()}&nbsp;&nbsp;&nbsp;<span class="g">11 / 2026</span></span></div>
 <div class="sec"><p class="n mono">01 · VERDICT</p><h2 class="serif">Silent block</h2>
 <p>robots.txt lets OAI-SearchBot and the user-triggered agents in. CloudFront answers them with 403. A browser, Googlebot and an unknown bot all get the page, so this is aimed at AI crawlers, not at all automated traffic.</p>
-<div class="v"><div><b>{silent}</b><span>silent blocks</span></div><div><b>{sum(b['status']==200 for b in bots)} of {len(bots)}</b><span>AI agents served</span></div><div><b>3 of 3</b><span>control groups served</span></div></div></div>
+<div class="v"><div><b>{silent}</b><span>silent blocks</span></div><div><b>{sum(b['status']==200 for b in bots)} of {len(bots)}</b><span>AI agents served</span></div><div><b>3 of 3</b><span>control groups not blocked</span></div></div></div>
 <div class="sec"><p class="n mono">02 · CRAWLER RESULTS</p><h2 class="serif">What each agent got</h2>
 <table><tr><th>AGENT</th><th>ROBOTS.TXT</th><th>STATUS</th><th>RESULT</th></tr>{rows}</table></div>
 <div class="sec"><p class="n mono">03 · BLOCKING LAYER</p><h2 class="serif">CloudFront</h2><p>The 403 comes from the CDN edge before the request reaches the origin. The robots.txt file is not the cause.</p></div>
