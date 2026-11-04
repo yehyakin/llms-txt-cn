@@ -583,5 +583,22 @@ html.lt body.dk:where(:not(.in)) .hf,html.lt body.dk:where(:not(.in)) .ff,html.l
 html.lt body.dk:where(:not(.in)) .gmk .gtx{color:#1d1d1f}
 :where(body:not(.in)) .qcards.g2c{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 @media (max-width:860px){:where(body:not(.in)) .qcards.g2c{grid-template-columns:minmax(0,1fr)}}
-:where(body.zh:not(.in)) .hero h1{letter-spacing:0}
 body.zh.dk:not(.in) .ag p{font-size:10.5px;line-height:1.45}
+
+/* 中文排版（2026-11-05）：汉字不用负字距、不用大写宽字距；标题略小一号、行高放松；正文行高 1.75。
+   只作用于 body.zh，英文站不受影响。中文字体仍走系统字体（苹方 / 微软雅黑 / Noto Sans CJK）。 */
+body.zh{--sans:"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;font-family:var(--sans)}
+body.zh h1,body.zh h2,body.zh h3,body.zh .lsub{letter-spacing:0!important;font-feature-settings:"palt" 0}
+body.zh.dk:not(.in) h1{font-size:clamp(34px,4vw,52px);line-height:1.22;font-weight:600}
+body.zh.dk .sec h2,body.zh.dk .phead h2{font-size:clamp(28px,3.2vw,42px)!important;line-height:1.3!important}
+body.zh.dk .final h2{font-size:clamp(32px,4.2vw,54px)!important;line-height:1.25}
+body.zh.dk .lsub{font-size:clamp(22px,2.2vw,30px);line-height:1.4}
+body.zh.dk .step h3{font-size:22px;line-height:1.4}
+body.zh.dk .ec h3{font-size:18px;line-height:1.45}
+body.zh.dk .kick,body.zh.dk .lab,body.zh.dk .step .tags,body.zh.dk .lh,body.zh.dk .crumb,body.zh.dk .hero .eyebrow{letter-spacing:.06em;text-transform:none}
+body.zh.dk p,body.zh.dk li,body.zh.dk .faq p{line-height:1.75}
+body.zh.dk .lead{line-height:1.75;font-size:16.5px}
+body.zh.dk .ag p,body.zh.dk .qf,body.zh.dk .ichip{line-height:1.45}
+body.zh.dk.in h1,body.zh.dk.in .doc h1,body.zh.dk.in .doc-head h1{font-size:clamp(30px,3.8vw,44px);line-height:1.3}
+body.zh.dk.in .doc h2{font-size:22px;line-height:1.4}
+body.zh.dk.in .sec h2{line-height:1.4!important}
