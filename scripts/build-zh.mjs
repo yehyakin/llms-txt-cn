@@ -32,7 +32,7 @@ export const FOOT = (enPath) => `<footer><div class="wrap fgrid">
   <div class="fbrand"><a class="logo" href="/"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><span class="zhtag">中文版</span></a><p>AI 搜索到底能不能访问你的网站？免费检测 robots.txt、防火墙和 CDN 拦截。</p></div>
   <div><h2 class="fh">产品</h2><a href="/">可访问性检测</a><a href="/pricing/">监控（早期体验）</a><a href="/research/">研究方法</a><a href="/tools/">llms.txt 工具</a></div>
   <div><h2 class="fh">修复指南</h2><a href="/guides/cloudflare/">Cloudflare</a><a href="/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/guides/wordpress/">WordPress</a><a href="/guides/shopify/">Shopify</a><a href="/guides/edgeone/">腾讯云 EdgeOne</a><a href="/guides/aliyun/">阿里云 ESA</a><a href="/guides/baota/">宝塔面板</a><a href="/guides/baidu/">百度智能云</a></div>
-  <div><h2 class="fh">资料</h2><a href="/bots/">AI 爬虫百科</a><a href="/survey/">中文大站普查</a><a href="/guide/what-is-llms-txt/">llms.txt 是什么</a><a href="/faq/">常见问题</a></div>
+  <div><h2 class="fh">资料</h2><a href="/bots/">AI 爬虫百科</a><a href="/bots/changelog/">爬虫变更日志</a><a href="/survey/">中文大站普查</a><a href="/guide/what-is-llms-txt/">llms.txt 是什么</a><a href="/faq/">常见问题</a></div>
   <div class="fsmall"><span>© 2026 VAKSEL · cetxt.com 是 VAKSEL 中文版</span><a href="/privacy/">隐私</a><a href="/terms/">条款</a><a href="/contact/">联系</a><a href="${EN}${enPath || '/'}" hreflang="en" lang="en">English</a><span>我们不保存你检测的域名和 IP。</span></div>
 </div></footer>`;
 
@@ -139,7 +139,7 @@ write('bots/index.html', page({
 <p class="lead l">搜索、训练、用户触发是三类不同的爬虫。拦错了，可能训练没拦住，自己却从 AI 回答里消失了。每一条都附运营方官方文档。</p>
 ${groups}
 <section class="sec tight">${checkBox('这些爬虫里，哪些能访问你的网站？', '我们检查 robots.txt，并以上面这些 AI 搜索爬虫的身份实际发出请求。')}</section>
-<p class="note">来源：各运营方官方爬虫文档，核对于 ${DATA.crawlers[0].verified_on}。标注“部分核实”的条目，官方文档没有写明全部细节。</p>
+<p class="note">最近有哪些变化，见 <a href="/bots/changelog/">AI 爬虫变更日志</a>。来源：各运营方官方爬虫文档，核对于 ${DATA.crawlers[0].verified_on}。标注“部分核实”的条目，官方文档没有写明全部细节。</p>
 </main>${CHECK_JS}`
 }));
 for (const c of crawlers) {
@@ -413,8 +413,38 @@ write('404.html', page({
   body: `<main class="wrap nf"><img src="/en/brand/vava/vava3d-searching-mini.webp" width="160" height="202" alt="正在找东西的狐狸 Vava">
 <h1>找遍了也没找到</h1><p class="lead">这个页面不存在，或者已经搬走了。试试检测，或者看看下面这些。</p>
 <form class="field" data-check autocomplete="off"><input placeholder="你的域名，例如 example.com" aria-label="域名" spellcheck="false" autocapitalize="off"><button class="btn">开始检测</button></form>
-<p class="hint"><a href="/guides/">修复指南</a> · <a href="/bots/">AI 爬虫百科</a> · <a href="/tools/">llms.txt 工具</a> · <a href="/survey/">普查报告</a></p></main>${CHECK_JS}`
+<p class="hint"><a href="/guides/">修复指南</a> · <a href="/bots/">AI 爬虫百科</a><a href="/bots/changelog/">爬虫变更日志</a> · <a href="/tools/">llms.txt 工具</a> · <a href="/survey/">普查报告</a></p></main>${CHECK_JS}`
 }));
+
+
+/* ---------- AI 爬虫变更日志（2026-11-04，与英文 /en/bots/changelog/ 同源数据） ---------- */
+{
+  const CL = JSON.parse(readFileSync(join(root, 'data/crawler-changelog.json'), 'utf8')).entries;
+  const W = JSON.parse(readFileSync(join(root, 'data/doc-watch.json'), 'utf8'));
+  const known = new Set(crawlers.map((c) => c.token));
+  const fmt = (d) => { const [y, m, dd] = d.split('-').map(Number); return `${y} 年 ${m} 月 ${dd} 日`; };
+  const tok = (t) => (known.has(t) ? `<a href="/bots/${slug(t)}/"><code>${esc(t)}</code></a>` : `<code>${esc(t)}</code>`);
+  const items = CL.map((e) => `<li class="cl-i"><time datetime="${e.date}">${e.date}</time><div><span class="cl-k ${e.kind}">${e.kind === 'vendor' ? '官方文档变更' : '目录更新'}</span><p>${esc(e.zh)}</p>${e.tokens.length ? `<p class="cl-t">${e.tokens.map(tok).join(' ')}</p>` : ''}${e.source ? `<p class="cl-s"><a href="${esc(e.source)}" rel="nofollow noopener" target="_blank">来源 ↗</a></p>` : ''}</div></li>`).join('');
+  const docs = Object.entries(W.docs).map(([u, v]) => {
+    const host = new URL(u).hostname.replace(/^www\./, '');
+    const st = v.js_only ? '人工核对' : v.hash ? '自动比对' : '上次无法访问';
+    return `<tr><td>${v.tokens.map(tok).join(' ')}</td><td><a href="${esc(u)}" rel="nofollow noopener" target="_blank">${esc(host)} ↗</a></td><td>${st}</td></tr>`;
+  }).join('');
+  write('bots/changelog/index.html', page({
+    path: '/bots/changelog/', active: 'bots', en: '/en/bots/changelog/',
+    title: 'AI 爬虫变更日志：新 UA 与规则变化 · VAKSEL',
+    desc: 'GPTBot、OAI-SearchBot、ClaudeBot、PerplexityBot、Bytespider 等 AI 爬虫官方文档的变化：新增的 UA、改名的爬虫、robots.txt 规则变化，每条附来源。',
+    body: `<main class="wrap doc">${crumbs([['/', '首页'], ['/bots/', 'AI 爬虫'], [null, '变更日志']])}
+<h1>AI 爬虫变更日志</h1><p class="upd">文档指纹最后记录于 ${fmt(W.checked_at.slice(0, 10))}</p>
+<p class="lead l">AI 公司新增爬虫、给爬虫改名、改变 robots.txt 能管的范围时，你的规则不用动也可能失效。我们给每家运营方的爬虫文档做指纹，和线上页面比对，读过原文后才在这里记一条。</p>
+<ol class="cl">${items}</ol>
+<h2>我们比对的页面</h2>
+<p>${Object.keys(W.docs).length} 个官方页面，覆盖 ${crawlers.length} 个爬虫。页面有变化，读过之后才会记入日志；与爬虫无关的排版和措辞改动不记。</p>
+<div class="tscroll" style="overflow-x:auto"><table class="tbl clw"><thead><tr><th>爬虫</th><th>官方页面</th><th>方式</th></tr></thead><tbody>${docs}</tbody></table></div>
+<section class="sec tight">${checkBox('你的规则还跟得上吗？', '我们用最新的爬虫清单检查你的 robots.txt 和防火墙。')}</section>
+</main>${CHECK_JS}`
+  }));
+}
 
 /* ---------- sitemap ---------- */
 
@@ -451,7 +481,7 @@ write('404.html', page({
   }));
 }
 
-const urls = ['/', '/research/', '/research/grading/', '/research/lab/', '/pricing/', '/guides/', ...GUIDES_ZH.map((g) => `/guides/${g.slug}/`), '/bots/', ...crawlers.map((c) => `/bots/${slug(c.token)}/`), '/tools/', '/survey/', '/faq/', '/guide/what-is-llms-txt/', '/guide/how-to-write-llms-txt/', '/llms.txt', '/privacy/', '/terms/', '/contact/'];
+const urls = ['/', '/research/', '/research/grading/', '/research/lab/', '/pricing/', '/guides/', ...GUIDES_ZH.map((g) => `/guides/${g.slug}/`), '/bots/', '/bots/changelog/', ...crawlers.map((c) => `/bots/${slug(c.token)}/`), '/tools/', '/survey/', '/faq/', '/guide/what-is-llms-txt/', '/guide/how-to-write-llms-txt/', '/llms.txt', '/privacy/', '/terms/', '/contact/'];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${SITE}${u}</loc><lastmod>${UPDATED}</lastmod></url>`).join('\n')}\n</urlset>\n`);
 console.log('zh pages:', out.length);
 

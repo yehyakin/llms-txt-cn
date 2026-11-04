@@ -758,7 +758,7 @@ write('en/site.webmanifest', JSON.stringify({ name: 'VAKSEL', short_name: 'VAKSE
 <ol class="cl">${items}</ol>
 <h2>Pages we compare</h2>
 <p>${Object.keys(W.docs).length} official pages covering ${crawlers.length} crawlers. A change on a page only becomes an entry here after we read it; layout and wording edits that don't affect crawlers are left out.</p>
-<div class="tscroll" style="overflow-x:auto"><table class="tbl"><thead><tr><th>Crawlers</th><th>Official page</th><th>Status</th></tr></thead><tbody>${docs}</tbody></table></div>
+<div class="tscroll" style="overflow-x:auto"><table class="tbl clw"><thead><tr><th>Crawlers</th><th>Official page</th><th>Status</th></tr></thead><tbody>${docs}</tbody></table></div>
 <section class="sec tight">${checkBox('Do your rules still match?', 'We test your robots.txt and firewall against the current list of crawlers.')}</section>
 </main>${CHECK_JS}`
   })));

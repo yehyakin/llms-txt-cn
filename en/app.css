@@ -296,3 +296,4 @@ footer .fgrid>.fbrand>a.logo{display:inline-flex;align-items:center;margin:0}
 .cl-t code,.tbl code{font-size:12.5px;white-space:nowrap;display:inline-block;margin:0 4px 4px 0}
 .cl-t a{margin-right:6px}
 @media (max-width:560px){.cl-i{grid-template-columns:1fr;gap:4px}}
+.clw td:last-child,.clw th:last-child{white-space:nowrap}
