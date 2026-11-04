@@ -142,7 +142,7 @@ for (const c of crawlers) {
   out.push(write(`en/bots/${slug(c.token)}/index.html`, page({
     path: `/en/bots/${slug(c.token)}/`, active: 'bots', ld,
     title: `${c.token}: what it is, and should you block it? · VAKSEL`,
-    desc: `${c.token} is ${c.category === 'other' ? `a ${VENDOR_EN[c.vendor] || c.vendor} crawler` : `${c.vendor}'s ${CAT[c.category].toLowerCase()} ${c.category === 'training_control' ? 'token' : 'crawler'}`}. ${e.block}`.slice(0, 300),
+    desc: `${c.token} is ${c.category === 'other' ? `one of ${VENDOR_EN[c.vendor] || c.vendor}'s crawlers` : `${c.vendor}'s ${CAT[c.category].toLowerCase()} ${c.category === 'training_control' ? 'token' : 'crawler'}`}. ${e.block}`.slice(0, 300),
     body: `<main class="wrap doc">${crumbs([['/en/', 'Home'], ['/en/bots/', 'AI crawlers'], [null, c.token]])}
 <h1>${esc(c.token)}</h1>
 <div class="facts"><div><span>Operator</span><b>${esc(VENDOR_EN[c.vendor] || c.vendor)}</b></div><div><span>Purpose</span><b>${CAT[c.category]}</b></div><div><span>Follows robots.txt</span><b>${ROBOTS[c.respects_robots] || '–'}</b></div><div><span>Source</span><b><a href="${esc(c.docs_url)}" rel="nofollow noopener" target="_blank">Official docs ↗</a></b></div></div>
