@@ -20,7 +20,7 @@ BG = "#f7f7f5"; INK = "#171614"; MUT = "#6f6b64"; FAINT = "#a8a59e"
 G1 = "#c4c2bb"; G2 = "#a19e96"; G3 = "#77736b"; GRID = "#e6e4df"
 GREEN = "#1e6b52"; GREENBG = "#e3eee9"
 W = 2400
-plt.rcParams.update({"font.family": "DejaVu Sans", "text.color": INK})
+plt.rcParams.update({"font.family": "Inter", "text.color": INK})
 
 
 def canvas(h):
@@ -156,7 +156,7 @@ def fig_sample():
         ax.add_patch(Rectangle((x0, y), w, hh, facecolor=GREENBG if hi else BG,
                                edgecolor=GREEN if hi else "#d6d3cc", lw=2.5 if hi else 2,
                                ls=(0, (6, 5)) if dashed else "-", zorder=2))
-        T(ax, cx, y + 40, eyebrow, 17, GREEN if hi else FAINT, ha="center", zorder=3, fontfamily="DejaVu Sans")
+        T(ax, cx, y + 40, eyebrow, 17, GREEN if hi else FAINT, ha="center", zorder=3, fontfamily="Inter")
         T(ax, cx, y + 86, title, 30, GREEN if hi else INK, weight="bold", ha="center", zorder=3)
         for j, m in enumerate(meta if isinstance(meta, list) else [meta]):
             T(ax, cx, y + 122 + j * 30, m, 20, MUT, ha="center", zorder=3)

@@ -18,8 +18,8 @@ def panel():
     chips = "".join(f"<span class='{'ok' if v else 'no'}'><i></i>{n}</span>" for n, v in ctrl)
     return f"<div class='pn'><p class='ph mono'><span>AGENT</span><span>ROBOTS.TXT</span><span>HTTP</span></p><table>{rows}</table><p class='cg mono'>CONTROLS</p><div class='chips'>{chips}</div></div>"
 CSS = """*{box-sizing:border-box;margin:0;padding:0}
-body{background:#fbfbf9;color:#171614;font-family:'DejaVu Sans',sans-serif;-webkit-font-smoothing:antialiased}
-.mono{font-family:'DejaVu Sans Mono',monospace}.serif{font-family:'C059',serif}
+body{background:#fbfbf9;color:#171614;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+.mono{font-family:'JetBrains Mono',monospace}.serif{font-family:'C059',serif}
 .g{color:#1f8a4c}.mut{color:#6f6b64}
 .top{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:22px;border-bottom:1px solid #d9d7d1}
 .top svg{height:22px;width:auto}
@@ -31,10 +31,10 @@ body{{width:724px;height:543px;padding:46px 60px 40px}}
 .mid .l{{flex:1}}
 h1{{font-weight:400;font-size:30px;line-height:1.08;letter-spacing:.005em;text-transform:uppercase}}
 .site{{font-size:13px;letter-spacing:.08em;margin:14px 0 22px}}
-.by{{font-style:italic;font-size:12.5px;line-height:1.75;font-family:'DejaVu Sans'}}
+.by{{font-style:italic;font-size:12.5px;line-height:1.75;font-family:'Inter'}}
 .pn{{width:300px;border:1px solid #d9d7d1;background:#fff;padding:12px 14px 12px;font-size:11px}}
 .ph{{display:grid;grid-template-columns:1fr 70px 34px;font-size:8.5px;letter-spacing:.1em;color:#8a867e;padding-bottom:6px;border-bottom:1px solid #e4e2dc}}.ph span:last-child{{text-align:right}}
-.pn table{{width:100%;border-collapse:collapse}}.pn td{{padding:4.6px 0;border-bottom:1px solid #f0eee9;font-family:'DejaVu Sans Mono';font-size:10.5px}}
+.pn table{{width:100%;border-collapse:collapse}}.pn td{{padding:4.6px 0;border-bottom:1px solid #f0eee9;font-family:'JetBrains Mono';font-size:10.5px}}
 .pn td.r{{width:70px;color:#8a867e;font-size:9.5px}}.pn td.s{{width:34px;text-align:right;font-weight:700}}
 .ok{{color:#1f8a4c}}.no{{color:#b23b2e}}
 .cg{{font-size:8.5px;letter-spacing:.1em;color:#8a867e;margin:9px 0 6px}}
@@ -43,7 +43,7 @@ h1{{font-weight:400;font-size:30px;line-height:1.08;letter-spacing:.005em;text-t
 .c{{font-size:11px;letter-spacing:.12em;margin:4px 0 12px}}
 .toc{{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #d9d7d1;padding-top:14px}}
 .toc div{{padding:0 0 0 16px;border-left:1px solid #d9d7d1;font-size:13px}}.toc div:first-child{{border:0;padding-left:0}}
-.toc b{{display:block;font-family:'DejaVu Sans Mono';font-weight:400;font-size:21px;color:#1f8a4c;margin-bottom:6px}}
+.toc b{{display:block;font-family:'JetBrains Mono';font-weight:400;font-size:21px;color:#1f8a4c;margin-bottom:6px}}
 </style></head><body>
 <div class="top">{logo}<span class="mono">ACCESS REPORT&nbsp;&nbsp;&nbsp;<span class="g">11 / 2026</span></span></div>
 <div class="mid"><div class="l"><h1 class="serif">AI crawler<br>access report</h1><p class="site mono mut">{d['domain'].upper()}</p><p class="by">Prepared by VAKSEL<br>November 3, 2026</p></div>{panel()}</div>
@@ -61,11 +61,11 @@ p{{font-size:13.5px;line-height:1.65;color:#3d3a35}}
 .v{{display:flex;gap:28px;margin-top:18px}}.v div{{flex:1;border-top:2px solid #171614;padding-top:10px}}
 .v b{{display:block;font-size:30px;font-weight:600;letter-spacing:-.02em}}.v span{{font-size:11.5px;color:#6f6b64}}
 table{{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}}
-th{{text-align:left;font-weight:400;font-family:'DejaVu Sans Mono';font-size:10.5px;letter-spacing:.08em;color:#8a867e;padding:8px 0;border-bottom:1px solid #d9d7d1}}
+th{{text-align:left;font-weight:400;font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.08em;color:#8a867e;padding:8px 0;border-bottom:1px solid #d9d7d1}}
 td{{padding:10px 0;border-bottom:1px solid #eceae5;vertical-align:top}}
 td span{{display:block;color:#8a867e;font-size:11px;margin-top:2px}}
-td.ok{{color:#1f8a4c;font-family:'DejaVu Sans Mono'}}td.no{{color:#b23b2e;font-family:'DejaVu Sans Mono'}}
-.fix{{font-family:'DejaVu Sans Mono';font-size:12px;background:#f1f0ec;padding:16px 18px;line-height:1.9;margin-top:14px}}
+td.ok{{color:#1f8a4c;font-family:'JetBrains Mono'}}td.no{{color:#b23b2e;font-family:'JetBrains Mono'}}
+.fix{{font-family:'JetBrains Mono';font-size:12px;background:#f1f0ec;padding:16px 18px;line-height:1.9;margin-top:14px}}
 </style></head><body>
 <div class="top">{logo}<span class="mono">{d['domain'].upper()}&nbsp;&nbsp;&nbsp;<span class="g">11 / 2026</span></span></div>
 <div class="sec"><p class="n mono">01 · VERDICT</p><h2 class="serif">Silent block</h2>
