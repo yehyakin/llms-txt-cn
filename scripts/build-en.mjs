@@ -440,7 +440,7 @@ const homeBody = `<header class="hero"><div class="hbg" aria-hidden="true"><div 
 
 <section class="strip" aria-label="Crawlers we test"><div class="wrap">
   <p class="kick c">We test the crawlers behind</p>
-  <div class="marks">${[['openai', 'OpenAI'], ['anthropic', 'Anthropic'], ['perplexity', 'Perplexity'], ['google', 'Google'], ['microsoft', 'Microsoft'], ['apple', 'Apple'], ['meta', 'Meta']].map(([k, n]) => `<span>${MARK(k)}${n}</span>`).join('')}</div>
+  <div class="marq"><div class="mtrack">${(() => { const one = [['openai', 'OpenAI'], ['anthropic', 'Anthropic'], ['google', 'Google'], ['microsoft', 'Microsoft'], ['apple', 'Apple'], ['meta', 'Meta'], ['amazon', 'Amazon'], ['perplexity', 'Perplexity'], ['duckduckgo', 'DuckDuckGo'], ['', 'Common Crawl'], ['bytedance', 'ByteDance'], ['huawei', 'Huawei'], ['baidu', 'Baidu'], ['', 'Alibaba'], ['', 'Tencent'], ['moonshotai', 'Moonshot AI']].map(([k, n]) => `<span>${k ? MARK(k) : ''}${n}</span>`).join(''); return `<div class="mset">${one}</div><div class="mset" aria-hidden="true">${one}</div>`; })()}</div></div>
 </div></section>
 
 <section class="prod gridbg" id="checks"><div class="wrap pgrid">
