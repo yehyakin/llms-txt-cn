@@ -548,7 +548,7 @@ steps.forEach(s=>io.observe(s));
 const dock=document.getElementById('dock'),hero=document.querySelector('.hero'),fin=document.querySelector('.final');let hv=true,fv=false;
 const sync=()=>{const on=!hv&&!fv;dock.classList.toggle('show',on);dock.setAttribute('aria-hidden',on?'false':'true');dock.querySelectorAll('input,button').forEach(x=>x.tabIndex=on?0:-1)};
 new IntersectionObserver(([e])=>{hv=e.isIntersecting;sync()}).observe(hero);
-const vis=new Map();const io=new IntersectionObserver(es=>{es.forEach(e=>vis.set(e.target,e.isIntersecting));fv=[...vis.values()].some(Boolean);sync()});[fin,document.querySelector('footer')].forEach(x=>x&&io.observe(x))})();
+const vis=new Map();const io2=new IntersectionObserver(es=>{es.forEach(e=>vis.set(e.target,e.isIntersecting));fv=[...vis.values()].some(Boolean);sync()});[fin,document.querySelector('footer')].forEach(x=>x&&io2.observe(x))})();
 (()=>{const S=[
  ['toyota.com · CloudFront','Silent block','robots.txt lets OAI-SearchBot in. The firewall answers 403.','Googlebot · 200',0,[63,29],[57,37]],
  ['smithsonianmag.com · Cloudflare','All blocked','Cloudflare turns away all 6 AI search and user-triggered crawlers we sent.','6 of 6 rejected',0,[84,40],[66,48]],
