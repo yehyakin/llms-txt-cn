@@ -578,3 +578,10 @@ body.dk .nav a.n{font-size:14px}
 @media (max-width:640px){.dk:where(:not(.in)) .hf{min-height:58px;padding:8px 8px 8px 18px}.dk:where(:not(.in)) .hf .tph,.dk:where(:not(.in)) .ff .tph{left:18px;font-size:16px}.dk:where(:not(.in)) .hf input,.dk:where(:not(.in)) .ff input{font-size:16px}}
 @media (prefers-reduced-motion:reduce){.dk:where(:not(.in)) .tph{display:none!important}.dk:where(:not(.in)) .typing input::placeholder{color:#8a8a8e}}
 html.lt body.dk:where(:not(.in)) .hf,html.lt body.dk:where(:not(.in)) .ff,html.lt body.dk:where(:not(.in)) .dock{background:#fcfcfa;box-shadow:0 0 0 1px rgba(0,0,0,.12),0 20px 50px -24px rgba(0,0,0,.25)}
+/* 中文首页（2026-11-05）：国内平台没有 logo 时用两个字代替；旧工具入口两列 */
+.dk:where(:not(.in)) .gmk .gtx{font-size:13px;font-weight:600;letter-spacing:.02em;color:#e5e5ea}
+html.lt body.dk:where(:not(.in)) .gmk .gtx{color:#1d1d1f}
+:where(body:not(.in)) .qcards.g2c{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+@media (max-width:860px){:where(body:not(.in)) .qcards.g2c{grid-template-columns:minmax(0,1fr)}}
+:where(body.zh:not(.in)) .hero h1{letter-spacing:0}
+body.zh.dk:not(.in) .ag p{font-size:10.5px;line-height:1.45}
