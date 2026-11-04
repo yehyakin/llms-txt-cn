@@ -38,7 +38,7 @@ Disallow: /</pre><p>显式放行（当有更宽的规则拦了其他机器人时
 Allow: /</pre>
 <h2>官方原文</h2><blockquote>When users ask Vibe a question, it may visit a web page to help answer and include a link to the source in its response. MistralAI-User governs which sites these user requests can be made to.<cite><a href="https://docs.mistral.ai/robots" rel="nofollow noopener" target="_blank">Mistral AI 文档</a>，核对于 2026-11-04</cite></blockquote>
 <h2>robots.txt 允许了，它就真能进来吗？</h2><p>即使 robots.txt 欢迎 MistralAI-User，防火墙或 CDN 规则也可能拒绝它，而后台不会有任何提示。我们的检测会以 MistralAI-User 的身份实际请求，同时用浏览器和 Googlebot 做对照，避免把爬虫 IP 核验误判成拦截。</p>
-
+<h2>Mistral AI 的其他爬虫</h2><div class="bgrid s"><a class="bcard" href="/bots/mistralai-index/"><div class="bt">MistralAI-Index</div><div class="bv">Mistral AI</div><p>为 Mistral 搜索建立索引，用来回答 Vibe 里用户的提问。</p></a><a class="bcard" href="/bots/mistralai-training/"><div class="bt">MistralAI-Training</div><div class="bv">Mistral AI</div><p>抓取网页内容，用于构建训练 Mistral 生成式 AI 模型的数据集。</p></a></div>
 <div style="margin-top:28px">
 <div class="cta mini"><div><h3>MistralAI-User 能访问你的网站吗？</h3><p>免费，无需注册。我们以 18 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
 <form class="field inv" data-check autocomplete="off"><input placeholder="你的域名，例如 example.com" aria-label="域名" spellcheck="false" autocapitalize="off"><button class="btn">检测</button></form></div></div>

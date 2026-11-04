@@ -1,5 +1,5 @@
 {
- "checked_at": "2026-11-04T10:48:31.361Z",
+ "checked_at": "2026-11-04T11:13:38.366Z",
  "docs": {
   "https://platform.openai.com/docs/bots": {
    "tokens": [
@@ -202,12 +202,16 @@
   },
   "https://docs.mistral.ai/robots": {
    "tokens": [
-    "MistralAI-User"
+    "MistralAI-User",
+    "MistralAI-Index",
+    "MistralAI-Training"
    ],
    "hash": "142b9ca040e1f412",
    "chars": 2480,
    "found": [
-    "MistralAI-User"
+    "MistralAI-User",
+    "MistralAI-Index",
+    "MistralAI-Training"
    ],
    "since": "2026-11-04T10:47:16.098Z"
   },

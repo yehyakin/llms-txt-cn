@@ -7,7 +7,7 @@ export const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<'
 export function cleanDomain(v){v=(v||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0].replace(/\.$/,'');return /^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v)?v:null}
 /* 传统搜索引擎爬虫：不算“AI 搜索”，robots-only 回落时不列入 */
 /* 11-04 新增、只查 robots.txt、不计入评级 */
-export const UNGRADED=new Set(['MistralAI-User','YouBot']);
+export const UNGRADED=new Set(['MistralAI-User','MistralAI-Index','YouBot']);
 export const CLASSIC=new Set(['Googlebot','Bingbot','Applebot','Baiduspider','YandexBot','Yeti']);
 const isMain=b=>(b.category==='search'||b.category==='user')&&b.region!=='cn';
 const isCnB=b=>(b.category==='search'||b.category==='user')&&b.region==='cn';
@@ -191,10 +191,12 @@ export function renderReport(r,opt){
   const ra=(r.robots&&r.robots.analysis&&r.robots.analysis.access)||[];
   const untested=!(a.bots&&a.bots.length);
   const B=opt.base==null?(opt.lang==='zh'?'':'/en'):opt.base;
-  const bots=!untested?a.bots:ra.filter(b=>['search','user','training'].includes(b.category)&&!CLASSIC.has(b.token)).map(b=>({token:b.token,vendor:b.vendor,category:b.category,region:b.region,robots:b.status,firewall:'untested',effective:b.status==='blocked'?'blocked':'ok'}));
+  const roRow=b=>({token:b.token,vendor:b.vendor,category:b.category,region:b.region,robots:b.status,firewall:'untested',effective:b.status==='blocked'?'blocked':'ok'});
+  // 实测报告也列出只做 robots.txt 分析的爬虫（UNGRADED，如 Mistral、You.com），防火墙一栏显示未测，不计入可访问数
+  const bots=!untested?a.bots.concat(ra.filter(b=>UNGRADED.has(b.token)&&['search','user','training'].includes(b.category)&&!a.bots.some(x=>x.token===b.token)).map(roRow)):ra.filter(b=>['search','user','training'].includes(b.category)&&!CLASSIC.has(b.token)).map(roRow);
   const search=bots.filter(b=>isMain(b));
   const train=bots.filter(b=>b.category==='training');
-  const reach=search.filter(b=>b.effective!=='blocked').length;
+  const sg=search.filter(b=>!UNGRADED.has(b.token));const reach=sg.filter(b=>b.effective!=='blocked').length;
   const llm=r.llms||{};
   const robots=r.robots||{};
   const meta=(a.target?esc(a.target)+' · ':'')+L.meta.checked+' <time datetime="'+esc(when)+'">'+esc(when.slice(0,16).replace('T',' '))+' UTC</time>'+(a.cdn?' · '+L.meta.servedBy+' '+esc(a.cdn):'');
@@ -213,7 +215,7 @@ export function renderReport(r,opt){
    '<div class="verdict '+tone+'"><div class="vi" aria-hidden="true">'+ICON[tone]+'</div><div><h2>'+v[0]+'</h2><p>'+v[1]+'</p></div></div>'+
    (r.domain?'<a class="monbar" href="'+B+'/pricing/?site='+encodeURIComponent(r.domain)+'#join">'+L.mon(esc(r.domain))+'</a>':'')+
    renderGrades(r,opt.lang)+
-   '<div class="kpis"><div class="kpi"><div class="k">'+(untested?K.reachRobots:K.reach)+'</div><div class="v">'+(search.length?reach+'<small> / '+search.length+'</small>':'–')+'</div></div>'+
+   '<div class="kpis"><div class="kpi"><div class="k">'+(untested?K.reachRobots:K.reach)+'</div><div class="v">'+(sg.length?reach+'<small> / '+sg.length+'</small>':'–')+'</div></div>'+
    '<div class="kpi"><div class="k">'+K.silent+'</div><div class="v">'+(untested?'–':((a.counts&&a.counts.silent)||0))+'</div></div>'+
    '<div class="kpi"><div class="k">'+K.train+'</div><div class="v">'+train.filter(b=>b.effective==='blocked').length+'<small> / '+train.length+'</small></div></div>'+
    '<div class="kpi"><div class="k">'+K.text+'</div><div class="v">'+(page.text_chars!=null?page.text_chars.toLocaleString():'–')+'<small> '+K.chars+'</small></div></div></div>'+

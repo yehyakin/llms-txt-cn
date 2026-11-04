@@ -552,3 +552,7 @@ html.lt body.dk .mb code{background:rgba(220,38,38,.08);border-radius:4px;paddin
   .dk .qh b{font-size:19px}
 }
 @media (max-width:860px){.dk .qh{flex-wrap:wrap;row-gap:8px}}
+/* 11-04 QA：导航更易点（文字 14px、主题按钮 36px、手机菜单 44px 触控区） */
+body.dk .nav a.n{font-size:14px}
+.dk .thm{width:36px;height:36px}
+@media (max-width:860px){body.dk .menu{width:44px;height:44px}}

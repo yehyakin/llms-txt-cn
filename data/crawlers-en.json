@@ -151,6 +151,16 @@
       "block": "Mistral's assistant can't open your pages on request, so it won't cite them.",
       "advice": "Allow it if you want to be cited in Mistral's assistant."
     },
+    "MistralAI-Index": {
+      "summary": "Indexes pages for Mistral search, which answers questions in its Vibe assistant. Mistral says the content isn't used for generative AI training of any kind.",
+      "block": "Your pages stay out of Mistral's search index, so Vibe is less likely to find and cite them.",
+      "advice": "Allow it if you want to show up in Mistral's assistant answers."
+    },
+    "MistralAI-Training": {
+      "summary": "Collects web content to build datasets for training Mistral's generative AI models. Mistral says it isn't used for search indexing or live answers.",
+      "block": "Mistral won't use your content for training. Mistral search and on-request fetches are controlled separately by MistralAI-Index and MistralAI-User.",
+      "advice": "Block it if you don't want your content in Mistral's training data; it won't affect your visibility."
+    },
     "YouBot": {
       "summary": "The crawler behind the You.com search engine. It indexes pages for You.com's AI search and follows robots.txt.",
       "block": "Your pages drop out of You.com's index and its AI search answers.",

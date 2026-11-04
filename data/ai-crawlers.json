@@ -255,6 +255,22 @@
       "verification": "official"
     },
     {
+      "token": "MistralAI-Index", "vendor": "Mistral AI", "category": "search", "purposes": ["search"],
+      "respects_robots": "yes",
+      "summary_zh": "为 Mistral 搜索建立索引，用来回答 Vibe 里用户的提问。官方说明抓到的内容不用于任何生成式 AI 训练。",
+      "quote": "MistralAI-Index is for automated crawling of the web for indexing purposes only. It indexes content for Mistral search, which helps answer user questions in Vibe. Content crawled by MistralAI-Index is not used for generative AI training of any kind.",
+      "block_consequence_zh": "你的页面进不了 Mistral 搜索索引，Vibe 回答问题时更难找到和引用你。",
+      "docs_url": "https://docs.mistral.ai/robots", "verified_on": "2026-11-04", "verification": "verified"
+    },
+    {
+      "token": "MistralAI-Training", "vendor": "Mistral AI", "category": "training", "purposes": ["training"],
+      "respects_robots": "yes",
+      "summary_zh": "抓取网页内容，用于构建训练 Mistral 生成式 AI 模型的数据集。官方说明它不用于搜索索引，也不用于实时回答用户。",
+      "quote": "MistralAI-Training crawls web content to help build datasets for training Mistral generative AI models. Webmasters can disallow this user agent in their robots.txt file.",
+      "block_consequence_zh": "内容不会被 Mistral 用于训练模型；不影响 Mistral 搜索和 Vibe 按需访问（分别由 MistralAI-Index、MistralAI-User 控制）。",
+      "docs_url": "https://docs.mistral.ai/robots", "verified_on": "2026-11-04", "verification": "verified"
+    },
+    {
       "token": "YouBot",
       "vendor": "You.com",
       "category": "search",

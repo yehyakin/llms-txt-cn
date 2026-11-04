@@ -16,6 +16,9 @@ const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&':
 const slug = (t) => String(t).toLowerCase().replace(/[^a-z0-9]+/g, '-');
 const canon = (p) => SITE + p.replace(/^\/en/, '');
 
+// 生产 cetxt.com 仍是旧站，只有首页存在（2026-11-04 核实 /bots/ /pricing/ 均 404）。中文新站上线后改 ZH_LIVE = true，链接与 hreflang 恢复逐页对应。
+const ZH_LIVE = false;
+const zhHref = (path) => 'https://cetxt.com' + (ZH_LIVE && path && path !== '/en/404' ? path.replace(/^\/en/, '') : '/');
 export const NAV = (active, path) => `<a class="skip" href="#main">Skip to content</a>
 <nav class="nav" aria-label="Main"><div class="wrap">
   <a class="logo" href="/en/" aria-label="VAKSEL home"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"></a>
@@ -23,7 +26,7 @@ export const NAV = (active, path) => `<a class="skip" href="#main">Skip to conte
     <a class="n${active === 'guides' ? ' on' : ''}" href="/en/guides/"${active === 'guides' ? ' aria-current="page"' : ''}>Fix guides</a>
     <a class="n${active === 'bots' ? ' on' : ''}" href="/en/bots/"${active === 'bots' ? ' aria-current="page"' : ''}>AI crawlers</a>
     <a class="n${active === 'pricing' ? ' on' : ''}" href="/en/pricing/"${active === 'pricing' ? ' aria-current="page"' : ''}>Pricing</a>
-    <a class="n lang" href="https://cetxt.com${path && path !== '/en/404' ? path.replace(/^\/en/, '') : '/'}" hreflang="zh" lang="zh">中文</a>
+    <a class="n lang" href="${zhHref(path)}" hreflang="zh" lang="zh">中文</a>
   </div>
   <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
 </div></nav>
@@ -58,7 +61,7 @@ function page({ path, title, desc, body, active, ld, type = 'article', theme = '
 <meta name="description" content="${esc(desc)}">
 <meta name="robots" content="noindex"><meta name="theme-color" content="${theme ? '#0a0a0a' : '#ffffff'}">
 <link rel="canonical" href="${canon(path)}">
-<link rel="alternate" hreflang="en" href="${canon(path)}"><link rel="alternate" hreflang="zh-CN" href="https://cetxt.com${path.replace(/^\/en/, '') || '/'}">
+<link rel="alternate" hreflang="en" href="${canon(path)}">${ZH_LIVE || path === '/en/' ? `<link rel="alternate" hreflang="zh-CN" href="${zhHref(path)}">` : ''}
 <meta property="og:type" content="${type}"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${canon(path)}"><meta property="og:image" content="${SITE}/og/site.png"><meta name="twitter:card" content="summary_large_image">
 ${HEADX}${theme ? '<link rel="stylesheet" href="/en/home-dark.css">' + THEME_BOOT : ''}${ld ? `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>` : ''}
 </head><body${theme ? ` class="${theme}"` : ''}>
@@ -412,7 +415,9 @@ const LABROWS = ['Robots.txt rules', 'Firewall and CDN', 'Page directives', 'Ren
   return [n, rs.length, pct(rs.filter((r) => r.ok).length), pct(rs.filter((r) => !ROBOTS_ONLY_WRONG.has(r.slug)).length)];
 });
 const LABRO = LAB.results.filter((r) => !ROBOTS_ONLY_WRONG.has(r.slug)).length;
-const FIXT_DATE = 'Nov 3, 2026';
+const DEMO = JSON.parse(readFileSync(new URL('../data/demo-toyota.json', import.meta.url), 'utf8'));
+const FIXT_DATE = new Date(DEMO.checked_on + 'T00:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+const FIXT_LONG = new Date(DEMO.checked_on + 'T00:00:00Z').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 
 const SAMPLE = [
   ['toyota.com', 'Silent block', 'CloudFront', 'CloudFront rejects OAI-SearchBot and three user-triggered crawlers that robots.txt allows. A browser and Googlebot get through.'],
@@ -489,7 +494,7 @@ const homeBody = `<header class="hero"><div class="hbg" aria-hidden="true"><div 
     <a class="more" href="/en/report/toyota.com">Open a real report <span>→</span></a>
   </div>
   <div class="rstage"><div class="rsh" aria-hidden="true"></div><div class="rcard"><div class="rscroll" tabindex="0" aria-label="Example report, scroll to read">
-    <img src="/en/img/report-cover.webp" width="1448" height="1086" alt="Cover of a VAKSEL AI crawler access report for toyota.com, November 3, 2026">
+    <img src="/en/img/report-cover.webp" width="1448" height="1086" alt="Cover of a VAKSEL AI crawler access report for toyota.com, ${FIXT_LONG}">
     <img src="/en/img/report-p2.webp" width="1448" height="3016" alt="Report pages: verdict silent block, results for 8 AI agents, blocking layer CloudFront, AWS WAF fix guide" loading="lazy" decoding="async">
   </div></div></div>
 </div></section>
@@ -501,7 +506,7 @@ const homeBody = `<header class="hero"><div class="hbg" aria-hidden="true"><div 
   <div class="qcards g4">${GUIDES.map((g, i) => `<a class="qc tk gd${i === 2 ? ' g2' : ''}" href="/en/guides/${g.slug}/"><div class="gmk">${MARK({ cloudfront: 'amazonwebservices' }[g.slug] || g.slug)}</div><div class="qh"><b>${esc(g.name)}</b><span>Guide</span></div><p>${esc(g.desc.split('. ')[0].replace(/\.$/, ''))}.</p><div class="qf"><span>Read the guide →</span></div></a>`).join('')}</div>
 </div></section>
 
-<section class="sec tight faqs"><div class="wrap fqg"><div><p class="kick">FAQ</p><h2>Questions</h2><p class="sub">How the check works, and what it can’t see.</p></div><div class="faq">${HOME_FAQ.map(([q, a], i) => `<details${i ? '' : ' open'}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div></div></section>
+<section class="sec tight faqs"><div class="wrap fqg"><div><p class="kick">FAQ</p><h2>Questions</h2><p class="sub">How the check works, and what it can’t see.</p></div><div class="faq">${HOME_FAQ.map(([q, a], i) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div></div></section>
 
 <section class="final" id="monitor"><div class="wrap">
   <h2>See what AI crawlers really get.</h2>
@@ -532,7 +537,7 @@ steps.forEach(s=>io.observe(s));
 const dock=document.getElementById('dock'),hero=document.querySelector('.hero'),fin=document.querySelector('.final');let hv=true,fv=false;
 const sync=()=>{const on=!hv&&!fv;dock.classList.toggle('show',on);dock.setAttribute('aria-hidden',on?'false':'true');dock.querySelectorAll('input,button').forEach(x=>x.tabIndex=on?0:-1)};
 new IntersectionObserver(([e])=>{hv=e.isIntersecting;sync()}).observe(hero);
-new IntersectionObserver(([e])=>{fv=e.isIntersecting;sync()}).observe(fin)})();
+const vis=new Map();const io=new IntersectionObserver(es=>{es.forEach(e=>vis.set(e.target,e.isIntersecting));fv=[...vis.values()].some(Boolean);sync()});[fin,document.querySelector('footer')].forEach(x=>x&&io.observe(x))})();
 (()=>{const S=[
  ['toyota.com · CloudFront','Silent block','robots.txt lets OAI-SearchBot in. The firewall answers 403.','Googlebot · 200',0,[63,29],[57,37]],
  ['smithsonianmag.com · Cloudflare','All blocked','Cloudflare turns away all 6 AI search and user-triggered crawlers we sent.','6 of 6 rejected',0,[84,40],[66,48]],

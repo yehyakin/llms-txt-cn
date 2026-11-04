@@ -45,7 +45,7 @@ h1{{font-weight:400;font-size:30px;line-height:1.08;letter-spacing:.005em;text-t
 .toc div{{padding:0 0 0 16px;border-left:1px solid #d9d7d1;font-size:13px}}.toc div:first-child{{border:0;padding-left:0}}
 .toc b{{display:block;font-family:'JetBrains Mono';font-weight:400;font-size:21px;color:#1f8a4c;margin-bottom:6px}}
 </style></head><body>
-<div class="top">{logo}<span class="mono">ACCESS REPORT&nbsp;&nbsp;&nbsp;<span class="g">11 / 2026</span></span></div>
+<div class="top">{logo}<span class="mono">ACCESS REPORT&nbsp;&nbsp;&nbsp;<span class="g">{d["checked_on"][5:7]} / {d["checked_on"][:4]}</span></span></div>
 <div class="mid"><div class="l"><h1 class="serif">AI crawler<br>access report</h1><p class="site mono mut">{d['domain'].upper()}</p><p class="by">Prepared by VAKSEL<br>November 3, 2026</p></div>{panel()}</div>
 <p class="c mono g">CONTENTS</p>
 <div class="toc"><div><b>01</b>Verdict</div><div><b>02</b>Crawler results</div><div><b>03</b>Blocking layer</div><div><b>04</b>Fix guide</div></div>
@@ -67,7 +67,7 @@ td span{{display:block;color:#8a867e;font-size:11px;margin-top:2px}}
 td.ok{{color:#1f8a4c;font-family:'JetBrains Mono'}}td.no{{color:#b23b2e;font-family:'JetBrains Mono'}}
 .fix{{font-family:'JetBrains Mono';font-size:12px;background:#f1f0ec;padding:16px 18px;line-height:1.9;margin-top:14px}}
 </style></head><body>
-<div class="top">{logo}<span class="mono">{d['domain'].upper()}&nbsp;&nbsp;&nbsp;<span class="g">11 / 2026</span></span></div>
+<div class="top">{logo}<span class="mono">{d['domain'].upper()}&nbsp;&nbsp;&nbsp;<span class="g">{d["checked_on"][5:7]} / {d["checked_on"][:4]}</span></span></div>
 <div class="sec"><p class="n mono">01 · VERDICT</p><h2 class="serif">Silent block</h2>
 <p>robots.txt lets OAI-SearchBot and the user-triggered agents in. CloudFront answers them with 403. A browser, Googlebot and an unknown bot all get the page, so this is aimed at AI crawlers, not at all automated traffic.</p>
 <div class="v"><div><b>{silent}</b><span>silent blocks</span></div><div><b>{sum(b['status']==200 for b in bots)} of {len(bots)}</b><span>AI agents served</span></div><div><b>3 of 3</b><span>control groups not blocked</span></div></div></div>

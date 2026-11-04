@@ -7,7 +7,8 @@ Rendered at 2400 px wide, research-figure style, from repo data only:
   sample funnel (research/ survey, Nov 2026) -> fig-sample.webp
 Run: python3 scripts/figs.py   (needs matplotlib + pillow)
 """
-import json, os, io
+import json, os, io, re, datetime
+_d = lambda d: datetime.date.fromisoformat(d["checked_on"]).strftime("%b %-d, %Y")
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -86,7 +87,7 @@ def fig_lab():
         T(ax, x(v) + 36, y + 42, f"+{v - ro} pts" if v > ro else "same", 19, MUT)
         if ro < v:
             T(ax, x(ro), y - 26, f"{ro}%", 19, G3, ha="center")
-    T(ax, 140, h - 70, f"Run {lab['run_at'][:10]}. The robots.txt-only column applies robots.txt rules alone to each site; it is derived from the same lab, not a run of another product.", 19, FAINT)
+    T(ax, 140, h - 70, f"Run {re.search(r'\d{4}-\d{2}-\d{2}', lab['run_at']).group(0)}. The robots.txt-only column applies robots.txt rules alone to each site; it is derived from the same lab, not a run of another product.", 19, FAINT)
     save(fig, "fig-lab.webp")
 
 
@@ -142,7 +143,7 @@ def fig_toyota():
     T(ax, cx + 40, ya + 110, f"{silent} silent blocks", 30, INK, zorder=5)
     T(ax, cx + 40, ya + 150, "OAI-SearchBot and all 3 user-triggered agents:", 20, MUT, zorder=5)
     T(ax, cx + 40, ya + 180, "allowed by robots.txt, refused with 403", 20, MUT, zorder=5)
-    T(ax, W / 2, h - 60, "Checked Nov 3, 2026 from one data-center IP. CDN: CloudFront. Control groups rule out a block on all automated traffic.", 19, FAINT, ha="center")
+    T(ax, W / 2, h - 60, f"Checked {_d(d)} from one data-center IP. CDN: CloudFront. Control groups rule out a block on all automated traffic.", 19, FAINT, ha="center")
     save(fig, "fig-toyota.webp")
 
 
@@ -174,7 +175,7 @@ def fig_sample():
     box(700, 290, 600, sp("REACHABLE"), "362 sites", "answered a normal browser")
     box(1700, 290, 600, sp("EXCLUDED"), "238 sites", ["125 no connection · 80 got 403 or a challenge", "33 other status"], dashed=True, hh=180)
     elbow(700, 440, [420, 980], 530)
-    box(420, 530, 500, sp("SERVED AI SEARCH"), "317 sites", "every AI search UA got the page")
+    box(420, 530, 500, sp("NO REJECTIONS"), "317 sites", "no AI search UA we sent was rejected")
     box(980, 530, 500, sp("REJECTED AN AI SEARCH UA"), "45 sites", "12.4% of reachable")
     elbow(980, 680, [760, 1200], 760)
     box(760, 760, 400, sp("AIMED AT AI"), "13 sites", "robots.txt allows · Googlebot passes", hi=True)
