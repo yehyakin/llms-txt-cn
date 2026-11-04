@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Baiduspider: what it is, and should you block it? · VAKSEL</title>
-<meta name="description" content="Baiduspider is 百度&#39;s search crawler. Your pages can&#39;t be found on Baidu or on any search engine that uses Baidu&#39;s search service.">
+<meta name="description" content="Baiduspider is Baidu&#39;s search crawler. Your pages can&#39;t be found on Baidu or on any search engine that uses Baidu&#39;s search service.">
 <meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
 <link rel="canonical" href="https://vaksel.com/bots/baiduspider/">
 <link rel="alternate" hreflang="en" href="https://vaksel.com/bots/baiduspider/">
-<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="Baiduspider: what it is, and should you block it? · VAKSEL"><meta property="og:description" content="Baiduspider is 百度&#39;s search crawler. Your pages can&#39;t be found on Baidu or on any search engine that uses Baidu&#39;s search service."><meta property="og:url" content="https://vaksel.com/bots/baiduspider/"><meta property="og:image" content="https://vaksel.com/og/site.png"><meta name="twitter:card" content="summary_large_image">
+<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="Baiduspider: what it is, and should you block it? · VAKSEL"><meta property="og:description" content="Baiduspider is Baidu&#39;s search crawler. Your pages can&#39;t be found on Baidu or on any search engine that uses Baidu&#39;s search service."><meta property="og:url" content="https://vaksel.com/bots/baiduspider/"><meta property="og:image" content="https://vaksel.com/og/site.png"><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/en/apple-touch-icon.png"><link rel="manifest" href="/en/site.webmanifest">
 <link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
@@ -27,7 +27,7 @@
 <script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
 <main id="main" tabindex="-1" class="wrap doc"><div class="crumb"><a href="/en/">Home</a> <span>/</span> <a href="/en/bots/">AI crawlers</a> <span>/</span> Baiduspider</div>
 <h1>Baiduspider</h1>
-<div class="facts"><div><span>Operator</span><b>百度</b></div><div><span>Purpose</span><b>Search</b></div><div><span>Follows robots.txt</span><b>Yes</b></div><div><span>Source</span><b><a href="https://help.baidu.com/question?prod_id=99&amp;class=476&amp;id=2996" rel="nofollow noopener" target="_blank">Official docs ↗</a></b></div></div>
+<div class="facts"><div><span>Operator</span><b>Baidu</b></div><div><span>Purpose</span><b>Search</b></div><div><span>Follows robots.txt</span><b>Yes</b></div><div><span>Source</span><b><a href="https://help.baidu.com/question?prod_id=99&amp;class=476&amp;id=2996" rel="nofollow noopener" target="_blank">Official docs ↗</a></b></div></div>
 <p class="lead l">Baidu&#39;s search crawler. It follows robots.txt.</p>
 <h2>What happens if you block it</h2><p>Your pages can&#39;t be found on Baidu or on any search engine that uses Baidu&#39;s search service.</p>
 <h2>Our take</h2><p>Keep it allowed if you want traffic from China.</p>
@@ -35,7 +35,7 @@
 Disallow: /</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>User-agent: Baiduspider
 Allow: /</pre>
 
-<h2>The operator's own words</h2><blockquote>Baiduspider遵守互联网robots协议……禁止Baiduspider访问您的网站，将使您的网站上的网页，在百度搜索引擎以及所有百度提供搜索引擎服务的搜索引擎中无法被搜索到。<cite><a href="https://help.baidu.com/question?prod_id=99&amp;class=476&amp;id=2996" rel="nofollow noopener" target="_blank">百度 documentation</a>, checked 2026-10-31</cite></blockquote>
+<h2>The operator's own words</h2><blockquote>Baiduspider遵守互联网robots协议……禁止Baiduspider访问您的网站，将使您的网站上的网页，在百度搜索引擎以及所有百度提供搜索引擎服务的搜索引擎中无法被搜索到。<cite><a href="https://help.baidu.com/question?prod_id=99&amp;class=476&amp;id=2996" rel="nofollow noopener" target="_blank">Baidu documentation</a>, checked 2026-10-31</cite></blockquote>
 <h2>robots.txt allows it, but is it really getting through?</h2><p>A firewall or CDN rule can reject Baiduspider even when robots.txt welcomes it, and nothing in your CMS shows it. Our check sends a live request as Baiduspider alongside a normal browser and a Googlebot control, so a bot-verification rule isn't mistaken for a block.</p>
 
 <div style="margin-top:28px">

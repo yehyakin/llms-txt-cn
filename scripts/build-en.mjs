@@ -4,7 +4,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { renderReport } from '../en/view.js';
+import { renderReport, VENDOR_EN } from '../en/view.js';
 import { GRADE_VERSION } from '../en/grade.js';
 import { FIXTURES, LAB_SUFFIX } from '../worker/lab.js';
 const LAB = JSON.parse(readFileSync(new URL('../data/lab-results.json', import.meta.url), 'utf8'));
@@ -90,6 +90,7 @@ document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit'
 
 /* ---------- 数据 ---------- */
 const DATA = JSON.parse(readFileSync(join(root, 'data/ai-crawlers.json'), 'utf8'));
+for (const c of DATA.crawlers) c.vendor = VENDOR_EN[c.vendor] || c.vendor; // 英文页显示英文运营方名
 const EN = JSON.parse(readFileSync(join(root, 'data/crawlers-en.json'), 'utf8')).bots;
 const CAT = { search: 'Search', user: 'User-triggered', training: 'Training', training_control: 'Training control token', dataset: 'Dataset' };
 const CAT_DESC = {
@@ -110,7 +111,7 @@ const out = [];
 /* ---------- 爬虫百科 ---------- */
 const groupOrder = [['search', 'AI search & assistants'], ['user', 'User-triggered fetchers'], ['training', 'Training crawlers'], ['training_control', 'Training control tokens'], ['dataset', 'Open datasets']];
 function botCard(c) {
-  return `<a class="bcard" href="/en/bots/${slug(c.token)}/"><div class="bt">${esc(c.token)}</div><div class="bv">${esc(c.vendor)}${CLASSIC.has(c.token) ? ' · search engine' : ''}</div><p>${esc(EN[c.token].summary.split('. ')[0].replace(/\.$/, ''))}.</p></a>`;
+  return `<a class="bcard" href="/en/bots/${slug(c.token)}/"><div class="bt">${esc(c.token)}</div><div class="bv">${esc(VENDOR_EN[c.vendor] || c.vendor)}${CLASSIC.has(c.token) ? ' · search engine' : ''}</div><p>${esc(EN[c.token].summary.split('. ')[0].replace(/\.$/, ''))}.</p></a>`;
 }
 let groups = '';
 for (const [cat, label] of groupOrder) {
@@ -143,7 +144,7 @@ for (const c of crawlers) {
     desc: `${c.token} is ${c.vendor}'s ${CAT[c.category].toLowerCase()} ${c.category === 'training_control' ? 'token' : 'crawler'}. ${e.block}`.slice(0, 300),
     body: `<main class="wrap doc">${crumbs([['/en/', 'Home'], ['/en/bots/', 'AI crawlers'], [null, c.token]])}
 <h1>${esc(c.token)}</h1>
-<div class="facts"><div><span>Operator</span><b>${esc(c.vendor)}</b></div><div><span>Purpose</span><b>${CAT[c.category]}</b></div><div><span>Follows robots.txt</span><b>${ROBOTS[c.respects_robots] || '–'}</b></div><div><span>Source</span><b><a href="${esc(c.docs_url)}" rel="nofollow noopener" target="_blank">Official docs ↗</a></b></div></div>
+<div class="facts"><div><span>Operator</span><b>${esc(VENDOR_EN[c.vendor] || c.vendor)}</b></div><div><span>Purpose</span><b>${CAT[c.category]}</b></div><div><span>Follows robots.txt</span><b>${ROBOTS[c.respects_robots] || '–'}</b></div><div><span>Source</span><b><a href="${esc(c.docs_url)}" rel="nofollow noopener" target="_blank">Official docs ↗</a></b></div></div>
 <p class="lead l">${esc(e.summary)}</p>
 <h2>What happens if you block it</h2><p>${esc(e.block)}</p>
 <h2>Our take</h2><p>${esc(e.advice)}</p>

@@ -8,6 +8,7 @@ export function cleanDomain(v){v=(v||'').trim().toLowerCase().replace(/^https?:\
 /* 传统搜索引擎爬虫：不算“AI 搜索”，robots-only 回落时不列入 */
 /* 11-04 新增、只查 robots.txt、不计入评级 */
 export const UNGRADED=new Set(['MistralAI-User','MistralAI-Index','YouBot']);
+export const VENDOR_EN={'百度':'Baidu','搜狗（腾讯）':'Sogou (Tencent)','神马搜索（阿里）':'Shenma (Alibaba)','月之暗面 Kimi':'Moonshot AI (Kimi)'};
 export const CLASSIC=new Set(['Googlebot','Bingbot','Applebot','Baiduspider','YandexBot','Yeti']);
 const isMain=b=>(b.category==='search'||b.category==='user')&&b.region!=='cn';
 const isCnB=b=>(b.category==='search'||b.category==='user')&&b.region==='cn';
@@ -201,7 +202,7 @@ export function renderReport(r,opt){
   const robots=r.robots||{};
   const meta=(a.target?esc(a.target)+' · ':'')+L.meta.checked+' <time datetime="'+esc(when)+'">'+esc(when.slice(0,16).replace('T',' '))+' UTC</time>'+(a.cdn?' · '+L.meta.servedBy+' '+esc(a.cdn):'');
   let rows='';
-  const grp=(t,list)=>{if(!list.length)return;rows+='<tr class="grp"><td colspan="5">'+t+'</td></tr>';list.forEach(b=>{rows+='<tr class="row" data-i="'+b.token+'"><td><div class="bot"><a href="'+B+'/bots/'+botSlug(b.token)+'/">'+esc(b.token)+'</a></div><div class="vd">'+esc(b.vendor||'')+'</div></td><td class="hide-s">'+(L.purpose[b.category]||L.purpose.unknown)+'</td><td>'+robotsTag(b.robots,L)+'</td><td class="hide-s">'+liveTag(b,L)+'</td><td><div class="rcell">'+resultTag(b,L)+'<button type="button" class="evb" aria-expanded="false" aria-controls="ev-'+b.token+'">'+L.table.details+'</button></div></td></tr><tr class="ev" id="ev-'+b.token+'" hidden><td colspan="5">'+evidence(b,a,B,L)+'</td></tr>'})};
+  const grp=(t,list)=>{if(!list.length)return;rows+='<tr class="grp"><td colspan="5">'+t+'</td></tr>';list.forEach(b=>{rows+='<tr class="row" data-i="'+b.token+'"><td><div class="bot"><a href="'+B+'/bots/'+botSlug(b.token)+'/">'+esc(b.token)+'</a></div><div class="vd">'+esc(opt.lang==='zh'?(b.vendor||''):(VENDOR_EN[b.vendor]||b.vendor||''))+'</div></td><td class="hide-s">'+(L.purpose[b.category]||L.purpose.unknown)+'</td><td>'+robotsTag(b.robots,L)+'</td><td class="hide-s">'+liveTag(b,L)+'</td><td><div class="rcell">'+resultTag(b,L)+'<button type="button" class="evb" aria-expanded="false" aria-controls="ev-'+b.token+'">'+L.table.details+'</button></div></td></tr><tr class="ev" id="ev-'+b.token+'" hidden><td colspan="5">'+evidence(b,a,B,L)+'</td></tr>'})};
   grp(L.table.grpS,search);grp(L.table.grpC,bots.filter(isCnB));grp(L.table.grpT,train);
   const page=Object.assign({},a.page||{});
   {const tc=r.seo&&Array.isArray(r.seo.checks)&&r.seo.checks.find(c=>c.id==='text');if(tc&&tc.data&&typeof tc.data.chars==='number')page.text_chars=tc.data.chars;}

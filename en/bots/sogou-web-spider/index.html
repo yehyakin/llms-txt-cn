@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Sogou web spider: what it is, and should you block it? · VAKSEL</title>
-<meta name="description" content="Sogou web spider is 搜狗（腾讯）&#39;s search crawler. Pages you disallow can&#39;t be found on Sogou. Sogou doesn&#39;t say whether Tencent&#39;s Yuanbao uses its index.">
+<meta name="description" content="Sogou web spider is Sogou (Tencent)&#39;s search crawler. Pages you disallow can&#39;t be found on Sogou. Sogou doesn&#39;t say whether Tencent&#39;s Yuanbao uses its index.">
 <meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
 <link rel="canonical" href="https://vaksel.com/bots/sogou-web-spider/">
 <link rel="alternate" hreflang="en" href="https://vaksel.com/bots/sogou-web-spider/">
-<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="Sogou web spider: what it is, and should you block it? · VAKSEL"><meta property="og:description" content="Sogou web spider is 搜狗（腾讯）&#39;s search crawler. Pages you disallow can&#39;t be found on Sogou. Sogou doesn&#39;t say whether Tencent&#39;s Yuanbao uses its index."><meta property="og:url" content="https://vaksel.com/bots/sogou-web-spider/"><meta property="og:image" content="https://vaksel.com/og/site.png"><meta name="twitter:card" content="summary_large_image">
+<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="Sogou web spider: what it is, and should you block it? · VAKSEL"><meta property="og:description" content="Sogou web spider is Sogou (Tencent)&#39;s search crawler. Pages you disallow can&#39;t be found on Sogou. Sogou doesn&#39;t say whether Tencent&#39;s Yuanbao uses its index."><meta property="og:url" content="https://vaksel.com/bots/sogou-web-spider/"><meta property="og:image" content="https://vaksel.com/og/site.png"><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/en/apple-touch-icon.png"><link rel="manifest" href="/en/site.webmanifest">
 <link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
@@ -27,7 +27,7 @@
 <script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
 <main id="main" tabindex="-1" class="wrap doc"><div class="crumb"><a href="/en/">Home</a> <span>/</span> <a href="/en/bots/">AI crawlers</a> <span>/</span> Sogou web spider</div>
 <h1>Sogou web spider</h1>
-<div class="facts"><div><span>Operator</span><b>搜狗（腾讯）</b></div><div><span>Purpose</span><b>Search</b></div><div><span>Follows robots.txt</span><b>Yes</b></div><div><span>Source</span><b><a href="https://zhanzhang.sogou.com/index.php/help/spider" rel="nofollow noopener" target="_blank">Official docs ↗</a></b></div></div>
+<div class="facts"><div><span>Operator</span><b>Sogou (Tencent)</b></div><div><span>Purpose</span><b>Search</b></div><div><span>Follows robots.txt</span><b>Yes</b></div><div><span>Source</span><b><a href="https://zhanzhang.sogou.com/index.php/help/spider" rel="nofollow noopener" target="_blank">Official docs ↗</a></b></div></div>
 <p class="lead l">Sogou search&#39;s web crawler. Sogou says it follows robots.txt and can be verified by reverse DNS (*.sogou.com) or Web Bot Auth signatures.</p>
 <h2>What happens if you block it</h2><p>Pages you disallow can&#39;t be found on Sogou. Sogou doesn&#39;t say whether Tencent&#39;s Yuanbao uses its index.</p>
 <h2>Our take</h2><p>Keep it if you want search traffic in China.</p>
@@ -35,7 +35,7 @@
 Disallow: /</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>User-agent: Sogou web spider
 Allow: /</pre>
 
-<h2>The operator's own words</h2><blockquote>PC端UA为 Sogou web spider<cite><a href="https://zhanzhang.sogou.com/index.php/help/spider" rel="nofollow noopener" target="_blank">搜狗（腾讯） documentation</a>, checked 2026-11-02</cite></blockquote>
+<h2>The operator's own words</h2><blockquote>PC端UA为 Sogou web spider<cite><a href="https://zhanzhang.sogou.com/index.php/help/spider" rel="nofollow noopener" target="_blank">Sogou (Tencent) documentation</a>, checked 2026-11-02</cite></blockquote>
 <h2>robots.txt allows it, but is it really getting through?</h2><p>A firewall or CDN rule can reject Sogou web spider even when robots.txt welcomes it, and nothing in your CMS shows it. Our check sends a live request as Sogou web spider alongside a normal browser and a Googlebot control, so a bot-verification rule isn't mistaken for a block.</p>
 
 <div style="margin-top:28px">

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Kimi-SearchBot: what it is, and should you block it? · VAKSEL</title>
-<meta name="description" content="Kimi-SearchBot is 月之暗面 Kimi&#39;s search crawler. Moonshot says your site won&#39;t appear in Kimi search results.">
+<meta name="description" content="Kimi-SearchBot is Moonshot AI (Kimi)&#39;s search crawler. Moonshot says your site won&#39;t appear in Kimi search results.">
 <meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
 <link rel="canonical" href="https://vaksel.com/bots/kimi-searchbot/">
 <link rel="alternate" hreflang="en" href="https://vaksel.com/bots/kimi-searchbot/">
-<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="Kimi-SearchBot: what it is, and should you block it? · VAKSEL"><meta property="og:description" content="Kimi-SearchBot is 月之暗面 Kimi&#39;s search crawler. Moonshot says your site won&#39;t appear in Kimi search results."><meta property="og:url" content="https://vaksel.com/bots/kimi-searchbot/"><meta property="og:image" content="https://vaksel.com/og/site.png"><meta name="twitter:card" content="summary_large_image">
+<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="Kimi-SearchBot: what it is, and should you block it? · VAKSEL"><meta property="og:description" content="Kimi-SearchBot is Moonshot AI (Kimi)&#39;s search crawler. Moonshot says your site won&#39;t appear in Kimi search results."><meta property="og:url" content="https://vaksel.com/bots/kimi-searchbot/"><meta property="og:image" content="https://vaksel.com/og/site.png"><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/en/apple-touch-icon.png"><link rel="manifest" href="/en/site.webmanifest">
 <link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
@@ -27,7 +27,7 @@
 <script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
 <main id="main" tabindex="-1" class="wrap doc"><div class="crumb"><a href="/en/">Home</a> <span>/</span> <a href="/en/bots/">AI crawlers</a> <span>/</span> Kimi-SearchBot</div>
 <h1>Kimi-SearchBot</h1>
-<div class="facts"><div><span>Operator</span><b>月之暗面 Kimi</b></div><div><span>Purpose</span><b>Search</b></div><div><span>Follows robots.txt</span><b>Yes</b></div><div><span>Source</span><b><a href="https://www.kimi.com/policies/kimi-crawlers" rel="nofollow noopener" target="_blank">Official docs ↗</a></b></div></div>
+<div class="facts"><div><span>Operator</span><b>Moonshot AI (Kimi)</b></div><div><span>Purpose</span><b>Search</b></div><div><span>Follows robots.txt</span><b>Yes</b></div><div><span>Source</span><b><a href="https://www.kimi.com/policies/kimi-crawlers" rel="nofollow noopener" target="_blank">Official docs ↗</a></b></div></div>
 <p class="lead l">Builds the search index for Kimi, Moonshot AI&#39;s assistant. Moonshot publishes its IP ranges.</p>
 <h2>What happens if you block it</h2><p>Moonshot says your site won&#39;t appear in Kimi search results.</p>
 <h2>Our take</h2><p>Keep it if you want to show up in Kimi.</p>
@@ -35,9 +35,9 @@
 Disallow: /</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>User-agent: Kimi-SearchBot
 Allow: /</pre>
 
-<h2>The operator's own words</h2><blockquote>Kimi-SearchBot powers Kimi&#39;s search features: it analyzes pages for relevance and builds the search index.<cite><a href="https://www.kimi.com/policies/kimi-crawlers" rel="nofollow noopener" target="_blank">月之暗面 Kimi documentation</a>, checked 2026-11-02</cite></blockquote>
+<h2>The operator's own words</h2><blockquote>Kimi-SearchBot powers Kimi&#39;s search features: it analyzes pages for relevance and builds the search index.<cite><a href="https://www.kimi.com/policies/kimi-crawlers" rel="nofollow noopener" target="_blank">Moonshot AI (Kimi) documentation</a>, checked 2026-11-02</cite></blockquote>
 <h2>robots.txt allows it, but is it really getting through?</h2><p>A firewall or CDN rule can reject Kimi-SearchBot even when robots.txt welcomes it, and nothing in your CMS shows it. Our check sends a live request as Kimi-SearchBot alongside a normal browser and a Googlebot control, so a bot-verification rule isn't mistaken for a block.</p>
-<h2>Other 月之暗面 Kimi agents</h2><div class="bgrid s"><a class="bcard" href="/en/bots/kimi-user/"><div class="bt">Kimi-User</div><div class="bv">月之暗面 Kimi</div><p>Fetches pages when a Kimi user asks it to read a page or answer with live web results.</p></a><a class="bcard" href="/en/bots/kimibot/"><div class="bt">KimiBot</div><div class="bv">月之暗面 Kimi</div><p>Kimi&#39;s training crawler.</p></a></div>
+<h2>Other Moonshot AI (Kimi) agents</h2><div class="bgrid s"><a class="bcard" href="/en/bots/kimi-user/"><div class="bt">Kimi-User</div><div class="bv">Moonshot AI (Kimi)</div><p>Fetches pages when a Kimi user asks it to read a page or answer with live web results.</p></a><a class="bcard" href="/en/bots/kimibot/"><div class="bt">KimiBot</div><div class="bv">Moonshot AI (Kimi)</div><p>Kimi&#39;s training crawler.</p></a></div>
 <div style="margin-top:28px">
 <div class="cta mini"><div><h3>Can Kimi-SearchBot reach your site?</h3><p>Free, no sign-up. We request your homepage as 18 different clients and show what each one gets.</p></div>
 <form class="field inv" data-check autocomplete="off"><input placeholder="yourdomain.com" aria-label="Domain" spellcheck="false" autocapitalize="off"><button class="btn">Check</button></form></div></div>
