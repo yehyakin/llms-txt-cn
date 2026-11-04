@@ -176,3 +176,8 @@ html:not(.lt) .dk.in .wopen{background:var(--g);color:#06120a}
 html:not(.lt) .dk.in .ex li{border-color:var(--row)}html:not(.lt) .dk.in .ex a{color:#f5f5f7}
 html:not(.lt) .dk.in .card{background:var(--soft);border:1px solid var(--line)}html:not(.lt) .dk.in .card p{color:#a1a1a6}
 .dk.in .card{border-radius:var(--r)}.dk.in .card .ic,.dk.in .c1 .ic,.dk.in .c2 .ic,.dk.in .c3 .ic{background:none;color:var(--g);border:1px solid var(--line2);font-family:var(--mono);font-weight:500;border-radius:6px}
+.dk.in .mail{border-radius:var(--r)}.dk.in .mbtn{border-radius:6px}
+html:not(.lt) .dk.in .mail{background:#111;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 30px 60px -36px rgba(0,0,0,.8)}
+html:not(.lt) .dk.in .mh{border-color:var(--row)}html:not(.lt) .dk.in .mh b,html:not(.lt) .dk.in .ms{color:#f5f5f7}
+html:not(.lt) .dk.in .mrow{border-color:var(--row)}html:not(.lt) .dk.in .mrow span:first-child{color:#e5e5ea}
+html:not(.lt) .dk.in .mbtn{background:var(--g);color:#06120a}
