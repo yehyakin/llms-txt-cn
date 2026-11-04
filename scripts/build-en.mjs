@@ -54,7 +54,7 @@ function themeNav(html) {
     .replace(/(<a class="n lang"[^>]*>[^<]*<\/a>)/, `$1\n    <button class="n thm" type="button" aria-label="Switch appearance" title="Light / dark"><svg class="i-sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg> <svg class="i-moon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>`)
     .replace('</script>', `;(()=>{const b=document.querySelector('.thm'),r=document.documentElement,m=document.querySelector('meta[name=theme-color]');const set=l=>{r.classList.toggle('lt',l);b.setAttribute('aria-pressed',l);m&&(m.content=l?'#ffffff':'#0a0a0a');try{localStorage.setItem('vk-theme',l?'light':'dark')}catch(e){}};b.setAttribute('aria-pressed',r.classList.contains('lt'));b.onclick=()=>set(!r.classList.contains('lt'))})()</script>`);
 }
-function page({ path, title, desc, body, active, ld, type = 'article', theme = '' }) {
+function page({ path, title, desc, body, active, ld, type = 'article', theme = 'dk in' }) {
   return `<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>${esc(title)}</title>
@@ -63,7 +63,7 @@ function page({ path, title, desc, body, active, ld, type = 'article', theme = '
 <link rel="canonical" href="${canon(path)}">
 <link rel="alternate" hreflang="en" href="${canon(path)}">${ZH_LIVE || path === '/en/' ? `<link rel="alternate" hreflang="zh-CN" href="${zhHref(path)}">` : ''}
 <meta property="og:type" content="${type}"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${canon(path)}"><meta property="og:image" content="${SITE}/og/site.png"><meta name="twitter:card" content="summary_large_image">
-${HEADX}${theme ? '<link rel="stylesheet" href="/en/home-dark.css">' + THEME_BOOT : ''}${ld ? `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>` : ''}
+${HEADX}${theme ? '<link rel="stylesheet" href="/en/home-dark.css">' + (theme.includes('in') ? '<link rel="stylesheet" href="/en/inner.css">' : '') + THEME_BOOT : ''}${ld ? `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>` : ''}
 </head><body${theme ? ` class="${theme}"` : ''}>
 ${theme ? themeNav(NAV(active, path)) : NAV(active, path)}
 ${body.includes('<main') ? body.replace('<main ', '<main id="main" tabindex="-1" ') : '<main id="main" tabindex="-1">' + body + '</main>'}
@@ -778,9 +778,11 @@ write('en/robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\
 /* ---------- 首页和报告页：替换导航与页脚 ---------- */
 for (const f of ['en/report/index.html']) {
   let s = readFileSync(join(root, f), 'utf8');
-  s = s.replace(/(<a class="skip"[^>]*>[^<]*<\/a>\n)?<nav class="nav"[\s\S]*?<\/nav>(\n<script>\(\(\)=>\{const n=[\s\S]*?<\/script>)?/, NAV(''));
-  s = s.replace(/<link rel="icon"[\s\S]*?<link rel="stylesheet" href="\/en\/app.css">/, HEADX);
-  s = s.replace(/<footer>[\s\S]*?<\/footer>/, FOOT);
+  s = s.replace(/(<a class="skip"[^>]*>[^<]*<\/a>\n)?<nav class="nav"[\s\S]*?<\/nav>(\n<script>\(\(\)=>\{const n=[\s\S]*?<\/script>)?/, () => themeNav(NAV('')));
+  // 报告页也用内页深色版（2026-11-04）；幂等：先去掉上次加的样式与主题脚本
+  s = s.replace(/<link rel="icon"[\s\S]*?<link rel="stylesheet" href="\/en\/app.css">(<link rel="stylesheet" href="\/en\/home-dark.css"><link rel="stylesheet" href="\/en\/inner.css"><script>try\{[\s\S]*?<\/script>)?/, () => HEADX + '<link rel="stylesheet" href="/en/home-dark.css"><link rel="stylesheet" href="/en/inner.css">' + THEME_BOOT);
+  s = s.replace(/<body(?: class="dk in")?>/, '<body class="dk in">').replace('<meta name="theme-color" content="#ffffff">', '<meta name="theme-color" content="#0a0a0a">');
+  s = s.replace(/<footer>[\s\S]*?<\/footer>/, () => FOOT.replace(/<img src="\/en\/brand\/vaksel-horizontal-primary.svg"([^>]*)>/, '<img class="lg-d" src="/en/brand/vaksel-horizontal-reverse.svg"$1><img class="lg-l" src="/en/brand/vaksel-horizontal-primary.svg"$1>'));
   s = s.replace('<main class="wrap">', '<main class="wrap" id="main">');
   writeFileSync(join(root, f), s);
 }

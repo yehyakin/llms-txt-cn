@@ -42,21 +42,30 @@ const HEADX = `<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/
 <link rel="preload" href="/en/fonts/jetbrains-mono-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/app.css">`;
 
-function page({ path, title, desc, body, active, ld, en, type = 'article', head = '', robots = 'noindex' }) {
+// 内页深色版（2026-11-04，与英文站同一套 home-dark.css + inner.css）；旧页面换壳（.lg 普查页）传 theme: '' 保持浅色
+const THEME_BOOT = `<script>try{if(localStorage.getItem('vk-theme')==='light'){document.documentElement.classList.add('lt');document.querySelector('meta[name=theme-color]').content='#ffffff'}}catch(e){}</script>`;
+function themeNavZh(html) {
+  return html
+    .replace(/<img src="\/en\/brand\/vaksel-horizontal-primary.svg"([^>]*)>/, '<img class="lg-d" src="/en/brand/vaksel-horizontal-reverse.svg"$1><img class="lg-l" src="/en/brand/vaksel-horizontal-primary.svg"$1>')
+    .replace(/(<a class="n lang"[^>]*>[^<]*<\/a>)/, `$1\n    <button class="n thm" type="button" aria-label="切换外观" title="浅色 / 深色"><svg class="i-sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg> <svg class="i-moon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>`)
+    .replace('</script>', `;(()=>{const b=document.querySelector('.thm'),r=document.documentElement,m=document.querySelector('meta[name=theme-color]');const set=l=>{r.classList.toggle('lt',l);b.setAttribute('aria-pressed',l);m&&(m.content=l?'#ffffff':'#0a0a0a');try{localStorage.setItem('vk-theme',l?'light':'dark')}catch(e){}};b.setAttribute('aria-pressed',r.classList.contains('lt'));b.onclick=()=>set(!r.classList.contains('lt'))})()</script>`);
+}
+const logoSwap = (h) => h.replace(/<img src="\/en\/brand\/vaksel-horizontal-primary.svg"([^>]*)>/, '<img class="lg-d" src="/en/brand/vaksel-horizontal-reverse.svg"$1><img class="lg-l" src="/en/brand/vaksel-horizontal-primary.svg"$1>');
+function page({ path, title, desc, body, active, ld, en, type = 'article', head = '', robots = 'noindex', theme = 'dk in' }) {
   const enPath = en === undefined ? path : en;
   return `<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
-<meta name="robots" content="${robots}"><meta name="theme-color" content="#ffffff">
+<meta name="robots" content="${robots}"><meta name="theme-color" content="${theme ? '#0a0a0a' : '#ffffff'}">
 <link rel="canonical" href="${SITE}${path}">
 ${enPath ? `<link rel="alternate" hreflang="zh-CN" href="${SITE}${path}"><link rel="alternate" hreflang="en" href="${EN}${enPath}">` : ''}
 <meta property="og:type" content="${type}"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${SITE}${path}"><meta property="og:image" content="${SITE}/og.png"><meta name="twitter:card" content="summary_large_image">
-${HEADX}${head ? '\n' + head : ''}${ld ? `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>` : ''}
-</head><body class="zh">
-${NAV(active, enPath)}
+${HEADX}${theme ? '<link rel="stylesheet" href="/en/home-dark.css"><link rel="stylesheet" href="/en/inner.css">' + THEME_BOOT : ''}${head ? '\n' + head : ''}${ld ? `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>` : ''}
+</head><body class="zh${theme ? ' ' + theme : ''}">
+${theme ? logoSwap(themeNavZh(NAV(active, enPath))) : NAV(active, enPath)}
 ${body.includes('<main') ? body.replace('<main ', '<main id="main" tabindex="-1" ') : '<main id="main" tabindex="-1">' + body + '</main>'}
-${FOOT(enPath)}
+${theme ? logoSwap(FOOT(enPath)) : FOOT(enPath)}
 </body></html>
 `;
 }
@@ -74,10 +83,10 @@ document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit'
 write('report/index.html', `<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <!--HEAD--><title>AI 爬虫可访问性报告 · VAKSEL</title>
-<meta name="robots" content="noindex"><!--/HEAD--><meta name="theme-color" content="#ffffff">
-${HEADX}
-</head><body class="zh">
-${NAV('', '/report/')}
+<meta name="robots" content="noindex"><!--/HEAD--><meta name="theme-color" content="#0a0a0a">
+${HEADX}<link rel="stylesheet" href="/en/home-dark.css"><link rel="stylesheet" href="/en/inner.css">${THEME_BOOT}
+</head><body class="zh dk in">
+${logoSwap(themeNavZh(NAV('', '/report/')))}
 <main class="wrap" id="main">
   <div class="rp-head top">
     <div><div class="crumb">AI 爬虫可访问性报告</div><h1 id="dom"><!--DOM-->…<!--/DOM--></h1><div class="meta" id="meta"><!--META--><!--/META--></div></div>
@@ -85,7 +94,7 @@ ${NAV('', '/report/')}
   </div>
   <div id="out"><!--OUT--><div class="loading" id="ld"><img class="vava" src="/en/brand/vava/vava3d-searching-mini.webp" width="96" height="121" alt="">正在以 18 种不同身份请求首页…</div><!--/OUT--></div>
 </main>
-${FOOT('/')}
+${logoSwap(FOOT('/'))}
 <script type="module">
 import {renderReport,bindReport,cleanDomain,esc} from '/en/view.js';
 const $=s=>document.querySelector(s);
@@ -541,7 +550,7 @@ for (const [rel, path] of LEGACY_TEXT) {
   const css = scopeCss(lightCss(style), '.lg') + '.lg{background:#fff;padding-bottom:24px}.lg a:hover{text-decoration:none}\n';
   const fixed = readFileSync(join(root, rel), 'utf8');
   write(rel, page({ path, title, desc, active: rel.startsWith('survey') ? 'survey' : '', en: rel.startsWith('survey') ? '/research/' : '/',
-    robots: 'index,follow', head: `<style>${css}</style>\n${lds}\n${umami}`, body: `<main class="lg">${body}</main>` }));
+    robots: 'index,follow', theme: '', head: `<style>${css}</style>\n${lds}\n${umami}`, body: `<main class="lg">${body}</main>` }));
 }
 
 /* ---------- 旧页面换壳：只换导航、页脚、图标和标题后缀，正文与网址不动（幂等） ---------- */
