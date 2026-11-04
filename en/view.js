@@ -6,7 +6,9 @@ import {gradeReport} from './grade.js';
 export const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function cleanDomain(v){v=(v||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0].replace(/\.$/,'');return /^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v)?v:null}
 /* 传统搜索引擎爬虫：不算“AI 搜索”，robots-only 回落时不列入 */
-export const CLASSIC=new Set(['Googlebot','Bingbot','Applebot','Baiduspider']);
+/* 11-04 新增、只查 robots.txt、不计入评级 */
+export const UNGRADED=new Set(['MistralAI-User','YouBot']);
+export const CLASSIC=new Set(['Googlebot','Bingbot','Applebot','Baiduspider','YandexBot','Yeti']);
 const isMain=b=>(b.category==='search'||b.category==='user')&&b.region!=='cn';
 const isCnB=b=>(b.category==='search'||b.category==='user')&&b.region==='cn';
 export const botSlug=t=>String(t).toLowerCase().replace(/[^a-z0-9]+/g,'-');
@@ -179,7 +181,7 @@ function fixFor(a,B,L){
 }
 /* 分享图用：结论、色调、AI 搜索爬虫可达数（分享图只出英文） */
 export function ogData(r,lang){const L=T(lang);const a=(r&&r.access)||{};const verdict=L.v[a.verdict]?a.verdict:'unknown';const ra=(r&&r.robots&&r.robots.analysis&&r.robots.analysis.access)||[];const live=a.bots&&a.bots.length;
-  const bots=live?a.bots:ra.filter(b=>isMain(b)&&!CLASSIC.has(b.token)).map(b=>({category:b.category,effective:b.status==='blocked'?'blocked':'ok'}));
+  const bots=live?a.bots:ra.filter(b=>isMain(b)&&!CLASSIC.has(b.token)&&!UNGRADED.has(b.token)).map(b=>({category:b.category,effective:b.status==='blocked'?'blocked':'ok'}));
   const s=bots.filter(b=>isMain(b));
   return {verdict:a.verdict||'unknown',title:L.v[verdict][0],tone:{'v-ok':'ok','v-warn':'warn','v-bad':'bad','v-gray':'gray'}[TONE[verdict]],reach:s.filter(b=>b.effective!=='blocked').length,total:s.length,live:!!live,grades:(G=>({access:G.access.grade,read:G.read.grade,cite:G.cite.grade}))(gradeReport(r||{}))}}
 export function renderReport(r,opt){

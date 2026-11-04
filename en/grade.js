@@ -22,7 +22,9 @@ const RANK = ['S', 'A', 'B', 'C'];
 const worse = (a, b) => RANK[Math.max(RANK.indexOf(a), RANK.indexOf(b))];
 const isSearch = (b) => (b.category === 'search' || b.category === 'user') && b.region !== 'cn';
 const isCn = (b) => (b.category === 'search' || b.category === 'user') && b.region === 'cn';
-const CLASSIC = new Set(['Googlebot', 'Bingbot', 'Applebot', 'Baiduspider']);
+const CLASSIC = new Set(['Googlebot', 'Bingbot', 'Applebot', 'Baiduspider', 'YandexBot', 'Yeti']);
+/* 2026-11-04 新增的 MistralAI-User、YouBot 只做 robots.txt 分析、在报告里列出，不计入评级；YandexBot、Yeti 与 Googlebot 同属传统搜索引擎，同样不计 */
+const UNGRADED = new Set(['MistralAI-User', 'YouBot']);
 export const GRADE_VERSION = '2026-11-02.2';
 export const CITE_SIGNALS = ['jsonld', 'entity', 'sitename', 'og', 'semantic'];
 
@@ -49,7 +51,7 @@ function gradeAccess0(r) {
     return { grade: 'S', why: [{ id: 'all_open', status: 'pass', total: s.length }] };
   }
   /* 实测没完成：只能看 robots.txt，最高 A */
-  const ra = ((r && r.robots && r.robots.analysis && r.robots.analysis.access) || []).filter((b) => isSearch(b) && !CLASSIC.has(b.token));
+  const ra = ((r && r.robots && r.robots.analysis && r.robots.analysis.access) || []).filter((b) => isSearch(b) && !CLASSIC.has(b.token) && !UNGRADED.has(b.token));
   if (!ra.length) return { grade: null, why: [{ id: 'no_data', status: 'info' }] };
   const blocked = ra.filter((b) => b.status === 'blocked');
   const cap = { id: 'robots_only', status: 'info' };

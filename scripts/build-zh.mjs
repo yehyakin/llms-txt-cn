@@ -121,7 +121,7 @@ const CAT_DESC = {
   dataset: '建设公开数据集，供第三方使用，其中包括 AI 训练。'
 };
 const ROBOTS = { yes: '遵守', partial: '不一定', no: '一般不遵守', unverified: '官方未说明' };
-const CLASSIC = new Set(['Googlebot', 'Bingbot', 'Applebot', 'Baiduspider']);
+const CLASSIC = new Set(['Googlebot', 'Bingbot', 'Applebot', 'Baiduspider', 'YandexBot', 'Yeti']);
 const crawlers = DATA.crawlers;
 const first = (s) => String(s).split('；')[0].split('。')[0] + '。';
 const botCard = (c) => `<a class="bcard" href="/bots/${slug(c.token)}/"><div class="bt">${esc(c.token)}</div><div class="bv">${esc(c.vendor)}${CLASSIC.has(c.token) ? ' · 搜索引擎' : ''}</div><p>${esc(first(c.summary_zh))}</p></a>`;

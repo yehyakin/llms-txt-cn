@@ -145,6 +145,26 @@
       "summary": "Kimi's training crawler. Moonshot says disallowing it signals your content shouldn't be used to train its foundation models.",
       "block": "Only opts you out of training. Moonshot doesn't say it affects Kimi search.",
       "advice": "Block it if you don't want your content in Kimi's training data."
+    },
+    "MistralAI-User": {
+      "summary": "Fetches a page when someone asks Mistral's assistant about it, and links the page as a source. Mistral says it doesn't crawl automatically or collect training data.",
+      "block": "Mistral's assistant can't open your pages on request, so it won't cite them.",
+      "advice": "Allow it if you want to be cited in Mistral's assistant."
+    },
+    "YouBot": {
+      "summary": "The crawler behind the You.com search engine. It indexes pages for You.com's AI search and follows robots.txt.",
+      "block": "Your pages drop out of You.com's index and its AI search answers.",
+      "advice": "Allow it if you want to appear in You.com search."
+    },
+    "YandexBot": {
+      "summary": "Yandex's main indexing robot. Yandex AI answers are built from pages Yandex has indexed.",
+      "block": "Your site drops out of Yandex search and the Yandex AI answers built on it. To stay in search but out of AI answers, disallow YandexAdditional instead.",
+      "advice": "Allow it if you have users in Russia or the CIS."
+    },
+    "Yeti": {
+      "summary": "Naver's crawler for Naver search, the largest search engine in South Korea. Naver says it follows robots.txt.",
+      "block": "Your site drops out of Naver search.",
+      "advice": "Allow it if you have users in Korea."
     }
   }
 }

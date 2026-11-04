@@ -240,6 +240,58 @@
       "quote": "KimiBot crawls content potentially used to train Kimi's foundation models.",
       "block_consequence_zh": "只表示不用于训练，官方没有说会影响 Kimi 搜索。",
       "docs_url": "https://www.kimi.com/policies/kimi-crawlers", "verified_on": "2026-11-02", "verification": "official"
+    },
+    {
+      "token": "MistralAI-User",
+      "vendor": "Mistral AI",
+      "category": "user",
+      "purposes": ["user"],
+      "respects_robots": "yes",
+      "summary_zh": "用户在 Mistral 的助手里提问时按需访问网页并在回答中附上来源链接。官方说明它不做自动抓取，也不用于训练。",
+      "quote": "When users ask Vibe a question, it may visit a web page to help answer and include a link to the source in its response. MistralAI-User governs which sites these user requests can be made to.",
+      "block_consequence_zh": "Mistral 助手无法按用户请求打开你的页面，也就不会把你列为来源。",
+      "docs_url": "https://docs.mistral.ai/robots",
+      "verified_on": "2026-11-04",
+      "verification": "official"
+    },
+    {
+      "token": "YouBot",
+      "vendor": "You.com",
+      "category": "search",
+      "purposes": ["search"],
+      "respects_robots": "yes",
+      "summary_zh": "You.com 搜索引擎的爬虫，为 You.com 的 AI 搜索建索引。官方说明遵守 robots.txt 与抓取频率设置。",
+      "quote": "YouBot is the web crawler that powers the You.com search engine. ... It respects robots.txt directives and crawl rate preferences.",
+      "block_consequence_zh": "页面进不了 You.com 的索引，不会出现在它的 AI 搜索结果里。",
+      "docs_url": "https://docs.you.com/youbot",
+      "verified_on": "2026-11-04",
+      "verification": "official"
+    },
+    {
+      "token": "YandexBot",
+      "vendor": "Yandex",
+      "category": "search",
+      "purposes": ["search"],
+      "respects_robots": "yes",
+      "summary_zh": "Yandex 主索引爬虫。Yandex 的 AI 答案（Yandex AI）从已收录页面生成；只想退出 AI 答案可用 YandexAdditional。",
+      "quote": "The main indexing robot.",
+      "block_consequence_zh": "网站会从 Yandex 搜索消失，也进不了基于其索引的 Yandex AI 答案。",
+      "docs_url": "https://yandex.com/support/webmaster/en/robot-workings/check-yandex-robots",
+      "verified_on": "2026-11-04",
+      "verification": "official"
+    },
+    {
+      "token": "Yeti",
+      "vendor": "Naver",
+      "category": "search",
+      "purposes": ["search"],
+      "respects_robots": "yes",
+      "summary_zh": "韩国 Naver 搜索的爬虫，官方说明遵守 robots.txt。",
+      "quote": "일반적인 네이버 검색 서비스를 위해 웹 문서를 수집하는 검색로봇은 Yeti라고 불리우며",
+      "block_consequence_zh": "网站会从 Naver 搜索消失。",
+      "docs_url": "https://searchadvisor.naver.com/guide/seo-basic-firewall",
+      "verified_on": "2026-11-04",
+      "verification": "official"
     }
   ],
   "vendor_training_tokens": {

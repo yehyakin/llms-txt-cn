@@ -96,7 +96,7 @@ const CAT_DESC = {
   dataset: 'Builds an open dataset that third parties use, including for AI training.'
 };
 const ROBOTS = { yes: 'Yes', partial: 'Not always', no: 'Generally no', unverified: 'Not documented' };
-const CLASSIC = new Set(['Googlebot', 'Bingbot', 'Applebot', 'Baiduspider']);
+const CLASSIC = new Set(['Googlebot', 'Bingbot', 'Applebot', 'Baiduspider', 'YandexBot', 'Yeti']);
 const crawlers = DATA.crawlers.filter((c) => EN[c.token]);
 const missing = DATA.crawlers.filter((c) => !EN[c.token]).map((c) => c.token);
 if (missing.length) throw new Error('crawlers-en.json 缺少: ' + missing.join(', '));
@@ -440,7 +440,7 @@ const homeBody = `<header class="hero"><div class="hbg" aria-hidden="true"><div 
 
 <section class="strip" aria-label="Crawlers we test"><div class="wrap">
   <p class="kick c">We test the crawlers behind</p>
-  <div class="marq"><div class="mtrack">${(() => { const one = [['openai', 'OpenAI'], ['anthropic', 'Anthropic'], ['google', 'Google'], ['microsoft', 'Microsoft'], ['apple', 'Apple'], ['meta', 'Meta'], ['amazon', 'Amazon'], ['perplexity', 'Perplexity'], ['duckduckgo', 'DuckDuckGo'], ['', 'Common Crawl'], ['bytedance', 'ByteDance'], ['huawei', 'Huawei'], ['baidu', 'Baidu'], ['', 'Alibaba'], ['', 'Tencent'], ['moonshotai', 'Moonshot AI']].map(([k, n]) => `<span>${k ? MARK(k) : ''}${n}</span>`).join(''); return `<div class="mset">${one}</div><div class="mset" aria-hidden="true">${one}</div>`; })()}</div></div>
+  <div class="marq"><div class="mtrack">${(() => { const one = [['openai', 'OpenAI'], ['anthropic', 'Anthropic'], ['google', 'Google'], ['microsoft', 'Microsoft'], ['apple', 'Apple'], ['meta', 'Meta'], ['amazon', 'Amazon'], ['perplexity', 'Perplexity'], ['duckduckgo', 'DuckDuckGo'], ['mistralai', 'Mistral AI'], ['', 'You.com'], ['', 'Common Crawl'], ['yandex', 'Yandex'], ['naver', 'Naver']].map(([k, n]) => `<span>${k ? MARK(k) : ''}${n}</span>`).join(''); return `<div class="mset">${one}</div><div class="mset" aria-hidden="true">${one}</div>`; })()}</div></div>
 </div></section>
 
 <section class="prod gridbg" id="checks"><div class="wrap pgrid">
