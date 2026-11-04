@@ -14,7 +14,7 @@ import { handleMonitor, createMonitor, runDue } from './monitor.js';
 /* 品牌域名：根目录直接是英文版（站内文件仍放在 /en/ 下） */
 const BRAND_HOSTS = new Set(['vaksel.com', 'www.vaksel.com']);
 export function isBrandHost(h) { return BRAND_HOSTS.has((h || '').toLowerCase()); }
-/* 中文生产域名：根目录是中文版；/en/ 下的英文内容统一 301 到 vaksel.com */
+/* 中文生产域名：根目录是中文版；/en/ 下的英文页面 301 到 vaksel.com（带扩展名的静态资源照常返回，中文页也在用） */
 const ZH_HOSTS = new Set(['cetxt.com', 'www.cetxt.com']);
 export function isZhHost(h) { return ZH_HOSTS.has((h || '').toLowerCase()); }
 async function zhIndex(resp) {
@@ -92,7 +92,7 @@ export default {
     const u1 = new URL(request.url);
     if (isZhHost(u1.hostname)) {
       if (u1.hostname.startsWith('www.')) { u1.hostname = u1.hostname.slice(4); return Response.redirect(u1.toString(), 301); }
-      if (u1.pathname === '/en' || u1.pathname.startsWith('/en/')) return Response.redirect('https://vaksel.com' + (u1.pathname.slice(3) || '/') + u1.search, 301);
+      if (u1.pathname === '/en' || (u1.pathname.startsWith('/en/') && !/\.[a-z0-9]+$/i.test(u1.pathname))) return Response.redirect('https://vaksel.com' + (u1.pathname.slice(3) || '/') + u1.search, 301);
       const r = await route(request, env, ctx, '/en');
       // INDEX_SITE=1：中文内容页放开收录（报告页仍由 INDEX_REPORTS 单独控制）
       return env.INDEX_SITE === '1' && !u1.pathname.startsWith('/report') && !u1.pathname.startsWith('/api/') ? zhIndex(r) : r;
