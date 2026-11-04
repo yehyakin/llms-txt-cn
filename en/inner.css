@@ -90,7 +90,7 @@ body.in{--r:10px;font-size:15px}
 
 /* ---------- 深色配色 ---------- */
 html:not(.lt) body.in{--soft:rgba(255,255,255,.035);--tx2:#c7c7cc;--panel:#111;--th:rgba(255,255,255,.03);--row:rgba(255,255,255,.06)}
-html.lt body.in{--soft:#f7f7f8;--tx2:#333336;--panel:#fff;--th:#fafafa;--row:#f0f0f2}
+html.lt body.in{--alt:#f5f5f7;--soft:#f7f7f8;--tx2:#333336;--panel:#fff;--th:#fafafa;--row:#f0f0f2}
 html.lt body.dk.in h1{color:#0a0a0a}
 html.lt body.dk.in .lead{color:#6e6e73}
 html.lt body.dk.in .cta .btn,html.lt body.dk.in .plan.hi .btn{background:#16a34a;color:#fff}
@@ -181,3 +181,15 @@ html:not(.lt) .dk.in .mail{background:#111;box-shadow:0 0 0 1px rgba(255,255,255
 html:not(.lt) .dk.in .mh{border-color:var(--row)}html:not(.lt) .dk.in .mh b,html:not(.lt) .dk.in .ms{color:#f5f5f7}
 html:not(.lt) .dk.in .mrow{border-color:var(--row)}html:not(.lt) .dk.in .mrow span:first-child{color:#e5e5ea}
 html:not(.lt) .dk.in .mbtn{background:var(--g);color:#06120a}
+/* 浅色内页细节（11-04 QA） */
+html.lt body.dk.in a{color:#15803d}
+html.lt .dk.in .bcard,html.lt .dk.in .nav a.n{color:#1d1d1f}
+html.lt .dk.in .btn{color:#fff}
+html.lt .dk.in .btn.ghost{color:#1d1d1f;background:#fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.14)}
+html.lt .dk.in .doc code,html.lt .dk.in .seol code,html.lt .dk.in .mb code,html.lt .dk.in td code{background:#f0f0f2;color:#1d1d1f}
+html.lt .dk.in .field{background:#fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.14)}
+html.lt .dk.in .join{background:#f7f7f8;color:#1d1d1f;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+html.lt .dk.in .join h2{color:#0a0a0a}html.lt .dk.in .join p,html.lt .dk.in .join label{color:#6e6e73}
+html.lt .dk.in .join .btn{background:#16a34a;color:#fff}
+.dk.in .cta{border-top-left-radius:0}
+html.lt .dk.in footer a{color:#6e6e73}html.lt .dk.in footer a:hover{color:#1d1d1f}
