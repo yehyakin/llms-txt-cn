@@ -185,6 +185,7 @@ export function ogData(r,lang){const L=T(lang);const a=(r&&r.access)||{};const v
   const bots=live?a.bots:ra.filter(b=>isMain(b)&&!CLASSIC.has(b.token)&&!UNGRADED.has(b.token)).map(b=>({category:b.category,effective:b.status==='blocked'?'blocked':'ok'}));
   const s=bots.filter(b=>isMain(b));
   return {verdict:a.verdict||'unknown',title:L.v[verdict][0],tone:{'v-ok':'ok','v-warn':'warn','v-bad':'bad','v-gray':'gray'}[TONE[verdict]],reach:s.filter(b=>b.effective!=='blocked').length,total:s.length,live:!!live,grades:(G=>({access:G.access.grade,read:G.read.grade,cite:G.cite.grade}))(gradeReport(r||{}))}}
+const fmtWhen=(w,lang)=>{const d=new Date(w);if(isNaN(d))return String(w).slice(0,16).replace('T',' ')+' UTC';if(lang==='zh'){const b=new Date(d.getTime()+8*3600e3).toISOString();return b.slice(0,10)+' '+b.slice(11,16)+'（北京时间）'}return d.toISOString().slice(0,16).replace('T',' ')+' UTC'};
 export function renderReport(r,opt){
   opt=opt||{};const L=T(opt.lang);const when=opt.when||new Date().toISOString();const shareUrl=opt.url||'';
   const a=r.access||{verdict:'unknown'};
@@ -200,7 +201,7 @@ export function renderReport(r,opt){
   const sg=search.filter(b=>!UNGRADED.has(b.token));const reach=sg.filter(b=>b.effective!=='blocked').length;
   const llm=r.llms||{};
   const robots=r.robots||{};
-  const meta=(a.target?esc(a.target)+' · ':'')+L.meta.checked+' <time datetime="'+esc(when)+'">'+esc(when.slice(0,16).replace('T',' '))+' UTC</time>'+(a.cdn?' · '+L.meta.servedBy+' '+esc(a.cdn):'');
+  const meta=(a.target?esc(a.target)+' · ':'')+L.meta.checked+' <time datetime="'+esc(when)+'">'+esc(fmtWhen(when,opt.lang))+'</time>'+(a.cdn?' · '+L.meta.servedBy+' '+esc(a.cdn):'');
   let rows='';
   const grp=(t,list)=>{if(!list.length)return;rows+='<tr class="grp"><td colspan="5">'+t+'</td></tr>';list.forEach(b=>{rows+='<tr class="row" data-i="'+b.token+'"><td><div class="bot"><a href="'+B+'/bots/'+botSlug(b.token)+'/">'+esc(b.token)+'</a></div><div class="vd">'+esc(opt.lang==='zh'?(b.vendor||''):(VENDOR_EN[b.vendor]||b.vendor||''))+'</div></td><td class="hide-s">'+(L.purpose[b.category]||L.purpose.unknown)+'</td><td>'+robotsTag(b.robots,L)+'</td><td class="hide-s">'+liveTag(b,L)+'</td><td><div class="rcell">'+resultTag(b,L)+'<button type="button" class="evb" aria-expanded="false" aria-controls="ev-'+b.token+'">'+L.table.details+'</button></div></td></tr><tr class="ev" id="ev-'+b.token+'" hidden><td colspan="5">'+evidence(b,a,B,L)+'</td></tr>'})};
   grp(L.table.grpS,search);grp(L.table.grpC,bots.filter(isCnB));grp(L.table.grpT,train);

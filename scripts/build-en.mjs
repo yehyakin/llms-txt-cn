@@ -17,7 +17,7 @@ const slug = (t) => String(t).toLowerCase().replace(/[^a-z0-9]+/g, '-');
 const canon = (p) => SITE + p.replace(/^\/en/, '');
 
 // 生产 cetxt.com 仍是旧站，只有首页存在（2026-11-04 核实 /bots/ /pricing/ 均 404）。中文新站上线后改 ZH_LIVE = true，链接与 hreflang 恢复逐页对应。
-const ZH_LIVE = false;
+const ZH_LIVE = true;
 const zhHref = (path) => 'https://cetxt.com' + (ZH_LIVE && path && path !== '/en/404' ? path.replace(/^\/en/, '') : '/');
 export const NAV = (active, path) => `<a class="skip" href="#main">Skip to content</a>
 <nav class="nav" aria-label="Main"><div class="wrap">
