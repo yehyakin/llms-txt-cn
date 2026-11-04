@@ -1,0 +1,22 @@
+Kimi Crawlers For Business Try Kimi Policies / Kimi Crawlers Kimi Crawlers Kimi operates multiple web crawlers to support its products.
+This page identifies Kimi&#x27;s certain crawlers and what each of those crawlers are used for.
+For the crawlers described below, we use industry-standard robots.txt directives that let site administrators control how these specific crawlers interact with their content.
+Site administrators can manage how their sites and content are used by Kimi with the following web crawlers.
+Each crawler listed here serves a distinct purpose and is configured independently.
+KimiBot KimiBot crawls content potentially used to train Kimi&#x27;s foundation models.
+Disallowing this bot signals that your content should not be used for model training.
+User-agent: Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; KimiBot/1.0; +https://www.kimi.com/policies/kimi-crawlers IP ranges available at: kimibot.json Kimi-User Kimi-User handles user-initiated actions in Kimi (for example, asking Kimi to summarize a specific article or answer a question that requires live web retrieval).
+Disallowing this bot may reduce your site&#x27;s visibility in user-directed web searches performed through our products.
+This bot is not used for automated bulk crawling; because actions are user-triggered, robots.txt rules may not directly apply.
+User-agent: Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; Kimi-User/1.0; +https://www.kimi.com/policies/kimi-crawlers IP ranges available at: kimi-user.json Kimi-SearchBot Kimi-SearchBot powers Kimi&#x27;s search features: it analyzes pages for relevance and builds the search index.
+Disallowing this bot will prevent your site from appearing in Kimi search results.
+User-agent: Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; Kimi-SearchBot/1.0; +https://www.kimi.com/policies/kimi-crawlers IP ranges available at: kimi-searchbot.json Controlling Kimi Crawlers via robots.txt Add the following directives to the robots.txt at your site root (examples of each directive are listed below).
+Apply robots.txt per subdomain — each subdomain is treated as a separate origin.
+Important note on access control: We recommend using robots.txt as the primary method to manage Kimi crawlers.
+We operate from a dynamic range of IPs, and these ranges may change over time.
+While we provide our IP ranges for verification, blocking our IPs may prevent us from reading your latest robots.txt instructions, which is the most reliable way to ensure your site preferences are honored.
+If a crawler has a source IP address within the IP ranges provided above, it indicates that the crawler is coming from Kimi.
+Block a crawler entirely Block specific paths Slow down crawling Crawl-delay is specified in seconds and sets the minimum interval between successive requests from the same crawler.
+Control multiple crawlers Contact us If you have questions or concerns, please contact us at [email protected] .
+To help us investigate, please include the relevant domain and any logs showing the bot&#x27;s behavior.
+System Products Kimi Kimi Work Kimi Code Kimi Browser Extension Kimi Platform Pricing Download Features AI Agent Agent Swarm AI Website Builder AI Document Agent AI Slides Generator AI Sheets Agent Deep Research Capabilities AI Python Generator AI C++ Generator AI HTML Generator AI Java Generator AI JS Generator AI Rust Generator Company About us Moonshot AI Brand guidelines PR Contact Terms of Service Privacy Policy User-agent: KimiBot Disallow: / Copy code User-agent: KimiBot Disallow: /private/ Disallow: /paid/ Copy code User-agent: KimiBot Crawl-delay: 1 Copy code User-agent: KimiBot Disallow: / User-agent: Kimi-SearchBot Crawl-delay: 1 Copy code

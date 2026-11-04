@@ -747,7 +747,7 @@ write('en/site.webmanifest', JSON.stringify({ name: 'VAKSEL', short_name: 'VAKSE
   const known = new Set(crawlers.map((c) => c.token));
   const fmt = (d) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
   const tok = (t) => (known.has(t) ? `<a href="/en/bots/${slug(t)}/"><code>${esc(t)}</code></a>` : `<code>${esc(t)}</code>`);
-  const items = CL.map((e) => `<li class="cl-i"><time datetime="${e.date}">${fmt(e.date)}</time><div><span class="cl-k ${e.kind}">${e.kind === 'vendor' ? 'Operator docs changed' : 'Directory update'}</span><p>${esc(e.en)}</p>${e.tokens.length ? `<p class="cl-t">${e.tokens.map(tok).join(' ')}</p>` : ''}${e.source ? `<p class="cl-s"><a href="${esc(e.source)}" rel="nofollow noopener" target="_blank">Source ↗</a></p>` : ''}</div></li>`).join('');
+  const items = CL.map((e) => `<li class="cl-i"><time datetime="${e.date}">${fmt(e.date)}</time><div><span class="cl-k ${e.kind}">${e.kind === 'vendor' ? 'Operator docs changed' : 'Directory update'}</span><p>${esc(e.en)}</p>${e.quote ? `<blockquote class="cl-q">“${esc(e.quote)}”</blockquote>` : ''}${e.tokens.length ? `<p class="cl-t">${e.tokens.map(tok).join(' ')}</p>` : ''}${e.source ? `<p class="cl-s"><a href="${esc(e.source)}" rel="nofollow noopener" target="_blank">Source ↗</a></p>` : ''}</div></li>`).join('');
   const docs = Object.entries(W.docs).map(([u, v]) => {
     const host = new URL(u).hostname.replace(/^www\./, '');
     const st = v.js_only ? 'By hand' : v.hash ? 'Watched' : 'Unreachable';

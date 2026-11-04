@@ -1,0 +1,30 @@
+百度用户服务中心-站长平台 登录 注册 服务中心 > 站长平台 问题帮助 热门问题 常见问题 网页收录问题 功能介绍 网页排序问题 商业客户相关问题 给站长的建议 互联网收录开放协议 Baiduspider 百度行业资质认证 操作常见问题解答 Sitemap协议常见问题解答 移动搜索优化常见问题解答 Baiduspider常见问题解答 1.
+什么是Baiduspider Baiduspider是百度搜索引擎的一个自动程序，它的作用是访问互联网上的网页，建立索引数据库，使用户能在百度搜索引擎中搜索到您网站上的网页。
+Baiduspider的user-agent是什么？
+索引擎百度各个产品使用不同的user-agent: 产品名称 对应user-agent 网页搜索 Baiduspider 移动搜索 Baiduspider 图片搜索 Baiduspider-image 视频搜索 Baiduspider-video 新闻搜索 Baiduspider-news 百度搜藏 Baiduspider-favo 百度联盟 Baiduspider-cpro 商务搜索 Baiduspider-ads 3.如何区分PC与移动网页搜索的UA PC搜索完整UA： Mozilla/5.0 (compatible; Baiduspider/2.0; + http://www.baidu.com/search/spider.html ） 移动搜索完整UA： Mozilla/5.0 (Linux;u;Android 4.2.2;zh-cn;) AppleWebKit/534.46 (KHTML,like Gecko) Version/5.1 Mobile Safari/10600.6.3 (compatible; Baiduspider/2.0; + http://www.baidu.com/search/spider.html ) pc ua：通过关键词Baiduspider/2.0来确定是pc ua 移动 ua ：通过关键词 android 和 mobile 确定是来自移动端抓取访问， Baiduspider/2.0 确定为百度爬虫。
+4.Baiduspider对一个网站服务器造成的访问压力如何？
+为了达到对目标资源较好的检索效果，Baiduspider需要对您的网站保持一定量的抓取。我们尽量不给网站带来不合理的负担，并会根据服务器承受能力，网站质量，网站更新等综合因素来进行调整。如果您觉得baiduspider的访问行为有任何不合理的情况，您可以反馈至 反馈中心 5.
+为什么Baiduspider不停的抓取我的网站？
+对于您网站上新产生的或者持续更新的页面，Baiduspider会持续抓取。此外，您也可以检查网站访问日志中Baiduspider的访问是否正常，以防止有人恶意冒充Baiduspider来频繁抓取您的网站。
+如果您发现Baiduspider非正常抓取您的网站，请通过 投诉平台 反馈给我们，并请尽量给出Baiduspider对贵站的访问日志，以便于我们跟踪处理。
+如何判断是否冒充Baiduspider的抓取？
+建议您使用DNS反向查找和DNS正向查找相结合的方式来确定抓取来源的ip是否属于百度，根据平台不同验证方法不同，如linux/windows/os三种平台下的验证方法分别如下： 6.1 在linux平台下：（1）使用host ip命令反解ip来判断是否来自Baiduspider的抓取。Baiduspider的hostname以 *.baidu.com 或 *.baidu.jp 的格式命名，非 *.baidu.com 或 *.baidu.jp 即为冒充。（2）使用host命令对第一步中的检索到的域名运行DNS正向查找，验证该域名与访问服务器的原始ip地址是否一致。
+示例1： $ host 123.125.66.120 120.66.125.123.in-addr.arpa domain name pointer baiduspider-123-125-66-120.crawl.baidu.com.
+$ host baiduspider-123-125-66-120.crawl.baidu.com baiduspider-123-125-66-120.crawl.baidu.com has address 123.125.66.120 示例2： $host 119.63.195.254 254.195.63.119.in-addr.arpa domain name pointer BaiduMobaider-119-63-195-254.crawl.baidu.jp.
+$host BaiduMobaider-119-63-195-254.crawl.baidu.jp BaiduMobaider-119-63-195-254.crawl.baidu.jp has address 119.63.195.254 6.2 在windows平台或者IBM OS/2平台下：（1）使用nslookup ip命令反解ip来 判断是否来自Baiduspider的抓取。打开命令处理器 输入nslookup xxx.xxx.xxx.xxx（IP地 址）就能解析ip， 来判断是否来自Baiduspider的抓取，Baiduspider的hostname以 *.baidu.com 或 *.baidu.jp 的格式命名，非 *.baidu.com 或 *.baidu.jp 即为冒充。（2）使用 nslookup命令对第一步中检索到的域名进行DNS正向查找，验证该域名与访问服务器的原始ip地址是否一致。
+6.3 在mac os平台下：（1）使用dig 命令反解ip来判断是否来自Baiduspider的抓取。打开命令处理器 输入dig xxx.xxx.xxx.xxx（IP地 址）就能解析ip，来判断是否来自Baiduspider的抓取，Baiduspider的hostname以 *.baidu.com 或 *.baidu.jp 的格式命名，非 *.baidu.com 或 *.baidu.jp 即为冒充；（2）使用 dig命令对第一步中检索到的域名进行DNS正向查找，验证该域名与访问服务器的原始ip地址是否一致。
+我不想我的网站被Baiduspider访问，我该怎么做？
+Baiduspider遵守互联网robots协议。您可以利用robots.txt文件完全禁止Baiduspider访问您的网站，或者禁止Baiduspider访问您网站上的部分文件。
+注意：禁止Baiduspider访问您的网站，将使您的网站上的网页，在百度搜索引擎以及所有百度提供搜索引擎服务的搜索引擎中无法被搜索到。关于robots.txt的写作方法，请参看我们的介绍： robots.txt写作方法 您可以根据各产品不同的user-agent设置不同的抓取规则，如果您想完全禁止百度所有的产品收录，可以直接对Baiduspider设置禁止抓取。
+以下robots实现禁止所有来自百度的抓取： User-agent: Baiduspider Disallow: / 以下robots实现禁止所有来自百度的抓取但允许图片搜索抓取/image/目录： User-agent: Baiduspider Disallow: / User-agent: Baiduspider-image Allow: /image/ 请注意：Baiduspider-cpro抓取的网页并不会建入索引，只是执行与客户约定的操作，所以不遵守robots协议，如果Baiduspider-cpro给您造成了困扰，请联系union1@baidu.com。
+Baiduspider-ads抓取的网页并不会建入索引，只是执行与客户约定的操作，所以不遵守robots协议，如果Baiduspider-ads给您造成了困扰，请联系您的客户服务专员。
+为什么我的网站已经加了robots.txt，还能在百度搜索出来？
+因为搜索引擎索引数据库的更新需要时间。虽然Baiduspider已经停止访问您网站上的网页，但百度搜索引擎数据库中已经建立的网页索引信息，可能需要数月时间才会清除。另外也请检查您的robots配置是否正确。
+如果您的拒绝被收录需求非常急迫，也可以通过 投诉平台 反馈请求处理。
+我希望我的网站内容被百度索引但不被保存快照，我该怎么做？
+Baiduspider遵守互联网meta robots协议。您可以利用网页meta的设置，使百度显示只对该网页建索引，但并不在搜索结果中显示该网页的快照。
+和robots的更新一样，因为搜索引擎索引数据库的更新需要时间，所以虽然您已经在网页中通过meta禁止了百度在搜索结果中显示该网页的快照，但百度搜索引擎数据库中如果已经建立了网页索引信息，可能需要二至四周才会在线上生效。
+10.
+Baiduspider抓取造成的带宽堵塞？
+Baiduspider的正常抓取并不会造成您网站的带宽堵塞，造成此现象可能是由于有人冒充Baiduspider恶意抓取。如果您发现有名为Baiduspider的agent抓取并且造成带宽堵塞，请尽快和我们联系。您可以将信息反馈至 投诉平台 ，如果能够提供您网站该时段的访问日志将更加有利于我们的分析。
+以上信息是否解决了您的问题 是 否 感谢您的反馈 FAQs of Baiduspider 关于百度 ABOUT BAIDU 使用百度前必读 举报受理声明 个人信息咨询 京ICP证030173号&emsp;京网文〔2023〕1034-029号&emsp;Copyright &copy; Baidu

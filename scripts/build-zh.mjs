@@ -424,7 +424,7 @@ write('404.html', page({
   const known = new Set(crawlers.map((c) => c.token));
   const fmt = (d) => { const [y, m, dd] = d.split('-').map(Number); return `${y} 年 ${m} 月 ${dd} 日`; };
   const tok = (t) => (known.has(t) ? `<a href="/bots/${slug(t)}/"><code>${esc(t)}</code></a>` : `<code>${esc(t)}</code>`);
-  const items = CL.map((e) => `<li class="cl-i"><time datetime="${e.date}">${e.date}</time><div><span class="cl-k ${e.kind}">${e.kind === 'vendor' ? '官方文档变更' : '目录更新'}</span><p>${esc(e.zh)}</p>${e.tokens.length ? `<p class="cl-t">${e.tokens.map(tok).join(' ')}</p>` : ''}${e.source ? `<p class="cl-s"><a href="${esc(e.source)}" rel="nofollow noopener" target="_blank">来源 ↗</a></p>` : ''}</div></li>`).join('');
+  const items = CL.map((e) => `<li class="cl-i"><time datetime="${e.date}">${e.date}</time><div><span class="cl-k ${e.kind}">${e.kind === 'vendor' ? '官方文档变更' : '目录更新'}</span><p>${esc(e.zh)}</p>${e.quote ? `<blockquote class="cl-q">“${esc(e.quote)}”</blockquote>` : ''}${e.tokens.length ? `<p class="cl-t">${e.tokens.map(tok).join(' ')}</p>` : ''}${e.source ? `<p class="cl-s"><a href="${esc(e.source)}" rel="nofollow noopener" target="_blank">来源 ↗</a></p>` : ''}</div></li>`).join('');
   const docs = Object.entries(W.docs).map(([u, v]) => {
     const host = new URL(u).hostname.replace(/^www\./, '');
     const st = v.js_only ? '人工核对' : v.hash ? '自动比对' : '上次无法访问';

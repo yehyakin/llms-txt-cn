@@ -1,0 +1,72 @@
+About Applebot - Apple Support Apple Store Mac iPad iPhone Watch Vision AirPods Home Entertainment Accessories Support 0 + About Applebot Learn about Applebot, the web crawler for Apple.
+The data crawled by Applebot is used to power various features, such as the search technology integrated into many user experiences in Appleʼs ecosystem including Spotlight, Siri, and Safari.
+Enabling Applebot in robots.txt allows website content to appear in search results for Apple users around the world in these products.
+The data crawled by Applebot may also be used to help train Apple foundation models powering generative AI features across Apple products, including Apple Intelligence, Services, and Developer Tools.
+Web publishers can opt-out from having their content used to train generative foundation models by disallowing Applebot-Extended in the robots.txt file.
+Applebot crawled data may be used to provide additional context and up-to-date content when AI models are used to generate output for display in Apple products and services.
+For example, answering broad world knowledge questions in Siri and Search that may include links to sources and websites used to help generate the answer.
+Web publishers can opt out of their content being used in these broad world knowledge answers by applying the nosnippet meta tag to specific content.
+Even if you disallow Applebot-Extended and tag website content with the nosnippet meta tag, your website instructions may still allow Applebot to crawl your webpages.
+Your content will remain discoverable through Spotlight, Siri, and Safari, as well as other system-wide features on Apple devices.
+Identifying Applebot Traffic coming from Applebot is generally identified by using reverse DNS in the *.
+applebot.apple.com domain.
+Another way is to match the IP address with a CIDR prefix contained in the following JSON file: Applebot IP CIDRs .
+Reverse DNS The host command can be used to determine if an IP address is part of Applebot.
+These examples show the host command and its result: $ host 17-58-101-179.applebot.apple.com 17-58-101-179.applebot.apple.com has address 17.58.101.179.
+The host command can also be used to verify that the DNS points to the same IP address: $ host 17.58.101.179 179.101.58.17.in-addr.arpa domain name pointer 17-58-101-179.applebot.apple.com.
+User agents A user agent helps webmasters identify crawler traffic, so that they can get accurate access log reports of crawler activity and control access to the site via robots.txt.
+Applebot powers several user agents, including Search and Podcasts.
+Search For search web crawling and rendering, Applebot uses the following format: The user-agent string contains &rdquo;Applebot&rdquo; and other information.
+The following is the general format: Mozilla/5.0 (Device; OS_version) AppleWebKit/WebKit_version (KHTML, like Gecko)Version/Safari_version [Mobile/Mobile_version] Safari/WebKit_version (Applebot/Applebot_version; +http://www.apple.com/go/applebot) Mozilla/5.0 (Device; OS_version) AppleWebKit/WebKit_version (KHTML, like Gecko)Version/Safari_version [Mobile/Mobile_version] Safari/WebKit_version (Applebot/Applebot_version; +http://www.apple.com/go/applebot) Example for desktop: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15 (Applebot/0.1; +http://www.apple.com/go/applebot) Example for mobile: Mozilla/5.0 (iPhone; CPU iPhone OS 17_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Mobile/15E148 Safari/604.1 (Applebot/0.1; +http://www.apple.com/go/applebot) Occasionally, Applebot will update the browser version that it advertises while remaining in the general format above.
+Special crawlers Apple online properties iTMS traffic may come from applebot.apple.com hosts, and will be identified by the following user agent: User-Agent: iTMS The iTMS user agent does not follow robots.txt, as it is not a general search crawler.
+The iTMS user agent only crawls URLs associated with registered content on Apple Podcasts.
+Customizing robot.txt rules Applebot respects standard robots.txt directives in general search crawls that are targeted at Applebot.
+In this example, Applebot doesn't try to crawl documents that are under /private/ or /not-allowed/: User-agent: Applebot Allow: / Disallow: /private/ User-agent: * Disallow: /not-allowed/ If robots instructions don't mention Applebot but mention Googlebot, the Apple robot will follow Googlebot instructions.
+Applebot does not follow crawl-delay.
+Applebot is engineered for efficiency and will adjust to minimize the impact on site owners.
+For example, to avoid overloading site servers, Applebot&rsquo;s crawl rate adjusts automatically when a site slows down or returns errors.
+Apple also caches crawled content to reduce unnecessary crawling.
+Identifying content that doesn't need to be crawled lowers infrastructure costs for site owners and makes the internet more efficient as a whole.
+Rendering and robot rules Applebot may render the content of your website within a browser.
+If javascript, CSS, and other resources are blocked via robots.txt, it may not be able to render the content properly.
+This includes XHR, JS, and CSS that the page might require.
+In order for Applebot to index the best content for the page, make sure that everything needed for a user to render the page is available to Applebot.
+Alternatively, make sure that the website renders cleanly, even if all of the resources are not available.
+This is often referred to as graceful degradation.
+Customizing indexing rules for Applebot Applebot supports robots meta tags in HTML documents.
+To specify robots rules in meta tags, put the tags in the &lt;head&gt; section of the document: &lt;html&gt; &lt;head&gt; &lt;meta name=&quot;robots&quot; content=&quot;noindex&quot;/&gt; ...
+&lt;/head&gt; &lt;body&gt;...&lt;/body&gt; &lt;/html&gt; Applebot also supports the following directives: noindex: Applebot won't index this page, and it won't appear in Spotlight or Siri Suggestions.
+nosnippet: Applebot won't generate a description or web answer for the page.
+Any suggestions to visit this URL will only include the page's title.
+Apple will not use data tagged nosnippet as additional context and up-to-date content when AI models are used to generate output for display in Apple products and services.
+nofollow: Applebot won't follow any links on the page.
+none: Applebot won't index, snippet, or follow links on the page, as described above.
+all: Applebot provides the document for suggestions and snippets the contents so that a short description of the page can appear next to a representative image.
+Applebot may follow links on the page to provide more suggestions.
+To put multiple directives in a single meta tag, use a comma-separated list or multiple meta tags.
+Example: &lt;meta name=&quot;robots&quot; content=&quot;nosnippet, noindex&rdquo;&gt; &lt;meta name=&quot;robots&quot; content=&ldquo;noindex&quot;&gt; &lt;meta name=&quot;robots&quot; content=&ldquo;nosnippet&quot;&gt; &lt;meta name=&quot;applebot&quot; content=&ldquo;nosnippet&quot;&gt; Using the X-Robots-Tag HTTP header Applebot also supports indexing directives delivered via the X-Robots-Tag HTTP response header.
+This is useful for non-HTML resources (such as PDFs or images) where meta tags can&rsquo;t be used, or when you want to apply directives at the server level.To apply a directive to Applebot: X-Robots-Tag: applebot: nosnippet Marking paywalled content Applebot supports the schema.org isAccessibleForFree property to identify pages that are behind a paywall, metered access, or subscription.
+Add the property to your page-level structured data in JSON-LD: &lt;script type=&quot;application/ld+json&quot;&gt; { &quot;@context&quot;: &quot;https://schema.org&quot;, &quot;isAccessibleForFree&quot;: false } &lt;/script&gt; Pages marked isAccessibleForFree: false are eligible to appear in search results, but Applebot will not use that content as additional context when AI models are used to generate output for display in Apple products and services.This signal applies at the page level.
+Section-level markup using hasPart is not supported.
+To opt out of having your content used to train Apple&rsquo;s foundation models, use Applebot-Extended described in the next section.
+Applebot-Extended and controlling data usage In addition to following all robots.txt rules and directives, Apple has a secondary user agent, Applebot-Extended, that gives web publishers additional controls over how their website content can be used by Apple.
+With Applebot-Extended, web publishers can choose to opt out of their website content being used to train Apple&rsquo;s general purpose foundation models powering generative AI features across Apple products, including Apple Intelligence, Services, and Developer Tools.
+You can add a rule in robots.txt to disallow Applebot-Extended, as follows: User-agent: Applebot-Extended Disallow: /private/ Applebot-Extended does not crawl webpages.
+Webpages that disallow Applebot-Extended can still be included in search results.
+Applebot-Extended is only used to determine how to use the data crawled by the Applebot user agent.
+Allowing Applebot-Extended will help improve the capabilities and quality of Apple&rsquo;s generative AI models over time.
+About search rankings Apple Search may take the following factors into account when ranking web search results: Aggregated user engagement with search results Relevancy and matching of search terms to webpage topics and content Number and quality of links from other pages on the web User location based signals (approximate data) Webpage design characteristics Search results may use the factors above with no (pre-determined) importance of ranking.
+Users of Search are subject to the privacy policy in Siri Suggestions, Search & Privacy .
+Site rules for Applebot-Extended are not considered in ranking for Search.
+Contact us If you have questions or concerns, please contact us at applebot@apple.com .
+Information about products not manufactured by Apple, or independent websites not controlled or tested by Apple, is provided without recommendation or endorsement.
+Apple assumes no responsibility with regard to the selection, performance, or use of third-party websites or products.
+Apple makes no representations regarding third-party website accuracy or reliability.
+Contact the vendor for additional information.
+Published Date: September 04, 2026 Helpful?
+Yes No Character limit: 250 Maximum character limit is 250.
+Please don’t include any personal information in your comment.
+Submit Thanks for your feedback.
+Apple Footer  Apple Support About Applebot United States Copyright © 2026 Apple Inc.
+All rights reserved.
+Privacy Policy Terms of Use Sales and Refunds Site Map

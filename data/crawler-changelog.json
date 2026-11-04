@@ -1,20 +1,38 @@
 {
- "note": "AI 爬虫变更日志。kind=vendor：运营方官方文档的变化（由 scripts/watch-docs.mjs 发现、人工读原文后再写）；kind=directory：我们自己的爬虫目录收录变化。每条必须有官方来源 url。公开前需 KiN 审。",
+ "note": "AI 爬虫变更日志。kind=vendor：运营方官方文档的变化，由每日定时任务按 notes/changelog-template.md 的模版自动写入并发布（KiN 2026-11-04 同意符合模版的条目无需审核），必须有 source（官方页面）与 quote（官方原句）；kind=directory：我们自己的爬虫目录收录变化。",
  "entries": [
   {
-   "date": "2026-11-04", "kind": "directory",
-   "tokens": ["MistralAI-User", "MistralAI-Index", "MistralAI-Training", "YouBot", "YandexBot", "Yeti"],
+   "date": "2026-11-04",
+   "kind": "directory",
+   "tokens": [
+    "MistralAI-User",
+    "MistralAI-Index",
+    "MistralAI-Training",
+    "YouBot",
+    "YandexBot",
+    "Yeti"
+   ],
    "en": "Added crawlers from Mistral AI (all three of its agents), You.com, Yandex and Naver. We analyze robots.txt for each; none of them count toward the grade yet.",
    "zh": "新增 Mistral AI（三个爬虫）、You.com、Yandex、Naver 的爬虫。都做 robots.txt 分析，暂不计入评级。"
   },
   {
-   "date": "2026-11-02", "kind": "directory",
-   "tokens": ["PetalBot", "Sogou web spider", "360Spider", "YisouSpider", "Kimi-SearchBot", "Kimi-User", "KimiBot"],
+   "date": "2026-11-02",
+   "kind": "directory",
+   "tokens": [
+    "PetalBot",
+    "Sogou web spider",
+    "360Spider",
+    "YisouSpider",
+    "Kimi-SearchBot",
+    "Kimi-User",
+    "KimiBot"
+   ],
    "en": "Added China search engines and Kimi: Huawei PetalBot, Sogou, 360, Shenma (Yisou) and Moonshot's three Kimi agents. Shown in their own group, not graded.",
    "zh": "新增国内搜索引擎与 Kimi：华为 PetalBot、搜狗、360、神马，以及月之暗面的三个 Kimi 爬虫。单独分组，不计评级。"
   },
   {
-   "date": "2026-10-31", "kind": "directory",
+   "date": "2026-10-31",
+   "kind": "directory",
    "tokens": [],
    "en": "Directory launched with 22 crawlers from OpenAI, Anthropic, Google, Apple, Perplexity, Microsoft, Meta, Amazon, DuckDuckGo, Common Crawl, ByteDance and Baidu, each checked against the operator's documentation.",
    "zh": "爬虫目录上线，收录 OpenAI、Anthropic、Google、Apple、Perplexity、微软、Meta、亚马逊、DuckDuckGo、Common Crawl、字节跳动、百度共 22 个爬虫，逐条对照官方文档。"

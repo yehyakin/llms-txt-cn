@@ -1,0 +1,141 @@
+Is DuckAssistBot related to DuckDuckGo?
+- DuckDuckGo Help Pages DuckDuckGo Help Pages Search Help Pages Welcome About DuckDuckGo What is DuckDuckGo?
+Recent Product Improvements How does DuckDuckGo protect my privacy?
+How does DuckDuckGo make money?
+Who owns DuckDuckGo?
+Where is the name DuckDuckGo from?
+Follow Us on Social Media DuckDuckGo Open Source Where can I buy DuckDuckGo gear?
+Is DuckDuckGo open to partnerships?
+Does DuckDuckGo offer internships?
+Can I donate to DuckDuckGo?
+Contact Us How To Get DuckDuckGo How much does DuckDuckGo cost?
+Does DuckDuckGo make a browser?
+Add the DuckDuckGo Extension How to Deploy DuckDuckGo Private Search in Your Organization Get the DuckDuckGo Browser Mac Windows iPhone & iPad Android Get the DuckDuckGo Browser Extension Firefox Chrome Edge Opera Firefox Mobile Add-On Remove unofficial DuckDuckGo extensions Get DuckDuckGo Private Search Chrome Safari Firefox Edge Opera Brave Vivaldi Samsung Internet UC Browser Mobile Search Widget iOS Android Search Results Search Features Search Assist Recent Search Improvements Where Our Results Come From Improve Local Results on Mobile Improve Local Results on Desktop Using 3rd-Party Map Apps on Mobile Sort Results by Date Filter Out AI Images How To Block Sites in Results Safe Search Translations Advanced Search Syntax Keyboard Shortcuts !Bang Shortcuts Save Settings With Cloud Save Instant Answers and Other Features How News Rankings Work Number of Results Can a traditional search result be removed from DuckDuckGo?
+Our Short Domain About DuckDuckBot About DuckAssistBot Advertise on DuckDuckGo Search Easter Egg Dax Logos Search Privacy Protection Does DuckDuckGo Search track you?
+Is DuckDuckGo Search encrypted?
+Can my internet provider see my DuckDuckGo searches?
+How We Keep Local Results Anonymous How We Save Settings Anonymously How To Save Settings With URL Parameters About improving.duckduckgo.com About CSP Reports About the ‘t’ URL Parameter About the ‘r.duckduckgo.com’ Domain About the ‘links.duckduckgo.com’ Domain About the &#x27;*.nel.duckduckgo.com&#x27; domain Non-JavaScript Search Anonymous Favicons Ads by Tripadvisor on DuckDuckGo Private Search Ads By Microsoft on DuckDuckGo Private Search Ads By Yelp on DuckDuckGo Private Search Web Privacy Protection Web Tracking Protections The Fire Button, Fire Windows, and Fire Tabs Measuring Downloads and Usage Anonymously Global Privacy Control (GPC) Digital Rights Management Permissions Device Location Services Detecting Ad Blocking Interference Anonymously Ad Blocking YouTube Ad Blocking Duck Player Threat Protection Scam Blocker Smarter Encryption Email Protection What is Email Protection?
+How do I get Email Protection?
+How do I enable Email Protection on Desktop?
+How do I enable Email Protection on Mobile?
+Duck Addresses How do I get a personal Duck Address?
+How do I reply from my Duck Addresses?
+How do I compose a new email?
+What are private Duck Addresses?
+How do I generate private Duck Addresses?
+How do I deactivate private Duck Addresses?
+How many private Duck Addresses can I generate?
+Do private Duck Addresses expire?
+Can I reactivate a deactivated private Duck Address?
+Can I change my personal Duck Address?
+Where can I see and manage my private Duck Addresses?
+How do I create multiple Email Protection accounts?
+Privacy What are email trackers?
+Does DuckDuckGo save my messages?
+Will my replies hide my forwarding address?
+Troubleshooting What if I’m not receiving emails?
+Where is the inbox for my Duck Address?
+How do I change my Email Protection forwarding address?
+Where do I find my Email Protection account password?
+What is a One-Time Passphrase?
+How can I change my forwarding address if I’ve lost access to it?
+What does unable to verify sender identity mean?
+How do I disable Email Protection in a browser?
+How do I delete my account?
+How do I get support?
+Sync & Backup Enable Sync & Backup Syncing New Devices Sync & Backup Privacy Importing Passwords Syncing Favorites Recovery Codes & Troubleshooting Disable Sync & Backup Password Manager Security App Tracking Protection What is App Tracking Protection?
+How does App Tracking Protection work?
+Does App Tracking Protection block all app trackers?
+Is App Tracking Protection a VPN?
+DuckDuckGo Subscription Getting Started with the DuckDuckGo Subscription Subscription Payments Activating a Subscription Linking an Email to a Subscription Plus and Pro Plan Differences Changing Subscription Plans Subscribing Outside the United States Subscription Terms and Privacy Policy Most Common Questions How do I activate the subscription on another device?
+Why am I not receiving the one-time passphrase (OTP)?
+Why can’t I see the subscription or its features in my browser?
+Can I share my subscription with friends or family?
+Can I subscribe to just one of the services offered in the subscription?
+How do I cancel my subscription or change my payment method?
+I lost my device.
+How can I access my subscription?
+Is the subscription supported on older operating systems?
+Do you offer a free trial for the subscription?
+Can I change my subscription from monthly to annual, or vice versa?
+I don&#x27;t have access to the email used when I originally purchased, so how do I access my subscription?
+Do you offer any business or corporate plans for the subscription?
+How can I exclude apps or websites from the VPN?
+How do I add the VPN widget on my iPhone?
+Are text messages protected through VPN?
+Are video/voice calls protected through VPN?
+Are smart home devices and voice assistants affected by VPN?
+Am I able to manually choose the VPN server location?
+How do I know that the VPN is connected and working?
+Why does Android Auto not work with the VPN?
+Can my personal information reappear after it is removed?
+How long does it take for my personal information to be removed?
+What personal data do you store to run scans and removals?
+If I cancel my subscription, will my personal information reappear on data broker sites?
+How can I get Personal Information Removal services outside the US?
+Why can’t any records be found?
+Why is my information not on my dashboard, but I found it on a site you scan?
+How often is my personal information re-scanned to ensure hits remain removed?
+Why is my personal information in search engine results, even though it’s been removed from broker sites?
+Can I just remove my personal information myself?
+Can I set up two Personal Information Removal profiles?
+How do I activate my subscription in Duck.ai in 3rd-party browsers?
+What is Duck.ai?
+Why is it included in the subscription?
+I don&#x27;t want anything to do with AI.
+How can I opt out of this?
+How can I purchase Duck.ai by itself?
+I already have a VPN.
+Which advanced models do I get for Duck.ai?
+Do any of these providers see my prompts?
+How many messages do I get per day?
+Is there a way to purchase more?
+Do I need to install anything to start using Duck.ai?
+Can I save or delete my message history?
+Can I share Duck.ai with a family member?
+Will this become a separate upcharge in the future?
+I’m getting odd or inaccurate answers—what should I do?
+Does Duck.ai support file uploads?
+Does Identity Theft Restoration cover home title theft?
+My identity was stolen.
+How do I use Identity Theft Restoration?
+How do I remove records from DuckDuckGo that I don’t want public?
+How do I turn off autocomplete?
+Where did my bookmarks or passwords go?
+How to Send Crash Reports on iOS How to Send Crash Reports on macOS How to Send Crash Reports on Windows VPN About DuckDuckGo VPN About Our No-Logging Policy VPN Protocols and WireGuard VPN Server Locations VPN Scam Blocker VPN Troubleshooting DuckDuckGo VPN and App Tracking Protection Port Forwarding and Blocking AT&T Conflict with DuckDuckGo VPN How to Set Up the DuckDuckGo VPN Set Up the VPN on iOS Set Up the VPN on Android Set Up the VPN on macOS Set Up the VPN on Windows VPN Security and Privacy Audits VPN No-Log Policy Audit 2025-2026 VPN Security Audit 2024 Personal Information Removal About Personal Information Removal List of Supported Data Brokers Personal Information Removal Privacy About the Removal Process Overdue Removal Requests Identity Theft Restoration About Identity Theft Restoration About Iris What losses are covered?
+Navigating Suspicious Activity Duck.ai Chat Models Duck.ai Privacy Voice Chat and Dictation Privacy Image Creation Sharing Chats Usage Limits How do I hide Duck.ai?
+Is my Duck.ai chat history private?
+What info do you share with model providers?
+Duck.ai Experiments Choosing the Best Model Passwords & Autofill Optional AI DuckDuckGo’s Approach to AI Opting Out of AI Features About noai.duckduckgo.com Misconceptions Is DuckDuckGo owned by Google?
+Does DuckDuckGo sell personal information?
+Does DuckDuckGo have a deal with Bill Gates?
+Does DuckDuckGo Search use Google results?
+Does DuckDuckGo share my search history with Microsoft?
+Does DuckDuckGo share my search history with governments?
+Does DuckDuckGo censor search results?
+Did DuckDuckGo censor Russian search results?
+What&#x27;s the downside of DuckDuckGo?
+Legal Privacy Rights Digital Services Act Information Platform to Business Regulation Online Safety Statement Image Licenses Financial Data Licenses App Store Privacy Labels Report Copyright or Trademark Infringement DuckDuckGo Windows Crash Disclaimer Impressum und Transparenzangaben Translated Microsoft Ads Notice Реклами от Microsoft при Частно търсене с DuckDuckGo Reklamy společnosti Microsoft v soukromém vyhledávání společnosti DuckDuckGo Annoncer fra Microsoft på DuckDuckGo privat søgning Anzeigen von Microsoft auf DuckDuckGo Private Search Διαφημίσεις της Microsoft στην Ιδιωτική Αναζήτηση DuckDuckGo Anuncios de Microsoft en las búsquedas privadas de DuckDuckGo Microsofti reklaamid DuckDuckGo privaatses otsingus Microsoftin mainokset DuckDuckGo:n yksityisessä haussa Annonces de Microsoft sur DuckDuckGo Private Search Microsoftovi oglasi na DuckDuckGo Private Search Microsoft által megjelenített hirdetések a DuckDuckGo privát keresőben Auglýsingar frá Microsoft á DuckDuckGo einkaleit Annunci di Microsoft sulla Ricerca privata di DuckDuckGo „„Microsoft“ skelbimai „DuckDuckGo“ privačioje paieškoje Annoncen duerch Microsoft op DuckDuckGo Private Search Microsoft reklāmas DuckDuckGo privātajā meklēšanā Annonser gjennom Microsoft på DuckDuckGos private søk Advertenties van Microsoft in DuckDuckGo Private Search Reklamy firmy Microsoft w chroniącej prywatność wyszukiwarce DuckDuckGo Anúncios da Microsoft na Pesquisa Privada DuckDuckGo Reclame de la Microsoft în funcția de căutare privată DuckDuckGo Рекламные объявления Microsoft в конфиденциальном поиске DuckDuckGo Reklamy od spoločnosti Microsoft v súkromnom vyhľadávaní DuckDuckGo Microsoftovi oglasi pri zasebnem iskanju z DuckDuckGo Annonser från Microsoft på DuckDuckGo Privat sökning DuckDuckGo Gizli Arama sayfalarında Microsoft tarafından yayınlanan reklamlar Privacy Guides Identity Theft Identity Theft Protection Identity Theft Protection Tips VPN Why Use a VPN?
+What Does a VPN Do?
+How to Choose the Best VPN Opt Out Guides FastPeopleSearch Opt Out Whitepages Opt Out truthfinder opt out Spokeo Opt Out TruePeopleSearch Removal Search Results Is DuckAssistBot related to DuckDuckGo?
+What is DuckAssistBot and what does it do?
+DuckAssistBot is a web crawler for DuckDuckGo Search that crawls pages in real-time for our AI-assisted answers , which prominently cite their sources.
+This data is not used in any way to train AI models.
+If you’re a publisher, you may opt out of being a potential source for AI-assisted answers by modifying the robots.txt file for your domain(s).
+Once you’ve updated the file to disallow the DuckAssistBot user agent, the change will take effect after 72 hours and DuckAssistBot will stop crawling your site.
+Publishers can contact us at crawling@duckduckgo.com with any opt-out problems.
+Opting out of DuckAssistBot does not impact organic search rankings and will not affect whether or not websites appear in our search results.
+What&#x27;s its user agent?
+The crawler&#x27;s user agent will appear as: DuckAssistBot/1.2; (+http://duckduckgo.com/duckassistbot.html) Which IP addresses does it originate from?
+The full list of IP addresses is available at https://duckduckgo.com/duckassistbot.json If you have any questions or concerns, please let us know .
+Learn More What search features does DuckDuckGo Search have?
+About DuckDuckGo Search Assist What search improvements has DuckDuckGo made recently?
+Where do DuckDuckGo search results come from?
+How to improve your local search results on DuckDuckGo (mobile) How to improve your local search results on DuckDuckGo (desktop) Using 3rd-Party Mapping Apps on Mobile Devices How To Sort DuckDuckGo Search Results by Date How To Filter Out AI Images in DuckDuckgo Search Results How To Block Sites From Appearing in DuckDuckGo Search Results How To Use the Safe Search Setting To Adjust Adult Content in DuckDuckGo Search Results Does DuckDuckGo Search have a Translation feature?
+How to use advanced syntax on DuckDuckGo Search How To Use Keyboard Shortcuts on DuckDuckGo Search How To Use “!Bang” Shortcuts on DuckDuckGo Search How To Use Cloud Save to Save and Sync Your DuckDuckGo Search Settings Does DuckDuckGo Search have Instant Answers?
+How do news rankings work on DuckDuckGo Search?
+Why doesn&#x27;t DuckDuckGo Search display the number of results?
+Can a traditional search result be removed from DuckDuckGo?
+Does DuckDuckGo Search have a shorter domain name?
+Is DuckDuckBot related to DuckDuckGo?
+Advertise on DuckDuckGo Search Easter Egg Dax Logos © 2026 DuckDuckGo Search X Reddit About DuckDuckGo

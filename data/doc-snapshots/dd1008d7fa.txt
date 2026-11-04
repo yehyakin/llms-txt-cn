@@ -1,0 +1,11 @@
+Robots协议支持_360搜索使用帮助 使用帮助 360搜索 &gt; 使用帮助 新手入门 入门搜索技巧 高级搜索技巧 无结果页面 设置默认主页 设置默认搜索引擎 360网站名片 搜索产品 新闻搜索 网页搜索 问答搜索 百科搜索 视频搜索 图片搜索 音乐搜索 地图搜索 软件搜索 官网认证 传媒入驻 合作换量 精选摘要 站长平台 站长平台简介 sitemap提交 结构化数据 onebox开放平台 站内搜索 网站收录标准 新闻源收录标准 Robots协议支持 站点身份验证 智能摘要提交 360搜索ICO算法 360搜索“悟空”算法 360搜索“悟空”算法2.0 360搜索“后羿”算法 360搜索“后羿”算法2.0 “哪吒”算法上线公告 360搜索网页质量白皮书 360搜索“八戒”算法上线 取消refer关键词显示 自动收录JS切换为https 用户管理 360蜘蛛ip 网络防骗 电话防骗 网银防骗 反馈中心 意见反馈 快照删除 网站收录 服务许可 互联网新闻许可 使用前必读 免责声明 权利人保护指引 隐私保护白皮书 个性化关键词推荐 个性化资讯推荐 个性化广告推荐 360搜索用户协议 网页收录用户协议 保障督导委员介绍 网页智能标注介绍 图查查用户协议 搜索算法公示内容 安全中心 360搜索安全中心 简介 感谢您使用360搜索。为了实现对网站更好的收录，我们在此公布360搜索对Robots协议的支持和扩展说明，以便站长们了解，实现对网站内容更高效、智能的收录。
+360搜索对Robots协议的支持 360搜索支持Robots协议的主要命令，以下为具体说明： 1.
+user-agent 360搜索各产品的爬虫user-agent为： - 网页搜索 360Spider - 图片搜索 360Spider-Image - 视频搜索 360Spider-Video 2.
+Allow 站长可通过Allow命令指定建议收录的文件、目录 。
+Disallow 站长可通过Disallow命令指定不建议收录的文件、目录。
+回到顶部 &uarr; 360搜索对Robots协议的扩展 360搜索根据站长们的反馈，会陆续推出扩展的Robots协议命令。这些命令将能帮助站长们提高和360搜索爬虫沟通的效率，减少站长们维护Robots协议文件的技术成本。
+360搜索首个扩展命令是：indexpage，站长们可以使用此命令告知360搜索哪些网页经常更新。360搜索会根据站长的指示以及自己的算法，智能调整爬虫抓取频率，实现对您网站新内容的更高频率抓取。
+在命令中可以使用*、$等通配符。
+示例： 使用通配符的 Indexpage: http://bbs.360safe.com/forum-*-1.html$ Indexpage: http://ent.sina.com.cn/*/roll.html 不用通配符的： Indexpage: http://roll.tech.sina.com.cn/internet_all/index.shtml Indexpage: http://roll.tech.sina.com.cn/it/index.shtml Indexpage: http://roll.tech.sina.com.cn/tele/index.shtml Indexpage: http://roll.tech.sina.com.cn/discovery/index.shtml Indexpage: http://roll.tech.sina.com.cn/elec/index.shtml 回到顶部 &uarr; 对Robots协议的善意使用 Robots协议是一个搜索引擎和网站之间的善意协议，我们鼓励站长们也以善意的方式使用这一协议，尽量提供准确的信息，除非有充足理由，不使用Robots协议屏蔽某些特定搜索引擎爬虫。
+360搜索愿和站长们一起，共建一个更健康、公平、透明的搜索引擎生态系统。
+Copyright © 360.CN All Rights Reserved.

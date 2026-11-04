@@ -1,14 +1,23 @@
 // 盯官方爬虫文档：抓 data/ai-crawlers.json 里每个 docs_url，去掉 HTML 后做哈希，并检查各 token 是否仍出现在原文里。
 // 用法：node scripts/watch-docs.mjs            只比较，打印变化，有变化时退出码 1（给定时任务用）
 //       node scripts/watch-docs.mjs --record   把当前结果写回 data/doc-watch.json 作为新基线
-// 发现变化后由人核对原文，再在 data/crawler-changelog.json 里手写一条，重跑 build-en.mjs。不自动发布。
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+//       node scripts/watch-docs.mjs --report work.json   另把变化明细（增删句子、疑似新 UA）写成 JSON，给自动写日志的定时任务用
+// 正文快照存 data/doc-snapshots/<id>.txt（每句一行），--record 时更新。变化如何写成日志条目见 notes/changelog-template.md。
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 
 const DATA = JSON.parse(readFileSync(new URL('../data/ai-crawlers.json', import.meta.url), 'utf8'));
 const STATE_F = new URL('../data/doc-watch.json', import.meta.url);
 const state = existsSync(STATE_F) ? JSON.parse(readFileSync(STATE_F, 'utf8')) : { docs: {} };
 const record = process.argv.includes('--record');
+const ri = process.argv.indexOf('--report'); const reportF = ri > 0 ? process.argv[ri + 1] : null;
+const SNAP = new URL('../data/doc-snapshots/', import.meta.url);
+const known = new Set(DATA.crawlers.map((c) => c.token.toLowerCase()));
+const sid = (u) => createHash('sha1').update(u).digest('hex').slice(0, 10);
+const sentences = (t) => [...new Set(t.split(/(?<=[.!?。！？])\s+|\s{2,}/).map((x) => x.trim()).filter((x) => x.length > 2))];
+const RELEVANT = /robots|user[- ]?agent|crawl|\bbots?\b|spider|opt[- ]?out|disallow|ip (address|range)|\.json\b|training|index|fetch|爬虫|抓取/i;
+const UA_RE = /\b[A-Za-z][A-Za-z0-9]*(?:-[A-Za-z0-9]+)*(?:Bot|bot|Spider|spider|-User|-Agent|-Extended|-Index|-Training|-Fetcher|Fetcher|-SearchBot)\b/g;
+const uaCands = (t) => new Set((t.match(UA_RE) || []).map((x) => x.trim()));
 
 const byUrl = {};
 for (const c of DATA.crawlers) if (c.docs_url) (byUrl[c.docs_url] ||= []).push(c.token);
@@ -53,13 +62,27 @@ for (const [url, tokens] of Object.entries(byUrl)) {
   const found = tokens.filter((k) => low.includes(k.toLowerCase()));
   const lost = tokens.filter((k) => !found.includes(k));
   next.docs[url] = { tokens, hash, chars: t.length, found, since: prev && prev.hash === hash ? prev.since : now };
+  const sf = new URL(sid(url) + '.txt', SNAP);
+  const now_s = sentences(t);
+  if (record) { mkdirSync(SNAP, { recursive: true }); writeFileSync(sf, now_s.join('\n') + '\n'); }
   if (!prev || !prev.hash) { console.log(`+  ${url} 新基线 ${hash}`); continue; }
   if (prev.hash !== hash) {
-    const d = { url, tokens, from: prev.hash, to: hash, chars: [prev.chars, t.length], lost: lost.filter((k) => (prev.found || tokens).includes(k)) };
+    const old_s = existsSync(sf) ? readFileSync(sf, 'utf8').split('\n').filter(Boolean) : null;
+    const oldSet = new Set(old_s || []), newSet = new Set(now_s);
+    const added = old_s ? now_s.filter((x) => !oldSet.has(x)) : null;
+    const removed = old_s ? old_s.filter((x) => !newSet.has(x)) : null;
+    const oldText = (old_s || []).join(' ');
+    const newUA = old_s ? [...uaCands(t)].filter((k) => !known.has(k.toLowerCase()) && !oldText.includes(k)) : [];
+    const goneUA = old_s ? [...uaCands(oldText)].filter((k) => !t.includes(k)) : [];
+    const d = { url, snapshot: `data/doc-snapshots/${sid(url)}.txt`, tokens, from: prev.hash, to: hash, chars: [prev.chars, t.length], lost: lost.filter((k) => (prev.found || tokens).includes(k)),
+      no_snapshot: !old_s, new_ua_candidates: newUA, gone_ua_candidates: goneUA,
+      added_relevant: (added || []).filter((x) => RELEVANT.test(x)).slice(0, 40), removed_relevant: (removed || []).filter((x) => RELEVANT.test(x)).slice(0, 40),
+      added_count: added ? added.length : null, removed_count: removed ? removed.length : null };
     changes.push(d);
     console.log(`!! ${url} 内容变了 ${prev.hash} → ${hash}（${prev.chars} → ${t.length} 字符）${d.lost.length ? ' 原文不再出现: ' + d.lost.join(', ') : ''}`);
   } else console.log(`=  ${url}`);
 }
+if (reportF) writeFileSync(reportF, JSON.stringify({ checked_at: now, changes, js_only: Object.entries(next.docs).filter(([, v]) => v.js_only).map(([u]) => u), errors: Object.entries(next.docs).filter(([, v]) => v.last_error_at === now).map(([u, v]) => ({ url: u, error: v.last_error })) }, null, 1));
 if (record) { writeFileSync(STATE_F, JSON.stringify(next, null, 1) + '\n'); console.log('已写入 data/doc-watch.json'); }
 console.log(`${Object.keys(byUrl).length} 个文档，${changes.length} 个有变化`);
 process.exit(changes.length && !record ? 1 : 0);
