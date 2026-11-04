@@ -24,7 +24,7 @@ const isSearch = (b) => (b.category === 'search' || b.category === 'user') && b.
 const isCn = (b) => (b.category === 'search' || b.category === 'user') && b.region === 'cn';
 const CLASSIC = new Set(['Googlebot', 'Bingbot', 'Applebot', 'Baiduspider', 'YandexBot', 'Yeti']);
 /* 2026-11-04 新增的 MistralAI-User、YouBot 只做 robots.txt 分析、在报告里列出，不计入评级；YandexBot、Yeti 与 Googlebot 同属传统搜索引擎，同样不计 */
-const UNGRADED = new Set(['MistralAI-User', 'MistralAI-Index', 'YouBot']);
+const UNGRADED = new Set(['MistralAI-User', 'MistralAI-Index', 'YouBot', 'Amzn-User']);
 export const GRADE_VERSION = '2026-11-02.2';
 export const CITE_SIGNALS = ['jsonld', 'entity', 'sitename', 'og', 'semantic'];
 

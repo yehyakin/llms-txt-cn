@@ -175,6 +175,21 @@
       "summary": "Naver's crawler for Naver search, the largest search engine in South Korea. Naver says it follows robots.txt.",
       "block": "Your site drops out of Naver search.",
       "advice": "Allow it if you have users in Korea."
+    },
+    "Amzn-User": {
+      "summary": "Amazon's user-triggered fetcher. It supports user actions such as answering Alexa questions that need up-to-date information. Amazon says it may not follow all robots.txt directives and doesn't crawl for generative AI training.",
+      "block": "Alexa may not be able to read your page live when answering a user's question. Amazon says Amzn-User may not follow every robots.txt directive.",
+      "advice": "Allow it if you want Alexa to quote current information from your site. Robots.txt alone may not stop it."
+    },
+    "OAI-AdsBot": {
+      "summary": "OpenAI's ad review agent. It checks that landing pages submitted as ads on ChatGPT are safe and follow policy, and may use the page to decide when the ad is relevant. Its data isn't used to train foundation models.",
+      "block": "It only visits pages submitted as ChatGPT ads, so it affects ad review, not search or training. OpenAI doesn't say whether it follows robots.txt.",
+      "advice": "Leave it alone unless you run ChatGPT ads; then make sure your landing pages let it in."
+    },
+    "Google-CloudVertexBot": {
+      "summary": "Google's crawler for Vertex AI Agents. It fetches pages when a site owner asks Google to crawl them to build an agent. Rules for this token only affect those owner-requested crawls.",
+      "block": "Crawls you (or someone you authorize) request to build Vertex AI Agents on your content are limited. Google Search isn't affected.",
+      "advice": "Leave it allowed unless you want to stop owner-requested Vertex AI crawls; it doesn't change your Google Search presence."
     }
   }
 }

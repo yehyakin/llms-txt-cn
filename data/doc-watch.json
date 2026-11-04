@@ -1,18 +1,20 @@
 {
- "checked_at": "2026-11-04T12:00:00.378Z",
+ "checked_at": "2026-11-04T12:16:12.388Z",
  "docs": {
   "https://platform.openai.com/docs/bots": {
    "tokens": [
     "GPTBot",
     "OAI-SearchBot",
-    "ChatGPT-User"
+    "ChatGPT-User",
+    "OAI-AdsBot"
    ],
    "hash": "6a95a51f422e1d42",
    "chars": 17420,
    "found": [
     "GPTBot",
     "OAI-SearchBot",
-    "ChatGPT-User"
+    "ChatGPT-User",
+    "OAI-AdsBot"
    ],
    "since": "2026-11-04T10:47:16.098Z"
   },
@@ -34,13 +36,15 @@
   "https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers": {
    "tokens": [
     "Google-Extended",
-    "Googlebot"
+    "Googlebot",
+    "Google-CloudVertexBot"
    ],
    "hash": "a497b32d443e5c57",
    "chars": 11356,
    "found": [
     "Google-Extended",
-    "Googlebot"
+    "Googlebot",
+    "Google-CloudVertexBot"
    ],
    "since": "2026-11-04T10:47:16.098Z"
   },
@@ -120,13 +124,15 @@
   "https://developer.amazon.com/amazonbot": {
    "tokens": [
     "Amazonbot",
-    "Amzn-SearchBot"
+    "Amzn-SearchBot",
+    "Amzn-User"
    ],
    "hash": "80688746d5ed668e",
    "chars": 4478,
    "found": [
     "Amazonbot",
-    "Amzn-SearchBot"
+    "Amzn-SearchBot",
+    "Amzn-User"
    ],
    "since": "2026-11-04T10:47:16.098Z"
   },

@@ -7,7 +7,7 @@ export const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<'
 export function cleanDomain(v){v=(v||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0].replace(/\.$/,'');return /^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v)?v:null}
 /* 传统搜索引擎爬虫：不算“AI 搜索”，robots-only 回落时不列入 */
 /* 11-04 新增、只查 robots.txt、不计入评级 */
-export const UNGRADED=new Set(['MistralAI-User','MistralAI-Index','YouBot']);
+export const UNGRADED=new Set(['MistralAI-User','MistralAI-Index','YouBot','Amzn-User']);
 export const VENDOR_EN={'百度':'Baidu','搜狗（腾讯）':'Sogou (Tencent)','神马搜索（阿里）':'Shenma (Alibaba)','月之暗面 Kimi':'Moonshot AI (Kimi)'};
 export const CLASSIC=new Set(['Googlebot','Bingbot','Applebot','Baiduspider','YandexBot','Yeti']);
 const isMain=b=>(b.category==='search'||b.category==='user')&&b.region!=='cn';

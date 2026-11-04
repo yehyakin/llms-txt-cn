@@ -5,6 +5,17 @@
    "date": "2026-11-04",
    "kind": "directory",
    "tokens": [
+    "OAI-AdsBot",
+    "Google-CloudVertexBot",
+    "Amzn-User"
+   ],
+   "en": "Added three agents already listed in their operators' documentation: OpenAI's ad review bot, Google's Vertex AI Agents crawler and Amazon's user-triggered fetcher for Alexa. None of them count toward the grade.",
+   "zh": "新增三个已在官方文档列出的爬虫：OpenAI 的广告审核爬虫、Google 的 Vertex AI Agents 爬虫、Amazon 为 Alexa 用户实时抓取的爬虫。均不计入评级。"
+  },
+  {
+   "date": "2026-11-04",
+   "kind": "directory",
+   "tokens": [
     "MistralAI-User",
     "MistralAI-Index",
     "MistralAI-Training",

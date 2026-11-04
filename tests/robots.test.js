@@ -236,7 +236,7 @@ t('爬虫清单字段完整且覆盖要求的 UA', function () {
   D.crawlers.forEach(function (c) {
     ['vendor', 'category', 'respects_robots', 'docs_url', 'verified_on', 'verification'].forEach(function (k) { ok(c[k], c.token + ' 缺字段 ' + k); });
     ok(/^https:\/\//.test(c.docs_url), c.token + ' docs_url');
-    ok(['training', 'training_control', 'search', 'user', 'dataset'].indexOf(c.category) >= 0, c.token + ' category');
+    ok(['training', 'training_control', 'search', 'user', 'dataset', 'other'].indexOf(c.category) >= 0, c.token + ' category');
   });
 });
 

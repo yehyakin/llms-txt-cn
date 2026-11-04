@@ -1,6 +1,6 @@
 {
   "version": "2026-10-31",
-  "note": "每条用途、是否遵守 robots 均来自 docs_url 官方文档原文（verified_on 当日 web_fetch 核对）。verification=verified 表示用途与 robots 立场均有原文；partial 表示部分字段官方未写明；unverified 表示官方没有可核对的说明。category：training 训练 / training_control 训练用途控制 token（不单独抓取）/ search 搜索索引 / user 用户触发抓取 / dataset 开放数据集。",
+  "note": "每条用途、是否遵守 robots 均来自 docs_url 官方文档原文（verified_on 当日 web_fetch 核对）。verification=verified 表示用途与 robots 立场均有原文；partial 表示部分字段官方未写明；unverified 表示官方没有可核对的说明。category：training 训练 / training_control 训练用途控制 token（不单独抓取）/ search 搜索索引 / user 用户触发抓取 / dataset 开放数据集 / other 其他特定产品用途（广告审核、站长发起的智能体抓取等，不计评级）。",
   "crawlers": [
     {
       "token": "GPTBot", "vendor": "OpenAI", "category": "training", "purposes": ["training"],
@@ -308,6 +308,30 @@
       "docs_url": "https://searchadvisor.naver.com/guide/seo-basic-firewall",
       "verified_on": "2026-11-04",
       "verification": "official"
+    },
+    {
+      "token": "Amzn-User", "vendor": "Amazon", "category": "user", "purposes": ["user"],
+      "respects_robots": "partial",
+      "summary_zh": "支持用户操作，例如回答需要最新信息的 Alexa 提问时，代用户实时抓取网页。官方说明因可能由用户触发，不一定遵守全部 robots.txt 规则；不用于生成式 AI 训练。",
+      "quote": "Because actions taken by Amzn-User can be initiated by a user, it may not follow all robots.txt directives.Amzn-User does not crawl content for generative AI model training.",
+      "block_consequence_zh": "Alexa 回答用户问题时可能无法实时读取你的页面；官方说明它不一定遵守全部 robots.txt 规则。",
+      "docs_url": "https://developer.amazon.com/amazonbot", "verified_on": "2026-11-04", "verification": "verified"
+    },
+    {
+      "token": "OAI-AdsBot", "vendor": "OpenAI", "category": "other", "purposes": ["ads"],
+      "respects_robots": "unverified",
+      "summary_zh": "核查在 ChatGPT 投放广告的落地页是否安全合规，也可能用落地页内容判断何时展示该广告。只访问被提交为广告的页面，收集的数据不用于训练生成式 AI 基础模型。",
+      "quote": "OAI-AdsBot only visits pages submitted as ads, and the data collected by OAI-AdsBot is not used to train generative AI foundation models.",
+      "block_consequence_zh": "只影响你在 ChatGPT 投放的广告落地页审核；不投 ChatGPT 广告的网站不会被它访问。官方页面没有说明它是否遵守 robots.txt。",
+      "docs_url": "https://platform.openai.com/docs/bots", "verified_on": "2026-11-04", "verification": "verified"
+    },
+    {
+      "token": "Google-CloudVertexBot", "vendor": "Google", "category": "other", "purposes": ["agents"],
+      "respects_robots": "yes",
+      "summary_zh": "应网站所有者的请求抓取，用于搭建 Vertex AI Agents。写给它的 robots.txt 规则只影响这类由站长发起的抓取。",
+      "quote": "Crawling preferences addressed to the Google-CloudVertexBot user agent affect crawls requested by the site owners' for building Vertex AI Agents.",
+      "block_consequence_zh": "你（或你授权的人）用 Vertex AI Agents 搭建基于本站内容的智能体时，抓取会受限；不影响 Google 搜索。",
+      "docs_url": "https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers", "verified_on": "2026-11-04", "verification": "verified"
     }
   ],
   "vendor_training_tokens": {

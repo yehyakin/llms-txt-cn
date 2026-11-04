@@ -92,13 +92,14 @@ document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit'
 const DATA = JSON.parse(readFileSync(join(root, 'data/ai-crawlers.json'), 'utf8'));
 for (const c of DATA.crawlers) c.vendor = VENDOR_EN[c.vendor] || c.vendor; // 英文页显示英文运营方名
 const EN = JSON.parse(readFileSync(join(root, 'data/crawlers-en.json'), 'utf8')).bots;
-const CAT = { search: 'Search', user: 'User-triggered', training: 'Training', training_control: 'Training control token', dataset: 'Dataset' };
+const CAT = { search: 'Search', user: 'User-triggered', training: 'Training', training_control: 'Training control token', dataset: 'Dataset', other: 'Other' };
 const CAT_DESC = {
   search: 'Indexes pages so they can be found and cited in search or AI answers.',
   user: 'Fetches a page in real time because a user asked the assistant to.',
   training: 'Collects content that may be used to train AI models.',
   training_control: 'A robots.txt token that controls AI use of content another crawler fetched. It never fetches pages itself.',
-  dataset: 'Builds an open dataset that third parties use, including for AI training.'
+  dataset: 'Builds an open dataset that third parties use, including for AI training.',
+  other: 'Fetches pages for a specific product, such as ad review or building an agent on your own site. Not search, not training.'
 };
 const ROBOTS = { yes: 'Yes', partial: 'Not always', no: 'Generally no', unverified: 'Not documented' };
 const CLASSIC = new Set(['Googlebot', 'Bingbot', 'Applebot', 'Baiduspider', 'YandexBot', 'Yeti']);
@@ -109,7 +110,7 @@ if (missing.length) throw new Error('crawlers-en.json 缺少: ' + missing.join('
 const out = [];
 
 /* ---------- 爬虫百科 ---------- */
-const groupOrder = [['search', 'AI search & assistants'], ['user', 'User-triggered fetchers'], ['training', 'Training crawlers'], ['training_control', 'Training control tokens'], ['dataset', 'Open datasets']];
+const groupOrder = [['search', 'AI search & assistants'], ['user', 'User-triggered fetchers'], ['training', 'Training crawlers'], ['training_control', 'Training control tokens'], ['dataset', 'Open datasets'], ['other', 'Other AI agents']];
 function botCard(c) {
   return `<a class="bcard" href="/en/bots/${slug(c.token)}/"><div class="bt">${esc(c.token)}</div><div class="bv">${esc(VENDOR_EN[c.vendor] || c.vendor)}${CLASSIC.has(c.token) ? ' · search engine' : ''}</div><p>${esc(EN[c.token].summary.split('. ')[0].replace(/\.$/, ''))}.</p></a>`;
 }

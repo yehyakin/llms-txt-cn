@@ -113,13 +113,14 @@ else{
 
 /* ---------- 爬虫百科 ---------- */
 const DATA = JSON.parse(readFileSync(join(root, 'data/ai-crawlers.json'), 'utf8'));
-const CAT = { search: '搜索', user: '用户触发', training: '训练', training_control: '训练控制标记', dataset: '数据集' };
+const CAT = { search: '搜索', user: '用户触发', training: '训练', training_control: '训练控制标记', dataset: '数据集', other: '其他' };
 const CAT_DESC = {
   search: '为了让网页能在搜索或 AI 回答里被找到、被引用而建立索引。',
   user: '用户让 AI 助手去看某个网页时，实时抓取一次。',
   training: '收集可能用于训练 AI 模型的内容。',
   training_control: '写在 robots.txt 里的标记，用来控制别的爬虫抓到的内容能否用于 AI。它本身不抓取网页。',
-  dataset: '建设公开数据集，供第三方使用，其中包括 AI 训练。'
+  dataset: '建设公开数据集，供第三方使用，其中包括 AI 训练。',
+  other: '为特定产品抓取，例如广告落地页审核、为你自己的网站搭建智能体。不属于搜索，也不用于训练。'
 };
 const ROBOTS = { yes: '遵守', partial: '不一定', no: '一般不遵守', unverified: '官方未说明' };
 const CLASSIC = new Set(['Googlebot', 'Bingbot', 'Applebot', 'Baiduspider', 'YandexBot', 'Yeti']);
@@ -127,7 +128,7 @@ const crawlers = DATA.crawlers;
 const first = (s) => String(s).split('；')[0].split('。')[0] + '。';
 const botCard = (c) => `<a class="bcard" href="/bots/${slug(c.token)}/"><div class="bt">${esc(c.token)}</div><div class="bv">${esc(c.vendor)}${CLASSIC.has(c.token) ? ' · 搜索引擎' : ''}</div><p>${esc(first(c.summary_zh))}</p></a>`;
 let groups = '';
-for (const [cat, label] of [['search', 'AI 搜索与助手'], ['user', '用户触发的抓取'], ['training', '训练爬虫'], ['training_control', '训练控制标记'], ['dataset', '公开数据集']]) {
+for (const [cat, label] of [['search', 'AI 搜索与助手'], ['user', '用户触发的抓取'], ['training', '训练爬虫'], ['training_control', '训练控制标记'], ['dataset', '公开数据集'], ['other', '其他 AI 相关爬虫']]) {
   const list = crawlers.filter((c) => c.category === cat);
   if (list.length) groups += `<section class="sec tight"><h2>${label}</h2><p class="sub">${CAT_DESC[cat]}</p><div class="bgrid">${list.map(botCard).join('')}</div></section>`;
 }
