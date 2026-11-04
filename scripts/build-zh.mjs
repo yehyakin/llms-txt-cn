@@ -39,6 +39,7 @@ export const FOOT = (enPath) => `<footer><div class="wrap fgrid">
 const HEADX = `<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">
 <link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/en/fonts/jetbrains-mono-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/app.css">`;
 
 function page({ path, title, desc, body, active, ld, en, type = 'article', head = '', robots = 'noindex' }) {

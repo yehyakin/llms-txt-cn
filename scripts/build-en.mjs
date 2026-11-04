@@ -40,6 +40,7 @@ export const FOOT = `<footer><div class="wrap fgrid">
 export const HEADX = `<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/en/apple-touch-icon.png"><link rel="manifest" href="/en/site.webmanifest">
 <link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/en/fonts/jetbrains-mono-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/app.css">`;
 
 // 深色页的浅色模式（2026-11-04，参考 atypica 菜单里的“外观”切换）：默认深色，用户切换后存在 localStorage 'vk-theme'。
