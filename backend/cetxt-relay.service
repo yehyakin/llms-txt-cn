@@ -1,0 +1,19 @@
+[Unit]
+Description=cetxt relay fetcher (fallback for Worker-blocked sites)
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /srv/cetxt-relay/relay.py
+Environment=RELAY_KEY_FILE=%d/key
+LoadCredential=key:/etc/cetxt-relay/key
+DynamicUser=yes
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

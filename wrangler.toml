@@ -1,0 +1,64 @@
+# 预览部署：cetxt-preview.<subdomain>.workers.dev。不要加 cetxt.com 路由。
+name = "cetxt-preview"
+main = "worker/index.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+# 分享图字体与 logo 作为模块打包（worker/og.js）
+rules = [
+  { type = "Data", globs = ["**/*.ttf"], fallthrough = true },
+  { type = "Text", globs = ["**/*.svg"], fallthrough = true }
+]
+
+[build]
+command = "node scripts/build-worker.mjs"
+
+[assets]
+directory = "."
+binding = "ASSETS"
+run_worker_first = true
+html_handling = "auto-trailing-slash"
+not_found_handling = "404-page"
+
+# 按 IP 限频：每 60 秒 20 次（与旧版 check.py 一致）
+[[ratelimits]]
+name = "RL"
+namespace_id = "20261031"
+simple = { limit = 20, period = 60 }
+
+# 只按天记 verdict（不记域名 / IP）
+# 计数暂关（账户未开 Analytics Engine，方案待定）
+# [[analytics_engine_datasets]]
+# binding = "STATS"
+# dataset = "cetxt_verdicts"
+
+[vars]
+RELAY_URL = "https://relay.cetxt.com/fetch"
+# 2026-11-03 KiN 批准：vaksel.com 内容页开放收录（报告页仍 noindex，由 INDEX_REPORTS 控制）
+INDEX_SITE = "1"
+# RELAY_KEY 是 secret（wrangler secret put RELAY_KEY），与服务器 /etc/cetxt-relay/key 一致
+
+# 早鸟名单（/api/waitlist）
+[[kv_namespaces]]
+binding = "WAITLIST"
+id = "dcb3d65c6bb74c9ea3d69cfe4f47d496"
+
+# 监控复测：每 10 分钟一次，每次复测 MON_PER_RUN 个到期站点（worker/monitor.js）
+[triggers]
+crons = ["*/10 * * * *"]
+
+# 分支预览（Workers Builds 非生产分支跑 `wrangler preview`）。用独立 KV 和限频命名空间，预览不收录，不碰生产数据。
+[previews.vars]
+RELAY_URL = "https://relay.cetxt.com/fetch"
+INDEX_SITE = "0"
+
+[[previews.kv_namespaces]]
+binding = "WAITLIST"
+id = "89199451c1d84614b5b67d5b191e104e"
+
+[[previews.ratelimits]]
+name = "RL"
+namespace_id = "20261104"
+
+[previews.ratelimits.simple]
+limit = 20
+period = 60

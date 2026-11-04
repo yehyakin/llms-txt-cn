@@ -1,33 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://cetxt.com/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://cetxt.com/survey/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://cetxt.com/llms.txt</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://cetxt.com/guide/what-is-llms-txt/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://cetxt.com/guide/how-to-write-llms-txt/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://cetxt.com/faq/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
+<url><loc>https://cetxt.com/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/research/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/research/grading/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/research/lab/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/pricing/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/guides/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/guides/cloudflare/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/guides/cloudfront/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/guides/wordpress/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/guides/shopify/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/guides/edgeone/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/guides/aliyun/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/guides/baota/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/guides/baidu/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/changelog/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/gptbot/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/oai-searchbot/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/chatgpt-user/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/claudebot/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/claude-searchbot/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/claude-user/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/google-extended/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/googlebot/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/applebot/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/applebot-extended/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/perplexitybot/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/perplexity-user/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/bingbot/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/ccbot/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/bytespider/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/petalbot/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/meta-externalagent/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/meta-webindexer/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/meta-externalfetcher/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/amazonbot/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/amzn-searchbot/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/duckassistbot/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/baiduspider/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/sogou-web-spider/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/360spider/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/yisouspider/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/kimi-searchbot/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/kimi-user/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/kimibot/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/mistralai-user/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/mistralai-index/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/mistralai-training/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/youbot/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/yandexbot/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/bots/yeti/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/tools/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/survey/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/faq/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/guide/what-is-llms-txt/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/guide/how-to-write-llms-txt/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/llms.txt</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/privacy/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/terms/</loc><lastmod>2026-11-03</lastmod></url>
+<url><loc>https://cetxt.com/contact/</loc><lastmod>2026-11-03</lastmod></url>
 </urlset>

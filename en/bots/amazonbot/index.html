@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Amazonbot: what it is, and should you block it? · VAKSEL</title>
+<meta name="description" content="Amazonbot is Amazon&#39;s training crawler. Amazonbot stops fetching your content, including for possible AI training. Alexa search is controlled separately by Amzn-SearchBot.">
+<meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://vaksel.com/bots/amazonbot/">
+<link rel="alternate" hreflang="en" href="https://vaksel.com/bots/amazonbot/">
+<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="Amazonbot: what it is, and should you block it? · VAKSEL"><meta property="og:description" content="Amazonbot is Amazon&#39;s training crawler. Amazonbot stops fetching your content, including for possible AI training. Alexa search is controlled separately by Amzn-SearchBot."><meta property="og:url" content="https://vaksel.com/bots/amazonbot/"><meta property="og:image" content="https://vaksel.com/og/site.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/en/apple-touch-icon.png"><link rel="manifest" href="/en/site.webmanifest">
+<link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/en/fonts/jetbrains-mono-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/en/app.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Amazonbot: what it is and how to block or allow it","dateModified":"2026-11-03","author":{"@type":"Organization","name":"VAKSEL"},"about":"Amazonbot","citation":"https://developer.amazon.com/amazonbot"}</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" aria-label="Main"><div class="wrap">
+  <a class="logo" href="/en/" aria-label="VAKSEL home"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"></a>
+  <div class="links" id="navlinks">
+    <a class="n" href="/en/guides/">Fix guides</a>
+    <a class="n on" href="/en/bots/" aria-current="page">AI crawlers</a>
+    <a class="n" href="/en/pricing/">Pricing</a>
+    <a class="n lang" href="https://cetxt.com/" hreflang="zh" lang="zh">中文</a>
+  </div>
+  <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
+</div></nav>
+<script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
+<main id="main" tabindex="-1" class="wrap doc"><div class="crumb"><a href="/en/">Home</a> <span>/</span> <a href="/en/bots/">AI crawlers</a> <span>/</span> Amazonbot</div>
+<h1>Amazonbot</h1>
+<div class="facts"><div><span>Operator</span><b>Amazon</b></div><div><span>Purpose</span><b>Training</b></div><div><span>Follows robots.txt</span><b>Yes</b></div><div><span>Source</span><b><a href="https://developer.amazon.com/amazonbot" rel="nofollow noopener" target="_blank">Official docs ↗</a></b></div></div>
+<p class="lead l">Amazon&#39;s crawler, used to improve Amazon products and services. Amazon says the content may be used to train Amazon AI models.</p>
+<h2>What happens if you block it</h2><p>Amazonbot stops fetching your content, including for possible AI training. Alexa search is controlled separately by Amzn-SearchBot.</p>
+<h2>Our take</h2><p>Block it to opt out of Amazon training while keeping Amzn-SearchBot allowed.</p>
+<h2>robots.txt</h2><p>To block it:</p><pre>User-agent: Amazonbot
+Disallow: /</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>User-agent: Amazonbot
+Allow: /</pre>
+
+<h2>The operator's own words</h2><blockquote>Amazonbot is used to improve our products and services. This helps us provide more accurate information to customers and may be used to train Amazon AI models.<cite><a href="https://developer.amazon.com/amazonbot" rel="nofollow noopener" target="_blank">Amazon documentation</a>, checked 2026-10-31</cite></blockquote>
+
+<h2>Other Amazon agents</h2><div class="bgrid s"><a class="bcard" href="/en/bots/amzn-searchbot/"><div class="bt">Amzn-SearchBot</div><div class="bv">Amazon</div><p>Amazon&#39;s search crawler for experiences such as Alexa.</p></a></div>
+<div style="margin-top:28px">
+<div class="cta mini"><div><h3>Can Amazonbot reach your site?</h3><p>Free, no sign-up. We request your homepage as 18 different clients and show what each one gets.</p></div>
+<form class="field inv" data-check autocomplete="off"><input placeholder="yourdomain.com" aria-label="Domain" spellcheck="false" autocapitalize="off"><button class="btn">Check</button></form></div></div>
+</main><script>
+document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();let v=(f.querySelector('input').value||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0];if(/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v))location.href='/en/report/'+v;else{f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake')}}));
+</script>
+<footer><div class="wrap fgrid">
+  <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
+  <div><h2 class="fh">Product</h2><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/research/">Research</a></div>
+  <div><h2 class="fh">Fix guides</h2><a href="/en/guides/cloudflare/">Cloudflare</a><a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/en/guides/wordpress/">WordPress</a><a href="/en/guides/shopify/">Shopify</a></div>
+  <div><h2 class="fh">AI crawlers</h2><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a><a href="/en/bots/changelog/">Changelog</a></div>
+  <div class="fsmall"><span>© 2026 VAKSEL</span><a href="/en/privacy/">Privacy</a><a href="/en/terms/">Terms</a><a href="/en/contact/">Contact</a><a href="https://cetxt.com/" hreflang="zh" lang="zh">中文版 cetxt.com</a><span>We don't store the domains you check or your IP address.</span></div>
+</div></footer>
+</body></html>

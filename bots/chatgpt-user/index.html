@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ChatGPT-User 是什么？要不要屏蔽 · VAKSEL</title>
+<meta name="description" content="ChatGPT-User 是 OpenAI 的用户触发爬虫。官方说明 robots.txt 对用户触发请求可能不生效；它也不决定能否出现在 ChatGPT 搜索中。">
+<meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://cetxt.com/bots/chatgpt-user/">
+<link rel="alternate" hreflang="zh-CN" href="https://cetxt.com/bots/chatgpt-user/"><link rel="alternate" hreflang="en" href="https://vaksel.com/bots/chatgpt-user/">
+<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="ChatGPT-User 是什么？要不要屏蔽 · VAKSEL"><meta property="og:description" content="ChatGPT-User 是 OpenAI 的用户触发爬虫。官方说明 robots.txt 对用户触发请求可能不生效；它也不决定能否出现在 ChatGPT 搜索中。"><meta property="og:url" content="https://cetxt.com/bots/chatgpt-user/"><meta property="og:image" content="https://cetxt.com/og.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">
+<link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/en/fonts/jetbrains-mono-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/en/app.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"ChatGPT-User 是什么，要不要屏蔽","dateModified":"2026-11-03","inLanguage":"zh-CN","citation":"https://platform.openai.com/docs/bots"}</script>
+</head><body class="zh">
+<a class="skip" href="#main">跳到正文</a>
+<nav class="nav" aria-label="主导航"><div class="wrap">
+  <a class="logo" href="/" aria-label="VAKSEL 中文版首页"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"><span class="zhtag">中文版</span></a>
+  <div class="links" id="navlinks">
+    <a class="n" href="/guides/">修复指南</a>
+    <a class="n on" href="/bots/" aria-current="page">AI 爬虫</a>
+    <a class="n" href="/tools/">llms.txt 工具</a>
+    <a class="n" href="/survey/">普查报告</a>
+    <a class="n" href="/pricing/">监控</a>
+    <a class="n lang" href="https://vaksel.com/bots/chatgpt-user/" hreflang="en" lang="en">EN</a>
+  </div>
+  <button class="menu" type="button" aria-label="菜单" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
+</div></nav>
+<script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
+<main id="main" tabindex="-1" class="wrap doc"><div class="crumb"><a href="/">首页</a> <span>/</span> <a href="/bots/">AI 爬虫</a> <span>/</span> ChatGPT-User</div>
+<h1>ChatGPT-User</h1>
+<div class="facts"><div><span>运营方</span><b>OpenAI</b></div><div><span>用途</span><b>用户触发</b></div><div><span>遵守 robots.txt</span><b>不一定</b></div><div><span>来源</span><b><a href="https://platform.openai.com/docs/bots" rel="nofollow noopener" target="_blank">官方文档 ↗</a></b></div></div>
+<p class="lead l">ChatGPT / Custom GPT 中由用户操作触发的访问，不做自动爬取；官方称 robots.txt 规则可能不适用。</p>
+<h2>屏蔽后会怎样</h2><p>官方说明 robots.txt 对用户触发请求可能不生效；它也不决定能否出现在 ChatGPT 搜索中。</p>
+<h2>robots.txt 写法</h2>
+<p>屏蔽：</p><pre>User-agent: ChatGPT-User
+Disallow: /</pre><p>显式放行（当有更宽的规则拦了其他机器人时有用）：</p><pre>User-agent: ChatGPT-User
+Allow: /</pre>
+<h2>官方原文</h2><blockquote>Because these actions are initiated by a user, robots.txt rules may not apply.<cite><a href="https://platform.openai.com/docs/bots" rel="nofollow noopener" target="_blank">OpenAI 文档</a>，核对于 2026-10-31</cite></blockquote>
+<h2>robots.txt 允许了，它就真能进来吗？</h2><p>即使 robots.txt 欢迎 ChatGPT-User，防火墙或 CDN 规则也可能拒绝它，而后台不会有任何提示。我们的检测会以 ChatGPT-User 的身份实际请求，同时用浏览器和 Googlebot 做对照，避免把爬虫 IP 核验误判成拦截。</p>
+<h2>OpenAI 的其他爬虫</h2><div class="bgrid s"><a class="bcard" href="/bots/gptbot/"><div class="bt">GPTBot</div><div class="bv">OpenAI</div><p>抓取可能用于训练 OpenAI 生成式基础模型的内容。</p></a><a class="bcard" href="/bots/oai-searchbot/"><div class="bt">OAI-SearchBot</div><div class="bv">OpenAI</div><p>用于在 ChatGPT 搜索功能中展示网站。</p></a></div>
+<div style="margin-top:28px">
+<div class="cta mini"><div><h3>ChatGPT-User 能访问你的网站吗？</h3><p>免费，无需注册。我们以 18 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
+<form class="field inv" data-check autocomplete="off"><input placeholder="你的域名，例如 example.com" aria-label="域名" spellcheck="false" autocapitalize="off"><button class="btn">检测</button></form></div></div>
+</main><script>
+document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();let v=(f.querySelector('input').value||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0];if(/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v))location.href='/report/'+v;else{f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake')}}));
+</script>
+<footer><div class="wrap fgrid">
+  <div class="fbrand"><a class="logo" href="/"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><span class="zhtag">中文版</span></a><p>AI 搜索到底能不能访问你的网站？免费检测 robots.txt、防火墙和 CDN 拦截。</p></div>
+  <div><h2 class="fh">产品</h2><a href="/">可访问性检测</a><a href="/pricing/">监控（早期体验）</a><a href="/research/">研究方法</a><a href="/tools/">llms.txt 工具</a></div>
+  <div><h2 class="fh">修复指南</h2><a href="/guides/cloudflare/">Cloudflare</a><a href="/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/guides/wordpress/">WordPress</a><a href="/guides/shopify/">Shopify</a><a href="/guides/edgeone/">腾讯云 EdgeOne</a><a href="/guides/aliyun/">阿里云 ESA</a><a href="/guides/baota/">宝塔面板</a><a href="/guides/baidu/">百度智能云</a></div>
+  <div><h2 class="fh">资料</h2><a href="/bots/">AI 爬虫百科</a><a href="/bots/changelog/">爬虫变更日志</a><a href="/survey/">中文大站普查</a><a href="/guide/what-is-llms-txt/">llms.txt 是什么</a><a href="/faq/">常见问题</a></div>
+  <div class="fsmall"><span>© 2026 VAKSEL · cetxt.com 是 VAKSEL 中文版</span><a href="/privacy/">隐私</a><a href="/terms/">条款</a><a href="/contact/">联系</a><a href="https://vaksel.com/bots/chatgpt-user/" hreflang="en" lang="en">English</a><span>我们不保存你检测的域名和 IP。</span></div>
+</div></footer>
+</body></html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>防火墙静默拦截 AI 搜索爬虫有多常见？2026 年 11 月抽样 · VAKSEL</title>
+<meta name="description" content="从 Tranco 前 2 万名中随机抽取 600 个网站，其中 362 个可访问：45 个拒绝了 robots.txt 允许的 AI 搜索爬虫 user agent，其中 13 个是专门针对 AI 爬虫的拦截。附方法、定义和局限。">
+<meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://cetxt.com/research/">
+<link rel="alternate" hreflang="zh-CN" href="https://cetxt.com/research/"><link rel="alternate" hreflang="en" href="https://vaksel.com/research/">
+<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="防火墙静默拦截 AI 搜索爬虫有多常见？2026 年 11 月抽样 · VAKSEL"><meta property="og:description" content="从 Tranco 前 2 万名中随机抽取 600 个网站，其中 362 个可访问：45 个拒绝了 robots.txt 允许的 AI 搜索爬虫 user agent，其中 13 个是专门针对 AI 爬虫的拦截。附方法、定义和局限。"><meta property="og:url" content="https://cetxt.com/research/"><meta property="og:image" content="https://cetxt.com/og.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">
+<link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/en/fonts/jetbrains-mono-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/en/app.css">
+</head><body class="zh">
+<a class="skip" href="#main">跳到正文</a>
+<nav class="nav" aria-label="主导航"><div class="wrap">
+  <a class="logo" href="/" aria-label="VAKSEL 中文版首页"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"><span class="zhtag">中文版</span></a>
+  <div class="links" id="navlinks">
+    <a class="n" href="/guides/">修复指南</a>
+    <a class="n" href="/bots/">AI 爬虫</a>
+    <a class="n" href="/tools/">llms.txt 工具</a>
+    <a class="n" href="/survey/">普查报告</a>
+    <a class="n" href="/pricing/">监控</a>
+    <a class="n lang" href="https://vaksel.com/research/" hreflang="en" lang="en">EN</a>
+  </div>
+  <button class="menu" type="button" aria-label="菜单" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
+</div></nav>
+<script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
+<main id="main" tabindex="-1" class="wrap doc"><div class="crumb"><a href="/">首页</a> <span>/</span> 研究方法</div><h1>防火墙静默拦截 AI 搜索爬虫有多常见？</h1><p class="upd">抽样时间：2026 年 11 月 1 日</p>
+<p class="lead l">在对热门网站的随机抽样中，约每 28 个可访问网站就有 1 个在防火墙层拒绝了 AI 搜索爬虫的 user agent，且拦截专门针对 AI 爬虫，而 robots.txt 是允许它们访问的。</p>
+<div class="facts"><div><span>抽样</span><b>600 个网站</b></div><div><span>可访问</span><b>362</b></div><div><span>至少拒绝一个 AI 搜索 UA</span><b>45（12.4%）</b></div><div><span>专门针对 AI 爬虫</span><b>13（3.6%）</b></div></div>
+<h2>样本</h2>
+<p>从 Tranco 前 20,000 名列表中随机抽取 600 个域名。如果从我们的服务器以普通浏览器请求其首页返回 HTTP 200，即计为<b>可访问</b>：600 个中有 362 个。其余 238 个被排除，因为连浏览器请求都没有拿到正常页面：125 个连接失败或超时（其中很多是没有公开网站的 CDN、广告或 API 域名），80 个返回 403/401/503 或质询页面，33 个返回其他状态码，例如 404。对这些网站，无法单独判断爬虫的情况。</p>
+<h2>第 1 步：user agent 请求</h2>
+<p>对每个可访问网站，我们获取 robots.txt，并分别以四个 AI 搜索及用户触发类爬虫的 user agent 请求首页：OAI-SearchBot、ChatGPT-User、PerplexityBot 和 Claude-SearchBot。当某个请求得到 4xx/5xx 状态码或质询页面，而浏览器请求得到 200 时，计为<b>被拒绝</b>。</p>
+<p>45 个网站（占可访问网站的 12.4%）在 robots.txt 允许的情况下，至少拒绝了四者之一。我们称之为<b>静默拦截</b>：robots.txt 中没有任何内容提醒站长。这 45 个中有 26 个由 Cloudflare 提供服务。</p>
+<h2>第 2 步：对照组</h2>
+<p>我们在同一天对这 45 个网站重新测试，加入两个对照：一个使用 Googlebot 的 user agent，一个来自未知爬虫。这样可以区分三种不同的原因：</p>
+<table class="tbl"><thead><tr><th>对照组结果</th><th>可能原因</th><th>网站数</th></tr></thead><tbody>
+<tr><td>Googlebot user agent 同样被拒绝</td><td>网站会验证爬虫 IP 地址，拒绝从不对应网络冒用爬虫名称的请求。真实的 AI 爬虫很可能可以通过。</td><td>29</td></tr>
+<tr><td>未知爬虫被拒绝，Googlebot 被允许</td><td>通用的爬虫规则</td><td>1</td></tr>
+<tr><td>重新测试未复现</td><td>限速或临时规则</td><td>2</td></tr>
+<tr><td>浏览器、Googlebot 和未知爬虫均被允许；AI 搜索 UA 被拒绝</td><td>专门针对 AI 爬虫的规则</td><td><b>13</b></td></tr>
+</tbody></table>
+<p>这 13 个网站占可访问网站的 3.6%，约 28 个中有 1 个。例子包括 toyota.com、smithsonianmag.com 和 torontosun.com；13 个中有 7 个由 Cloudflare 提供服务。</p>
+<h2>局限</h2>
+<ul><li>所有请求都来自同一台数据中心服务器。真实爬虫来自其运营方自己的 IP 段，外部测试者无法使用。如果网站的规则放行已验证的爬虫 IP，即使我们的请求被拒绝，真实爬虫也能通过；对照组正是为了标记这类情况，但无法完全排除。</li>
+<li>我们只测试了首页。网站对其他路径可能有不同处理。</li>
+<li>规则会变化。结果反映的是网站在 2026 年 11 月 1 日的状态；首页上的链接会重新运行检测。</li>
+<li>600 是一个较小的样本。请将 12.4% 和 3.6% 视为估计值，误差约为几个百分点。</li></ul>
+<h2>亚洲网站</h2>
+<p>我们对 1,000 个热门中文网站做了同样的测试。静默拦截更少见：第 1 步为可访问网站的 3.7%，第 2 步约为 0.8%。</p>
+<p class="more">报告的三层评级怎么算：<a href="/research/grading/">评分方法 →</a></p>
+<p class="more">用来检验任何 AI 可达性工具的公开测试站：<a href="/research/lab/">对照测试集 →</a></p>
+<div style="margin-top:28px">
+<div class="cta mini"><div><h3>检测你自己的网站</h3><p>免费，无需注册。我们以 18 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
+<form class="field inv" data-check autocomplete="off"><input placeholder="你的域名，例如 example.com" aria-label="域名" spellcheck="false" autocapitalize="off"><button class="btn">检测</button></form></div></div></main><script>
+document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();let v=(f.querySelector('input').value||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0];if(/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v))location.href='/report/'+v;else{f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake')}}));
+</script>
+<footer><div class="wrap fgrid">
+  <div class="fbrand"><a class="logo" href="/"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><span class="zhtag">中文版</span></a><p>AI 搜索到底能不能访问你的网站？免费检测 robots.txt、防火墙和 CDN 拦截。</p></div>
+  <div><h2 class="fh">产品</h2><a href="/">可访问性检测</a><a href="/pricing/">监控（早期体验）</a><a href="/research/">研究方法</a><a href="/tools/">llms.txt 工具</a></div>
+  <div><h2 class="fh">修复指南</h2><a href="/guides/cloudflare/">Cloudflare</a><a href="/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/guides/wordpress/">WordPress</a><a href="/guides/shopify/">Shopify</a><a href="/guides/edgeone/">腾讯云 EdgeOne</a><a href="/guides/aliyun/">阿里云 ESA</a><a href="/guides/baota/">宝塔面板</a><a href="/guides/baidu/">百度智能云</a></div>
+  <div><h2 class="fh">资料</h2><a href="/bots/">AI 爬虫百科</a><a href="/bots/changelog/">爬虫变更日志</a><a href="/survey/">中文大站普查</a><a href="/guide/what-is-llms-txt/">llms.txt 是什么</a><a href="/faq/">常见问题</a></div>
+  <div class="fsmall"><span>© 2026 VAKSEL · cetxt.com 是 VAKSEL 中文版</span><a href="/privacy/">隐私</a><a href="/terms/">条款</a><a href="/contact/">联系</a><a href="https://vaksel.com/research/" hreflang="en" lang="en">English</a><span>我们不保存你检测的域名和 IP。</span></div>
+</div></footer>
+</body></html>

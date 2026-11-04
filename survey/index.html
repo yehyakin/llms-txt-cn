@@ -1,165 +1,152 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>大厂 llms.txt 成绩单：B站100分，百度、淘宝、京东呢？ · cetxt</title>
-<meta name="description" content="1000 个大型中文站：仅 3.0% 有真正的 llms.txt；100 个独立站：19%。B站 100 分，百度淘宝京东抖音都没有。数据、方法、名单全公开。">
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>中文大站 AI 爬虫与 llms.txt 普查：1000 站里只有 47 个拦了 AI 训练 · VAKSEL</title>
+<meta name="description" content="2026-11 重测 1000 个大型中文站：47 个（4.7%）拦了至少一个 AI 训练爬虫，用 __usage_ai-training 的 0 个；真正的 llms.txt 38 个（3.8%）。数据、方法、名单全公开。">
+<meta name="robots" content="index,follow"><meta name="theme-color" content="#ffffff">
 <link rel="canonical" href="https://cetxt.com/survey/">
-<link rel="describedby" href="/llms.txt">
-<meta name="theme-color" content="#0c0c0e">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
-    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta property="og:type" content="article">
-<meta property="og:site_name" content="cetxt">
-<meta property="og:title" content="大厂 llms.txt 成绩单：B站100分，百度、淘宝、京东呢？">
-<meta property="og:description" content="1000 个大型中文站，只有 30 个有真正的 llms.txt（3.0%）。B站 100 分，百度淘宝京东都没有。">
-<meta property="og:url" content="https://cetxt.com/survey/">
-<meta property="og:image" content="https://cetxt.com/survey/og-survey.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="大厂 llms.txt 成绩单：B站100分，百度、淘宝、京东呢？">
-<meta name="twitter:description" content="1000 大型站 3.0%，100 独立站 19%。数据、方法、名单全公开。">
-<meta name="twitter:image" content="https://cetxt.com/survey/og-survey.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#0c0c0e; --bg2:#121214; --ink:#f4f1e9; --mut:#97958d;
-  --line:rgba(244,241,233,.14); --acc:#d2ff00;
-  --serif:"Noto Serif SC",serif; --mono:"JetBrains Mono",monospace;
+<link rel="alternate" hreflang="zh-CN" href="https://cetxt.com/survey/"><link rel="alternate" hreflang="en" href="https://vaksel.com/research/">
+<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="中文大站 AI 爬虫与 llms.txt 普查：1000 站里只有 47 个拦了 AI 训练 · VAKSEL"><meta property="og:description" content="2026-11 重测 1000 个大型中文站：47 个（4.7%）拦了至少一个 AI 训练爬虫，用 __usage_ai-training 的 0 个；真正的 llms.txt 38 个（3.8%）。数据、方法、名单全公开。"><meta property="og:url" content="https://cetxt.com/survey/"><meta property="og:image" content="https://cetxt.com/og.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">
+<link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/en/fonts/jetbrains-mono-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/en/app.css">
+<style>.lg{
+  --bg:#ffffff; --bg2:#f5f5f7; --ink:#1d1d1f; --mut:#6e6e73;
+  --line:rgba(0,0,0,0.098); --acc:#0C63F1;
+  --serif:"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; --mono:ui-monospace,monospace;
 }
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:var(--serif);line-height:1.8;
+.lg *{margin:0;padding:0;box-sizing:border-box}
+.lg{scroll-behavior:smooth}
+.lg{background:var(--bg);color:var(--ink);font-family:var(--serif);line-height:1.8;
   -webkit-font-smoothing:antialiased;overflow-x:hidden}
-::selection{background:var(--acc);color:#0c0c0e}
-.wrap{max-width:880px;margin:0 auto;padding:0 24px}
-.topbar{display:flex;justify-content:space-between;align-items:center;
+.lg ::selection{background:var(--acc);color:#ffffff}
+.lg .wrap{max-width:880px;margin:0 auto;padding:0 max(24px, env(safe-area-inset-right)) 0 max(24px, env(safe-area-inset-left))}
+.lg .topbar{display:flex;justify-content:space-between;align-items:center;
   padding:20px 0;border-bottom:1px solid var(--line);
   font-family:var(--mono);font-size:12px;letter-spacing:.25em;color:var(--mut)}
-.topbar a{color:var(--ink);text-decoration:none}
-.topbar a:hover{color:var(--acc)}
-.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--acc);
+.lg .topbar a{color:var(--ink);text-decoration:none}
+.lg .topbar a:hover{color:var(--acc)}
+.lg .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--acc);
   margin:72px 0 28px}
-h1{font-size:clamp(38px,7vw,72px);font-weight:900;line-height:1.3;letter-spacing:.01em}
-h1 .acc{color:var(--acc)}
-.lede{margin:32px 0 0;font-size:clamp(17px,2.4vw,21px);color:var(--ink);max-width:36em}
-.lede b{color:var(--acc);font-weight:900}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+.lg h1{font-size:clamp(38px,7vw,72px);font-weight:700;line-height:1.3;letter-spacing:.01em}
+.lg h1 .acc{color:var(--acc)}
+.lg .lede{margin:32px 0 0;font-size:clamp(17px,2.4vw,21px);color:var(--ink);max-width:36em}
+.lg .lede b{color:var(--acc);font-weight:700}
+.lg .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
   border:1px solid var(--line);margin:64px 0 0}
-.stat{background:var(--bg);padding:28px 20px}
-.stat .n{font-size:clamp(34px,5vw,52px);font-weight:900;color:var(--acc);line-height:1.1}
-.stat .n small{font-size:.45em;color:var(--mut);font-weight:600}
-.stat .k{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mut);margin-top:10px}
-.cap{font-family:var(--mono);font-size:11px;letter-spacing:.15em;color:var(--mut);margin:14px 0 0}
-section{margin:88px 0}
-.sec-head{display:flex;align-items:baseline;gap:18px;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:32px}
-.sec-head .idx{font-family:var(--mono);font-size:12px;letter-spacing:.25em;color:var(--acc)}
-.sec-head h2{font-size:clamp(24px,4vw,34px);font-weight:900}
-.sec-head .tag{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mut)}
-table{width:100%;border-collapse:collapse;font-size:15px}
-th{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mut);
+.lg .stat{background:var(--bg);padding:28px 20px}
+.lg .stat .n{font-size:clamp(34px,5vw,52px);font-weight:700;color:var(--acc);line-height:1.1}
+.lg .stat .n small{font-size:.45em;color:var(--mut);font-weight:600}
+.lg .stat .k{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mut);margin-top:10px}
+.lg .cap{font-family:var(--mono);font-size:11px;letter-spacing:.15em;color:var(--mut);margin:14px 0 0}
+.lg section{margin:88px 0}
+.lg .sec-head{display:flex;align-items:baseline;gap:18px;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:32px}
+.lg .sec-head .idx{font-family:var(--mono);font-size:12px;letter-spacing:.25em;color:var(--acc)}
+.lg .sec-head h2{font-size:clamp(24px,4vw,34px);font-weight:700}
+.lg .sec-head .tag{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mut)}
+.lg table{width:100%;border-collapse:collapse;font-size:15px}
+.lg th{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mut);
   text-align:left;padding:12px 8px;border-bottom:1px solid var(--line);font-weight:500}
-td{padding:14px 8px;border-bottom:1px solid var(--line);vertical-align:top}
-td.num{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--acc);white-space:nowrap}
-td.pct{font-family:var(--mono);color:var(--mut)}
-.note{font-size:14px;color:var(--mut);margin-top:16px}
-.bars{margin:8px 0}
-.bar-row{display:grid;grid-template-columns:88px 1fr 44px;gap:14px;align-items:center;margin:12px 0;font-size:14px}
-.bar-row .lab{font-family:var(--mono);font-size:12px;color:var(--mut)}
-.bar{height:10px;background:rgba(244,241,233,.08);position:relative}
-.bar i{position:absolute;inset:0 auto 0 0;background:var(--acc)}
-.bar-row .c{font-family:var(--mono);text-align:right}
-.eg{border:1px solid var(--line);padding:24px;margin:16px 0;background:var(--bg2)}
-.eg .dom{font-family:var(--mono);font-size:15px;color:var(--acc)}
-.eg .sc{font-family:var(--mono);font-size:12px;color:var(--mut);margin-left:12px}
-.eg p{font-size:15px;color:var(--ink);margin-top:10px}
-.eg p.dim{color:var(--mut)}
-ol.prob{list-style:none;counter-reset:p}
-ol.prob li{counter-increment:p;display:flex;gap:18px;padding:18px 0;border-bottom:1px solid var(--line);font-size:15px}
-ol.prob li::before{content:counter(p,decimal-leading-zero);font-family:var(--mono);
+.lg td{padding:14px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.lg td.num{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--acc);white-space:nowrap}
+.lg td.pct{font-family:var(--mono);color:var(--mut)}
+.lg .note{font-size:14px;color:var(--mut);margin-top:16px}
+.lg .bars{margin:8px 0}
+.lg .bar-row{display:grid;grid-template-columns:88px 1fr 44px;gap:14px;align-items:center;margin:12px 0;font-size:14px}
+.lg .bar-row .lab{font-family:var(--mono);font-size:12px;color:var(--mut)}
+.lg .bar{height:10px;background:rgba(0,0,0,0.056);position:relative}
+.lg .bar i{position:absolute;inset:0 auto 0 0;background:var(--acc)}
+.lg .bar-row .c{font-family:var(--mono);text-align:right}
+.lg .eg{border:1px solid var(--line);padding:24px;margin:16px 0;background:var(--bg2)}
+.lg .eg .dom{font-family:var(--mono);font-size:15px;color:var(--acc)}
+.lg .eg .sc{font-family:var(--mono);font-size:12px;color:var(--mut);margin-left:12px}
+.lg .eg p{font-size:15px;color:var(--ink);margin-top:10px}
+.lg .eg p.dim{color:var(--mut)}
+.lg ol.prob{list-style:none;counter-reset:p}
+.lg ol.prob li{counter-increment:p;display:flex;gap:18px;padding:18px 0;border-bottom:1px solid var(--line);font-size:15px}
+.lg ol.prob li::before{content:counter(p,decimal-leading-zero);font-family:var(--mono);
   color:var(--acc);font-size:13px;padding-top:4px}
-ol.prob b{color:var(--acc)}
-.obs{border-left:2px solid var(--acc);padding:4px 0 4px 22px;margin:22px 0}
-.obs h3{font-size:18px;margin-bottom:6px}
-.obs p{font-size:15px;color:var(--mut)}
-.method{font-size:15px;color:var(--mut)}
-.method li{margin:10px 0;list-style:none;padding-left:24px;position:relative}
-.method li::before{content:"—";position:absolute;left:0;color:var(--acc);font-family:var(--mono)}
-.cta{border:1px solid var(--acc);padding:48px 32px;text-align:center;margin:88px 0}
-.cta h2{font-size:clamp(26px,4.5vw,40px);font-weight:900;margin-bottom:12px}
-.cta p{color:var(--mut);font-size:15px;margin-bottom:28px}
-.cta a{display:inline-block;background:var(--acc);color:#0c0c0e;text-decoration:none;
+.lg ol.prob b{color:var(--acc)}
+.lg .obs{border-left:2px solid var(--acc);padding:4px 0 4px 22px;margin:22px 0}
+.lg .obs h3{font-size:18px;margin-bottom:6px}
+.lg .obs p{font-size:15px;color:var(--mut)}
+.lg .method{font-size:15px;color:var(--mut)}
+.lg .method li{margin:10px 0;list-style:none;padding-left:24px;position:relative}
+.lg .method li::before{content:"—";position:absolute;left:0;color:var(--acc);font-family:var(--mono)}
+.lg .cta{border:1px solid var(--acc);padding:48px 32px;text-align:center;margin:88px 0}
+.lg .cta h2{font-size:clamp(26px,4.5vw,40px);font-weight:700;margin-bottom:12px}
+.lg .cta p{color:var(--mut);font-size:15px;margin-bottom:28px}
+.lg .cta a{display:inline-block;background:var(--acc);color:#ffffff;text-decoration:none;
   font-family:var(--mono);font-size:14px;letter-spacing:.15em;padding:16px 40px;font-weight:700}
-.cta a:hover{transform:translateY(-2px)}
-.bcards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:28px 0 6px}
-.bcard{border:1px solid var(--line);border-radius:10px;padding:13px 15px;background:rgba(244,241,233,.02)}
-.bcard .d{font-family:var(--mono);font-size:13px}
-.bcard .s{font-family:var(--mono);font-size:11.5px;margin-top:7px;letter-spacing:.06em}
-.bcard .s.good{color:var(--acc)} .bcard .s.bad{color:#ff8080}
-.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0 42px}
-.hero-cta a{text-decoration:none;font-family:var(--mono);font-size:14px;letter-spacing:.12em;padding:15px 34px;font-weight:700}
-.hero-cta a.p{background:var(--acc);color:#0c0c0e}
-.hero-cta a.s{border:1px solid var(--line);color:var(--ink)}
-@media(max-width:760px){.bcards{grid-template-columns:repeat(2,1fr)}}
-details.names{border:1px solid var(--line);margin:16px 0}
-details.names summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;
+.lg .cta a:hover{transform:translateY(-2px)}
+.lg .bcards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:28px 0 6px}
+.lg .bcard{border:1px solid var(--line);border-radius:10px;padding:13px 15px;background:rgba(0,0,0,0.014)}
+.lg .bcard .d{font-family:var(--mono);font-size:13px}
+.lg .bcard .s{font-family:var(--mono);font-size:11.5px;margin-top:7px;letter-spacing:.06em}
+.lg .bcard .s.good{color:var(--acc)}
+.lg .bcard .s.bad{color:#d70015}
+.lg .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0 42px}
+.lg .hero-cta a{text-decoration:none;font-family:var(--mono);font-size:14px;letter-spacing:.12em;padding:15px 34px;font-weight:700}
+.lg .hero-cta a.p{background:var(--acc);color:#ffffff}
+.lg .hero-cta a.s{border:1px solid var(--line);color:var(--ink)}
+@media(max-width:760px){.lg .bcards{grid-template-columns:repeat(2,1fr)}
+}
+.lg details.names{border:1px solid var(--line);margin:16px 0}
+.lg details.names summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;
   align-items:center;padding:18px 22px;font-family:var(--mono);font-size:13px;letter-spacing:.1em}
-details.names summary::-webkit-details-marker{display:none}
-details.names summary .cnt{color:var(--acc)}
-details.names ul{list-style:none;padding:6px 22px 22px;columns:2;column-gap:32px;font-size:13px}
-details.names li{padding:7px 0;border-bottom:1px dotted rgba(244,241,233,.08);
+.lg details.names summary::-webkit-details-marker{display:none}
+.lg details.names summary .cnt{color:var(--acc)}
+.lg details.names ul{list-style:none;padding:6px 22px 22px;columns:2;column-gap:32px;font-size:13px}
+.lg details.names li{padding:7px 0;border-bottom:1px dotted rgba(0,0,0,0.056);
   break-inside:avoid;font-family:var(--mono);display:flex;justify-content:space-between;gap:10px}
-details.names li .nm{color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:45%}
-details.names li .sco{color:var(--acc)}
-footer{border-top:1px solid var(--line);padding:36px 0 64px;display:flex;
+.lg details.names li .nm{color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:45%}
+.lg details.names li .sco{color:var(--acc)}
+.lg footer{border-top:1px solid var(--line);padding:36px 0 64px;display:flex;
   justify-content:space-between;gap:20px;flex-wrap:wrap;
   font-family:var(--mono);font-size:11px;letter-spacing:.15em;color:var(--mut)}
-footer a{color:var(--ink);text-decoration:none}
-@media(max-width:640px){
-  .stats{grid-template-columns:repeat(2,1fr)}
-  details.names ul{columns:1}
-  .kicker{margin-top:48px}
-  section{margin:64px 0}
+.lg footer a{color:var(--ink);text-decoration:none}
+@media(max-width:640px){.lg .stats{grid-template-columns:repeat(2,1fr)}
+.lg details.names ul{columns:1}
+.lg .kicker{margin-top:48px}
+.lg section{margin:64px 0}
 }
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-
-.browser{border:1px solid var(--line);margin:16px 0}
-.b-tools{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:14px}
-.b-tools input{background:transparent;border:1px solid var(--line);color:var(--ink);
-  font-family:var(--mono);font-size:14px;padding:12px 16px;width:100%;outline:none;border-radius:0}
-.b-tools input:focus{border-color:var(--acc)}
-.b-tools input::placeholder{color:var(--mut)}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chips button{background:transparent;border:1px solid var(--line);color:var(--mut);
+@media(prefers-reduced-motion:reduce){.lg{scroll-behavior:auto}
+}
+.lg .browser{border:1px solid var(--line);margin:16px 0}
+.lg .b-tools{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:14px}
+.lg .b-tools input{background:transparent;border:1px solid var(--line);color:var(--ink);
+  font-family:var(--mono);font-size:16px;padding:12px 16px;width:100%;outline:none;border-radius:0}
+.lg .b-tools input:focus{border-color:var(--acc)}
+.lg .b-tools input::placeholder{color:var(--mut)}
+.lg .chips{display:flex;flex-wrap:wrap;gap:8px}
+.lg .chips button{background:transparent;border:1px solid var(--line);color:var(--mut);
   font-family:var(--mono);font-size:12px;letter-spacing:.05em;padding:8px 14px;cursor:pointer;border-radius:0}
-.chips button.on{border-color:var(--acc);color:var(--acc)}
-.chips button:hover{color:var(--ink)}
-.b-meta{padding:12px 22px;font-size:11px;letter-spacing:.15em;color:var(--mut);border-bottom:1px solid var(--line);font-family:var(--mono)}
-.b-list{list-style:none;max-height:520px;overflow:auto;padding:6px 22px 18px;margin:0}
-.b-list li{padding:9px 0;border-bottom:1px dotted rgba(244,241,233,.08);
+.lg .chips button.on{border-color:var(--acc);color:var(--acc)}
+.lg .chips button:hover{color:var(--ink)}
+.lg .b-meta{padding:12px 22px;font-size:11px;letter-spacing:.15em;color:var(--mut);border-bottom:1px solid var(--line);font-family:var(--mono)}
+.lg .b-list{list-style:none;max-height:520px;overflow:auto;padding:6px 22px 18px;margin:0}
+.lg .b-list li{padding:9px 0;border-bottom:1px dotted rgba(0,0,0,0.056);
   font-family:var(--mono);font-size:13px;display:flex;gap:12px;align-items:baseline}
-.b-list .d{color:var(--ink);white-space:nowrap}
-.b-list .n{color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
-.b-list .st{font-size:11px;letter-spacing:.08em;white-space:nowrap;color:var(--mut)}
-.b-list .st.ok{color:var(--acc)}
-.b-list .sc{color:var(--acc);white-space:nowrap}
+.lg .b-list .d{color:var(--ink);white-space:nowrap}
+.lg .b-list .n{color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
+.lg .b-list .st{font-size:11px;letter-spacing:.08em;white-space:nowrap;color:var(--mut)}
+.lg .b-list .st.ok{color:var(--acc)}
+.lg .b-list .sc{color:var(--acc);white-space:nowrap}
+.lg{background:#fff;padding-bottom:24px}.lg a:hover{text-decoration:none}
 </style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Dataset",
-  "name": "2026 中文网站 llms.txt 采用情况调查",
-  "description": "1000 个大型中文站与 100 个中文独立站的 /llms.txt 检测数据：仅 30 个大型站（3.0%）放置了真正的 llms.txt 文件，平均结构质量分 82.2。",
+  "name": "2026 中文网站 AI 爬虫规则与 llms.txt 采用情况调查",
+  "description": "1000 个大型中文站的 robots.txt AI 爬虫规则与 /llms.txt 检测数据（2026-11-01 重测）：47 个站拦了至少一个 AI 训练爬虫，38 个放置了真正的 llms.txt；另含 100 个中文独立站的 llms.txt 抽样（2026-10-04）。",
   "url": "https://cetxt.com/survey/",
   "inLanguage": "zh-CN",
-  "creator": { "@type": "Organization", "name": "cetxt", "url": "https://cetxt.com/" },
+  "creator": { "@type": "Organization", "name": "VAKSEL 中文版", "url": "https://cetxt.com/" },
   "datePublished": "2026-10-04",
-  "keywords": ["llms.txt", "中文网站", "AI就绪度", "调查数据"],
+  "dateModified": "2026-11-01",
+  "keywords": ["llms.txt", "robots.txt", "AI 爬虫", "GPTBot", "__usage_ai-training", "中文网站", "调查数据"],
   "license": "https://opensource.org/licenses/MIT",
   "distribution": {
     "@type": "DataDownload",
@@ -169,98 +156,129 @@ footer a{color:var(--ink);text-decoration:none}
 }
 </script>
 <script defer src="https://umami.kin3.net/script.js" data-website-id="3a06af3f-999b-4956-a6af-8760b6a03ed3"></script>
-</head>
-<body>
+</head><body class="zh">
+<a class="skip" href="#main">跳到正文</a>
+<nav class="nav" aria-label="主导航"><div class="wrap">
+  <a class="logo" href="/" aria-label="VAKSEL 中文版首页"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"><span class="zhtag">中文版</span></a>
+  <div class="links" id="navlinks">
+    <a class="n" href="/guides/">修复指南</a>
+    <a class="n" href="/bots/">AI 爬虫</a>
+    <a class="n" href="/tools/">llms.txt 工具</a>
+    <a class="n on" href="/survey/" aria-current="page">普查报告</a>
+    <a class="n" href="/pricing/">监控</a>
+    <a class="n lang" href="https://vaksel.com/research/" hreflang="en" lang="en">EN</a>
+  </div>
+  <button class="menu" type="button" aria-label="菜单" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
+</div></nav>
+<script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
+<main id="main" tabindex="-1" class="lg">
 <div class="wrap">
 
-  <div class="topbar"><span>CETXT · 调查报告</span><a href="/">← cetxt.com</a></div>
-
-  <div class="kicker">cetxt 大厂 llms.txt 成绩单 · 2026-10-04 · 大型站 1000 + 独立站 100 · 只读检测</div>
-  <h1>B站拿了100分，<br>百度、淘宝、京东<span class="acc">呢？</span></h1>
-  <p class="lede">我们查了 <b>1000 个大型中文站</b>和 <b>100 个中文独立站</b>的根目录 <b>/llms.txt</b>。大型站只有 <b>30 个</b>放了真正的文件（<b>3.0%</b>）；独立站好一些，<b>19%</b>。</p>
+  <div class="kicker">VAKSEL 中文大站普查 · 2026-11-01 重测 · 大型站 1000 · robots.txt + llms.txt · 只读检测</div>
+  <h1>1000 个大站，<br>只有 47 个拦了 <span class="acc">AI 训练</span></h1>
+  <p class="lede">我们重新抓了 <b>1000 个大型中文站</b>的 <b>/robots.txt</b> 和 <b>/llms.txt</b>，用 RFC 9309 规则逐个判定 22 个 AI 与搜索爬虫。拦了至少一个 AI 训练爬虫的只有 <b>47 个</b>（<b>4.7%</b>），写了新提案 <span class="mono">__usage_ai-training</span> 的是 <b>0</b>。真正的 llms.txt 从 30 个涨到 <b>38 个</b>。</p>
   <div class="bcards">
-    <div class="bcard"><div class="d">bilibili.com</div><div class="s good">100 / 优秀</div></div>
-    <div class="bcard"><div class="d">modelscope.cn</div><div class="s good">100 / 优秀</div></div>
-    <div class="bcard"><div class="d">gitee.com</div><div class="s good">100 / 优秀</div></div>
-    <div class="bcard"><div class="d">huanqiu.com</div><div class="s good">100 / 优秀</div></div>
-    <div class="bcard"><div class="d">baidu.com</div><div class="s bad">404 / 无文件</div></div>
-    <div class="bcard"><div class="d">taobao.com</div><div class="s bad">200 / HTML 壳</div></div>
-    <div class="bcard"><div class="d">jd.com</div><div class="s bad">200 / HTML 壳</div></div>
-    <div class="bcard"><div class="d">douyin.com</div><div class="s bad">404 / 无文件</div></div>
+    <div class="bcard"><div class="d">iqiyi.com</div><div class="s bad">点名拦 GPTBot / ClaudeBot</div></div>
+    <div class="bcard"><div class="d">alibaba.com</div><div class="s bad">点名拦 GPTBot / Google-Extended</div></div>
+    <div class="bcard"><div class="d">baidu.com</div><div class="s bad">白名单，AI 全被 * 拦</div></div>
+    <div class="bcard"><div class="d">xiaohongshu.com</div><div class="s bad">白名单，AI 全被 * 拦</div></div>
+    <div class="bcard"><div class="d">bilibili.com</div><div class="s good">llms.txt 100 分</div></div>
+    <div class="bcard"><div class="d">gitee.com</div><div class="s good">llms.txt 100 分</div></div>
+    <div class="bcard"><div class="d">taobao.com</div><div class="s good">AI 爬虫放行</div></div>
+    <div class="bcard"><div class="d">qq.com</div><div class="s good">AI 爬虫放行</div></div>
   </div>
   <div class="hero-cta">
-    <a class="p" href="/#check">查查我的站 →</a>
-    <a class="s" href="/#val">已有文件？粘贴校验</a>
+    <a class="p" href="/">查查我的站 →</a>
+    <a class="s" href="/tools/#robots">生成 AI 爬虫规则</a>
   </div>
 
   <div class="stats">
-    <div class="stat"><div class="n">3.0<small>%</small></div><div class="k">大型站有真正文件</div></div>
-    <div class="stat"><div class="n">19<small>%</small></div><div class="k">独立站有真正文件</div></div>
-    <div class="stat"><div class="n">16.4<small>%</small></div><div class="k">大型站 HTML 伪装</div></div>
-    <div class="stat"><div class="n">82.2</div><div class="k">大型站有文件者平均分</div></div>
+    <div class="stat"><div class="n">4.7<small>%</small></div><div class="k">拦了 AI 训练爬虫</div></div>
+    <div class="stat"><div class="n">2.7<small>%</small></div><div class="k">专门点名拦截</div></div>
+    <div class="stat"><div class="n">0</div><div class="k">用 __usage_ai-training</div></div>
+    <div class="stat"><div class="n">3.8<small>%</small></div><div class="k">有真正的 llms.txt</div></div>
   </div>
-  <p class="cap">* 大型站 39% 因 WAF / 超时未能判定，覆盖率按 1000 全样本计；可判定样本中为 4.9%。</p>
+  <p class="cap">* 按 1000 全样本计。AI 训练爬虫指 GPTBot、ClaudeBot、Google-Extended、Applebot-Extended、meta-externalagent、CCBot、Amazonbot 七个；Bytespider 的训练用途官方未说明，不计入。</p>
 
   <section>
-    <div class="sec-head"><span class="idx">01 · BIG 1000</span><h2>大型站普查</h2><span class="tag">N=1000</span></div>
+    <div class="sec-head"><span class="idx">01 · AI CRAWLERS</span><h2>AI 爬虫规则</h2><span class="tag">N=1000</span></div>
     <table>
-      <tr><th>检测结果</th><th>数量</th><th>占比</th></tr>
-      <tr><td>根目录有真正的 llms.txt（200 + Markdown）</td><td class="num">30</td><td class="pct">3.0%</td></tr>
-      <tr><td>200 但返回 HTML（页面壳 / 拦截页）</td><td class="num">164</td><td class="pct">16.4%</td></tr>
-      <tr><td>404（无文件）</td><td class="num">412</td><td class="pct">41.2%</td></tr>
-      <tr><td>未能判定（WAF 拦截 / 超时 / 5xx）</td><td class="num">390</td><td class="pct">39.0%</td></tr>
-      <tr><td>200 非规范文本（robots 内容 / 空文件等）</td><td class="num">4</td><td class="pct">0.4%</td></tr>
+      <tr><th>robots.txt 状态</th><th>数量</th><th>占比</th></tr>
+      <tr><td>有规则，可逐条判定</td><td class="num">422</td><td class="pct">42.2%</td></tr>
+      <tr><td>404 / 4xx（按 RFC 9309 视为全部允许）</td><td class="num">351</td><td class="pct">35.1%</td></tr>
+      <tr><td>超时 / 拒连 / 5xx（按 RFC 视为全部禁止）</td><td class="num">141</td><td class="pct">14.1%</td></tr>
+      <tr><td>裸域与 www 都没有 DNS 记录</td><td class="num">86</td><td class="pct">8.6%</td></tr>
     </table>
-    <p class="note">30 个有文件的站，用 cetxt 校验引擎（llmstxt.org v2 确定性规则）打分：平均 82.2。100 分 9 个，90–99 分 11 个，80–89 分 2 个，60–79 分 3 个，60 以下 5 个（含 1 个 0 分不合规）。</p>
-    <div class="bars" style="margin-top:24px">
-      <div class="bar-row"><span class="lab">100 分</span><div class="bar"><i style="width:30%"></i></div><span class="c">9</span></div>
-      <div class="bar-row"><span class="lab">90–99</span><div class="bar"><i style="width:37%"></i></div><span class="c">11</span></div>
-      <div class="bar-row"><span class="lab">80–89</span><div class="bar"><i style="width:7%"></i></div><span class="c">2</span></div>
-      <div class="bar-row"><span class="lab">60–79</span><div class="bar"><i style="width:10%"></i></div><span class="c">3</span></div>
-      <div class="bar-row"><span class="lab">60 以下</span><div class="bar"><i style="width:17%"></i></div><span class="c">5</span></div>
-    </div>
+    <p class="note">在 422 个有规则的站里：点名写到任一 AI 爬虫的 54 个；实际拦了至少一个 AI 训练爬虫的 47 个，其中 27 个是专门写的规则，20 个是"只放行指定搜索引擎、其余 * 全拦"的白名单写法顺带拦住的。七个训练爬虫全拦的 24 个，GPTBot、ClaudeBot、Google-Extended 三家全拦的 28 个。</p>
+    <table style="margin-top:24px">
+      <tr><th>专门点名拦截（Disallow: /）</th><th>站数</th><th>含 * 拦截</th></tr>
+      <tr><td>GPTBot（OpenAI 训练）</td><td class="num">22</td><td class="pct">41</td></tr>
+      <tr><td>ClaudeBot（Anthropic 训练）</td><td class="num">16</td><td class="pct">37</td></tr>
+      <tr><td>CCBot（Common Crawl 数据集）</td><td class="num">16</td><td class="pct">38</td></tr>
+      <tr><td>Bytespider（字节）</td><td class="num">14</td><td class="pct">33</td></tr>
+      <tr><td>Google-Extended（Gemini 训练与 grounding）</td><td class="num">11</td><td class="pct">33</td></tr>
+      <tr><td>Amazonbot</td><td class="num">11</td><td class="pct">32</td></tr>
+      <tr><td>meta-externalagent（Meta 训练）</td><td class="num">9</td><td class="pct">29</td></tr>
+      <tr><td>Applebot-Extended（Apple 训练）</td><td class="num">8</td><td class="pct">30</td></tr>
+      <tr><td>Baiduspider（百度搜索）</td><td class="num">6</td><td class="pct">15</td></tr>
+    </table>
+    <p class="note">专门拦 GPTBot 的 22 个站里，台港媒体与论坛占一半（PTT、联合新闻网、中时、东网、Mobile01、iThome、科技新报、雅虎台湾等）；大陆有阿里巴巴国际站、速卖通、爱奇艺、财新、安居客、同程、Canva 中国、江苏省政府、南京市政府。用 Cloudflare Content-Signal 声明的有 6 个：微博、PTT、Mobile01、萌娘百科、iThome、php.cn。</p>
+    <ol class="prob" style="margin-top:8px">
+      <li><div><b>以为专属组会继承 * 的规则</b>（47 站）。RFC 9309 下，一旦给 GPTBot 单独写了组，它就只看自己那一组。</div></li>
+      <li><div><b>拦了 Google-Extended，没意识到它也关掉 Gemini grounding</b>（33 站）。不只是"不让训练"。</div></li>
+      <li><div><b>用 * 全拦，顺带把搜索类 AI 爬虫也拦了</b>（23 站）。OAI-SearchBot、PerplexityBot 等被拦，AI 搜索里就引用不到你。</div></li>
+      <li><div><b>* 拦了，专属组又把某家 AI 放开</b>（15 站）。多半是复制模板留下的。</div></li>
+      <li><div><b>规则行缺冒号、User-agent 写错</b>（74 + 22 站）。这些行会被解析器直接忽略。</div></li>
+    </ol>
   </section>
 
   <section>
-    <div class="sec-head"><span class="idx">02 · NAMES</span><h2>点名</h2></div>
-    <p class="note" style="margin:-8px 0 22px">返回 200，就代表 llms.txt 部署成功了吗？淘宝、京东、拼多多的 <span class="mono">/llms.txt</span> 打开都是网页壳——AI 拿到的是壳，不是说明书。</p>
-    <div class="eg">
-      <span class="dom">bilibili.com</span><span class="sc">100 / 优秀</span>
-      <p>B站。11KB，结构满分。大型站里写得最好的之一——而百度（404）、淘宝（HTML 壳）、京东（HTML 壳）、抖音（404）都没有。</p>
+    <div class="sec-head"><span class="idx">02 · LLMS.TXT</span><h2>llms.txt 复查</h2><span class="tag">N=1000</span></div>
+    <table>
+      <tr><th>检测结果</th><th>10 月</th><th>11 月</th></tr>
+      <tr><td>根目录有真正的 llms.txt（200 + Markdown）</td><td class="num">30</td><td class="pct">38</td></tr>
+      <tr><td>200 但返回 HTML（页面壳 / 拦截页）</td><td class="num">164</td><td class="pct">170</td></tr>
+      <tr><td>404（无文件）</td><td class="num">412</td><td class="pct">513</td></tr>
+      <tr><td>未能判定（WAF 拦截 / 超时 / 5xx / 无 DNS）</td><td class="num">390</td><td class="pct">273</td></tr>
+      <tr><td>200 非规范文本（robots 内容 / 空文件等）</td><td class="num">4</td><td class="pct">6</td></tr>
+    </table>
+    <p class="note">38 个有文件的站平均 80.8 分：100 分 11 个，90–99 分 14 个，80–89 分 2 个，60–79 分 4 个，60 以下 7 个（含 2 个 0 分不合规）。"未能判定"变少，一是这次裸域没有 DNS 时补查了 www，二是修掉了上期检测器的一处对端地址核验缺陷——10 月数字里有一部分其实是误判。</p>
+    <div class="bars" style="margin-top:24px">
+      <div class="bar-row"><span class="lab">100 分</span><div class="bar"><i style="width:29%"></i></div><span class="c">11</span></div>
+      <div class="bar-row"><span class="lab">90–99</span><div class="bar"><i style="width:37%"></i></div><span class="c">14</span></div>
+      <div class="bar-row"><span class="lab">80–89</span><div class="bar"><i style="width:5%"></i></div><span class="c">2</span></div>
+      <div class="bar-row"><span class="lab">60–79</span><div class="bar"><i style="width:11%"></i></div><span class="c">4</span></div>
+      <div class="bar-row"><span class="lab">60 以下</span><div class="bar"><i style="width:18%"></i></div><span class="c">7</span></div>
+    </div>
+    <div class="eg" style="margin-top:24px">
+      <span class="dom">bilibili.com / gitee.com / modelscope.cn</span><span class="sc">100 / 优秀</span>
+      <p>上期的满分站全部保持。环球网 100、凤凰网 99、七牛云 99、宝塔 95 也没掉。</p>
     </div>
     <div class="eg">
-      <span class="dom">modelscope.cn</span><span class="sc">100 / 优秀</span>
-      <p>阿里魔搭社区。100 分。阿里系里唯一满分的；同门的淘宝、支付宝都是 404/HTML。</p>
+      <span class="dom">gmw.cn / eeworld.com.cn / gvm.com.tw</span><span class="sc">新增</span>
+      <p>光明网、电子工程世界、远见杂志等 9 个站是这个月新放的，光明网和电子工程世界直接 100 分。</p>
     </div>
     <div class="eg">
-      <span class="dom">gitee.com</span><span class="sc">100 / 优秀</span>
-      <p>码云。100 分。开发者平台普遍积极：七牛云 99、宝塔 bt.cn 95。</p>
+      <span class="dom">smzdm.com / wallstreetcn.com</span><span class="sc">掉线</span>
+      <p class="dim">什么值得买的 /llms.txt 变成了网页壳；华尔街见闻这次没测到。</p>
     </div>
     <div class="eg">
-      <span class="dom">huanqiu.com / ifeng.com</span><span class="sc">100 / 99</span>
-      <p>环球网、凤凰网。传统媒体反而走在前面，官媒里新华网、人民网都是 404。</p>
+      <span class="dom">coze.cn / nvidia.cn / tvb.com</span><span class="sc">50 / 30 / 50</span>
+      <p class="dim">一个月过去，分数没动。做了≠做好，也≠有人维护。</p>
     </div>
-    <div class="eg">
-      <span class="dom">coze.cn</span><span class="sc">50 / 待改进</span>
-      <p class="dim">字节跳动 Coze。做了，但只有 50 分——74 个警告，大量重复 URL。做了≠做好，典型反面教材。</p>
-    </div>
-    <div class="eg">
-      <span class="dom">nvidia.cn</span><span class="sc">30 / 待改进</span>
-      <p class="dim">英伟达中国。文件超 200KB 被截断，还混进了 HTML 标签。体积失控的典型。</p>
-    </div>
-    <p class="note">没有真正文件的巨头（抽样确认）：百度、淘宝（HTML 壳）、京东（HTML 壳）、拼多多（HTML 壳）、抖音、微信、支付宝、新浪、豆瓣、V2EX、知乎（HTML 壳）、微博（HTML 壳）、美团（连接失败）。</p>
   </section>
 
   <section>
     <div class="sec-head"><span class="idx">03 · NOTES</span><h2>四个观察</h2></div>
-    <div class="obs"><h3>大厂比独立站更慢</h3><p>独立站 19%，大型站 3.0%。流量越大越保守：大厂的发布流程、法务、安全评审让一个"小文本文件"也排不上期。</p></div>
-    <div class="obs"><h3>先行者是开发者和出海公司</h3><p>30 个里开发者平台（Gitee、魔搭、七牛、宝塔）和出海电商（SHEIN、Made-in-China、Klook）占一半——读英文规范的人先动手，和独立站抽样的结论一致。</p></div>
-    <div class="obs"><h3>做了≠做好</h3><p>字节 Coze 50 分（74 个警告）、英伟达中国 30 分（200KB+HTML 标签）、TVB 50 分（832 个警告）。生成器一键生成后没人检查，是第二大坑。</p></div>
-    <div class="obs"><h3>39% 根本测不到</h3><p>大型站 WAF 和反爬是常态：336 个连接超时/拒绝，27 个 403。llms.txt 首先是"愿不愿意被机器读"的问题，其次才是"会不会写"。</p></div>
+    <div class="obs"><h3>大站对 AI 基本不设防</h3><p>淘宝、京东、腾讯网、B站对 AI 爬虫都是放行的。真正写了 AI 规则的只有 5% 左右，比 llms.txt 的采用率高不了多少。</p></div>
+    <div class="obs"><h3>"拦 AI"多半是白名单的副作用</h3><p>百度、小红书、快手、微博等用的是"只放行指定搜索引擎、其余全拦"的老写法，AI 爬虫是被顺带拦住的，不是专门决定。</p></div>
+    <div class="obs"><h3>专门拦 AI 的，台港媒体最积极</h3><p>点名拦 GPTBot 的 22 个站里一半是台港新闻与论坛。大陆专门写规则的多是出海电商（阿里巴巴国际站、速卖通）和内容版权方（爱奇艺、财新）。</p></div>
+    <div class="obs"><h3>统一训练 token 还没人用</h3><p><span class="mono">__usage_ai-training</span> 是 2026-10-30 才发布的个人草案，Anthropic 已开始实现，OpenAI、微软、Google 计划在 2027 年前后支持。现在写一条，以后新增的 AI 爬虫也能覆盖。</p></div>
   </section>
 
   <section>
-    <div class="sec-head"><span class="idx">04 · INDIE 100</span><h2>独立站抽样</h2><span class="tag">N=100</span></div>
+    <div class="sec-head"><span class="idx">04 · INDIE 100</span><h2>独立站抽样</h2><span class="tag">N=100 · 10 月数据</span></div>
+    <p class="note" style="margin:-8px 0 16px">独立站这次没有重测，以下为 2026-10-04 的 llms.txt 结果。</p>
     <table>
       <tr><th>检测结果</th><th>数量</th><th>占比</th></tr>
       <tr><td>根目录有真正的 llms.txt</td><td class="num">19</td><td class="pct">19%</td></tr>
@@ -285,33 +303,34 @@ footer a{color:var(--ink);text-decoration:none}
   <section>
     <div class="sec-head"><span class="idx">05 · METHOD</span><h2>调查方法</h2></div>
     <ul class="method">
-      <li>大型站名单：公开流量排名（Tranco/Umbrella 系）按 .cn 等归属中国的 TLD 过滤取 841 个，另人工补全 224 个知名非 .cn 中文大站（百度、腾讯/阿里系、京东、微博、B站、知乎等），去重后 1000。</li>
-      <li>独立站名单：GitHub 中文独立开发者名录 + 中文独立博客列表，随机抽 150，剔除 29 死链剩 100。</li>
-      <li>逐站 GET https://域名/llms.txt（https 优先、失败回退 http，跟随跳转、8–10 秒超时、只取前 200KB，间隔 1.2–1.5 秒，普通浏览器 UA）。只测根目录。</li>
-      <li>200 且内容为 Markdown 的文件，用 cetxt 校验引擎（llmstxt.org v2 确定性规则：H1 30 / 摘要 20 / H2 分组 30 / 链接质量 20）打分；gzip 压缩的先解压，BOM 先去掉。</li>
-      <li>局限：TLD 过滤会漏掉部分中文站，人工补全难免挂一漏万——这是"大型中文站近似 Top1000"而非官方榜单；39% 大型站因 WAF/超时未能判定，覆盖率可能被低估；子路径文件（如 /docs/llms.txt）记为无文件。</li>
+      <li>大型站名单与 10 月相同：公开流量排名（Tranco/Umbrella 系）按 .cn 等归属中国的 TLD 过滤，另人工补全知名非 .cn 中文大站，去重后 1000。</li>
+      <li>2026-11-01 从一台境外服务器逐站 GET https://域名/robots.txt 与 /llms.txt：https 优先、传输失败回退 http；手动跟随跳转最多 5 跳、每跳重新校验；单次 10 秒超时；robots 只取前 512KiB、llms 前 200KB；UA 为 cetxt-check/2.0。裸域没有 DNS 记录时再查 www（237 站）。</li>
+      <li>robots.txt 按 RFC 9309 判定：User-agent 大小写不敏感前缀匹配、最长路径优先、Allow 平局优先、* 与 $ 通配；4xx 视为全部允许，5xx 与不可达视为全部禁止。逐个判定 22 个 AI 与搜索爬虫（清单与来源见 <a href="/data/ai-crawlers.json">ai-crawlers.json</a>）。</li>
+      <li>llms.txt 判定与 10 月一致：200 且内容为 Markdown 记为真文件，用 VAKSEL 的 llms.txt 校验引擎（llmstxt.org v2 确定性规则）打分。</li>
+      <li>局限：境外出口会被部分站的 WAF 拦截或超时（美团、CSDN、上海交大、央视等），14.1% 的 robots 和 27.3% 的 llms 没测到；只测根目录；robots 规则只代表站方声明，不代表爬虫一定遵守。</li>
     </ul>
   </section>
 
   <div class="cta">
     <h2>你的站呢？</h2>
-    <p>花 30 秒，看看你的 llms.txt 能拿几分。</p>
-    <a href="/#check">去 cetxt.com 测一下 →</a>
+    <p>花 30 秒，看看你的 robots.txt 对 AI 爬虫怎么说、llms.txt 能拿几分。</p>
+    <a href="/">免费检测我的网站 →</a>
   </div>
 
   <section>
     <div class="sec-head"><span class="idx">06 · LIST</span><h2>名单</h2></div>
-    <p class="note" style="margin:0 0 8px">大型站 1000 个完整数据可搜索、筛选（状态为公开 URL 的返回事实）。独立站 100 名单如下。</p>
+    <p class="note" style="margin:0 0 8px">大型站 1000 个完整数据可搜索、筛选（2026-11-01 重测，状态为公开 URL 的返回事实；10 月旧数据见 <a href="data-2026-10.json">data-2026-10.json</a>）。独立站 100 名单如下。</p>
     <div class="browser">
       <div class="b-tools">
         <input id="q" type="search" placeholder="搜索域名或站名，如 bilibili / 哔哩哔哩" autocomplete="off">
         <div class="chips" id="chips">
           <button data-f="all" class="on">全部 1000</button>
-          <button data-f="真文件">真文件 30</button>
-          <button data-f="HTML伪装">HTML伪装 164</button>
-          <button data-f="无文件">无文件 412</button>
-          <button data-f="未能判定">未能判定 390</button>
-          <button data-f="非规范文本">非规范文本 4</button>
+          <button data-f="ai">拦 AI 训练 47</button>
+          <button data-f="真文件">真文件 38</button>
+          <button data-f="HTML伪装">HTML伪装 170</button>
+          <button data-f="无文件">无文件 513</button>
+          <button data-f="未能判定">未能判定 273</button>
+          <button data-f="非规范文本">非规范文本 6</button>
         </div>
       </div>
       <div class="b-meta" id="bMeta">加载中…</div>
@@ -325,7 +344,7 @@ footer a{color:var(--ink);text-decoration:none}
       function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
       function render(){
         var r=DATA.filter(function(x){
-          var okF = (f==='all'||x.c===f);
+          var okF = (f==='all'||(f==='ai'?!!x.ai:x.c===f));
           var okK = !kw || x.d.toLowerCase().indexOf(kw)>-1 || (x.n&&x.n.toLowerCase().indexOf(kw)>-1);
           return okF&&okK;
         });
@@ -334,7 +353,8 @@ footer a{color:var(--ink);text-decoration:none}
         r.slice(0,200).forEach(function(x){
           h+='<li><span class="d">'+esc(x.d)+'</span><span class="n">'+esc(x.n)+'</span>'+
              '<span class="st'+(x.c==='真文件'?' ok':'')+'">'+esc(x.c)+'</span>'+
-             (x.s!=null?'<span class="sc">'+x.s+'分</span>':'')+'</li>';
+             (x.s!=null?'<span class="sc">'+x.s+'分</span>':'')+
+             (x.ai?'<span class="st">'+(x.ai==='点名'?'点名拦 AI ':'* 拦 AI ')+x.t+'/7</span>':'')+'</li>';
         });
         list.innerHTML=h||'<li><span class="n">没有匹配的结果，换个关键词试试</span></li>';
       }
@@ -461,11 +481,13 @@ footer a{color:var(--ink);text-decoration:none}
     </ul></details>
   </section>
 
-  <footer>
-    <span>CETXT.COM 出品 · 数据备查</span>
-    <span>规范来源 LLMS TXT.ORG · <a href="/">cetxt.com</a></span>
-  </footer>
-
 </div>
-</body>
-</html>
+</main>
+<footer><div class="wrap fgrid">
+  <div class="fbrand"><a class="logo" href="/"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><span class="zhtag">中文版</span></a><p>AI 搜索到底能不能访问你的网站？免费检测 robots.txt、防火墙和 CDN 拦截。</p></div>
+  <div><h2 class="fh">产品</h2><a href="/">可访问性检测</a><a href="/pricing/">监控（早期体验）</a><a href="/research/">研究方法</a><a href="/tools/">llms.txt 工具</a></div>
+  <div><h2 class="fh">修复指南</h2><a href="/guides/cloudflare/">Cloudflare</a><a href="/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/guides/wordpress/">WordPress</a><a href="/guides/shopify/">Shopify</a><a href="/guides/edgeone/">腾讯云 EdgeOne</a><a href="/guides/aliyun/">阿里云 ESA</a><a href="/guides/baota/">宝塔面板</a><a href="/guides/baidu/">百度智能云</a></div>
+  <div><h2 class="fh">资料</h2><a href="/bots/">AI 爬虫百科</a><a href="/bots/changelog/">爬虫变更日志</a><a href="/survey/">中文大站普查</a><a href="/guide/what-is-llms-txt/">llms.txt 是什么</a><a href="/faq/">常见问题</a></div>
+  <div class="fsmall"><span>© 2026 VAKSEL · cetxt.com 是 VAKSEL 中文版</span><a href="/privacy/">隐私</a><a href="/terms/">条款</a><a href="/contact/">联系</a><a href="https://vaksel.com/research/" hreflang="en" lang="en">English</a><span>我们不保存你检测的域名和 IP。</span></div>
+</div></footer>
+</body></html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CloudFront 或 AWS WAF 拦截了 AI 爬虫：修复方法 · VAKSEL</title>
+<meta name="description" content="AWS WAF Bot Control 的 CategoryAI 规则连已验证的 AI 爬虫也会拦截。本文说明如何继续拦截 AI 训练，同时放行 AI 搜索爬虫。">
+<meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://cetxt.com/guides/cloudfront/">
+<link rel="alternate" hreflang="zh-CN" href="https://cetxt.com/guides/cloudfront/"><link rel="alternate" hreflang="en" href="https://vaksel.com/guides/cloudfront/">
+<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="CloudFront 或 AWS WAF 拦截了 AI 爬虫：修复方法 · VAKSEL"><meta property="og:description" content="AWS WAF Bot Control 的 CategoryAI 规则连已验证的 AI 爬虫也会拦截。本文说明如何继续拦截 AI 训练，同时放行 AI 搜索爬虫。"><meta property="og:url" content="https://cetxt.com/guides/cloudfront/"><meta property="og:image" content="https://cetxt.com/og.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">
+<link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/en/fonts/jetbrains-mono-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/en/app.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"CloudFront 或 AWS WAF 拦截了 AI 爬虫：修复方法","dateModified":"2026-11-03","inLanguage":"zh-CN"}</script>
+</head><body class="zh">
+<a class="skip" href="#main">跳到正文</a>
+<nav class="nav" aria-label="主导航"><div class="wrap">
+  <a class="logo" href="/" aria-label="VAKSEL 中文版首页"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"><span class="zhtag">中文版</span></a>
+  <div class="links" id="navlinks">
+    <a class="n on" href="/guides/" aria-current="page">修复指南</a>
+    <a class="n" href="/bots/">AI 爬虫</a>
+    <a class="n" href="/tools/">llms.txt 工具</a>
+    <a class="n" href="/survey/">普查报告</a>
+    <a class="n" href="/pricing/">监控</a>
+    <a class="n lang" href="https://vaksel.com/guides/cloudfront/" hreflang="en" lang="en">EN</a>
+  </div>
+  <button class="menu" type="button" aria-label="菜单" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
+</div></nav>
+<script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
+<main id="main" tabindex="-1" class="wrap doc"><div class="crumb"><a href="/">首页</a> <span>/</span> <a href="/guides/">修复指南</a> <span>/</span> CloudFront / AWS WAF</div>
+<h1>CloudFront 或 AWS WAF 拦截了 AI 爬虫：修复方法</h1><p class="upd">更新于 2026-11-03</p>
+
+<p class="lead l">如果检测报告显示 CloudFront 对 AI 爬虫返回 403，常见原因是你的分发所关联的 Web ACL 中启用了 <b>AWS WAF Bot Control</b> 托管规则组。</p>
+<div class="callout"><b>原因。</b>Bot Control 的大多数类别规则只拦截<i>未验证</i>的爬虫，<code>CategoryAI</code> 却不同：AWS 文档写明它 “applies the action to all matches, regardless of whether the bots are verified or unverified.”（对所有匹配项执行该操作，无论爬虫是否已验证。）因此 OAI-SearchBot 和 PerplexityBot 会和训练爬虫一起被拦截。</div>
+<h2>1. 找到这条规则</h2>
+<ol><li>打开 <b>AWS WAF → Web ACLs</b>（或 protection packs），选择与你的 CloudFront 分发关联的那一个。</li>
+<li>找到托管规则组 <code>AWSManagedRulesBotControlRuleSet</code>。</li>
+<li>在 <b>Sampled requests</b>（抽样请求）或 WAF 日志中，查找命中 <code>CategoryAI</code>、带有标签 <code>awswaf:managed:aws:bot-control:bot:category:ai</code> 的请求。</li></ol>
+<h2>2. 将 CategoryAI 改为 Count</h2>
+<p>编辑该规则组，为 <code>CategoryAI</code> 设置 <b>rule action override</b>（规则操作覆盖），改为 <i>Count</i>。请求仍会被打上标签，但这条规则不再拦截任何请求。</p>
+<h2>3. 重新加上你真正需要的拦截</h2>
+<p>在 Bot Control 规则组<b>之后</b>添加一条自己的规则，匹配标签 <code>awswaf:managed:aws:bot-control:bot:category:ai</code>，并排除你想放行的爬虫。针对 OAI-SearchBot、PerplexityBot、Claude-SearchBot 及其他搜索类爬虫，使用日志中出现的爬虫名称标签（<code>awswaf:managed:aws:bot-control:bot:name:…</code>）。GPTBot、ClaudeBot 等训练爬虫保持拦截。</p>
+<p>如果你不想维护 WAF 规则，也可以让 CategoryAI 保持 Count，改用 robots.txt 拒绝训练：</p>
+<pre>User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /</pre>
+<h2>4. 留意其他信号规则</h2>
+<p><code>SignalKnownBotDataCenter</code> 和 <code>SignalNonBrowserUserAgent</code> 只作用于非已验证爬虫的请求。如果真实爬虫能够通过，而我们从数据中心发出的测试仍显示被拦截，报告会因此将该结果标为较低置信度。</p>
+<h2>5. 重新检测</h2>
+<p>WAF 的修改大约一分钟内生效。再次运行检测即可。</p>
+<h2>参考来源</h2><ul class="src"><li><a href="https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html" rel="nofollow noopener" target="_blank">AWS WAF docs: Bot Control rule group（AWS WAF 文档：Bot Control 规则组） ↗</a></li></ul>
+<div style="margin-top:28px">
+<div class="cta mini"><div><h3>修完再测一次</h3><p>免费，无需注册。我们以 18 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
+<form class="field inv" data-check autocomplete="off"><input placeholder="你的域名，例如 example.com" aria-label="域名" spellcheck="false" autocapitalize="off"><button class="btn">检测</button></form></div></div>
+<p class="more">其他指南：<a href="/guides/cloudflare/">Cloudflare</a> · <a href="/guides/wordpress/">WordPress</a> · <a href="/guides/shopify/">Shopify</a> · <a href="/guides/edgeone/">腾讯云 EdgeOne</a> · <a href="/guides/aliyun/">阿里云 ESA / CDN</a> · <a href="/guides/baota/">宝塔面板</a> · <a href="/guides/baidu/">百度智能云 CDN / WAF</a></p>
+</main><script>
+document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();let v=(f.querySelector('input').value||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0];if(/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v))location.href='/report/'+v;else{f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake')}}));
+</script>
+<footer><div class="wrap fgrid">
+  <div class="fbrand"><a class="logo" href="/"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><span class="zhtag">中文版</span></a><p>AI 搜索到底能不能访问你的网站？免费检测 robots.txt、防火墙和 CDN 拦截。</p></div>
+  <div><h2 class="fh">产品</h2><a href="/">可访问性检测</a><a href="/pricing/">监控（早期体验）</a><a href="/research/">研究方法</a><a href="/tools/">llms.txt 工具</a></div>
+  <div><h2 class="fh">修复指南</h2><a href="/guides/cloudflare/">Cloudflare</a><a href="/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/guides/wordpress/">WordPress</a><a href="/guides/shopify/">Shopify</a><a href="/guides/edgeone/">腾讯云 EdgeOne</a><a href="/guides/aliyun/">阿里云 ESA</a><a href="/guides/baota/">宝塔面板</a><a href="/guides/baidu/">百度智能云</a></div>
+  <div><h2 class="fh">资料</h2><a href="/bots/">AI 爬虫百科</a><a href="/bots/changelog/">爬虫变更日志</a><a href="/survey/">中文大站普查</a><a href="/guide/what-is-llms-txt/">llms.txt 是什么</a><a href="/faq/">常见问题</a></div>
+  <div class="fsmall"><span>© 2026 VAKSEL · cetxt.com 是 VAKSEL 中文版</span><a href="/privacy/">隐私</a><a href="/terms/">条款</a><a href="/contact/">联系</a><a href="https://vaksel.com/guides/cloudfront/" hreflang="en" lang="en">English</a><span>我们不保存你检测的域名和 IP。</span></div>
+</div></footer>
+</body></html>

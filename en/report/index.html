@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!--HEAD--><title>AI crawler access report · VAKSEL</title>
+<meta name="robots" content="noindex"><!--/HEAD--><meta name="theme-color" content="#ffffff">
+<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/en/apple-touch-icon.png"><link rel="manifest" href="/en/site.webmanifest">
+<link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/en/fonts/jetbrains-mono-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/en/app.css">
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" aria-label="Main"><div class="wrap">
+  <a class="logo" href="/en/" aria-label="VAKSEL home"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"></a>
+  <div class="links" id="navlinks">
+    <a class="n" href="/en/guides/">Fix guides</a>
+    <a class="n" href="/en/bots/">AI crawlers</a>
+    <a class="n" href="/en/pricing/">Pricing</a>
+    <a class="n lang" href="https://cetxt.com/" hreflang="zh" lang="zh">中文</a>
+  </div>
+  <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
+</div></nav>
+<script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
+
+<main class="wrap" id="main">
+  <div class="rp-head top">
+    <div><div class="crumb">AI crawler access report</div><h1 id="dom"><!--DOM-->…<!--/DOM--></h1><div class="meta" id="meta"><!--META--><!--/META--></div></div>
+    <form class="rp-search" id="f" autocomplete="off"><div class="field" style="flex:1"><input id="d" placeholder="Check another domain" aria-label="Domain" spellcheck="false" autocapitalize="off"><button class="btn">Check</button></div></form>
+  </div>
+  <div id="out"><!--OUT--><div class="loading" id="ld"><img class="vava" src="/en/brand/vava/vava3d-searching-mini.webp" width="96" height="121" alt="">Requesting the homepage as 13 different clients…<div class="steps">robots.txt · firewall · page content</div></div><!--/OUT--></div>
+</main>
+<footer><div class="wrap fgrid">
+  <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
+  <div><h2 class="fh">Product</h2><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/research/">Research</a></div>
+  <div><h2 class="fh">Fix guides</h2><a href="/en/guides/cloudflare/">Cloudflare</a><a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/en/guides/wordpress/">WordPress</a><a href="/en/guides/shopify/">Shopify</a></div>
+  <div><h2 class="fh">AI crawlers</h2><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a><a href="/en/bots/changelog/">Changelog</a></div>
+  <div class="fsmall"><span>© 2026 VAKSEL</span><a href="/en/privacy/">Privacy</a><a href="/en/terms/">Terms</a><a href="/en/contact/">Contact</a><a href="https://cetxt.com/" hreflang="zh" lang="zh">中文版 cetxt.com</a><span>We don't store the domains you check or your IP address.</span></div>
+</div></footer>
+
+<script type="module">
+import {renderReport,bindReport,cleanDomain,esc} from '/en/view.js';
+const $=s=>document.querySelector(s);
+$('#f').addEventListener('submit',e=>{e.preventDefault();const c=cleanDomain($('#d').value);if(c)location.href='/en/report/'+c});
+const out=$('#out');
+function show(j){const B=location.pathname.startsWith('/en/')?'/en':'';const o=renderReport(j,{base:B,url:location.origin+B+'/report/'+j.domain});$('#meta').innerHTML=o.meta;out.innerHTML=o.html;document.title=j.domain+' · AI crawler access report · VAKSEL';bindReport(document)}
+function fail(m){out.innerHTML='<div class="loading">'+esc(m)+'</div>'}
+const m=location.pathname.match(/^(?:\/en)?\/report\/([^/]+)\/?$/);
+const qd=new URLSearchParams(location.search).get('d');
+const dom=cleanDomain(m?decodeURIComponent(m[1]):qd);
+if(qd&&dom&&!m)location.replace('/en/report/'+dom);
+else if(!dom){$('#dom').textContent='Enter a domain';out.innerHTML='<div class="loading"><img class="vava" src="/en/brand/vava/vava3d-sleeping-still.webp" width="112" height="112" alt="">Type a domain above to check it.</div>';$('#d').focus()}
+else if(out.querySelector('.verdict')||out.querySelector('.loading:not(#ld)'))bindReport(document);
+else{
+  $('#dom').textContent=dom;
+  fetch('/api/check?access=1&domain='+encodeURIComponent(dom)).then(r=>r.json().then(j=>[r.status,j])).then(([s,j])=>{
+    if(s===429)return fail('Too many checks from your network. Try again in a minute.');
+    if(j.error)return fail(j.error==='bad_domain'?'That doesn’t look like a valid domain.':'Something went wrong.');
+    show(j)
+  }).catch(()=>fail('The check timed out. The site may be very slow or unreachable.'));
+}
+</script>
+</body></html>

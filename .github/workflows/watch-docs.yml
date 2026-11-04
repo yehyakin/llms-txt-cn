@@ -1,0 +1,15 @@
+# 每天比对各家官方爬虫文档；有变化时任务失败，GitHub 会发邮件给仓库所有者。
+# 不自动改数据、不发布：人读原文后再写 data/crawler-changelog.json 并 --record 新基线。
+# 注意：schedule 只在默认分支（main）上生效。
+name: watch crawler docs
+on:
+  schedule: [{ cron: '17 1 * * *' }]   # 每天 01:17 UTC = 09:17 北京时间
+  workflow_dispatch:
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: node scripts/watch-docs.mjs

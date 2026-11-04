@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>WordPress site invisible to ChatGPT or Perplexity? Five places to check · VAKSEL</title>
+<meta name="description" content="A WordPress setting, an SEO plugin, a security plugin or your host can each block AI crawlers. How to find which one, and fix it without allowing AI training.">
+<meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://vaksel.com/guides/wordpress/">
+<link rel="alternate" hreflang="en" href="https://vaksel.com/guides/wordpress/">
+<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="WordPress site invisible to ChatGPT or Perplexity? Five places to check · VAKSEL"><meta property="og:description" content="A WordPress setting, an SEO plugin, a security plugin or your host can each block AI crawlers. How to find which one, and fix it without allowing AI training."><meta property="og:url" content="https://vaksel.com/guides/wordpress/"><meta property="og:image" content="https://vaksel.com/og/site.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/en/apple-touch-icon.png"><link rel="manifest" href="/en/site.webmanifest">
+<link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/en/fonts/jetbrains-mono-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/en/app.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WordPress site invisible to ChatGPT or Perplexity? Five places to check","dateModified":"2026-11-03","author":{"@type":"Organization","name":"VAKSEL"}}</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" aria-label="Main"><div class="wrap">
+  <a class="logo" href="/en/" aria-label="VAKSEL home"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"></a>
+  <div class="links" id="navlinks">
+    <a class="n on" href="/en/guides/" aria-current="page">Fix guides</a>
+    <a class="n" href="/en/bots/">AI crawlers</a>
+    <a class="n" href="/en/pricing/">Pricing</a>
+    <a class="n lang" href="https://cetxt.com/" hreflang="zh" lang="zh">中文</a>
+  </div>
+  <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
+</div></nav>
+<script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
+<main id="main" tabindex="-1" class="wrap doc"><div class="crumb"><a href="/en/">Home</a> <span>/</span> <a href="/en/guides/">Fix guides</a> <span>/</span> WordPress</div>
+<h1>WordPress site invisible to ChatGPT or Perplexity? Five places to check</h1><p class="upd">Updated 2026-11-03</p>
+
+<p class="lead l">On WordPress, an AI crawler can be shut out at five different layers. Work down this list; the report tells you whether the block is in robots.txt or in a live request.</p>
+<h2>1. “Discourage search engines from indexing this site”</h2>
+<p>In <b>Settings → Reading</b>, this checkbox asks search engines not to index the site. Staging sites often go live with it still on. Untick it if the report shows <i>noindex</i>.</p>
+<h2>2. Your SEO plugin's robots.txt editor</h2>
+<p>WordPress serves a virtual robots.txt, and SEO plugins such as Yoast SEO and Rank Math let you edit it from the dashboard. If the report says robots.txt disallows an AI search crawler, look there first, or check for a physical <code>robots.txt</code> file in your web root, which overrides the virtual one.</p>
+<p>To opt out of training but stay in AI search, keep the training crawlers blocked and the search crawlers allowed:</p>
+<pre>User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: OAI-SearchBot
+User-agent: PerplexityBot
+User-agent: Claude-SearchBot
+Allow: /</pre>
+<h2>3. Security plugins</h2>
+<p>Wordfence, Sucuri, All-In-One Security and similar plugins can block by user agent, rate-limit crawlers, or block “fake” bots. If the live request is blocked but robots.txt allows it, check their blocklists and bot rules for AI user agents.</p>
+<h2>4. “Block AI” plugins</h2>
+<p>Some plugins add every AI agent to robots.txt or block them outright, without separating search from training. If you use one, check whether it lets you allow search crawlers separately.</p>
+<h2>5. Your host or CDN</h2>
+<p>Managed WordPress hosts often run their own bot protection, and many sites sit behind Cloudflare. If the report says the request was answered by a CDN, follow the <a href="/en/guides/cloudflare/">Cloudflare guide</a>, or ask your host whether they block AI user agents at the edge.</p>
+<h2>Sources</h2><ul class="src"><li><a href="https://developers.google.com/search/docs/crawling-indexing/robots/intro" rel="nofollow noopener" target="_blank">Google: Introduction to robots.txt ↗</a></li></ul>
+<div style="margin-top:28px">
+<div class="cta mini"><div><h3>Re-test your site</h3><p>Free, no sign-up. We request your homepage as 18 different clients and show what each one gets.</p></div>
+<form class="field inv" data-check autocomplete="off"><input placeholder="yourdomain.com" aria-label="Domain" spellcheck="false" autocapitalize="off"><button class="btn">Check</button></form></div></div>
+<p class="more">Other guides: <a href="/en/guides/cloudflare/">Cloudflare</a> · <a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a> · <a href="/en/guides/shopify/">Shopify</a></p>
+</main><script>
+document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();let v=(f.querySelector('input').value||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0];if(/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v))location.href='/en/report/'+v;else{f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake')}}));
+</script>
+<footer><div class="wrap fgrid">
+  <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
+  <div><h2 class="fh">Product</h2><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/research/">Research</a></div>
+  <div><h2 class="fh">Fix guides</h2><a href="/en/guides/cloudflare/">Cloudflare</a><a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/en/guides/wordpress/">WordPress</a><a href="/en/guides/shopify/">Shopify</a></div>
+  <div><h2 class="fh">AI crawlers</h2><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a><a href="/en/bots/changelog/">Changelog</a></div>
+  <div class="fsmall"><span>© 2026 VAKSEL</span><a href="/en/privacy/">Privacy</a><a href="/en/terms/">Terms</a><a href="/en/contact/">Contact</a><a href="https://cetxt.com/" hreflang="zh" lang="zh">中文版 cetxt.com</a><span>We don't store the domains you check or your IP address.</span></div>
+</div></footer>
+</body></html>

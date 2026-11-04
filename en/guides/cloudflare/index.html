@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cloudflare is blocking AI crawlers: how to fix it (2026 controls) · VAKSEL</title>
+<meta name="description" content="Since September 15, 2026 Cloudflare has separate Search, Training and Agent controls. Here is how to stay in ChatGPT, Perplexity and Claude search while opting out of training.">
+<meta name="robots" content="noindex"><meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://vaksel.com/guides/cloudflare/">
+<link rel="alternate" hreflang="en" href="https://vaksel.com/guides/cloudflare/">
+<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="Cloudflare is blocking AI crawlers: how to fix it (2026 controls) · VAKSEL"><meta property="og:description" content="Since September 15, 2026 Cloudflare has separate Search, Training and Agent controls. Here is how to stay in ChatGPT, Perplexity and Claude search while opting out of training."><meta property="og:url" content="https://vaksel.com/guides/cloudflare/"><meta property="og:image" content="https://vaksel.com/og/site.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/en/apple-touch-icon.png"><link rel="manifest" href="/en/site.webmanifest">
+<link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/en/fonts/jetbrains-mono-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/en/app.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Cloudflare is blocking AI crawlers: how to fix it (2026 controls)","dateModified":"2026-11-03","author":{"@type":"Organization","name":"VAKSEL"}}</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" aria-label="Main"><div class="wrap">
+  <a class="logo" href="/en/" aria-label="VAKSEL home"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31"></a>
+  <div class="links" id="navlinks">
+    <a class="n on" href="/en/guides/" aria-current="page">Fix guides</a>
+    <a class="n" href="/en/bots/">AI crawlers</a>
+    <a class="n" href="/en/pricing/">Pricing</a>
+    <a class="n lang" href="https://cetxt.com/" hreflang="zh" lang="zh">中文</a>
+  </div>
+  <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span></button>
+</div></nav>
+<script>(()=>{const n=document.currentScript.previousElementSibling,b=n.querySelector('.menu');b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&n.classList.contains('open')){n.classList.remove('open');b.setAttribute('aria-expanded','false');b.focus()}})})()</script>
+<main id="main" tabindex="-1" class="wrap doc"><div class="crumb"><a href="/en/">Home</a> <span>/</span> <a href="/en/guides/">Fix guides</a> <span>/</span> Cloudflare</div>
+<h1>Cloudflare is blocking AI crawlers: how to fix it (2026 controls)</h1><p class="upd">Updated 2026-11-03</p>
+
+<p class="lead l">Cloudflare replaced its single “Block AI bots” switch with three controls on September 15, 2026. A setting that used to be harmless can now block search crawlers, including Googlebot, Bingbot and Applebot.</p>
+<div class="callout"><b>The short version.</b> In <b>Security → Settings</b>, set <b>Search</b> to <i>Allow</i>, <b>Training</b> to <i>Disallow AI Training</i>, and <b>Agent</b> to whatever you prefer. Don't use <i>Block</i> for Training unless you're happy to leave Google, Bing and Apple search too.</div>
+<h2>1. Check the three AI bot controls</h2>
+<p>Cloudflare now classifies bots by behavior. Each control has its own setting:</p>
+<table class="tbl"><thead><tr><th>Control</th><th>What it covers</th><th>Setting we recommend</th></tr></thead><tbody>
+<tr><td><b>Search</b></td><td>Crawlers that index content to answer questions later, such as OAI-SearchBot, PerplexityBot and Claude-SearchBot.</td><td>Allow</td></tr>
+<tr><td><b>Training</b></td><td>Crawlers that collect content to train models, including mixed-use crawlers that do both search and training.</td><td>Disallow AI Training</td></tr>
+<tr><td><b>Agent</b></td><td>User-directed fetches, such as ChatGPT-User, Claude-User and browser-use agents.</td><td>Allow, or Block on pages with ads</td></tr>
+</tbody></table>
+<p>Options are <i>Allow</i>, <i>Block on pages with ads</i> and <i>Block</i>; Training also offers <i>Disallow AI Training</i>.</p>
+<h2>2. Understand what “Block” means now</h2>
+<p>From September 15, 2026, <i>Block</i> and <i>Block on pages with ads</i> apply to mixed-use crawlers too. Cloudflare's own announcement says selecting Block for Training “will stop Applebot, Bingbot, and Googlebot from reaching your site, search included.”</p>
+<p><i>Disallow AI Training</i> is the search-safe option: Cloudflare publishes a no-training preference in your robots.txt, keeps crawlers it designates “Accountable” (Apple, Google, Microsoft) allowed for search, and blocks training-only crawlers such as GPTBot, ClaudeBot, Meta-ExternalAgent and Amazonbot.</p>
+<h2>3. Check what Cloudflare migrated for you</h2>
+<p>Existing sites were migrated automatically. If you had the old <i>Block AI bots</i> switch on, you now have Search <i>Allow</i>, Training <i>Disallow AI Training</i>, Agent <i>Block on pages with ads</i>. New domains on ad-supported sites get the same preset. That Agent setting can block ChatGPT-User and Claude-User on pages that show ads.</p>
+<h2>4. Look for custom rules and Bot Fight Mode</h2>
+<ol><li><b>Security rules / WAF custom rules</b>: search for expressions using <code>cf.verified_bot_category</code>, <code>http.user_agent</code> or bot names like <code>GPTBot</code>. An old rule written before the new controls may still block AI search crawlers.</li>
+<li><b>Bot Fight Mode / Super Bot Fight Mode</b>: these can challenge automated traffic. If AI crawlers get challenge pages, review these settings and allow verified bots.</li>
+<li><b>AI Crawl Control</b> (formerly AI Audit): shows which AI crawlers hit your site and lets you allow or block individual crawlers. Check that the search crawlers you want aren't set to Block there.</li></ol>
+<h2>5. Re-test</h2>
+<p>Cloudflare settings apply within seconds. Run the check again and confirm the AI search rows say <i>Reachable</i>.</p>
+<h2>Sources</h2><ul class="src"><li><a href="https://blog.cloudflare.com/accountable-mixed-use-ai-crawlers" rel="nofollow noopener" target="_blank">Cloudflare blog: Have it both ways (Sep 15, 2026) ↗</a></li><li><a href="https://developers.cloudflare.com/bots/additional-configurations/block-ai-bots/" rel="nofollow noopener" target="_blank">Cloudflare docs: Block AI Bots ↗</a></li><li><a href="https://developers.cloudflare.com/ai-crawl-control/" rel="nofollow noopener" target="_blank">Cloudflare docs: AI Crawl Control ↗</a></li></ul>
+<div style="margin-top:28px">
+<div class="cta mini"><div><h3>Re-test your site</h3><p>Free, no sign-up. We request your homepage as 18 different clients and show what each one gets.</p></div>
+<form class="field inv" data-check autocomplete="off"><input placeholder="yourdomain.com" aria-label="Domain" spellcheck="false" autocapitalize="off"><button class="btn">Check</button></form></div></div>
+<p class="more">Other guides: <a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a> · <a href="/en/guides/wordpress/">WordPress</a> · <a href="/en/guides/shopify/">Shopify</a></p>
+</main><script>
+document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();let v=(f.querySelector('input').value||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0];if(/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v))location.href='/en/report/'+v;else{f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake')}}));
+</script>
+<footer><div class="wrap fgrid">
+  <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
+  <div><h2 class="fh">Product</h2><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/research/">Research</a></div>
+  <div><h2 class="fh">Fix guides</h2><a href="/en/guides/cloudflare/">Cloudflare</a><a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/en/guides/wordpress/">WordPress</a><a href="/en/guides/shopify/">Shopify</a></div>
+  <div><h2 class="fh">AI crawlers</h2><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a><a href="/en/bots/changelog/">Changelog</a></div>
+  <div class="fsmall"><span>© 2026 VAKSEL</span><a href="/en/privacy/">Privacy</a><a href="/en/terms/">Terms</a><a href="/en/contact/">Contact</a><a href="https://cetxt.com/" hreflang="zh" lang="zh">中文版 cetxt.com</a><span>We don't store the domains you check or your IP address.</span></div>
+</div></footer>
+</body></html>

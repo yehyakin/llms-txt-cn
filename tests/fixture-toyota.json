@@ -1,0 +1,2379 @@
+{
+ "domain": "toyota.com",
+ "verdict": "missing",
+ "http_status": 404,
+ "final_url": "https://www.toyota.com/llms.txt",
+ "elapsed_ms": 1130,
+ "llms": {
+  "verdict": "missing",
+  "http_status": 404,
+  "final_url": "https://www.toyota.com/llms.txt",
+  "elapsed_ms": 1130
+ },
+ "robots": {
+  "state": "ok",
+  "http_status": 200,
+  "final_url": "https://www.toyota.com/robots.txt",
+  "redirects": 1,
+  "text": "# ================================================================== \r\n\r\n# robots.txt — toyota.com \r\n\r\n# 2026-10-12 \r\n\r\n# ======================================================================= \r\n\r\n \r\n\r\n# GROUP 1 — Named AI Training Crawlers, including PerplexityBot — blocked everywhere \r\n\r\n  \r\n\r\nUser-agent: GPTBot \r\n\r\nUser-agent: ClaudeBot \r\n\r\nUser-agent: Google-Extended \r\n\r\nUser-agent: Applebot-Extended \r\n\r\nUser-agent: Meta-ExternalAgent \r\n\r\nUser-agent: meta-externalagent \r\n\r\nUser-agent: Bytespider \r\n\r\nUser-agent: CCBot \r\n\r\nUser-agent: cohere-ai \r\n\r\nUser-agent: Diffbot \r\n\r\nUser-agent: Omgilibot \r\n\r\nUser-agent: Amazonbot \r\n\r\nUser-agent: DuckAssistBot \r\n\r\nUser-agent: anthropic-ai \r\n\r\nUser-agent: PerplexityBot \r\n\r\nDisallow: / \r\n\r\n  \r\n  \r\n\r\n# GROUP 2 — Named Search and user-initiated agents — allowed on public pages, blocked on sensitive sections \r\n\r\n  \r\n\r\nUser-agent: ChatGPT-User \r\n\r\nUser-agent: Claude-User \r\n\r\nUser-agent: Perplexity-User \r\n\r\nUser-agent: OAI-SearchBot \r\n\r\nUser-agent: Claude-SearchBot \r\n\r\nUser-agent: Applebot \r\n\r\nDisallow: /kbb* \r\n\r\nDisallow: /local-specials* \r\n\r\nDisallow: /what-fits-my-budget* \r\n\r\nDisallow: /dealers* \r\n\r\nDisallow: /payment-estimator* \r\n\r\nDisallow: /compare* \r\n\r\nDisallow: /configurator* \r\n\r\nDisallow: /search-inventory* \r\n\r\nDisallow: /request-a-quote* \r\n\r\nDisallow: /analytics/ \r\n\r\nDisallow: /apps/recruiting/ \r\n\r\nDisallow: /campaigns/ \r\n\r\nDisallow: /resources/smartpath/ \r\n\r\nDisallow: /espanol/resources/smartpath/ \r\n\r\nDisallow: /resources/rct/ \r\n\r\nDisallow: /espanol/resources/rct/ \r\n\r\n  \r\n\r\n# Catch-all — sensitive sections closed for everything else \r\n\r\n  \r\n\r\nUser-agent: * \r\n\r\nDisallow: /kbb* \r\n\r\nDisallow: /local-specials* \r\n\r\nDisallow: /what-fits-my-budget* \r\n\r\nDisallow: /payment-estimator* \r\n\r\nDisallow: /compare* \r\n\r\nDisallow: /configurator* \r\n\r\nDisallow: /search-inventory* \r\n\r\nDisallow: /request-a-quote* \r\n\r\nDisallow: /analytics/ \r\n\r\nDisallow: /apps/recruiting/ \r\n\r\nDisallow: /campaigns/ \r\n\r\nDisallow: /resources/smartpath/ \r\n\r\nDisallow: /espanol/resources/smartpath/ \r\n\r\nDisallow: /resources/rct/ \r\n\r\nDisallow: /espanol/resources/rct/ \r\n\r\n  \r\n\r\n  \r\n\r\nSitemap: https://www.toyota.com/sitemap_index.xml \r\n\r\n \r\n\r\n ",
+  "truncated": false,
+  "bytes": 2188,
+  "analysis": {
+   "fetch": {
+    "policy": "parse",
+    "http_status": 200
+   },
+   "parsed": {
+    "groups": 3,
+    "agents": [
+     "GPTBot",
+     "ClaudeBot",
+     "Google-Extended",
+     "Applebot-Extended",
+     "Meta-ExternalAgent",
+     "meta-externalagent",
+     "Bytespider",
+     "CCBot",
+     "cohere-ai",
+     "Diffbot",
+     "Omgilibot",
+     "Amazonbot",
+     "DuckAssistBot",
+     "anthropic-ai",
+     "PerplexityBot",
+     "ChatGPT-User",
+     "Claude-User",
+     "Perplexity-User",
+     "OAI-SearchBot",
+     "Claude-SearchBot",
+     "Applebot",
+     "*"
+    ],
+    "sitemaps": [
+     {
+      "url": "https://www.toyota.com/sitemap_index.xml",
+      "line": 140
+     }
+    ],
+    "lineCount": 144,
+    "bytes": 2188,
+    "truncated": false
+   },
+   "access": [
+    {
+     "status": "blocked",
+     "source": "specific",
+     "via": null,
+     "rule": {
+      "line": 45,
+      "raw": "Disallow: /"
+     },
+     "lines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43,
+      45
+     ],
+     "groupLines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43
+     ],
+     "exceptions": [],
+     "rulesCount": 1,
+     "token": "GPTBot",
+     "vendor": "OpenAI",
+     "category": "training",
+     "respects_robots": "yes",
+     "control_only": false,
+     "verification": "verified"
+    },
+    {
+     "status": "partial",
+     "source": "specific",
+     "via": null,
+     "rule": null,
+     "lines": [
+      54,
+      56,
+      58,
+      60,
+      62,
+      64
+     ],
+     "groupLines": [
+      54,
+      56,
+      58,
+      60,
+      62,
+      64
+     ],
+     "exceptions": [
+      {
+       "path": "/kbb*",
+       "line": 66
+      },
+      {
+       "path": "/local-specials*",
+       "line": 68
+      },
+      {
+       "path": "/what-fits-my-budget*",
+       "line": 70
+      },
+      {
+       "path": "/dealers*",
+       "line": 72
+      },
+      {
+       "path": "/payment-estimator*",
+       "line": 74
+      },
+      {
+       "path": "/compare*",
+       "line": 76
+      },
+      {
+       "path": "/configurator*",
+       "line": 78
+      },
+      {
+       "path": "/search-inventory*",
+       "line": 80
+      },
+      {
+       "path": "/request-a-quote*",
+       "line": 82
+      },
+      {
+       "path": "/analytics/",
+       "line": 84
+      },
+      {
+       "path": "/apps/recruiting/",
+       "line": 86
+      },
+      {
+       "path": "/campaigns/",
+       "line": 88
+      },
+      {
+       "path": "/resources/smartpath/",
+       "line": 90
+      },
+      {
+       "path": "/espanol/resources/smartpath/",
+       "line": 92
+      },
+      {
+       "path": "/resources/rct/",
+       "line": 94
+      },
+      {
+       "path": "/espanol/resources/rct/",
+       "line": 96
+      }
+     ],
+     "rulesCount": 16,
+     "token": "OAI-SearchBot",
+     "vendor": "OpenAI",
+     "category": "search",
+     "respects_robots": "yes",
+     "control_only": false,
+     "verification": "verified"
+    },
+    {
+     "status": "partial",
+     "source": "specific",
+     "via": null,
+     "rule": null,
+     "lines": [
+      54,
+      56,
+      58,
+      60,
+      62,
+      64
+     ],
+     "groupLines": [
+      54,
+      56,
+      58,
+      60,
+      62,
+      64
+     ],
+     "exceptions": [
+      {
+       "path": "/kbb*",
+       "line": 66
+      },
+      {
+       "path": "/local-specials*",
+       "line": 68
+      },
+      {
+       "path": "/what-fits-my-budget*",
+       "line": 70
+      },
+      {
+       "path": "/dealers*",
+       "line": 72
+      },
+      {
+       "path": "/payment-estimator*",
+       "line": 74
+      },
+      {
+       "path": "/compare*",
+       "line": 76
+      },
+      {
+       "path": "/configurator*",
+       "line": 78
+      },
+      {
+       "path": "/search-inventory*",
+       "line": 80
+      },
+      {
+       "path": "/request-a-quote*",
+       "line": 82
+      },
+      {
+       "path": "/analytics/",
+       "line": 84
+      },
+      {
+       "path": "/apps/recruiting/",
+       "line": 86
+      },
+      {
+       "path": "/campaigns/",
+       "line": 88
+      },
+      {
+       "path": "/resources/smartpath/",
+       "line": 90
+      },
+      {
+       "path": "/espanol/resources/smartpath/",
+       "line": 92
+      },
+      {
+       "path": "/resources/rct/",
+       "line": 94
+      },
+      {
+       "path": "/espanol/resources/rct/",
+       "line": 96
+      }
+     ],
+     "rulesCount": 16,
+     "token": "ChatGPT-User",
+     "vendor": "OpenAI",
+     "category": "user",
+     "respects_robots": "partial",
+     "control_only": false,
+     "verification": "verified"
+    },
+    {
+     "status": "blocked",
+     "source": "specific",
+     "via": null,
+     "rule": {
+      "line": 45,
+      "raw": "Disallow: /"
+     },
+     "lines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43,
+      45
+     ],
+     "groupLines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43
+     ],
+     "exceptions": [],
+     "rulesCount": 1,
+     "token": "ClaudeBot",
+     "vendor": "Anthropic",
+     "category": "training",
+     "respects_robots": "yes",
+     "control_only": false,
+     "verification": "verified"
+    },
+    {
+     "status": "partial",
+     "source": "specific",
+     "via": null,
+     "rule": null,
+     "lines": [
+      54,
+      56,
+      58,
+      60,
+      62,
+      64
+     ],
+     "groupLines": [
+      54,
+      56,
+      58,
+      60,
+      62,
+      64
+     ],
+     "exceptions": [
+      {
+       "path": "/kbb*",
+       "line": 66
+      },
+      {
+       "path": "/local-specials*",
+       "line": 68
+      },
+      {
+       "path": "/what-fits-my-budget*",
+       "line": 70
+      },
+      {
+       "path": "/dealers*",
+       "line": 72
+      },
+      {
+       "path": "/payment-estimator*",
+       "line": 74
+      },
+      {
+       "path": "/compare*",
+       "line": 76
+      },
+      {
+       "path": "/configurator*",
+       "line": 78
+      },
+      {
+       "path": "/search-inventory*",
+       "line": 80
+      },
+      {
+       "path": "/request-a-quote*",
+       "line": 82
+      },
+      {
+       "path": "/analytics/",
+       "line": 84
+      },
+      {
+       "path": "/apps/recruiting/",
+       "line": 86
+      },
+      {
+       "path": "/campaigns/",
+       "line": 88
+      },
+      {
+       "path": "/resources/smartpath/",
+       "line": 90
+      },
+      {
+       "path": "/espanol/resources/smartpath/",
+       "line": 92
+      },
+      {
+       "path": "/resources/rct/",
+       "line": 94
+      },
+      {
+       "path": "/espanol/resources/rct/",
+       "line": 96
+      }
+     ],
+     "rulesCount": 16,
+     "token": "Claude-SearchBot",
+     "vendor": "Anthropic",
+     "category": "search",
+     "respects_robots": "yes",
+     "control_only": false,
+     "verification": "verified"
+    },
+    {
+     "status": "partial",
+     "source": "specific",
+     "via": null,
+     "rule": null,
+     "lines": [
+      54,
+      56,
+      58,
+      60,
+      62,
+      64
+     ],
+     "groupLines": [
+      54,
+      56,
+      58,
+      60,
+      62,
+      64
+     ],
+     "exceptions": [
+      {
+       "path": "/kbb*",
+       "line": 66
+      },
+      {
+       "path": "/local-specials*",
+       "line": 68
+      },
+      {
+       "path": "/what-fits-my-budget*",
+       "line": 70
+      },
+      {
+       "path": "/dealers*",
+       "line": 72
+      },
+      {
+       "path": "/payment-estimator*",
+       "line": 74
+      },
+      {
+       "path": "/compare*",
+       "line": 76
+      },
+      {
+       "path": "/configurator*",
+       "line": 78
+      },
+      {
+       "path": "/search-inventory*",
+       "line": 80
+      },
+      {
+       "path": "/request-a-quote*",
+       "line": 82
+      },
+      {
+       "path": "/analytics/",
+       "line": 84
+      },
+      {
+       "path": "/apps/recruiting/",
+       "line": 86
+      },
+      {
+       "path": "/campaigns/",
+       "line": 88
+      },
+      {
+       "path": "/resources/smartpath/",
+       "line": 90
+      },
+      {
+       "path": "/espanol/resources/smartpath/",
+       "line": 92
+      },
+      {
+       "path": "/resources/rct/",
+       "line": 94
+      },
+      {
+       "path": "/espanol/resources/rct/",
+       "line": 96
+      }
+     ],
+     "rulesCount": 16,
+     "token": "Claude-User",
+     "vendor": "Anthropic",
+     "category": "user",
+     "respects_robots": "yes",
+     "control_only": false,
+     "verification": "verified"
+    },
+    {
+     "status": "blocked",
+     "source": "specific",
+     "via": null,
+     "rule": {
+      "line": 45,
+      "raw": "Disallow: /"
+     },
+     "lines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43,
+      45
+     ],
+     "groupLines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43
+     ],
+     "exceptions": [],
+     "rulesCount": 1,
+     "token": "Google-Extended",
+     "vendor": "Google",
+     "category": "training_control",
+     "respects_robots": "yes",
+     "control_only": true,
+     "verification": "verified"
+    },
+    {
+     "status": "partial",
+     "source": "wildcard",
+     "via": null,
+     "rule": null,
+     "lines": [
+      104
+     ],
+     "groupLines": [
+      104
+     ],
+     "exceptions": [
+      {
+       "path": "/kbb*",
+       "line": 106
+      },
+      {
+       "path": "/local-specials*",
+       "line": 108
+      },
+      {
+       "path": "/what-fits-my-budget*",
+       "line": 110
+      },
+      {
+       "path": "/payment-estimator*",
+       "line": 112
+      },
+      {
+       "path": "/compare*",
+       "line": 114
+      },
+      {
+       "path": "/configurator*",
+       "line": 116
+      },
+      {
+       "path": "/search-inventory*",
+       "line": 118
+      },
+      {
+       "path": "/request-a-quote*",
+       "line": 120
+      },
+      {
+       "path": "/analytics/",
+       "line": 122
+      },
+      {
+       "path": "/apps/recruiting/",
+       "line": 124
+      },
+      {
+       "path": "/campaigns/",
+       "line": 126
+      },
+      {
+       "path": "/resources/smartpath/",
+       "line": 128
+      },
+      {
+       "path": "/espanol/resources/smartpath/",
+       "line": 130
+      },
+      {
+       "path": "/resources/rct/",
+       "line": 132
+      },
+      {
+       "path": "/espanol/resources/rct/",
+       "line": 134
+      }
+     ],
+     "rulesCount": 15,
+     "token": "Googlebot",
+     "vendor": "Google",
+     "category": "search",
+     "respects_robots": "yes",
+     "control_only": false,
+     "verification": "verified"
+    },
+    {
+     "status": "partial",
+     "source": "specific",
+     "via": null,
+     "rule": null,
+     "lines": [
+      54,
+      56,
+      58,
+      60,
+      62,
+      64
+     ],
+     "groupLines": [
+      54,
+      56,
+      58,
+      60,
+      62,
+      64
+     ],
+     "exceptions": [
+      {
+       "path": "/kbb*",
+       "line": 66
+      },
+      {
+       "path": "/local-specials*",
+       "line": 68
+      },
+      {
+       "path": "/what-fits-my-budget*",
+       "line": 70
+      },
+      {
+       "path": "/dealers*",
+       "line": 72
+      },
+      {
+       "path": "/payment-estimator*",
+       "line": 74
+      },
+      {
+       "path": "/compare*",
+       "line": 76
+      },
+      {
+       "path": "/configurator*",
+       "line": 78
+      },
+      {
+       "path": "/search-inventory*",
+       "line": 80
+      },
+      {
+       "path": "/request-a-quote*",
+       "line": 82
+      },
+      {
+       "path": "/analytics/",
+       "line": 84
+      },
+      {
+       "path": "/apps/recruiting/",
+       "line": 86
+      },
+      {
+       "path": "/campaigns/",
+       "line": 88
+      },
+      {
+       "path": "/resources/smartpath/",
+       "line": 90
+      },
+      {
+       "path": "/espanol/resources/smartpath/",
+       "line": 92
+      },
+      {
+       "path": "/resources/rct/",
+       "line": 94
+      },
+      {
+       "path": "/espanol/resources/rct/",
+       "line": 96
+      }
+     ],
+     "rulesCount": 16,
+     "token": "Applebot",
+     "vendor": "Apple",
+     "category": "search",
+     "respects_robots": "yes",
+     "control_only": false,
+     "verification": "verified"
+    },
+    {
+     "status": "blocked",
+     "source": "specific",
+     "via": null,
+     "rule": {
+      "line": 45,
+      "raw": "Disallow: /"
+     },
+     "lines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43,
+      45
+     ],
+     "groupLines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43
+     ],
+     "exceptions": [],
+     "rulesCount": 1,
+     "token": "Applebot-Extended",
+     "vendor": "Apple",
+     "category": "training_control",
+     "respects_robots": "yes",
+     "control_only": true,
+     "verification": "verified"
+    },
+    {
+     "status": "blocked",
+     "source": "specific",
+     "via": null,
+     "rule": {
+      "line": 45,
+      "raw": "Disallow: /"
+     },
+     "lines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43,
+      45
+     ],
+     "groupLines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43
+     ],
+     "exceptions": [],
+     "rulesCount": 1,
+     "token": "PerplexityBot",
+     "vendor": "Perplexity",
+     "category": "search",
+     "respects_robots": "yes",
+     "control_only": false,
+     "verification": "verified"
+    },
+    {
+     "status": "partial",
+     "source": "specific",
+     "via": null,
+     "rule": null,
+     "lines": [
+      54,
+      56,
+      58,
+      60,
+      62,
+      64
+     ],
+     "groupLines": [
+      54,
+      56,
+      58,
+      60,
+      62,
+      64
+     ],
+     "exceptions": [
+      {
+       "path": "/kbb*",
+       "line": 66
+      },
+      {
+       "path": "/local-specials*",
+       "line": 68
+      },
+      {
+       "path": "/what-fits-my-budget*",
+       "line": 70
+      },
+      {
+       "path": "/dealers*",
+       "line": 72
+      },
+      {
+       "path": "/payment-estimator*",
+       "line": 74
+      },
+      {
+       "path": "/compare*",
+       "line": 76
+      },
+      {
+       "path": "/configurator*",
+       "line": 78
+      },
+      {
+       "path": "/search-inventory*",
+       "line": 80
+      },
+      {
+       "path": "/request-a-quote*",
+       "line": 82
+      },
+      {
+       "path": "/analytics/",
+       "line": 84
+      },
+      {
+       "path": "/apps/recruiting/",
+       "line": 86
+      },
+      {
+       "path": "/campaigns/",
+       "line": 88
+      },
+      {
+       "path": "/resources/smartpath/",
+       "line": 90
+      },
+      {
+       "path": "/espanol/resources/smartpath/",
+       "line": 92
+      },
+      {
+       "path": "/resources/rct/",
+       "line": 94
+      },
+      {
+       "path": "/espanol/resources/rct/",
+       "line": 96
+      }
+     ],
+     "rulesCount": 16,
+     "token": "Perplexity-User",
+     "vendor": "Perplexity",
+     "category": "user",
+     "respects_robots": "no",
+     "control_only": false,
+     "verification": "verified"
+    },
+    {
+     "status": "partial",
+     "source": "wildcard",
+     "via": null,
+     "rule": null,
+     "lines": [
+      104
+     ],
+     "groupLines": [
+      104
+     ],
+     "exceptions": [
+      {
+       "path": "/kbb*",
+       "line": 106
+      },
+      {
+       "path": "/local-specials*",
+       "line": 108
+      },
+      {
+       "path": "/what-fits-my-budget*",
+       "line": 110
+      },
+      {
+       "path": "/payment-estimator*",
+       "line": 112
+      },
+      {
+       "path": "/compare*",
+       "line": 114
+      },
+      {
+       "path": "/configurator*",
+       "line": 116
+      },
+      {
+       "path": "/search-inventory*",
+       "line": 118
+      },
+      {
+       "path": "/request-a-quote*",
+       "line": 120
+      },
+      {
+       "path": "/analytics/",
+       "line": 122
+      },
+      {
+       "path": "/apps/recruiting/",
+       "line": 124
+      },
+      {
+       "path": "/campaigns/",
+       "line": 126
+      },
+      {
+       "path": "/resources/smartpath/",
+       "line": 128
+      },
+      {
+       "path": "/espanol/resources/smartpath/",
+       "line": 130
+      },
+      {
+       "path": "/resources/rct/",
+       "line": 132
+      },
+      {
+       "path": "/espanol/resources/rct/",
+       "line": 134
+      }
+     ],
+     "rulesCount": 15,
+     "token": "Bingbot",
+     "vendor": "Microsoft",
+     "category": "search",
+     "respects_robots": "yes",
+     "control_only": false,
+     "verification": "verified"
+    },
+    {
+     "status": "blocked",
+     "source": "specific",
+     "via": null,
+     "rule": {
+      "line": 45,
+      "raw": "Disallow: /"
+     },
+     "lines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43,
+      45
+     ],
+     "groupLines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43
+     ],
+     "exceptions": [],
+     "rulesCount": 1,
+     "token": "CCBot",
+     "vendor": "Common Crawl",
+     "category": "dataset",
+     "respects_robots": "yes",
+     "control_only": false,
+     "verification": "partial"
+    },
+    {
+     "status": "blocked",
+     "source": "specific",
+     "via": null,
+     "rule": {
+      "line": 45,
+      "raw": "Disallow: /"
+     },
+     "lines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43,
+      45
+     ],
+     "groupLines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43
+     ],
+     "exceptions": [],
+     "rulesCount": 1,
+     "token": "Bytespider",
+     "vendor": "ByteDance",
+     "category": "search",
+     "respects_robots": "unverified",
+     "control_only": false,
+     "verification": "partial"
+    },
+    {
+     "status": "blocked",
+     "source": "specific",
+     "via": null,
+     "rule": {
+      "line": 45,
+      "raw": "Disallow: /"
+     },
+     "lines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43,
+      45
+     ],
+     "groupLines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43
+     ],
+     "exceptions": [],
+     "rulesCount": 1,
+     "token": "meta-externalagent",
+     "vendor": "Meta",
+     "category": "training",
+     "respects_robots": "yes",
+     "control_only": false,
+     "verification": "verified"
+    },
+    {
+     "status": "partial",
+     "source": "wildcard",
+     "via": null,
+     "rule": null,
+     "lines": [
+      104
+     ],
+     "groupLines": [
+      104
+     ],
+     "exceptions": [
+      {
+       "path": "/kbb*",
+       "line": 106
+      },
+      {
+       "path": "/local-specials*",
+       "line": 108
+      },
+      {
+       "path": "/what-fits-my-budget*",
+       "line": 110
+      },
+      {
+       "path": "/payment-estimator*",
+       "line": 112
+      },
+      {
+       "path": "/compare*",
+       "line": 114
+      },
+      {
+       "path": "/configurator*",
+       "line": 116
+      },
+      {
+       "path": "/search-inventory*",
+       "line": 118
+      },
+      {
+       "path": "/request-a-quote*",
+       "line": 120
+      },
+      {
+       "path": "/analytics/",
+       "line": 122
+      },
+      {
+       "path": "/apps/recruiting/",
+       "line": 124
+      },
+      {
+       "path": "/campaigns/",
+       "line": 126
+      },
+      {
+       "path": "/resources/smartpath/",
+       "line": 128
+      },
+      {
+       "path": "/espanol/resources/smartpath/",
+       "line": 130
+      },
+      {
+       "path": "/resources/rct/",
+       "line": 132
+      },
+      {
+       "path": "/espanol/resources/rct/",
+       "line": 134
+      }
+     ],
+     "rulesCount": 15,
+     "token": "meta-webindexer",
+     "vendor": "Meta",
+     "category": "search",
+     "respects_robots": "unverified",
+     "control_only": false,
+     "verification": "partial"
+    },
+    {
+     "status": "partial",
+     "source": "wildcard",
+     "via": null,
+     "rule": null,
+     "lines": [
+      104
+     ],
+     "groupLines": [
+      104
+     ],
+     "exceptions": [
+      {
+       "path": "/kbb*",
+       "line": 106
+      },
+      {
+       "path": "/local-specials*",
+       "line": 108
+      },
+      {
+       "path": "/what-fits-my-budget*",
+       "line": 110
+      },
+      {
+       "path": "/payment-estimator*",
+       "line": 112
+      },
+      {
+       "path": "/compare*",
+       "line": 114
+      },
+      {
+       "path": "/configurator*",
+       "line": 116
+      },
+      {
+       "path": "/search-inventory*",
+       "line": 118
+      },
+      {
+       "path": "/request-a-quote*",
+       "line": 120
+      },
+      {
+       "path": "/analytics/",
+       "line": 122
+      },
+      {
+       "path": "/apps/recruiting/",
+       "line": 124
+      },
+      {
+       "path": "/campaigns/",
+       "line": 126
+      },
+      {
+       "path": "/resources/smartpath/",
+       "line": 128
+      },
+      {
+       "path": "/espanol/resources/smartpath/",
+       "line": 130
+      },
+      {
+       "path": "/resources/rct/",
+       "line": 132
+      },
+      {
+       "path": "/espanol/resources/rct/",
+       "line": 134
+      }
+     ],
+     "rulesCount": 15,
+     "token": "meta-externalfetcher",
+     "vendor": "Meta",
+     "category": "user",
+     "respects_robots": "no",
+     "control_only": false,
+     "verification": "verified"
+    },
+    {
+     "status": "blocked",
+     "source": "specific",
+     "via": null,
+     "rule": {
+      "line": 45,
+      "raw": "Disallow: /"
+     },
+     "lines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43,
+      45
+     ],
+     "groupLines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43
+     ],
+     "exceptions": [],
+     "rulesCount": 1,
+     "token": "Amazonbot",
+     "vendor": "Amazon",
+     "category": "training",
+     "respects_robots": "yes",
+     "control_only": false,
+     "verification": "verified"
+    },
+    {
+     "status": "partial",
+     "source": "wildcard",
+     "via": null,
+     "rule": null,
+     "lines": [
+      104
+     ],
+     "groupLines": [
+      104
+     ],
+     "exceptions": [
+      {
+       "path": "/kbb*",
+       "line": 106
+      },
+      {
+       "path": "/local-specials*",
+       "line": 108
+      },
+      {
+       "path": "/what-fits-my-budget*",
+       "line": 110
+      },
+      {
+       "path": "/payment-estimator*",
+       "line": 112
+      },
+      {
+       "path": "/compare*",
+       "line": 114
+      },
+      {
+       "path": "/configurator*",
+       "line": 116
+      },
+      {
+       "path": "/search-inventory*",
+       "line": 118
+      },
+      {
+       "path": "/request-a-quote*",
+       "line": 120
+      },
+      {
+       "path": "/analytics/",
+       "line": 122
+      },
+      {
+       "path": "/apps/recruiting/",
+       "line": 124
+      },
+      {
+       "path": "/campaigns/",
+       "line": 126
+      },
+      {
+       "path": "/resources/smartpath/",
+       "line": 128
+      },
+      {
+       "path": "/espanol/resources/smartpath/",
+       "line": 130
+      },
+      {
+       "path": "/resources/rct/",
+       "line": 132
+      },
+      {
+       "path": "/espanol/resources/rct/",
+       "line": 134
+      }
+     ],
+     "rulesCount": 15,
+     "token": "Amzn-SearchBot",
+     "vendor": "Amazon",
+     "category": "search",
+     "respects_robots": "yes",
+     "control_only": false,
+     "verification": "verified"
+    },
+    {
+     "status": "blocked",
+     "source": "specific",
+     "via": null,
+     "rule": {
+      "line": 45,
+      "raw": "Disallow: /"
+     },
+     "lines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43,
+      45
+     ],
+     "groupLines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43
+     ],
+     "exceptions": [],
+     "rulesCount": 1,
+     "token": "DuckAssistBot",
+     "vendor": "DuckDuckGo",
+     "category": "search",
+     "respects_robots": "yes",
+     "control_only": false,
+     "verification": "verified"
+    },
+    {
+     "status": "partial",
+     "source": "wildcard",
+     "via": null,
+     "rule": null,
+     "lines": [
+      104
+     ],
+     "groupLines": [
+      104
+     ],
+     "exceptions": [
+      {
+       "path": "/kbb*",
+       "line": 106
+      },
+      {
+       "path": "/local-specials*",
+       "line": 108
+      },
+      {
+       "path": "/what-fits-my-budget*",
+       "line": 110
+      },
+      {
+       "path": "/payment-estimator*",
+       "line": 112
+      },
+      {
+       "path": "/compare*",
+       "line": 114
+      },
+      {
+       "path": "/configurator*",
+       "line": 116
+      },
+      {
+       "path": "/search-inventory*",
+       "line": 118
+      },
+      {
+       "path": "/request-a-quote*",
+       "line": 120
+      },
+      {
+       "path": "/analytics/",
+       "line": 122
+      },
+      {
+       "path": "/apps/recruiting/",
+       "line": 124
+      },
+      {
+       "path": "/campaigns/",
+       "line": 126
+      },
+      {
+       "path": "/resources/smartpath/",
+       "line": 128
+      },
+      {
+       "path": "/espanol/resources/smartpath/",
+       "line": 130
+      },
+      {
+       "path": "/resources/rct/",
+       "line": 132
+      },
+      {
+       "path": "/espanol/resources/rct/",
+       "line": 134
+      }
+     ],
+     "rulesCount": 15,
+     "token": "Baiduspider",
+     "vendor": "百度",
+     "category": "search",
+     "respects_robots": "yes",
+     "control_only": false,
+     "verification": "verified"
+    }
+   ],
+   "training": {
+    "aipref": {
+     "state": "none",
+     "lines": []
+    },
+    "vendors": [
+     {
+      "vendor": "OpenAI",
+      "token": "GPTBot",
+      "status": "blocked",
+      "source": "specific",
+      "lines": [
+       15,
+       17,
+       19,
+       21,
+       23,
+       25,
+       27,
+       29,
+       31,
+       33,
+       35,
+       37,
+       39,
+       41,
+       43,
+       45
+      ],
+      "explicitAllow": false,
+      "reading": "已用厂商专用 token 拒绝（现行有效）。"
+     },
+     {
+      "vendor": "Anthropic",
+      "token": "ClaudeBot",
+      "status": "blocked",
+      "source": "specific",
+      "lines": [
+       15,
+       17,
+       19,
+       21,
+       23,
+       25,
+       27,
+       29,
+       31,
+       33,
+       35,
+       37,
+       39,
+       41,
+       43,
+       45
+      ],
+      "explicitAllow": false,
+      "reading": "已用厂商专用 token 拒绝（现行有效）。"
+     },
+     {
+      "vendor": "Google",
+      "token": "Google-Extended",
+      "status": "blocked",
+      "source": "specific",
+      "lines": [
+       15,
+       17,
+       19,
+       21,
+       23,
+       25,
+       27,
+       29,
+       31,
+       33,
+       35,
+       37,
+       39,
+       41,
+       43,
+       45
+      ],
+      "explicitAllow": false,
+      "reading": "已用厂商专用 token 拒绝（现行有效）。"
+     },
+     {
+      "vendor": "Apple",
+      "token": "Applebot-Extended",
+      "status": "blocked",
+      "source": "specific",
+      "lines": [
+       15,
+       17,
+       19,
+       21,
+       23,
+       25,
+       27,
+       29,
+       31,
+       33,
+       35,
+       37,
+       39,
+       41,
+       43,
+       45
+      ],
+      "explicitAllow": false,
+      "reading": "已用厂商专用 token 拒绝（现行有效）。"
+     },
+     {
+      "vendor": "Meta",
+      "token": "meta-externalagent",
+      "status": "blocked",
+      "source": "specific",
+      "lines": [
+       15,
+       17,
+       19,
+       21,
+       23,
+       25,
+       27,
+       29,
+       31,
+       33,
+       35,
+       37,
+       39,
+       41,
+       43,
+       45
+      ],
+      "explicitAllow": false,
+      "reading": "已用厂商专用 token 拒绝（现行有效）。"
+     },
+     {
+      "vendor": "Amazon",
+      "token": "Amazonbot",
+      "status": "blocked",
+      "source": "specific",
+      "lines": [
+       15,
+       17,
+       19,
+       21,
+       23,
+       25,
+       27,
+       29,
+       31,
+       33,
+       35,
+       37,
+       39,
+       41,
+       43,
+       45
+      ],
+      "explicitAllow": false,
+      "reading": "已用厂商专用 token 拒绝（现行有效）。"
+     },
+     {
+      "vendor": "Common Crawl",
+      "token": "CCBot",
+      "status": "blocked",
+      "source": "specific",
+      "lines": [
+       15,
+       17,
+       19,
+       21,
+       23,
+       25,
+       27,
+       29,
+       31,
+       33,
+       35,
+       37,
+       39,
+       41,
+       43,
+       45
+      ],
+      "explicitAllow": false,
+      "reading": "已用厂商专用 token 拒绝（现行有效）。"
+     }
+    ],
+    "consumers": [
+     {
+      "vendor": "Anthropic",
+      "status": "implementing",
+      "status_zh": "已开始实现（会逐步覆盖各服务）",
+      "date": null,
+      "source_url": "https://mailarchive.ietf.org/arch/msg/ai-control/mddjatOxSR0h6GmLRBWlc839c7w/"
+     },
+     {
+      "vendor": "OpenAI",
+      "status": "planned",
+      "status_zh": "计划在未来几个月内实现（coming months），现有 GPTBot 等控制继续有效",
+      "date": null,
+      "source_url": "https://openai.com/index/helping-websites-express-ai-training-preferences/"
+     },
+     {
+      "vendor": "Microsoft",
+      "status": "planned",
+      "status_zh": "2027-02-01 起在抓取时执行；另有页面级 AI Grounding 偏好",
+      "date": "2027-02-01",
+      "source_url": "https://blogs.bing.com/search/2026/10/your-content-your-choice-clearer-preferences-for-training-and-grounding/"
+     },
+     {
+      "vendor": "Google",
+      "status": "planned",
+      "status_zh": "计划 2027 年初支持；用它拒绝训练且未显式写 Google-Extended 时，视同禁止 Google-Extended",
+      "date": "2027 年初",
+      "source_url": "https://developers.google.com/search/blog/2026/10/ai-training-control",
+      "source_url_2": "https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers"
+     }
+    ],
+    "spec": {
+     "url": "https://datatracker.ietf.org/doc/draft-kelley-aipref-training-preference-signal/",
+     "status_zh": "IETF 个人草案（individual Internet-Draft），未经 IETF 认可、无正式标准地位",
+     "published": "2026-10-30",
+     "expires": "2027-05-03"
+    }
+   },
+   "findings": [
+    {
+     "id": "search_blocked_perplexitybot",
+     "sev": "warn",
+     "block": "access",
+     "title": "PerplexityBot（Perplexity 搜索）被禁止",
+     "detail": "网站不会在 Perplexity 搜索结果中被展示和链接。",
+     "fix": "如果你希望出现在该搜索 / AI 答案中，改为：\nUser-agent: PerplexityBot\nAllow: /",
+     "lines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43,
+      45
+     ],
+     "refs": [
+      "https://docs.perplexity.ai/guides/bots"
+     ]
+    },
+    {
+     "id": "search_blocked_bytespider",
+     "sev": "warn",
+     "block": "access",
+     "title": "Bytespider（ByteDance 搜索）被禁止",
+     "detail": "会影响头条搜索收录；是否能阻止 AI 训练用途，官方没有说明。",
+     "fix": "如果你希望出现在该搜索 / AI 答案中，改为：\nUser-agent: Bytespider\nAllow: /",
+     "lines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43,
+      45
+     ],
+     "refs": [
+      "https://zhanzhang.toutiao.com/docs/intro/26899"
+     ]
+    },
+    {
+     "id": "search_blocked_duckassistbot",
+     "sev": "warn",
+     "block": "access",
+     "title": "DuckAssistBot（DuckDuckGo 搜索）被禁止",
+     "detail": "不再作为 DuckDuckGo AI 辅助答案的来源；不影响自然搜索排名。",
+     "fix": "如果你希望出现在该搜索 / AI 答案中，改为：\nUser-agent: DuckAssistBot\nAllow: /",
+     "lines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43,
+      45
+     ],
+     "refs": [
+      "https://duckduckgo.com/duckduckgo-help-pages/results/duckassistbot"
+     ]
+    },
+    {
+     "id": "user_ignores",
+     "sev": "info",
+     "block": "access",
+     "title": "ChatGPT-User、Perplexity-User、meta-externalfetcher 被限制，但它们可能不遵守 robots.txt",
+     "detail": "ChatGPT-User：官方说明 robots.txt 对用户触发请求可能不生效；它也不决定能否出现在 ChatGPT 搜索中。\nPerplexity-User：官方说明它一般忽略 robots.txt，写禁止规则大概率拦不住，需要 WAF 层处理。\nmeta-externalfetcher：官方说明它可能绕过 robots.txt。",
+     "fix": "真要拦截需在 WAF / CDN 层按 UA + 官方 IP 段处理；如果只是不想被训练，禁止训练 token 即可，不必拦用户触发的访问。",
+     "lines": [
+      54,
+      56,
+      58,
+      60,
+      62,
+      64,
+      104
+     ],
+     "refs": [
+      "https://platform.openai.com/docs/bots",
+      "https://docs.perplexity.ai/guides/bots",
+      "https://developers.facebook.com/docs/sharing/webmasters/web-crawlers"
+     ]
+    },
+    {
+     "id": "google_extended_grounding",
+     "sev": "info",
+     "block": "training",
+     "title": "禁止 Google-Extended 也会退出 Gemini Apps 的 grounding",
+     "detail": "内容不用于训练后续 Gemini 模型，同时也不会用于 Gemini Apps 与 Vertex AI 的 grounding（即不会在这些回答里被引用、带来点击）；Google 搜索不受影响。",
+     "fix": "如果希望拒绝训练但保留 Gemini 回答中的引用，目前 Google 没有提供把两者拆开的 token；需要权衡。",
+     "lines": [
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43,
+      45
+     ],
+     "refs": [
+      "https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers"
+     ]
+    },
+    {
+     "id": "suggest_aipref",
+     "sev": "suggest",
+     "block": "training",
+     "title": "可以追加统一的训练偏好 token",
+     "detail": "你已经逐家拒绝了 GPTBot、ClaudeBot、Google-Extended、Applebot-Extended、meta-externalagent、Amazonbot、CCBot。追加 __usage_ai-training 组可以覆盖今后支持该草案的厂商（目前是个人草案，2027-05-03 到期，可能变化）。",
+     "fix": "User-agent: __usage_ai-training\nDisallow: /",
+     "lines": [],
+     "refs": [
+      "https://datatracker.ietf.org/doc/draft-kelley-aipref-training-preference-signal/"
+     ]
+    }
+   ]
+  }
+ },
+ "access": {
+  "verdict": "silent_block",
+  "cdn": "CloudFront",
+  "target": "https://www.toyota.com/",
+  "controls": {
+   "googlebot_spoof_blocked": false,
+   "unknown_bot_blocked": false
+  },
+  "counts": {
+   "search_total": 8,
+   "search_blocked": 6,
+   "silent": 4,
+   "training_blocked": 2
+  },
+  "page": {
+   "text_chars": 6048,
+   "js_only": false,
+   "noindex": false,
+   "nosnippet": false,
+   "title": "New Cars, Trucks, SUVs &amp; Hybrids | Toyota Official Site"
+  },
+  "bots": [
+   {
+    "token": "OAI-SearchBot",
+    "vendor": "OpenAI",
+    "category": "search",
+    "robots": "partial",
+    "firewall": "blocked",
+    "confidence": "high",
+    "reason": "http_403",
+    "status": 403,
+    "silent": true,
+    "effective": "blocked"
+   },
+   {
+    "token": "ChatGPT-User",
+    "vendor": "OpenAI",
+    "category": "user",
+    "robots": "partial",
+    "firewall": "blocked",
+    "confidence": "high",
+    "reason": "http_403",
+    "status": 403,
+    "silent": true,
+    "effective": "blocked"
+   },
+   {
+    "token": "PerplexityBot",
+    "vendor": "Perplexity",
+    "category": "search",
+    "robots": "blocked",
+    "firewall": "blocked",
+    "confidence": "high",
+    "reason": "http_403",
+    "status": 403,
+    "silent": false,
+    "effective": "blocked"
+   },
+   {
+    "token": "Perplexity-User",
+    "vendor": "Perplexity",
+    "category": "user",
+    "robots": "partial",
+    "firewall": "blocked",
+    "confidence": "high",
+    "reason": "http_403",
+    "status": 403,
+    "silent": true,
+    "effective": "blocked"
+   },
+   {
+    "token": "Claude-SearchBot",
+    "vendor": "Anthropic",
+    "category": "search",
+    "robots": "partial",
+    "firewall": "open",
+    "confidence": null,
+    "reason": null,
+    "status": 200,
+    "silent": false,
+    "effective": "open"
+   },
+   {
+    "token": "Claude-User",
+    "vendor": "Anthropic",
+    "category": "user",
+    "robots": "partial",
+    "firewall": "blocked",
+    "confidence": "high",
+    "reason": "http_403",
+    "status": 403,
+    "silent": true,
+    "effective": "blocked"
+   },
+   {
+    "token": "GPTBot",
+    "vendor": "OpenAI",
+    "category": "training",
+    "robots": "blocked",
+    "firewall": "blocked",
+    "confidence": "high",
+    "reason": "http_403",
+    "status": 403,
+    "silent": false,
+    "effective": "blocked"
+   },
+   {
+    "token": "ClaudeBot",
+    "vendor": "Anthropic",
+    "category": "training",
+    "robots": "blocked",
+    "firewall": "blocked",
+    "confidence": "high",
+    "reason": "http_403",
+    "status": 403,
+    "silent": false,
+    "effective": "blocked"
+   },
+   {
+    "token": "Bytespider",
+    "vendor": "ByteDance",
+    "category": "search",
+    "robots": "blocked",
+    "firewall": "blocked",
+    "confidence": "high",
+    "reason": "http_403",
+    "status": 403,
+    "silent": false,
+    "effective": "blocked"
+   },
+   {
+    "token": "PetalBot",
+    "vendor": "Huawei",
+    "category": "search",
+    "robots": "unknown",
+    "firewall": "open",
+    "confidence": null,
+    "reason": null,
+    "status": 200,
+    "silent": false,
+    "effective": "open"
+   }
+  ]
+ },
+ "data_version": "2026-10-31",
+ "seo": {
+  "ok": true,
+  "truncated": false,
+  "checks": [
+   {
+    "id": "title",
+    "layer": "read",
+    "status": "pass",
+    "basis": "official",
+    "data": {
+     "title": "New Cars, Trucks, SUVs & Hybrids | Toyota Official Site",
+     "width": 55
+    }
+   },
+   {
+    "id": "description",
+    "layer": "read",
+    "status": "pass",
+    "basis": "official",
+    "data": {
+     "desc": "Explore the newest Toyota trucks, cars, SUVs, hybrids and minivans. See photos, compare models, get tips, calculate payments, and more.",
+     "width": 135
+    }
+   },
+   {
+    "id": "indexable",
+    "layer": "read",
+    "status": "pass",
+    "basis": "official",
+    "data": {
+     "noindex": false,
+     "nosnippet": false,
+     "directives": ""
+    }
+   },
+   {
+    "id": "canonical",
+    "layer": "read",
+    "status": "pass",
+    "basis": "official",
+    "data": {
+     "count": 1,
+     "href": "https://www.toyota.com/"
+    }
+   },
+   {
+    "id": "text",
+    "layer": "read",
+    "status": "pass",
+    "basis": "official",
+    "data": {
+     "chars": 15372,
+     "spa": false
+    }
+   },
+   {
+    "id": "h1",
+    "layer": "read",
+    "status": "warn",
+    "basis": "common",
+    "data": {
+     "count": 0,
+     "first": ""
+    }
+   },
+   {
+    "id": "sitemap",
+    "layer": "read",
+    "status": "pass",
+    "basis": "official",
+    "data": {
+     "url": "https://www.toyota.com/sitemap_index.xml",
+     "declared": true,
+     "status": 200
+    }
+   },
+   {
+    "id": "links",
+    "layer": "read",
+    "status": "pass",
+    "basis": "official",
+    "data": {
+     "internal": 122,
+     "anchors": 273
+    }
+   },
+   {
+    "id": "alt",
+    "layer": "read",
+    "status": "pass",
+    "basis": "official",
+    "data": {
+     "images": 77,
+     "withAlt": 77
+    }
+   },
+   {
+    "id": "hreflang",
+    "layer": "read",
+    "status": "pass",
+    "basis": "official",
+    "data": {
+     "count": 3,
+     "bad": [],
+     "xdefault": true,
+     "self": true
+    }
+   },
+   {
+    "id": "viewport",
+    "layer": "read",
+    "status": "pass",
+    "basis": "official",
+    "data": {}
+   },
+   {
+    "id": "jsonld",
+    "layer": "cite",
+    "status": "pass",
+    "basis": "official",
+    "data": {
+     "blocks": 1,
+     "errors": 0,
+     "types": [
+      "WebPage"
+     ]
+    }
+   },
+   {
+    "id": "entity",
+    "layer": "cite",
+    "status": "info",
+    "basis": "official",
+    "data": {
+     "none": true
+    }
+   },
+   {
+    "id": "sitename",
+    "layer": "cite",
+    "status": "info",
+    "basis": "official",
+    "data": {
+     "name": ""
+    }
+   },
+   {
+    "id": "dates",
+    "layer": "cite",
+    "status": "info",
+    "basis": "official",
+    "data": {
+     "published": null,
+     "modified": null,
+     "timeTag": false
+    }
+   },
+   {
+    "id": "author",
+    "layer": "cite",
+    "status": "info",
+    "basis": "common",
+    "data": {
+     "author": null
+    }
+   },
+   {
+    "id": "answers",
+    "layer": "cite",
+    "status": "info",
+    "basis": "hypothesis",
+    "data": {
+     "questions": 0,
+     "answered": 0,
+     "examples": []
+    }
+   },
+   {
+    "id": "semantic",
+    "layer": "cite",
+    "status": "pass",
+    "basis": "common",
+    "data": {}
+   },
+   {
+    "id": "og",
+    "layer": "cite",
+    "status": "pass",
+    "basis": "common",
+    "data": {
+     "title": true,
+     "image": true
+    }
+   },
+   {
+    "id": "llms",
+    "layer": "cite",
+    "status": "info",
+    "basis": "hypothesis",
+    "data": {
+     "verdict": "missing"
+    }
+   }
+  ],
+  "counts": {
+   "pass": 13,
+   "warn": 1,
+   "fail": 0,
+   "info": 6
+  },
+  "url": "https://www.toyota.com/",
+  "bytes": 667493
+ }
+}

@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>中文大站 AI 爬虫与 llms.txt 普查：1000 站里只有 47 个拦了 AI 训练 · cetxt</title>
+<meta name="description" content="2026-11 重测 1000 个大型中文站：47 个（4.7%）拦了至少一个 AI 训练爬虫，用 __usage_ai-training 的 0 个；真正的 llms.txt 38 个（3.8%）。数据、方法、名单全公开。">
+<link rel="canonical" href="https://cetxt.com/survey/">
+<link rel="describedby" href="/llms.txt">
+<meta name="theme-color" content="#0c0c0e">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="cetxt">
+<meta property="og:title" content="中文大站 AI 爬虫与 llms.txt 普查：1000 站里只有 47 个拦了 AI 训练">
+<meta property="og:description" content="1000 个大型中文站：47 个拦了 AI 训练爬虫，0 个用 __usage_ai-training，38 个有真正的 llms.txt。">
+<meta property="og:url" content="https://cetxt.com/survey/">
+<meta property="og:image" content="https://cetxt.com/survey/og-survey.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="中文大站 AI 爬虫与 llms.txt 普查：1000 站里只有 47 个拦了 AI 训练">
+<meta name="twitter:description" content="47 站拦 AI 训练、0 站用 __usage_ai-training、38 站有 llms.txt。数据、方法、名单全公开。">
+<meta name="twitter:image" content="https://cetxt.com/survey/og-survey.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0c0e; --bg2:#121214; --ink:#f4f1e9; --mut:#97958d;
+  --line:rgba(244,241,233,.14); --acc:#d2ff00;
+  --serif:"Noto Serif SC",serif; --mono:"JetBrains Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);line-height:1.8;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--acc);color:#0c0c0e}
+.wrap{max-width:880px;margin:0 auto;padding:0 max(24px, env(safe-area-inset-right)) 0 max(24px, env(safe-area-inset-left))}
+.topbar{display:flex;justify-content:space-between;align-items:center;
+  padding:20px 0;border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:12px;letter-spacing:.25em;color:var(--mut)}
+.topbar a{color:var(--ink);text-decoration:none}
+.topbar a:hover{color:var(--acc)}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--acc);
+  margin:72px 0 28px}
+h1{font-size:clamp(38px,7vw,72px);font-weight:900;line-height:1.3;letter-spacing:.01em}
+h1 .acc{color:var(--acc)}
+.lede{margin:32px 0 0;font-size:clamp(17px,2.4vw,21px);color:var(--ink);max-width:36em}
+.lede b{color:var(--acc);font-weight:900}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);margin:64px 0 0}
+.stat{background:var(--bg);padding:28px 20px}
+.stat .n{font-size:clamp(34px,5vw,52px);font-weight:900;color:var(--acc);line-height:1.1}
+.stat .n small{font-size:.45em;color:var(--mut);font-weight:600}
+.stat .k{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mut);margin-top:10px}
+.cap{font-family:var(--mono);font-size:11px;letter-spacing:.15em;color:var(--mut);margin:14px 0 0}
+section{margin:88px 0}
+.sec-head{display:flex;align-items:baseline;gap:18px;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:32px}
+.sec-head .idx{font-family:var(--mono);font-size:12px;letter-spacing:.25em;color:var(--acc)}
+.sec-head h2{font-size:clamp(24px,4vw,34px);font-weight:900}
+.sec-head .tag{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mut);
+  text-align:left;padding:12px 8px;border-bottom:1px solid var(--line);font-weight:500}
+td{padding:14px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+td.num{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--acc);white-space:nowrap}
+td.pct{font-family:var(--mono);color:var(--mut)}
+.note{font-size:14px;color:var(--mut);margin-top:16px}
+.bars{margin:8px 0}
+.bar-row{display:grid;grid-template-columns:88px 1fr 44px;gap:14px;align-items:center;margin:12px 0;font-size:14px}
+.bar-row .lab{font-family:var(--mono);font-size:12px;color:var(--mut)}
+.bar{height:10px;background:rgba(244,241,233,.08);position:relative}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--acc)}
+.bar-row .c{font-family:var(--mono);text-align:right}
+.eg{border:1px solid var(--line);padding:24px;margin:16px 0;background:var(--bg2)}
+.eg .dom{font-family:var(--mono);font-size:15px;color:var(--acc)}
+.eg .sc{font-family:var(--mono);font-size:12px;color:var(--mut);margin-left:12px}
+.eg p{font-size:15px;color:var(--ink);margin-top:10px}
+.eg p.dim{color:var(--mut)}
+ol.prob{list-style:none;counter-reset:p}
+ol.prob li{counter-increment:p;display:flex;gap:18px;padding:18px 0;border-bottom:1px solid var(--line);font-size:15px}
+ol.prob li::before{content:counter(p,decimal-leading-zero);font-family:var(--mono);
+  color:var(--acc);font-size:13px;padding-top:4px}
+ol.prob b{color:var(--acc)}
+.obs{border-left:2px solid var(--acc);padding:4px 0 4px 22px;margin:22px 0}
+.obs h3{font-size:18px;margin-bottom:6px}
+.obs p{font-size:15px;color:var(--mut)}
+.method{font-size:15px;color:var(--mut)}
+.method li{margin:10px 0;list-style:none;padding-left:24px;position:relative}
+.method li::before{content:"—";position:absolute;left:0;color:var(--acc);font-family:var(--mono)}
+.cta{border:1px solid var(--acc);padding:48px 32px;text-align:center;margin:88px 0}
+.cta h2{font-size:clamp(26px,4.5vw,40px);font-weight:900;margin-bottom:12px}
+.cta p{color:var(--mut);font-size:15px;margin-bottom:28px}
+.cta a{display:inline-block;background:var(--acc);color:#0c0c0e;text-decoration:none;
+  font-family:var(--mono);font-size:14px;letter-spacing:.15em;padding:16px 40px;font-weight:700}
+.cta a:hover{transform:translateY(-2px)}
+.bcards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:28px 0 6px}
+.bcard{border:1px solid var(--line);border-radius:10px;padding:13px 15px;background:rgba(244,241,233,.02)}
+.bcard .d{font-family:var(--mono);font-size:13px}
+.bcard .s{font-family:var(--mono);font-size:11.5px;margin-top:7px;letter-spacing:.06em}
+.bcard .s.good{color:var(--acc)} .bcard .s.bad{color:#ff8080}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0 42px}
+.hero-cta a{text-decoration:none;font-family:var(--mono);font-size:14px;letter-spacing:.12em;padding:15px 34px;font-weight:700}
+.hero-cta a.p{background:var(--acc);color:#0c0c0e}
+.hero-cta a.s{border:1px solid var(--line);color:var(--ink)}
+@media(max-width:760px){.bcards{grid-template-columns:repeat(2,1fr)}}
+details.names{border:1px solid var(--line);margin:16px 0}
+details.names summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;
+  align-items:center;padding:18px 22px;font-family:var(--mono);font-size:13px;letter-spacing:.1em}
+details.names summary::-webkit-details-marker{display:none}
+details.names summary .cnt{color:var(--acc)}
+details.names ul{list-style:none;padding:6px 22px 22px;columns:2;column-gap:32px;font-size:13px}
+details.names li{padding:7px 0;border-bottom:1px dotted rgba(244,241,233,.08);
+  break-inside:avoid;font-family:var(--mono);display:flex;justify-content:space-between;gap:10px}
+details.names li .nm{color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:45%}
+details.names li .sco{color:var(--acc)}
+footer{border-top:1px solid var(--line);padding:36px 0 64px;display:flex;
+  justify-content:space-between;gap:20px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:11px;letter-spacing:.15em;color:var(--mut)}
+footer a{color:var(--ink);text-decoration:none}
+@media(max-width:640px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  details.names ul{columns:1}
+  .kicker{margin-top:48px}
+  section{margin:64px 0}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.browser{border:1px solid var(--line);margin:16px 0}
+.b-tools{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:14px}
+.b-tools input{background:transparent;border:1px solid var(--line);color:var(--ink);
+  font-family:var(--mono);font-size:16px;padding:12px 16px;width:100%;outline:none;border-radius:0}
+.b-tools input:focus{border-color:var(--acc)}
+.b-tools input::placeholder{color:var(--mut)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{background:transparent;border:1px solid var(--line);color:var(--mut);
+  font-family:var(--mono);font-size:12px;letter-spacing:.05em;padding:8px 14px;cursor:pointer;border-radius:0}
+.chips button.on{border-color:var(--acc);color:var(--acc)}
+.chips button:hover{color:var(--ink)}
+.b-meta{padding:12px 22px;font-size:11px;letter-spacing:.15em;color:var(--mut);border-bottom:1px solid var(--line);font-family:var(--mono)}
+.b-list{list-style:none;max-height:520px;overflow:auto;padding:6px 22px 18px;margin:0}
+.b-list li{padding:9px 0;border-bottom:1px dotted rgba(244,241,233,.08);
+  font-family:var(--mono);font-size:13px;display:flex;gap:12px;align-items:baseline}
+.b-list .d{color:var(--ink);white-space:nowrap}
+.b-list .n{color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
+.b-list .st{font-size:11px;letter-spacing:.08em;white-space:nowrap;color:var(--mut)}
+.b-list .st.ok{color:var(--acc)}
+.b-list .sc{color:var(--acc);white-space:nowrap}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "2026 中文网站 AI 爬虫规则与 llms.txt 采用情况调查",
+  "description": "1000 个大型中文站的 robots.txt AI 爬虫规则与 /llms.txt 检测数据（2026-11-01 重测）：47 个站拦了至少一个 AI 训练爬虫，38 个放置了真正的 llms.txt；另含 100 个中文独立站的 llms.txt 抽样（2026-10-04）。",
+  "url": "https://cetxt.com/survey/",
+  "inLanguage": "zh-CN",
+  "creator": { "@type": "Organization", "name": "cetxt", "url": "https://cetxt.com/" },
+  "datePublished": "2026-10-04",
+  "dateModified": "2026-11-01",
+  "keywords": ["llms.txt", "robots.txt", "AI 爬虫", "GPTBot", "__usage_ai-training", "中文网站", "调查数据"],
+  "license": "https://opensource.org/licenses/MIT",
+  "distribution": {
+    "@type": "DataDownload",
+    "contentUrl": "https://cetxt.com/survey/data.json",
+    "encodingFormat": "application/json"
+  }
+}
+</script>
+<script defer src="https://umami.kin3.net/script.js" data-website-id="3a06af3f-999b-4956-a6af-8760b6a03ed3"></script>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar"><span>CETXT · 调查报告</span><a href="/">← cetxt.com</a></div>
+
+  <div class="kicker">VAKSEL 中文大站普查 · 2026-11-01 重测 · 大型站 1000 · robots.txt + llms.txt · 只读检测</div>
+  <h1>1000 个大站，<br>只有 47 个拦了 <span class="acc">AI 训练</span></h1>
+  <p class="lede">我们重新抓了 <b>1000 个大型中文站</b>的 <b>/robots.txt</b> 和 <b>/llms.txt</b>，用 RFC 9309 规则逐个判定 22 个 AI 与搜索爬虫。拦了至少一个 AI 训练爬虫的只有 <b>47 个</b>（<b>4.7%</b>），写了新提案 <span class="mono">__usage_ai-training</span> 的是 <b>0</b>。真正的 llms.txt 从 30 个涨到 <b>38 个</b>。</p>
+  <div class="bcards">
+    <div class="bcard"><div class="d">iqiyi.com</div><div class="s bad">点名拦 GPTBot / ClaudeBot</div></div>
+    <div class="bcard"><div class="d">alibaba.com</div><div class="s bad">点名拦 GPTBot / Google-Extended</div></div>
+    <div class="bcard"><div class="d">baidu.com</div><div class="s bad">白名单，AI 全被 * 拦</div></div>
+    <div class="bcard"><div class="d">xiaohongshu.com</div><div class="s bad">白名单，AI 全被 * 拦</div></div>
+    <div class="bcard"><div class="d">bilibili.com</div><div class="s good">llms.txt 100 分</div></div>
+    <div class="bcard"><div class="d">gitee.com</div><div class="s good">llms.txt 100 分</div></div>
+    <div class="bcard"><div class="d">taobao.com</div><div class="s good">AI 爬虫放行</div></div>
+    <div class="bcard"><div class="d">qq.com</div><div class="s good">AI 爬虫放行</div></div>
+  </div>
+  <div class="hero-cta">
+    <a class="p" href="/#check">查查我的站 →</a>
+    <a class="s" href="/#robots">生成 AI 爬虫规则</a>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="n">4.7<small>%</small></div><div class="k">拦了 AI 训练爬虫</div></div>
+    <div class="stat"><div class="n">2.7<small>%</small></div><div class="k">专门点名拦截</div></div>
+    <div class="stat"><div class="n">0</div><div class="k">用 __usage_ai-training</div></div>
+    <div class="stat"><div class="n">3.8<small>%</small></div><div class="k">有真正的 llms.txt</div></div>
+  </div>
+  <p class="cap">* 按 1000 全样本计。AI 训练爬虫指 GPTBot、ClaudeBot、Google-Extended、Applebot-Extended、meta-externalagent、CCBot、Amazonbot 七个；Bytespider 的训练用途官方未说明，不计入。</p>
+
+  <section>
+    <div class="sec-head"><span class="idx">01 · AI CRAWLERS</span><h2>AI 爬虫规则</h2><span class="tag">N=1000</span></div>
+    <table>
+      <tr><th>robots.txt 状态</th><th>数量</th><th>占比</th></tr>
+      <tr><td>有规则，可逐条判定</td><td class="num">422</td><td class="pct">42.2%</td></tr>
+      <tr><td>404 / 4xx（按 RFC 9309 视为全部允许）</td><td class="num">351</td><td class="pct">35.1%</td></tr>
+      <tr><td>超时 / 拒连 / 5xx（按 RFC 视为全部禁止）</td><td class="num">141</td><td class="pct">14.1%</td></tr>
+      <tr><td>裸域与 www 都没有 DNS 记录</td><td class="num">86</td><td class="pct">8.6%</td></tr>
+    </table>
+    <p class="note">在 422 个有规则的站里：点名写到任一 AI 爬虫的 54 个；实际拦了至少一个 AI 训练爬虫的 47 个，其中 27 个是专门写的规则，20 个是"只放行指定搜索引擎、其余 * 全拦"的白名单写法顺带拦住的。七个训练爬虫全拦的 24 个，GPTBot、ClaudeBot、Google-Extended 三家全拦的 28 个。</p>
+    <table style="margin-top:24px">
+      <tr><th>专门点名拦截（Disallow: /）</th><th>站数</th><th>含 * 拦截</th></tr>
+      <tr><td>GPTBot（OpenAI 训练）</td><td class="num">22</td><td class="pct">41</td></tr>
+      <tr><td>ClaudeBot（Anthropic 训练）</td><td class="num">16</td><td class="pct">37</td></tr>
+      <tr><td>CCBot（Common Crawl 数据集）</td><td class="num">16</td><td class="pct">38</td></tr>
+      <tr><td>Bytespider（字节）</td><td class="num">14</td><td class="pct">33</td></tr>
+      <tr><td>Google-Extended（Gemini 训练与 grounding）</td><td class="num">11</td><td class="pct">33</td></tr>
+      <tr><td>Amazonbot</td><td class="num">11</td><td class="pct">32</td></tr>
+      <tr><td>meta-externalagent（Meta 训练）</td><td class="num">9</td><td class="pct">29</td></tr>
+      <tr><td>Applebot-Extended（Apple 训练）</td><td class="num">8</td><td class="pct">30</td></tr>
+      <tr><td>Baiduspider（百度搜索）</td><td class="num">6</td><td class="pct">15</td></tr>
+    </table>
+    <p class="note">专门拦 GPTBot 的 22 个站里，台港媒体与论坛占一半（PTT、联合新闻网、中时、东网、Mobile01、iThome、科技新报、雅虎台湾等）；大陆有阿里巴巴国际站、速卖通、爱奇艺、财新、安居客、同程、Canva 中国、江苏省政府、南京市政府。用 Cloudflare Content-Signal 声明的有 6 个：微博、PTT、Mobile01、萌娘百科、iThome、php.cn。</p>
+    <ol class="prob" style="margin-top:8px">
+      <li><div><b>以为专属组会继承 * 的规则</b>（47 站）。RFC 9309 下，一旦给 GPTBot 单独写了组，它就只看自己那一组。</div></li>
+      <li><div><b>拦了 Google-Extended，没意识到它也关掉 Gemini grounding</b>（33 站）。不只是"不让训练"。</div></li>
+      <li><div><b>用 * 全拦，顺带把搜索类 AI 爬虫也拦了</b>（23 站）。OAI-SearchBot、PerplexityBot 等被拦，AI 搜索里就引用不到你。</div></li>
+      <li><div><b>* 拦了，专属组又把某家 AI 放开</b>（15 站）。多半是复制模板留下的。</div></li>
+      <li><div><b>规则行缺冒号、User-agent 写错</b>（74 + 22 站）。这些行会被解析器直接忽略。</div></li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">02 · LLMS.TXT</span><h2>llms.txt 复查</h2><span class="tag">N=1000</span></div>
+    <table>
+      <tr><th>检测结果</th><th>10 月</th><th>11 月</th></tr>
+      <tr><td>根目录有真正的 llms.txt（200 + Markdown）</td><td class="num">30</td><td class="pct">38</td></tr>
+      <tr><td>200 但返回 HTML（页面壳 / 拦截页）</td><td class="num">164</td><td class="pct">170</td></tr>
+      <tr><td>404（无文件）</td><td class="num">412</td><td class="pct">513</td></tr>
+      <tr><td>未能判定（WAF 拦截 / 超时 / 5xx / 无 DNS）</td><td class="num">390</td><td class="pct">273</td></tr>
+      <tr><td>200 非规范文本（robots 内容 / 空文件等）</td><td class="num">4</td><td class="pct">6</td></tr>
+    </table>
+    <p class="note">38 个有文件的站平均 80.8 分：100 分 11 个，90–99 分 14 个，80–89 分 2 个，60–79 分 4 个，60 以下 7 个（含 2 个 0 分不合规）。"未能判定"变少，一是这次裸域没有 DNS 时补查了 www，二是修掉了上期检测器的一处对端地址核验缺陷——10 月数字里有一部分其实是误判。</p>
+    <div class="bars" style="margin-top:24px">
+      <div class="bar-row"><span class="lab">100 分</span><div class="bar"><i style="width:29%"></i></div><span class="c">11</span></div>
+      <div class="bar-row"><span class="lab">90–99</span><div class="bar"><i style="width:37%"></i></div><span class="c">14</span></div>
+      <div class="bar-row"><span class="lab">80–89</span><div class="bar"><i style="width:5%"></i></div><span class="c">2</span></div>
+      <div class="bar-row"><span class="lab">60–79</span><div class="bar"><i style="width:11%"></i></div><span class="c">4</span></div>
+      <div class="bar-row"><span class="lab">60 以下</span><div class="bar"><i style="width:18%"></i></div><span class="c">7</span></div>
+    </div>
+    <div class="eg" style="margin-top:24px">
+      <span class="dom">bilibili.com / gitee.com / modelscope.cn</span><span class="sc">100 / 优秀</span>
+      <p>上期的满分站全部保持。环球网 100、凤凰网 99、七牛云 99、宝塔 95 也没掉。</p>
+    </div>
+    <div class="eg">
+      <span class="dom">gmw.cn / eeworld.com.cn / gvm.com.tw</span><span class="sc">新增</span>
+      <p>光明网、电子工程世界、远见杂志等 9 个站是这个月新放的，光明网和电子工程世界直接 100 分。</p>
+    </div>
+    <div class="eg">
+      <span class="dom">smzdm.com / wallstreetcn.com</span><span class="sc">掉线</span>
+      <p class="dim">什么值得买的 /llms.txt 变成了网页壳；华尔街见闻这次没测到。</p>
+    </div>
+    <div class="eg">
+      <span class="dom">coze.cn / nvidia.cn / tvb.com</span><span class="sc">50 / 30 / 50</span>
+      <p class="dim">一个月过去，分数没动。做了≠做好，也≠有人维护。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">03 · NOTES</span><h2>四个观察</h2></div>
+    <div class="obs"><h3>大站对 AI 基本不设防</h3><p>淘宝、京东、腾讯网、B站对 AI 爬虫都是放行的。真正写了 AI 规则的只有 5% 左右，比 llms.txt 的采用率高不了多少。</p></div>
+    <div class="obs"><h3>"拦 AI"多半是白名单的副作用</h3><p>百度、小红书、快手、微博等用的是"只放行指定搜索引擎、其余全拦"的老写法，AI 爬虫是被顺带拦住的，不是专门决定。</p></div>
+    <div class="obs"><h3>专门拦 AI 的，台港媒体最积极</h3><p>点名拦 GPTBot 的 22 个站里一半是台港新闻与论坛。大陆专门写规则的多是出海电商（阿里巴巴国际站、速卖通）和内容版权方（爱奇艺、财新）。</p></div>
+    <div class="obs"><h3>统一训练 token 还没人用</h3><p><span class="mono">__usage_ai-training</span> 是 2026-10-30 才发布的个人草案，Anthropic 已开始实现，OpenAI、微软、Google 计划在 2027 年前后支持。现在写一条，以后新增的 AI 爬虫也能覆盖。</p></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">04 · INDIE 100</span><h2>独立站抽样</h2><span class="tag">N=100 · 10 月数据</span></div>
+    <p class="note" style="margin:-8px 0 16px">独立站这次没有重测，以下为 2026-10-04 的 llms.txt 结果。</p>
+    <table>
+      <tr><th>检测结果</th><th>数量</th><th>占比</th></tr>
+      <tr><td>根目录有真正的 llms.txt</td><td class="num">19</td><td class="pct">19%</td></tr>
+      <tr><td>200 但返回 HTML（SPA 伪装）</td><td class="num">14</td><td class="pct">14%</td></tr>
+      <tr><td>404（无文件）</td><td class="num">65</td><td class="pct">65%</td></tr>
+      <tr><td>连接失败</td><td class="num">2</td><td class="pct">2%</td></tr>
+    </table>
+    <p class="note">55 个项目站 + 45 个独立博客。19 个命中里 16 个是项目站、仅 3 个是博客（博客圈覆盖率约 7%）。有文件者平均 81.2 分，9 个满分。</p>
+    <div class="eg" style="margin-top:24px">
+      <span class="dom">yasuo.app / blog.mfwt.top</span><span class="sc">100 / 优秀</span>
+      <p>独立站里的教科书写法。后者是中文独立博客，博客圈 7% 里的 3 个之一。</p>
+    </div>
+    <ol class="prob" style="margin-top:8px">
+      <li><div><b>裸 URL，而不是 Markdown 链接</b>（12/19）。AI 拿不到链接文本。</div></li>
+      <li><div><b>重复 URL</b>（5/19）。多为从导航栏复制粘贴所致。</div></li>
+      <li><div><b>链接没有写描述</b>（4/19）。AI 不知道页面是干嘛的。</div></li>
+      <li><div><b>H1 后缺一句话摘要</b>（4/19）。直接丢 20 分。</div></li>
+      <li><div><b>H1 重复 / 空分组</b>（各 3/19）。多个 H1 直接判不合规。</div></li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">05 · METHOD</span><h2>调查方法</h2></div>
+    <ul class="method">
+      <li>大型站名单与 10 月相同：公开流量排名（Tranco/Umbrella 系）按 .cn 等归属中国的 TLD 过滤，另人工补全知名非 .cn 中文大站，去重后 1000。</li>
+      <li>2026-11-01 从一台境外服务器逐站 GET https://域名/robots.txt 与 /llms.txt：https 优先、传输失败回退 http；手动跟随跳转最多 5 跳、每跳重新校验；单次 10 秒超时；robots 只取前 512KiB、llms 前 200KB；UA 为 cetxt-check/2.0。裸域没有 DNS 记录时再查 www（237 站）。</li>
+      <li>robots.txt 按 RFC 9309 判定：User-agent 大小写不敏感前缀匹配、最长路径优先、Allow 平局优先、* 与 $ 通配；4xx 视为全部允许，5xx 与不可达视为全部禁止。逐个判定 22 个 AI 与搜索爬虫（清单与来源见 <a href="/data/ai-crawlers.json">ai-crawlers.json</a>）。</li>
+      <li>llms.txt 判定与 10 月一致：200 且内容为 Markdown 记为真文件，用 VAKSEL 的 llms.txt 校验引擎（llmstxt.org v2 确定性规则）打分。</li>
+      <li>局限：境外出口会被部分站的 WAF 拦截或超时（美团、CSDN、上海交大、央视等），14.1% 的 robots 和 27.3% 的 llms 没测到；只测根目录；robots 规则只代表站方声明，不代表爬虫一定遵守。</li>
+    </ul>
+  </section>
+
+  <div class="cta">
+    <h2>你的站呢？</h2>
+    <p>花 30 秒，看看你的 robots.txt 对 AI 爬虫怎么说、llms.txt 能拿几分。</p>
+    <a href="/#check">去 cetxt.com 测一下 →</a>
+  </div>
+
+  <section>
+    <div class="sec-head"><span class="idx">06 · LIST</span><h2>名单</h2></div>
+    <p class="note" style="margin:0 0 8px">大型站 1000 个完整数据可搜索、筛选（2026-11-01 重测，状态为公开 URL 的返回事实；10 月旧数据见 <a href="data-2026-10.json">data-2026-10.json</a>）。独立站 100 名单如下。</p>
+    <div class="browser">
+      <div class="b-tools">
+        <input id="q" type="search" placeholder="搜索域名或站名，如 bilibili / 哔哩哔哩" autocomplete="off">
+        <div class="chips" id="chips">
+          <button data-f="all" class="on">全部 1000</button>
+          <button data-f="ai">拦 AI 训练 47</button>
+          <button data-f="真文件">真文件 38</button>
+          <button data-f="HTML伪装">HTML伪装 170</button>
+          <button data-f="无文件">无文件 513</button>
+          <button data-f="未能判定">未能判定 273</button>
+          <button data-f="非规范文本">非规范文本 6</button>
+        </div>
+      </div>
+      <div class="b-meta" id="bMeta">加载中…</div>
+      <ul class="b-list" id="bList"></ul>
+    </div>
+    <script>
+    (function(){
+      var list=document.getElementById('bList'), meta=document.getElementById('bMeta'),
+          q=document.getElementById('q'), chips=document.getElementById('chips');
+      var DATA=[], f='all', kw='';
+      function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+      function render(){
+        var r=DATA.filter(function(x){
+          var okF = (f==='all'||(f==='ai'?!!x.ai:x.c===f));
+          var okK = !kw || x.d.toLowerCase().indexOf(kw)>-1 || (x.n&&x.n.toLowerCase().indexOf(kw)>-1);
+          return okF&&okK;
+        });
+        meta.textContent='共 '+r.length+' 条'+(r.length>200?' · 仅显示前 200 条，输入关键词缩小范围':'');
+        var h='';
+        r.slice(0,200).forEach(function(x){
+          h+='<li><span class="d">'+esc(x.d)+'</span><span class="n">'+esc(x.n)+'</span>'+
+             '<span class="st'+(x.c==='真文件'?' ok':'')+'">'+esc(x.c)+'</span>'+
+             (x.s!=null?'<span class="sc">'+x.s+'分</span>':'')+
+             (x.ai?'<span class="st">'+(x.ai==='点名'?'点名拦 AI ':'* 拦 AI ')+x.t+'/7</span>':'')+'</li>';
+        });
+        list.innerHTML=h||'<li><span class="n">没有匹配的结果，换个关键词试试</span></li>';
+      }
+      chips.addEventListener('click',function(e){
+        var b=e.target.closest('button'); if(!b) return;
+        chips.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+        b.classList.add('on'); f=b.getAttribute('data-f'); render();
+      });
+      var timer=null;
+      q.addEventListener('input',function(){
+        clearTimeout(timer);
+        timer=setTimeout(function(){kw=q.value.trim().toLowerCase();render();},180);
+      });
+      fetch('data.json').then(function(r){return r.json();}).then(function(j){
+        DATA=j; meta.textContent='共 1000 条'; render();
+      }).catch(function(){meta.textContent='数据加载失败，请刷新重试';});
+    })();
+    </script>
+    <details class="names"><summary><span>独立站 · 有真正的 llms.txt</span><span class="cnt">19</span></summary><ul>
+<li><span>ad-morph.com</span><span class="nm">AdMorph</span><span class="sco">50 分</span></li>
+<li><span>aibeautytest.org</span><span class="nm">Free AI Beauty Test</span><span class="sco">80 分</span></li>
+<li><span>aiflowmusic.com</span><span class="nm">AIFlowMusic</span><span class="sco">50 分</span></li>
+<li><span>ainsight.aiext.co</span><span class="nm">热点智读</span><span class="sco">30 分</span></li>
+<li><span>blog.mfwt.top</span><span class="nm">枫林灯语</span><span class="sco">100 分</span></li>
+<li><span>bskyinfo.com</span><span class="nm">BlueSky SDK</span><span class="sco">100 分</span></li>
+<li><span>freeconvert.cc</span><span class="nm">FreeConvert</span><span class="sco">30 分</span></li>
+<li><span>icebreaker.top</span><span class="nm">icebreaker</span><span class="sco">100 分</span></li>
+<li><span>launchalways.com</span><span class="nm">LaunchAlways</span><span class="sco">100 分</span></li>
+<li><span>orkas.ai</span><span class="nm">Orkas</span><span class="sco">60 分</span></li>
+<li><span>pixsprout.com</span><span class="nm">pixsprout.com</span><span class="sco">100 分</span></li>
+<li><span>podwise.xyz</span><span class="nm">Podwise</span><span class="sco">80 分</span></li>
+<li><span>professional-headshot.ai</span><span class="nm">Professional-Headshot.ai</span><span class="sco">90 分</span></li>
+<li><span>showmebest.ai</span><span class="nm">ShowMeBestAI</span><span class="sco">100 分</span></li>
+<li><span>testhive.elolin.com</span><span class="nm">TestHive</span><span class="sco">100 分</span></li>
+<li><span>tidelink.xyz</span><span class="nm">TideLink</span><span class="sco">93 分</span></li>
+<li><span>uwillno.com</span><span class="nm">UWillno&#x27;s Blog</span><span class="sco">80 分</span></li>
+<li><span>vocalrangetest.org</span><span class="nm">vocal range test</span><span class="sco">100 分</span></li>
+<li><span>yasuo.app</span><span class="nm">NeatCompress</span><span class="sco">100 分</span></li>
+    </ul></details>
+    <details class="names"><summary><span>独立站 · 200 但返回 HTML</span><span class="cnt">14</span></summary><ul>
+<li><span>asmrvideo.ai</span><span class="nm">AI ASMR视频生成器</span></li>
+<li><span>baby7blog.com</span><span class="nm">七仔的博客</span></li>
+<li><span>blog.yeefire.com</span><span class="nm">Sirius&#x27;s Blog</span></li>
+<li><span>ccagml.com</span><span class="nm">ccagml的博客</span></li>
+<li><span>foolstack.net</span><span class="nm">海报图生成 - Foolstack</span></li>
+<li><span>grayscaleimage.org</span><span class="nm">Grayscale Image</span></li>
+<li><span>hagicode.com</span><span class="nm">Hagicode</span></li>
+<li><span>kingname.info</span><span class="nm">谢乾坤-青南</span></li>
+<li><span>loamery.com</span><span class="nm">沉淀记 Loamery</span></li>
+<li><span>morsecode-translator.app</span><span class="nm">MORSE CODE</span></li>
+<li><span>nanobanana-ai.net</span><span class="nm">Nano Banana AI</span></li>
+<li><span>old-panda.com</span><span class="nm">Panda Home</span></li>
+<li><span>rss.anyant.com</span><span class="nm">蚁阅</span></li>
+<li><span>sora2api.org</span><span class="nm">sora2 api</span></li>
+    </ul></details>
+    <details class="names"><summary><span>独立站 · 无文件</span><span class="cnt">67</span></summary><ul>
+<li><span>ai.dreamthere.cn</span><span class="nm">AI导航</span></li>
+<li><span>ai.renyuzhuo.cn</span><span class="nm">RAIS</span></li>
+<li><span>aicodeconvert.com</span><span class="nm">AICodeConvert</span></li>
+<li><span>aimoviefinder.net</span><span class="nm">AiMovieFinder</span></li>
+<li><span>arnis.app</span><span class="nm">Arnis</span></li>
+<li><span>blog.baicai.me</span><span class="nm">白菜</span></li>
+<li><span>blog.cysi.me</span><span class="nm">Cysime Moflu</span></li>
+<li><span>blog.fengjx.com</span><span class="nm">铁匠&#x27;s blog</span></li>
+<li><span>blog.kevinzhow.com</span><span class="nm">Kevin Blog</span></li>
+<li><span>blog.lazyforever.top</span><span class="nm">lazy_forever&#x27;s Blog</span></li>
+<li><span>blog.mmf.moe</span><span class="nm">Yesterday17&#x27;s Blog</span></li>
+<li><span>chris-saas-services.stomeonst123.chatgpt.site</span><span class="nm">LaunchClear</span></li>
+<li><span>ddadaal.me</span><span class="nm">ddadaal.me</span></li>
+<li><span>dognamesworld.com</span><span class="nm">Dog Names World</span></li>
+<li><span>dyy.nianmo.top</span><span class="nm">捻墨运营笔记</span></li>
+<li><span>eaimty.com</span><span class="nm">EAimTY 的博客</span></li>
+<li><span>ei.xcl.ink</span><span class="nm">诶嘿(EI)</span></li>
+<li><span>enderfga.cn</span><span class="nm">Enderfga&#x27;s blog</span></li>
+<li><span>ext.dcloud.net.cn</span><span class="nm">表情小程序-前后台源码</span></li>
+<li><span>eyetestonline.org</span><span class="nm">视力测试</span></li>
+<li><span>gliss.pro</span><span class="nm">Gliss</span></li>
+<li><span>hermine.in</span><span class="nm">赫尔米娜及其他</span></li>
+<li><span>icodex.me</span><span class="nm">icodex</span></li>
+<li><span>idjpg.com</span><span class="nm">IDjpg 图片风格化</span></li>
+<li><span>imhanjm.com</span><span class="nm">hanjm&#x27;s Blog</span></li>
+<li><span>iscompress.com</span><span class="nm">isCompress</span></li>
+<li><span>jayzangwill.github.io</span><span class="nm">Jay Zangwill的博客</span></li>
+<li><span>kaopubear.top</span><span class="nm">思考问题的熊</span></li>
+<li><span>kestrel-task.cn</span><span class="nm">微芒计划</span></li>
+<li><span>kubesphereio.com</span><span class="nm">一切皆有可能</span></li>
+<li><span>lxb.wiki</span><span class="nm">Xiaobin&#x27;s Blog</span></li>
+<li><span>lxnchan.cn</span><span class="nm">泠泫凝的异次元空间</span></li>
+<li><span>mafeifan.com</span><span class="nm">mafeifan的技术博客</span></li>
+<li><span>marketplace.visualstudio.com</span><span class="nm">Group Tab Tree</span></li>
+<li><span>mianao.info</span><span class="nm">不吐不快</span></li>
+<li><span>mingnify.com</span><span class="nm">明立非(Mingnify)的博客</span></li>
+<li><span>mosuzi.com</span><span class="nm">Mosu - Mosuzi的博客</span></li>
+<li><span>muyun.work</span><span class="nm">Muyun的杂谈</span></li>
+<li><span>nalaginrut.com</span><span class="nm">Nala Ginrut&#x27;s Blog</span></li>
+<li><span>oldj.net</span><span class="nm">oldj&#x27;s blog</span></li>
+<li><span>owl.hanshutx.com</span><span class="nm">Owl 猫头鹰</span></li>
+<li><span>physixfan.com</span><span class="nm">宇宙的心弦</span></li>
+<li><span>podcast.hubtoday.app</span><span class="nm">AI 播客生成器</span></li>
+<li><span>questionlib.net</span><span class="nm">问题库</span></li>
+<li><span>ramble.imzh.me</span><span class="nm">JZ&#x27;s Rambles</span></li>
+<li><span>randomanimalgen.com</span><span class="nm">Random Animal Generator</span></li>
+<li><span>rao.pics</span><span class="nm">eagleuse</span></li>
+<li><span>sbtitest.me</span><span class="nm">SBTI Test</span></li>
+<li><span>seedreamai.run</span><span class="nm">Seedream AI</span></li>
+<li><span>shifeiti.com</span><span class="nm">是非题</span></li>
+<li><span>songguru.ai</span><span class="nm">SongGuru.AI</span></li>
+<li><span>summagraph.com</span><span class="nm">SummaGraph</span></li>
+<li><span>sword.studio</span><span class="nm">杂货屋</span></li>
+<li><span>synexa.ai</span><span class="nm">Synexa AI</span></li>
+<li><span>tonzhon.com</span><span class="nm">铜钟音乐</span></li>
+<li><span>video2prompt.io</span><span class="nm">Video to Prompt</span></li>
+<li><span>videodance.cc</span><span class="nm">Videodance</span></li>
+<li><span>wandoer.com</span><span class="nm">豌豆(没有荚)</span></li>
+<li><span>whyya.xyz</span><span class="nm">小陶持续精进</span></li>
+<li><span>wmsonline.ikeyly.com</span><span class="nm">ModernWMS</span></li>
+<li><span>works.yangerxiao.com</span><span class="nm">静心呼吸调节器</span></li>
+<li><span>xianrenlife.com</span><span class="nm">闲人Life</span></li>
+<li><span>xldream.com</span><span class="nm">xldream</span></li>
+<li><span>xnum.github.io</span><span class="nm">xnum&#x27;s Blog</span></li>
+<li><span>xugaoxiang.com</span><span class="nm">迷途小书童</span></li>
+<li><span>yuexun.me</span><span class="nm">Yuexun&#x27;s Blog</span></li>
+<li><span>zackwu.com</span><span class="nm">无辄的栈</span></li>
+    </ul></details>
+  </section>
+
+  <footer>
+    <span>CETXT.COM 出品 · 数据备查</span>
+    <span>规范来源 LLMS TXT.ORG · <a href="/">cetxt.com</a></span>
+  </footer>
+
+</div>
+</body>
+</html>

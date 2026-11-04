@@ -1,0 +1,17 @@
+.git
+.github
+.gitignore
+.assetsignore
+node_modules
+worker
+scripts
+tests
+backend
+test.js
+wrangler.toml
+package.json
+README.md
+NOTES.md
+og.html
+*.mjs
+legacy
