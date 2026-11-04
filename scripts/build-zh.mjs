@@ -150,7 +150,7 @@ for (const c of crawlers) {
     path: `/bots/${slug(c.token)}/`, active: 'bots',
     ld: { '@context': 'https://schema.org', '@type': 'TechArticle', headline: `${c.token} 是什么，要不要屏蔽`, dateModified: UPDATED, inLanguage: 'zh-CN', citation: c.docs_url },
     title: `${c.token} 是什么？要不要屏蔽 · VAKSEL`,
-    desc: `${c.token} 是 ${c.vendor} 的${CAT[c.category] || ''}${ctrl ? '标记' : '爬虫'}。${c.block_consequence_zh}`.slice(0, 200),
+    desc: `${c.token} 是 ${c.vendor} 的${c.category === 'other' ? '' : CAT[c.category] || ''}${ctrl ? '标记' : '爬虫'}。${c.block_consequence_zh}`.slice(0, 200),
     body: `<main class="wrap doc">${crumbs([['/', '首页'], ['/bots/', 'AI 爬虫'], [null, c.token]])}
 <h1>${esc(c.token)}</h1>
 <div class="facts"><div><span>运营方</span><b>${esc(c.vendor)}</b></div><div><span>用途</span><b>${CAT[c.category] || '其他'}</b></div><div><span>遵守 robots.txt</span><b>${ROBOTS[c.respects_robots] || '–'}</b></div><div><span>来源</span><b><a href="${esc(c.docs_url)}" rel="nofollow noopener" target="_blank">官方文档 ↗</a></b></div></div>
