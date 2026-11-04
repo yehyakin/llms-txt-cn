@@ -285,3 +285,14 @@ footer .fgrid>.fbrand>a.logo{display:inline-flex;align-items:center;margin:0}
 .cols>div{min-width:0}
 .tg th:first-child,.tg td:first-child{white-space:nowrap;width:1%}
 .gcn{font-size:13px;color:var(--mut);margin:-4px 0 10px}
+/* crawler changelog */
+.cl{list-style:none;padding:0;margin:28px 0 8px;border-left:1px solid var(--line)}
+.cl-i{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:0 0 26px 20px;position:relative}
+.cl-i:before{content:"";position:absolute;left:-5px;top:6px;width:9px;height:9px;border-radius:50%;background:var(--ink,currentColor)}
+.cl-i time{font-family:var(--mono);font-size:13px;color:var(--mut2);padding-top:2px}
+.cl-i p{margin:6px 0 0}
+.cl-k{font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--mut2)}
+.cl-k.vendor{color:#0a7d3c}
+.cl-t code,.tbl code{font-size:12.5px;white-space:nowrap;display:inline-block;margin:0 4px 4px 0}
+.cl-t a{margin-right:6px}
+@media (max-width:560px){.cl-i{grid-template-columns:1fr;gap:4px}}

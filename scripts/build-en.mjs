@@ -33,7 +33,7 @@ export const FOOT = `<footer><div class="wrap fgrid">
   <div class="fbrand"><img src="/en/brand/vaksel-horizontal-primary.svg" alt="VAKSEL" width="164" height="31" loading="lazy"><p>Can AI search actually reach your site? Free checks for robots.txt, firewall and CDN blocks.</p></div>
   <div><h2 class="fh">Product</h2><a href="/en/">Access check</a><a href="/en/pricing/">Pricing &amp; monitoring</a><a href="/en/research/">Research</a></div>
   <div><h2 class="fh">Fix guides</h2><a href="/en/guides/cloudflare/">Cloudflare</a><a href="/en/guides/cloudfront/">CloudFront / AWS WAF</a><a href="/en/guides/wordpress/">WordPress</a><a href="/en/guides/shopify/">Shopify</a></div>
-  <div><h2 class="fh">AI crawlers</h2><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a></div>
+  <div><h2 class="fh">AI crawlers</h2><a href="/en/bots/oai-searchbot/">OAI-SearchBot</a><a href="/en/bots/perplexitybot/">PerplexityBot</a><a href="/en/bots/claude-searchbot/">Claude-SearchBot</a><a href="/en/bots/">All crawlers</a><a href="/en/bots/changelog/">Changelog</a></div>
   <div class="fsmall"><span>© 2026 VAKSEL</span><a href="/en/privacy/">Privacy</a><a href="/en/terms/">Terms</a><a href="/en/contact/">Contact</a><a href="https://cetxt.com/" hreflang="zh" lang="zh">中文版 cetxt.com</a><span>We don't store the domains you check or your IP address.</span></div>
 </div></footer>`;
 
@@ -124,7 +124,7 @@ out.push(write('en/bots/index.html', page({
 <p class="lead l">Search, training and user-triggered crawlers are separate agents. Blocking the wrong one can take you out of AI answers without stopping training. Every entry links the operator's own documentation.</p>
 ${groups}
 <section class="sec tight">${checkBox('Which of these can reach your site?', 'We test robots.txt and send live requests as the AI search crawlers above.')}</section>
-<p class="note">Sources: each operator's official crawler documentation, checked ${DATA.crawlers[0].verified_on}. Entries marked “partial” rely on documentation that doesn't state every detail.</p>
+<p class="note">See what changed recently in the <a href="/en/bots/changelog/">AI crawler changelog</a>. Sources: each operator's official crawler documentation, checked ${DATA.crawlers[0].verified_on}. Entries marked “partial” rely on documentation that doesn't state every detail.</p>
 </main>${CHECK_JS}`
 })));
 
@@ -733,7 +733,38 @@ write('en/site.webmanifest', JSON.stringify({ name: 'VAKSEL', short_name: 'VAKSE
   })));
 }
 
-const urls = ['/en/', '/en/research/', '/en/research/grading/', '/en/research/lab/', '/en/pricing/', '/en/privacy/', '/en/terms/', '/en/contact/', '/en/guides/', ...GUIDES.map((g) => `/en/guides/${g.slug}/`), '/en/bots/', ...crawlers.map((c) => `/en/bots/${slug(c.token)}/`)];
+
+/* ---------- AI 爬虫变更日志（2026-11-04 草稿，公开前需 KiN 审） ---------- */
+{
+  const CL = JSON.parse(readFileSync(join(root, 'data/crawler-changelog.json'), 'utf8')).entries;
+  const W = JSON.parse(readFileSync(join(root, 'data/doc-watch.json'), 'utf8'));
+  const known = new Set(crawlers.map((c) => c.token));
+  const fmt = (d) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+  const tok = (t) => (known.has(t) ? `<a href="/en/bots/${slug(t)}/"><code>${esc(t)}</code></a>` : `<code>${esc(t)}</code>`);
+  const items = CL.map((e) => `<li class="cl-i"><time datetime="${e.date}">${fmt(e.date)}</time><div><span class="cl-k ${e.kind}">${e.kind === 'vendor' ? 'Operator docs changed' : 'Directory update'}</span><p>${esc(e.en)}</p>${e.tokens.length ? `<p class="cl-t">${e.tokens.map(tok).join(' ')}</p>` : ''}${e.source ? `<p class="cl-s"><a href="${esc(e.source)}" rel="nofollow noopener" target="_blank">Source ↗</a></p>` : ''}</div></li>`).join('');
+  const docs = Object.entries(W.docs).map(([u, v]) => {
+    const host = new URL(u).hostname.replace(/^www\./, '');
+    const st = v.js_only ? 'By hand' : v.hash ? 'Watched' : 'Unreachable';
+    return `<tr><td>${v.tokens.map(tok).join(' ')}</td><td><a href="${esc(u)}" rel="nofollow noopener" target="_blank">${esc(host)} ↗</a></td><td>${st}</td></tr>`;
+  }).join('');
+  const last = W.checked_at.slice(0, 10);
+  out.push(write('en/bots/changelog/index.html', page({
+    path: '/en/bots/changelog/', active: 'bots',
+    title: 'AI crawler changelog: new user agents and policy changes · VAKSEL',
+    desc: 'Changes to the official documentation of AI crawlers like GPTBot, OAI-SearchBot, ClaudeBot and PerplexityBot: new user agents, renamed bots and robots.txt policy changes, each with its source.',
+    body: `<main class="wrap doc">${crumbs([['/en/', 'Home'], ['/en/bots/', 'AI crawlers'], [null, 'Changelog']])}
+<h1>AI crawler changelog</h1><p class="upd">Pages last fingerprinted ${fmt(last)}</p>
+<p class="lead l">When an AI company adds a crawler, renames one or changes what robots.txt controls, your rules can go stale without you touching them. We fingerprint each operator's crawler page, compare it with the live page, and log a change here only after reading the source.</p>
+<ol class="cl">${items}</ol>
+<h2>Pages we compare</h2>
+<p>${Object.keys(W.docs).length} official pages covering ${crawlers.length} crawlers. A change on a page only becomes an entry here after we read it; layout and wording edits that don't affect crawlers are left out.</p>
+<div class="tscroll" style="overflow-x:auto"><table class="tbl"><thead><tr><th>Crawlers</th><th>Official page</th><th>Status</th></tr></thead><tbody>${docs}</tbody></table></div>
+<section class="sec tight">${checkBox('Do your rules still match?', 'We test your robots.txt and firewall against the current list of crawlers.')}</section>
+</main>${CHECK_JS}`
+  })));
+}
+
+const urls = ['/en/', '/en/research/', '/en/research/grading/', '/en/research/lab/', '/en/pricing/', '/en/privacy/', '/en/terms/', '/en/contact/', '/en/guides/', ...GUIDES.map((g) => `/en/guides/${g.slug}/`), '/en/bots/', '/en/bots/changelog/', ...crawlers.map((c) => `/en/bots/${slug(c.token)}/`)];
 write('en/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${canon(u)}</loc><lastmod>${UPDATED}</lastmod></url>`).join('\n')}\n</urlset>\n`);
 write('en/robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 

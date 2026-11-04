@@ -1,0 +1,248 @@
+{
+ "checked_at": "2026-11-04T10:48:31.361Z",
+ "docs": {
+  "https://platform.openai.com/docs/bots": {
+   "tokens": [
+    "GPTBot",
+    "OAI-SearchBot",
+    "ChatGPT-User"
+   ],
+   "hash": "6a95a51f422e1d42",
+   "chars": 17420,
+   "found": [
+    "GPTBot",
+    "OAI-SearchBot",
+    "ChatGPT-User"
+   ],
+   "since": "2026-11-04T10:47:16.098Z"
+  },
+  "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler": {
+   "tokens": [
+    "ClaudeBot",
+    "Claude-SearchBot",
+    "Claude-User"
+   ],
+   "hash": "79bde624b3730d1c",
+   "chars": 4826,
+   "found": [
+    "ClaudeBot",
+    "Claude-SearchBot",
+    "Claude-User"
+   ],
+   "since": "2026-11-04T10:47:16.098Z"
+  },
+  "https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers": {
+   "tokens": [
+    "Google-Extended",
+    "Googlebot"
+   ],
+   "hash": "a497b32d443e5c57",
+   "chars": 11356,
+   "found": [
+    "Google-Extended",
+    "Googlebot"
+   ],
+   "since": "2026-11-04T10:47:16.098Z"
+  },
+  "https://support.apple.com/en-us/119829": {
+   "tokens": [
+    "Applebot",
+    "Applebot-Extended"
+   ],
+   "hash": "126bf04ca36364da",
+   "chars": 10816,
+   "found": [
+    "Applebot",
+    "Applebot-Extended"
+   ],
+   "since": "2026-11-04T10:48:31.361Z"
+  },
+  "https://docs.perplexity.ai/guides/bots": {
+   "tokens": [
+    "PerplexityBot",
+    "Perplexity-User"
+   ],
+   "hash": "0b2b1fe21dcde705",
+   "chars": 88670,
+   "found": [
+    "PerplexityBot",
+    "Perplexity-User"
+   ],
+   "since": "2026-11-04T10:47:16.098Z"
+  },
+  "https://www.bing.com/webmasters/help/which-crawlers-does-bing-use-8c184ec0": {
+   "tokens": [
+    "Bingbot"
+   ],
+   "js_only": true,
+   "chars": 41
+  },
+  "https://commoncrawl.org/ccbot": {
+   "tokens": [
+    "CCBot"
+   ],
+   "hash": "d1aa131d6833e3cd",
+   "chars": 2693,
+   "found": [
+    "CCBot"
+   ],
+   "since": "2026-11-04T10:47:16.098Z"
+  },
+  "https://zhanzhang.toutiao.com/docs/intro/26899": {
+   "tokens": [
+    "Bytespider"
+   ],
+   "js_only": true,
+   "chars": 33
+  },
+  "https://webmaster.petalsearch.com/site/petalbot": {
+   "tokens": [
+    "PetalBot"
+   ],
+   "js_only": true,
+   "chars": 28
+  },
+  "https://developers.facebook.com/docs/sharing/webmasters/web-crawlers": {
+   "tokens": [
+    "meta-externalagent",
+    "meta-webindexer",
+    "meta-externalfetcher"
+   ],
+   "hash": "bdb1c95e0f0f29b5",
+   "chars": 6267,
+   "found": [
+    "meta-externalagent",
+    "meta-webindexer",
+    "meta-externalfetcher"
+   ],
+   "since": "2026-11-04T10:47:16.098Z"
+  },
+  "https://developer.amazon.com/amazonbot": {
+   "tokens": [
+    "Amazonbot",
+    "Amzn-SearchBot"
+   ],
+   "hash": "80688746d5ed668e",
+   "chars": 4478,
+   "found": [
+    "Amazonbot",
+    "Amzn-SearchBot"
+   ],
+   "since": "2026-11-04T10:47:16.098Z"
+  },
+  "https://duckduckgo.com/duckduckgo-help-pages/results/duckassistbot": {
+   "tokens": [
+    "DuckAssistBot"
+   ],
+   "hash": "fa1892bbf93b4500",
+   "chars": 13641,
+   "found": [
+    "DuckAssistBot"
+   ],
+   "since": "2026-11-04T10:47:16.098Z"
+  },
+  "https://help.baidu.com/question?prod_id=99&class=476&id=2996": {
+   "tokens": [
+    "Baiduspider"
+   ],
+   "hash": "e468cb15c6f77343",
+   "chars": 4048,
+   "found": [
+    "Baiduspider"
+   ],
+   "since": "2026-11-04T10:47:16.098Z"
+  },
+  "https://zhanzhang.sogou.com/index.php/help/spider": {
+   "tokens": [
+    "Sogou web spider"
+   ],
+   "hash": "232b3819c2b5b104",
+   "chars": 3472,
+   "found": [
+    "Sogou web spider"
+   ],
+   "since": "2026-11-04T10:47:16.098Z"
+  },
+  "https://www.so.com/help/help_3_2.html": {
+   "tokens": [
+    "360Spider"
+   ],
+   "hash": "7091eebb378237a3",
+   "chars": 1701,
+   "found": [
+    "360Spider"
+   ],
+   "since": "2026-11-04T10:47:16.098Z"
+  },
+  "https://zhanzhang.sm.cn/open/optimizaGuide": {
+   "tokens": [
+    "YisouSpider"
+   ],
+   "hash": "19e325c17278460e",
+   "chars": 1236,
+   "found": [
+    "YisouSpider"
+   ],
+   "since": "2026-11-04T10:47:16.098Z"
+  },
+  "https://www.kimi.com/policies/kimi-crawlers": {
+   "tokens": [
+    "Kimi-SearchBot",
+    "Kimi-User",
+    "KimiBot"
+   ],
+   "hash": "eae05fe795b99fd9",
+   "chars": 3751,
+   "found": [
+    "Kimi-SearchBot",
+    "Kimi-User",
+    "KimiBot"
+   ],
+   "since": "2026-11-04T10:47:16.098Z"
+  },
+  "https://docs.mistral.ai/robots": {
+   "tokens": [
+    "MistralAI-User"
+   ],
+   "hash": "142b9ca040e1f412",
+   "chars": 2480,
+   "found": [
+    "MistralAI-User"
+   ],
+   "since": "2026-11-04T10:47:16.098Z"
+  },
+  "https://docs.you.com/youbot": {
+   "tokens": [
+    "YouBot"
+   ],
+   "hash": "e213a5391e7a3d5b",
+   "chars": 7983,
+   "found": [
+    "YouBot"
+   ],
+   "since": "2026-11-04T10:47:16.098Z"
+  },
+  "https://yandex.com/support/webmaster/en/robot-workings/check-yandex-robots": {
+   "tokens": [
+    "YandexBot"
+   ],
+   "hash": "62b08ca307dfcfba",
+   "chars": 12175,
+   "found": [
+    "YandexBot"
+   ],
+   "since": "2026-11-04T10:47:16.098Z"
+  },
+  "https://searchadvisor.naver.com/guide/seo-basic-firewall": {
+   "tokens": [
+    "Yeti"
+   ],
+   "hash": "8361e7c772dc471b",
+   "chars": 2205,
+   "found": [
+    "Yeti"
+   ],
+   "since": "2026-11-04T10:47:16.098Z"
+  }
+ }
+}
