@@ -5,6 +5,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { renderReport } from '../en/view.js';
+import { zhHome } from './zh-home.mjs';
 import { GRADE_VERSION } from '../en/grade.js';
 import { FIXTURES, LAB_SUFFIX } from '../worker/lab.js';
 const LAB = JSON.parse(readFileSync(new URL('../data/lab-results.json', import.meta.url), 'utf8'));
@@ -334,6 +335,7 @@ wl.addEventListener('submit',async e=>{e.preventDefault();const b=wl.querySelect
 /* ---------- 首页 ---------- */
 const FIXT = JSON.parse(readFileSync(join(root, 'data/demo-toyota.json'), 'utf8'));
 const demo = renderReport(FIXT, { lang: 'zh', base: '', when: '2026-11-02T18:38:00Z', url: SITE + '/report/toyota.com' });
+const ZH_HOME = zhHome({ root, GUIDES_ZH, HOME_FAQ_ZH, EXAMPLES_ZH, DEMO_DATE_ZH: FIXT.checked_on });
 write('index.html', page({
   path: '/', type: 'website', title: 'AI 搜索能访问你的网站吗？免费 AI 爬虫可访问性检测 · VAKSEL',
   desc: '检测 ChatGPT、Perplexity、Claude 的搜索爬虫能否真正访问你的网站：robots.txt、防火墙和 CDN 拦截、noindex、只靠 JavaScript 渲染的页面。免费，无需注册。',
@@ -342,79 +344,7 @@ write('index.html', page({
     { '@type': 'WebSite', name: 'VAKSEL 中文版', alternateName: 'cetxt', url: SITE + '/', inLanguage: 'zh-CN', publisher: { '@id': 'https://vaksel.com/#org' } },
     { '@type': 'WebApplication', name: 'VAKSEL', alternateName: 'VAKSEL 中文版', url: SITE + '/', inLanguage: 'zh-CN', applicationCategory: 'DeveloperApplication', operatingSystem: 'Web', publisher: { '@id': 'https://vaksel.com/#org' }, offers: { '@type': 'Offer', price: '0', priceCurrency: 'CNY' } }
   ] },
-  body: `<header class="hero"><div class="wrap">
-  <span class="eyebrow"><b></b>免费 · 无需注册 · 几秒出结果</span>
-  <h1>AI 搜索<span class="grad">真的能访问</span>你的网站吗？</h1>
-  <p class="lead">robots.txt 写着欢迎，防火墙却可能把它挡在门外。我们用 ChatGPT、Perplexity、Claude 爬虫的身份请求你的页面，再和浏览器、Googlebot 对照，告诉你每个请求拿到了什么。</p>
-  <form class="field" id="f" autocomplete="off" role="search">
-    <input id="d" name="d" placeholder="你的域名，例如 example.com" inputmode="url" autocapitalize="off" spellcheck="false" aria-label="你的域名">
-    <button class="btn" type="submit">开始检测</button>
-  </form>
-  <p class="hint">试试 <button type="button" data-d="toyota.com">toyota.com</button>·<button type="button" data-d="github.com">github.com</button>·<button type="button" data-d="shopify.com">shopify.com</button></p>
-</div></header>
-
-<section class="sec demo-sec" aria-label="报告示例"><div class="wrap">
-  <div class="win"><div class="bar"><i></i><i></i><i></i><span>cetxt.com/report/toyota.com</span></div>
-    <div class="wbody" inert><div class="rp-head"><div><div class="crumb">AI 爬虫可访问性报告</div><h2 class="dh">toyota.com</h2><div class="meta">${demo.meta}</div></div></div>${demo.html}</div>
-    <a class="wopen" href="/report/toyota.com">打开实时报告 →</a></div>
-  <p class="cap">2026 年 11 月 3 日的真实报告。丰田的 robots.txt 放行了 OAI-SearchBot，防火墙却把它挡在了外面。</p>
-</div></section>
-
-<section class="sec" id="checks"><div class="wrap">
-  <h2>三层检查，都是实测</h2>
-  <p class="sub">大多数检测工具只读 robots.txt。我们还会实际发请求，并设对照组，避免把爬虫 IP 核验误判成拦截。</p>
-  <div class="grid3">
-    <div class="card c1"><div class="ic" aria-hidden="true">1</div><h3>robots.txt 规则</h3><p>20 多个 AI 爬虫逐个给结论，搜索和训练分开看：可以拒绝训练，同时不从 AI 回答里消失。</p></div>
-    <div class="card c2"><div class="ic" aria-hidden="true">2</div><h3>防火墙与 CDN</h3><p>以 OAI-SearchBot、PerplexityBot、Claude-SearchBot 等身份实际请求，并标出是哪家 CDN 应答：Cloudflare、CloudFront、Akamai 等。</p></div>
-    <div class="card c3"><div class="ic" aria-hidden="true">3</div><h3>页面可读性</h3><p>检查 noindex、nosnippet，以及不执行 JavaScript 时页面还有没有内容。大多数 AI 爬虫不跑 JavaScript。</p></div>
-  </div>
-</div></section>
-
-<section class="sec" id="data"><div class="wrap">
-  <div class="stat">
-    <div class="card dark" style="padding:30px">
-      <p class="k1">2026 年 11 月热门网站抽样</p>
-      <div class="big grad">1 / 28</div>
-      <p class="k2">的可访问网站在防火墙层面静默拦截 AI 搜索爬虫：robots.txt 允许，Googlebot 也能进。</p>
-      <p class="k3">Tranco 前 2 万中随机 600 个网站，其中 362 个可访问，13 个命中。中文大站同样测了 1000 个，静默拦截约 0.8%。</p>
-    </div>
-    <div class="card" style="padding:26px">
-      <h3 style="margin-top:0;font-size:19px">抽样里发现的例子</h3>
-      <ul class="ex">${EXAMPLES_ZH.map(([d, t, c, w]) => `<li><a href="/report/${d}"><b>${d}</b><span class="tag ${c === 'v-bad' ? 't-bad' : 't-warn'}">${t}</span></a><p>${w}</p></li>`).join('')}</ul>
-      <p class="note" style="margin-top:8px">2026 年 11 月 1 日的结果，点开会重新检测。<a href="/research/">看测量方法 →</a></p>
-    </div>
-  </div>
-</div></section>
-
-<section class="sec"><div class="wrap">
-  <h2>哪一层拦的，就修哪一层</h2>
-  <p class="sub">每份报告都会写明是哪一层拒绝了爬虫，并链接对应的指南。</p>
-  <div class="bgrid g4">${GUIDES_ZH.map((g) => `<a class="bcard g" href="/guides/${g.slug}/"><div class="bt">${esc(g.name)}</div><p>${esc(String(g.desc).split('。')[0])}。</p></a>`).join('')}</div>
-</div></section>
-
-<section class="sec"><div class="wrap">
-  <div class="stat">
-    <div class="card" style="padding:26px"><h3 style="margin-top:0;font-size:19px">llms.txt 工具</h3><p>生成、校验 llms.txt，还有 robots.txt 规则生成器。原来的工具都还在。</p><p style="margin-top:12px"><a class="btn ghost" href="/tools/">打开工具</a></p></div>
-    <div class="card" style="padding:26px"><h3 style="margin-top:0;font-size:19px">中文大站普查</h3><p>1000 个中文网站的 AI 爬虫规则与 llms.txt 现状。</p><p style="margin-top:12px"><a class="btn ghost" href="/survey/">看普查报告</a></p></div>
-  </div>
-</div></section>
-
-<section class="sec" id="monitor"><div class="wrap">
-  <div class="cta">
-    <div><h3>规则会变，变了要有人告诉你</h3><p>每天复测，CDN 更新、插件或 robots.txt 改动一旦挡住 AI 爬虫就发邮件。代理商有多个客户网站，请联系我们。</p></div>
-    <a class="btn" href="/pricing/">了解监控</a>
-  </div>
-</div></section>
-
-<section class="sec tight"><div class="wrap"><h2>常见问题</h2><div class="faq">${HOME_FAQ_ZH.map(([q, a], i) => `<details${i ? '' : ' open'}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div></div></section>
-
-<script>
-const f=document.getElementById('f'),d=document.getElementById('d');
-function clean(v){v=(v||'').trim().toLowerCase().replace(/^https?:\\/\\//,'').split(/[\\/?#]/)[0].replace(/\\.$/,'');return /^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z]{2,63}$/.test(v)?v:null}
-function go(v){const c=clean(v);if(!c){f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake');d.focus();return}location.href='/report/'+c}
-f.addEventListener('submit',e=>{e.preventDefault();go(d.value)});
-document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>go(b.dataset.d));
-</script>`
+  body: ZH_HOME.body, theme: 'dk'
 }));
 
 /* ---------- 404 ---------- */
