@@ -557,3 +557,24 @@ html.lt body.dk:where(:not(.in)) .mb code{background:rgba(220,38,38,.08);border-
 body.dk .nav a.n{font-size:14px}
 .dk .thm{width:36px;height:36px}
 @media (max-width:860px){body.dk .menu{width:44px;height:44px}}
+/* ---------- 输入框：浅色卡 + 打字占位（2026-11-04，参考 atypica 输入框的浅底与动效） ---------- */
+.dk:where(:not(.in)) .hf,.dk:where(:not(.in)) .ff,.dk:where(:not(.in)) .dock{position:relative;background:#fcfcfa;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:0 0 0 1px rgba(0,0,0,.08),0 24px 60px -24px rgba(0,0,0,.7);transition:box-shadow .3s,transform .3s}
+.dk:where(:not(.in)) .hf{max-width:520px;min-height:64px;padding:10px 10px 10px 22px;border-radius:16px}
+.dk:where(:not(.in)) .hf:focus-within,.dk:where(:not(.in)) .ff:focus-within,.dk:where(:not(.in)) .dock:focus-within{box-shadow:0 0 0 1px rgba(62,224,122,.9),0 0 0 5px rgba(62,224,122,.18),0 24px 60px -24px rgba(0,0,0,.7)}
+.dk:where(:not(.in)) .hf input,.dk:where(:not(.in)) .ff input,.dk:where(:not(.in)) .dock input{color:#1d1d1f;caret-color:#16a34a;font-size:17px}
+.dk:where(:not(.in)) .hf input::placeholder,.dk:where(:not(.in)) .ff input::placeholder,.dk:where(:not(.in)) .dock input::placeholder{color:#8a8a8e}
+.dk:where(:not(.in)) .hf .go{width:44px;height:44px;background:#0a0a0a;color:#fff}
+.dk:where(:not(.in)) .hf .go:hover{background:#000}
+.dk:where(:not(.in)) .ff .wb,.dk:where(:not(.in)) .dock .wb{background:#0a0a0a;color:#fff}
+.dk:where(:not(.in)) .ff .wb:hover,.dk:where(:not(.in)) .dock .wb:hover{background:#000}
+/* 打字占位：覆盖层，聚焦或有内容时隐藏 */
+.dk:where(:not(.in)) .tph{position:absolute;top:50%;transform:translateY(-50%);pointer-events:none;color:#8a8a8e;font-size:17px;white-space:nowrap;overflow:hidden;max-width:calc(100% - 90px);display:flex;align-items:center}
+.dk:where(:not(.in)) .hf .tph{left:22px}.dk:where(:not(.in)) .ff .tph{left:22px}.dk:where(:not(.in)) .dock .tph{left:18px;font-size:15px}
+.dk:where(:not(.in)) .tph i{display:inline-block;width:1.5px;height:1.15em;margin-left:2px;background:#1d1d1f;animation:tphb 1s steps(1) infinite}
+@keyframes tphb{50%{opacity:0}}
+.dk:where(:not(.in)) .typing input::placeholder{color:transparent}
+.dk:where(:not(.in)) form:not(.typing) .tph,.dk:where(:not(.in)) form:focus-within .tph{display:none}
+.dk:where(:not(.in)) form.typing:focus-within input::placeholder{color:#8a8a8e}
+@media (max-width:640px){.dk:where(:not(.in)) .hf{min-height:58px;padding:8px 8px 8px 18px}.dk:where(:not(.in)) .hf .tph,.dk:where(:not(.in)) .ff .tph{left:18px;font-size:16px}.dk:where(:not(.in)) .hf input,.dk:where(:not(.in)) .ff input{font-size:16px}}
+@media (prefers-reduced-motion:reduce){.dk:where(:not(.in)) .tph{display:none!important}.dk:where(:not(.in)) .typing input::placeholder{color:#8a8a8e}}
+html.lt body.dk:where(:not(.in)) .hf,html.lt body.dk:where(:not(.in)) .ff,html.lt body.dk:where(:not(.in)) .dock{background:#fcfcfa;box-shadow:0 0 0 1px rgba(0,0,0,.12),0 20px 50px -24px rgba(0,0,0,.25)}

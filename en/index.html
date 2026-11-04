@@ -126,6 +126,15 @@
 <form class="dock" id="dock" autocomplete="off" role="search" aria-hidden="true"><input id="d3" placeholder="yourdomain.com" aria-label="Your domain" inputmode="url" autocapitalize="off" spellcheck="false" tabindex="-1"><button class="wb" type="submit" tabindex="-1">Check access <span>›</span></button></form>
 
 <script>
+/* 打字占位：在三个输入框里依次打出示例域名；聚焦、有内容或减少动态效果时不显示 */
+(()=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+const W=['yourdomain.com','toyota.com','shopify.com','github.com'];
+[['f','d'],['f2','d2'],['dock','d3']].forEach(([a,b],k)=>{const fm=document.getElementById(a),i=document.getElementById(b);if(!fm||!i)return;
+const o=document.createElement('span');o.className='tph';o.setAttribute('aria-hidden','true');const t=document.createElement('span'),c=document.createElement('i');o.append(t,c);fm.append(o);
+const sync=()=>fm.classList.toggle('typing',!i.value);i.addEventListener('input',sync);sync();
+let w=k%W.length,n=0,del=false;const step=()=>{const s=W[w];if(!del){n++;t.textContent=s.slice(0,n);if(n>=s.length){del=true;return setTimeout(step,1900)}return setTimeout(step,70+Math.random()*60)}n--;t.textContent=s.slice(0,n);if(n<=0){del=false;w=(w+1)%W.length;return setTimeout(step,350)}setTimeout(step,32)};setTimeout(step,600+k*400)})})();
+</script>
+<script>
 const f=document.getElementById('f'),d=document.getElementById('d');
 function clean(v){v=(v||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0].replace(/\.$/,'');return /^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v)?v:null}
 function go(v,fm,inp){const c=clean(v);fm=fm||f;inp=inp||d;if(!c){fm.classList.remove('shake');void fm.offsetWidth;fm.classList.add('shake');inp.focus();return}location.href='/en/report/'+c}
