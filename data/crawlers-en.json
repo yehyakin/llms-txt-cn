@@ -190,6 +190,11 @@
       "summary": "Google's crawler for Vertex AI Agents. It fetches pages when a site owner asks Google to crawl them to build an agent. Rules for this token only affect those owner-requested crawls.",
       "block": "Crawls you (or someone you authorize) request to build Vertex AI Agents on your content are limited. Google Search isn't affected.",
       "advice": "Leave it allowed unless you want to stop owner-requested Vertex AI crawls; it doesn't change your Google Search presence."
+    },
+    "Claude-Agent": {
+      "summary": "A real browser hosted by Anthropic that completes tasks at a user's direction, for example in Claude Duet. It sends the browser's own user-agent with a Claude-Agent token added. IP ranges are published at claude.com/.well-known/sail, and it's managed separately from ClaudeBot, Claude-User and Claude-SearchBot.",
+      "block": "Users can't have Claude's hosted browser complete tasks on your site. Anthropic's crawlers aren't affected. Anthropic doesn't say whether it follows robots.txt.",
+      "advice": "Allow it if you want users' Claude agents to work on your site. The user-agent can be spoofed, so verify against the published IP list before trusting it."
     }
   }
 }
