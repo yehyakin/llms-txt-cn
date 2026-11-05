@@ -32,6 +32,7 @@
 <p class="lead l">Collects web content to build datasets for training Mistral&#39;s generative AI models. Mistral says it isn&#39;t used for search indexing or live answers.</p>
 <h2>What happens if you block it</h2><p>Mistral won&#39;t use your content for training. Mistral search and on-request fetches are controlled separately by MistralAI-Index and MistralAI-User.</p>
 <h2>Our take</h2><p>Block it if you don&#39;t want your content in Mistral&#39;s training data; it won&#39;t affect your visibility.</p>
+
 <h2>robots.txt</h2><p>To block it:</p><pre>User-agent: MistralAI-Training
 Disallow: /</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>User-agent: MistralAI-Training
 Allow: /</pre>

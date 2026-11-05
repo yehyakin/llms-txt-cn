@@ -32,6 +32,7 @@
 <p class="lead l">Microsoft&#39;s standard search crawler. Bing&#39;s index also feeds Microsoft Copilot and other AI experiences built on Bing.</p>
 <h2>What happens if you block it</h2><p>Your site drops out of Bing search and the AI experiences that rely on Bing&#39;s index.</p>
 <h2>Our take</h2><p>Keep it allowed. Bing&#39;s training opt-out today is the NOARCHIVE meta tag; Microsoft is building support for a robots.txt no-training preference, targeted for early 2027.</p>
+
 <h2>robots.txt</h2><p>To block it:</p><pre>User-agent: Bingbot
 Disallow: /</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>User-agent: Bingbot
 Allow: /</pre>

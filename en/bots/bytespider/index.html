@@ -32,6 +32,7 @@
 <p class="lead l">ByteDance&#39;s crawler, documented as the user agent for Toutiao search.</p>
 <h2>What happens if you block it</h2><p>Your site may drop out of Toutiao search. ByteDance doesn&#39;t document whether blocking it stops AI training use.</p>
 <h2>Our take</h2><p>Block it if you don&#39;t need Toutiao traffic. Its training use is undocumented.</p>
+
 <h2>robots.txt</h2><p>To block it:</p><pre>User-agent: Bytespider
 Disallow: /</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>User-agent: Bytespider
 Allow: /</pre>

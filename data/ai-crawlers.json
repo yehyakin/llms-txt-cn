@@ -335,6 +335,7 @@
     },
     {
       "token": "Claude-Agent", "vendor": "Anthropic", "category": "other", "purposes": ["agents"],
+      "agent_kind": "browser", "ip_url": "https://claude.com/.well-known/sail",
       "respects_robots": "unverified",
       "summary_zh": "Anthropic 托管的真实浏览器，在 Claude Duet 等产品里按用户指示完成任务；UA 是浏览器本身的，附加 Claude-Agent 标识。IP 段公布在 claude.com/.well-known/sail，与 ClaudeBot、Claude-User、Claude-SearchBot 分开管理。",
       "quote": "Allowing or disallowing this traffic will control whether your users can ask their Claude services that leverage this type of agentic browser use to complete tasks on your website.",

@@ -32,6 +32,7 @@
 <p class="lead l">Google&#39;s crawler for Vertex AI Agents. It fetches pages when a site owner asks Google to crawl them to build an agent. Rules for this token only affect those owner-requested crawls.</p>
 <h2>What happens if you block it</h2><p>Crawls you (or someone you authorize) request to build Vertex AI Agents on your content are limited. Google Search isn&#39;t affected.</p>
 <h2>Our take</h2><p>Leave it allowed unless you want to stop owner-requested Vertex AI crawls; it doesn&#39;t change your Google Search presence.</p>
+
 <h2>robots.txt</h2><p>To block it:</p><pre>User-agent: Google-CloudVertexBot
 Disallow: /</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>User-agent: Google-CloudVertexBot
 Allow: /</pre>

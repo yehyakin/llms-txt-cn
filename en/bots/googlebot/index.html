@@ -32,6 +32,7 @@
 <p class="lead l">Google&#39;s main search crawler. Rules for Googlebot apply to Google Search, Discover and other Google Search features.</p>
 <h2>What happens if you block it</h2><p>Your site drops out of Google Search, including AI Overviews. This is almost never what you want when opting out of AI.</p>
 <h2>Our take</h2><p>Keep it allowed. To opt out of Gemini training, disallow Google-Extended instead.</p>
+
 <h2>robots.txt</h2><p>To block it:</p><pre>User-agent: Googlebot
 Disallow: /</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>User-agent: Googlebot
 Allow: /</pre>

@@ -32,6 +32,7 @@
 <p class="lead l">Fetches made when a Perplexity user asks a question that needs your page.</p>
 <h2>What happens if you block it</h2><p>Perplexity says this fetcher generally ignores robots.txt because a user requested it. Only a firewall rule actually stops it.</p>
 <h2>Our take</h2><p>Leave it allowed unless you have a reason to block user-directed fetches.</p>
+
 <h2>robots.txt</h2><p>To block it:</p><pre>User-agent: Perplexity-User
 Disallow: /</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>User-agent: Perplexity-User
 Allow: /</pre>

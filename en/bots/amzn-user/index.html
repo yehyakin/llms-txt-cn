@@ -32,6 +32,7 @@
 <p class="lead l">Amazon&#39;s user-triggered fetcher. It supports user actions such as answering Alexa questions that need up-to-date information. Amazon says it may not follow all robots.txt directives and doesn&#39;t crawl for generative AI training.</p>
 <h2>What happens if you block it</h2><p>Alexa may not be able to read your page live when answering a user&#39;s question. Amazon says Amzn-User may not follow every robots.txt directive.</p>
 <h2>Our take</h2><p>Allow it if you want Alexa to quote current information from your site. Robots.txt alone may not stop it.</p>
+
 <h2>robots.txt</h2><p>To block it:</p><pre>User-agent: Amzn-User
 Disallow: /</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>User-agent: Amzn-User
 Allow: /</pre>
