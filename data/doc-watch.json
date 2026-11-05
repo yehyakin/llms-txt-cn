@@ -1,5 +1,5 @@
 {
- "checked_at": "2026-11-04T12:16:12.388Z",
+ "checked_at": "2026-11-05T01:40:36.884Z",
  "docs": {
   "https://platform.openai.com/docs/bots": {
    "tokens": [
@@ -8,15 +8,15 @@
     "ChatGPT-User",
     "OAI-AdsBot"
    ],
-   "hash": "6a95a51f422e1d42",
-   "chars": 17420,
+   "hash": "ca162b74a240d5c7",
+   "chars": 17468,
    "found": [
     "GPTBot",
     "OAI-SearchBot",
     "ChatGPT-User",
     "OAI-AdsBot"
    ],
-   "since": "2026-11-04T10:47:16.098Z"
+   "since": "2026-11-05T01:40:36.884Z"
   },
   "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler": {
    "tokens": [
@@ -24,14 +24,14 @@
     "Claude-SearchBot",
     "Claude-User"
    ],
-   "hash": "79bde624b3730d1c",
-   "chars": 4826,
+   "hash": "2c624b494a6d6e0f",
+   "chars": 6493,
    "found": [
     "ClaudeBot",
     "Claude-SearchBot",
     "Claude-User"
    ],
-   "since": "2026-11-04T10:47:16.098Z"
+   "since": "2026-11-05T01:40:36.884Z"
   },
   "https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers": {
    "tokens": [
@@ -59,20 +59,22 @@
     "Applebot",
     "Applebot-Extended"
    ],
-   "since": "2026-11-04T10:48:31.361Z"
+   "since": "2026-11-04T10:48:31.361Z",
+   "last_error": "HTTP 429",
+   "last_error_at": "2026-11-05T01:40:36.884Z"
   },
   "https://docs.perplexity.ai/guides/bots": {
    "tokens": [
     "PerplexityBot",
     "Perplexity-User"
    ],
-   "hash": "0b2b1fe21dcde705",
-   "chars": 88670,
+   "hash": "977671638c5e8059",
+   "chars": 58141,
    "found": [
     "PerplexityBot",
     "Perplexity-User"
    ],
-   "since": "2026-11-04T10:47:16.098Z"
+   "since": "2026-11-05T01:40:36.884Z"
   },
   "https://www.bing.com/webmasters/help/which-crawlers-does-bing-use-8c184ec0": {
    "tokens": [
