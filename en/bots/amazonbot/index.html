@@ -32,6 +32,7 @@
 <p class="lead l">Amazon&#39;s crawler, used to improve Amazon products and services. Amazon says the content may be used to train Amazon AI models.</p>
 <h2>What happens if you block it</h2><p>Amazonbot stops fetching your content, including for possible AI training. Alexa search is controlled separately by Amzn-SearchBot.</p>
 <h2>Our take</h2><p>Block it to opt out of Amazon training while keeping Amzn-SearchBot allowed.</p>
+
 <h2>robots.txt</h2><p>To block it:</p><pre>User-agent: Amazonbot
 Disallow: /</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>User-agent: Amazonbot
 Allow: /</pre>

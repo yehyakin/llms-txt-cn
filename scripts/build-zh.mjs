@@ -160,18 +160,18 @@ for (const c of crawlers) {
     path: `/bots/${slug(c.token)}/`, active: 'bots',
     ld: { '@context': 'https://schema.org', '@type': 'TechArticle', headline: `${c.token} 是什么，要不要屏蔽`, dateModified: UPDATED, inLanguage: 'zh-CN', citation: c.docs_url },
     title: `${c.token} 是什么？要不要屏蔽 · VAKSEL`,
-    desc: `${c.token} 是 ${c.vendor} 的${c.category === 'other' ? '' : CAT[c.category] || ''}${ctrl ? '标记' : '爬虫'}。${c.block_consequence_zh}`.slice(0, 200),
+    desc: c.agent_kind === 'browser' ? `${c.token} 是 ${c.vendor} 的托管浏览器，不是爬虫。${c.block_consequence_zh}`.slice(0, 200) : `${c.token} 是 ${c.vendor} 的${c.category === 'other' ? '' : CAT[c.category] || ''}${ctrl ? '标记' : '爬虫'}。${c.block_consequence_zh}`.slice(0, 200),
     body: `<main class="wrap doc">${crumbs([['/', '首页'], ['/bots/', 'AI 爬虫'], [null, c.token]])}
 <h1>${esc(c.token)}</h1>
 <div class="facts"><div><span>运营方</span><b>${esc(c.vendor)}</b></div><div><span>用途</span><b>${CAT[c.category] || '其他'}</b></div><div><span>遵守 robots.txt</span><b>${ROBOTS[c.respects_robots] || '–'}</b></div><div><span>来源</span><b><a href="${esc(c.docs_url)}" rel="nofollow noopener" target="_blank">官方文档 ↗</a></b></div></div>
 <p class="lead l">${esc(c.summary_zh)}</p>
 <h2>屏蔽后会怎样</h2><p>${esc(c.block_consequence_zh)}</p>
-<h2>robots.txt 写法</h2>
-${ctrl ? `<p>为它单独写一组规则。它不改变爬虫抓什么，只决定内容能否被这样使用：</p><pre>User-agent: ${esc(c.token)}\nDisallow: /</pre>` : `<p>屏蔽：</p><pre>User-agent: ${esc(c.token)}\nDisallow: /</pre><p>显式放行（当有更宽的规则拦了其他机器人时有用）：</p><pre>User-agent: ${esc(c.token)}\nAllow: /</pre>`}
+${c.agent_kind === 'browser' ? `<h2>怎么拦截或放行</h2><p>它不是爬虫：请求来自真实浏览器，UA 是浏览器本身的，只多了一个 <code>${esc(c.token)}</code> 标识。在 CDN 或防火墙里按这个标识匹配，不要匹配整串 UA。Cloudflare 可新建自定义规则，表达式如下、动作选“阻止”；Nginx 用第二段返回 403。</p><pre>${esc(`(http.user_agent contains "${c.token}")`)}</pre><pre>${esc(`if ($http_user_agent ~* "${c.token}") { return 403; }`)}</pre><p>UA 谁都能伪造。信任或放行前，先核对请求是否来自 <a href="${esc(c.ip_url)}" rel="nofollow noopener" target="_blank">${esc(c.ip_url.replace('https://', ''))}</a> 公布的 IP 段；IP 段会变，规则应从这个文件自动更新，不要写死。</p>` : `<h2>robots.txt 写法</h2>
+${ctrl ? `<p>为它单独写一组规则。它不改变爬虫抓什么，只决定内容能否被这样使用：</p><pre>User-agent: ${esc(c.token)}\nDisallow: /</pre>` : `<p>屏蔽：</p><pre>User-agent: ${esc(c.token)}\nDisallow: /</pre><p>显式放行（当有更宽的规则拦了其他机器人时有用）：</p><pre>User-agent: ${esc(c.token)}\nAllow: /</pre>`}`}
 <h2>官方原文</h2><blockquote>${esc(c.quote)}<cite><a href="${esc(c.docs_url)}" rel="nofollow noopener" target="_blank">${esc(c.vendor)} 文档</a>，核对于 ${esc(c.verified_on)}</cite></blockquote>
 ${c.category === 'search' || c.category === 'user' ? `<h2>robots.txt 允许了，它就真能进来吗？</h2><p>即使 robots.txt 欢迎 ${esc(c.token)}，防火墙或 CDN 规则也可能拒绝它，而后台不会有任何提示。我们的检测会以 ${esc(c.token)} 的身份实际请求，同时用浏览器和 Googlebot 做对照，避免把爬虫 IP 核验误判成拦截。</p>` : ''}
 ${same.length ? `<h2>${esc(c.vendor)} 的其他爬虫</h2><div class="bgrid s">${same.map(botCard).join('')}</div>` : ''}
-<div style="margin-top:28px">${checkBox(`${c.token} 能访问你的网站吗？`)}</div>
+<div style="margin-top:28px">${checkBox(c.agent_kind === 'browser' ? 'AI 爬虫能访问你的网站吗？' : `${c.token} 能访问你的网站吗？`)}</div>
 </main>${CHECK_JS}`
   }));
 }

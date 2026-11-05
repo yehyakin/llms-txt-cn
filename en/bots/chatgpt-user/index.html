@@ -32,6 +32,7 @@
 <p class="lead l">Fetches made when a ChatGPT or Custom GPT user asks it to visit a page. It is not an automatic crawler.</p>
 <h2>What happens if you block it</h2><p>OpenAI says robots.txt rules may not apply to user-initiated fetches. It doesn&#39;t decide whether you appear in ChatGPT search.</p>
 <h2>Our take</h2><p>Leave it allowed unless you have a specific reason. A firewall block stops ChatGPT from reading a page a user pasted in.</p>
+
 <h2>robots.txt</h2><p>To block it:</p><pre>User-agent: ChatGPT-User
 Disallow: /</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>User-agent: ChatGPT-User
 Allow: /</pre>

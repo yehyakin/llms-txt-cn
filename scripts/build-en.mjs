@@ -142,19 +142,20 @@ for (const c of crawlers) {
   out.push(write(`en/bots/${slug(c.token)}/index.html`, page({
     path: `/en/bots/${slug(c.token)}/`, active: 'bots', ld,
     title: `${c.token}: what it is, and should you block it? · VAKSEL`,
-    desc: `${c.token} is ${c.category === 'other' ? `one of ${VENDOR_EN[c.vendor] || c.vendor}'s crawlers` : `${c.vendor}'s ${CAT[c.category].toLowerCase()} ${c.category === 'training_control' ? 'token' : 'crawler'}`}. ${e.block}`.slice(0, 300),
+    desc: c.agent_kind === 'browser' ? `${c.token} is ${VENDOR_EN[c.vendor] || c.vendor}'s hosted browser agent, not a crawler. ${e.block}`.slice(0, 300) : `${c.token} is ${c.category === 'other' ? `one of ${VENDOR_EN[c.vendor] || c.vendor}'s crawlers` : `${c.vendor}'s ${CAT[c.category].toLowerCase()} ${c.category === 'training_control' ? 'token' : 'crawler'}`}. ${e.block}`.slice(0, 300),
     body: `<main class="wrap doc">${crumbs([['/en/', 'Home'], ['/en/bots/', 'AI crawlers'], [null, c.token]])}
 <h1>${esc(c.token)}</h1>
 <div class="facts"><div><span>Operator</span><b>${esc(VENDOR_EN[c.vendor] || c.vendor)}</b></div><div><span>Purpose</span><b>${CAT[c.category]}</b></div><div><span>Follows robots.txt</span><b>${ROBOTS[c.respects_robots] || '–'}</b></div><div><span>Source</span><b><a href="${esc(c.docs_url)}" rel="nofollow noopener" target="_blank">Official docs ↗</a></b></div></div>
 <p class="lead l">${esc(e.summary)}</p>
 <h2>What happens if you block it</h2><p>${esc(e.block)}</p>
 <h2>Our take</h2><p>${esc(e.advice)}</p>
-${c.category === 'training_control' ? '' : `<h2>robots.txt</h2><p>To block it:</p><pre>${esc(robotsLine)}</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>${esc(allowLine)}</pre>`}
+${c.agent_kind === 'browser' ? `<h2>How to block or allow it</h2><p>It isn't a crawler: requests come from a real browser with the browser's own user-agent, plus a <code>${esc(c.token)}</code> token. Match on that token, not the full string, in your CDN or firewall. To block it on Cloudflare, add a custom rule with the expression below and the action Block; on Nginx, the second snippet returns 403.</p><pre>${esc(`(http.user_agent contains "${c.token}")`)}</pre><pre>${esc(`if ($http_user_agent ~* "${c.token}") { return 403; }`)}</pre><p>Anyone can send that user-agent. Before you trust or allow it, check the request comes from the IP ranges listed at <a href="${esc(c.ip_url)}" rel="nofollow noopener" target="_blank">${esc(c.ip_url.replace('https://', ''))}</a>, which change over time, so update rules from the file rather than hardcoding them.</p>` : ''}
+${c.agent_kind === 'browser' || c.category === 'training_control' ? '' : `<h2>robots.txt</h2><p>To block it:</p><pre>${esc(robotsLine)}</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>${esc(allowLine)}</pre>`}
 ${c.category === 'training_control' ? `<h2>robots.txt</h2><p>Add a group for the token; it doesn't change what the crawler fetches, only how the content may be used:</p><pre>${esc(robotsLine)}</pre>` : ''}
 <h2>The operator's own words</h2><blockquote>${esc(c.quote)}<cite><a href="${esc(c.docs_url)}" rel="nofollow noopener" target="_blank">${esc(c.vendor)} documentation</a>, checked ${esc(c.verified_on)}</cite></blockquote>
 ${c.category === 'search' || c.category === 'user' ? `<h2>robots.txt allows it, but is it really getting through?</h2><p>A firewall or CDN rule can reject ${esc(c.token)} even when robots.txt welcomes it, and nothing in your CMS shows it. Our check sends a live request as ${esc(c.token)} alongside a normal browser and a Googlebot control, so a bot-verification rule isn't mistaken for a block.</p>` : ''}
 ${same.length ? `<h2>Other ${esc(c.vendor)} agents</h2><div class="bgrid s">${same.map(botCard).join('')}</div>` : ''}
-<div style="margin-top:28px">${checkBox(`Can ${c.token} reach your site?`)}</div>
+<div style="margin-top:28px">${checkBox(c.agent_kind === 'browser' ? 'Can AI crawlers reach your site?' : `Can ${c.token} reach your site?`)}</div>
 </main>${CHECK_JS}`
   })));
 }

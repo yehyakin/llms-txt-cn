@@ -32,6 +32,7 @@
 <p class="lead l">OpenAI&#39;s ad review agent. It checks that landing pages submitted as ads on ChatGPT are safe and follow policy, and may use the page to decide when the ad is relevant. Its data isn&#39;t used to train foundation models.</p>
 <h2>What happens if you block it</h2><p>It only visits pages submitted as ChatGPT ads, so it affects ad review, not search or training. OpenAI doesn&#39;t say whether it follows robots.txt.</p>
 <h2>Our take</h2><p>Leave it alone unless you run ChatGPT ads; then make sure your landing pages let it in.</p>
+
 <h2>robots.txt</h2><p>To block it:</p><pre>User-agent: OAI-AdsBot
 Disallow: /</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>User-agent: OAI-AdsBot
 Allow: /</pre>

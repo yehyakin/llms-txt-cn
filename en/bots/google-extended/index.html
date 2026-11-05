@@ -33,6 +33,7 @@
 <h2>What happens if you block it</h2><p>Your content isn&#39;t used to train future Gemini models and isn&#39;t used for grounding in Gemini Apps and Vertex AI. Google Search is unaffected.</p>
 <h2>Our take</h2><p>Disallow Google-Extended, never Googlebot, if you want to opt out of Gemini training. Note that it also removes you from Gemini Apps grounding.</p>
 
+
 <h2>robots.txt</h2><p>Add a group for the token; it doesn't change what the crawler fetches, only how the content may be used:</p><pre>User-agent: Google-Extended
 Disallow: /</pre>
 <h2>The operator's own words</h2><blockquote>Google-Extended is a standalone product token that web publishers can use to manage whether content Google crawls from their sites may be used for training future generations of Gemini models ... and for grounding ... in Gemini Apps and Grounding with Google Search on Vertex AI. Google-Extended does not impact a site&#39;s inclusion in Google Search nor is it used as a ranking signal in Google Search.<cite><a href="https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers" rel="nofollow noopener" target="_blank">Google documentation</a>, checked 2026-10-31</cite></blockquote>

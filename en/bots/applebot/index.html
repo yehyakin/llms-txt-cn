@@ -32,6 +32,7 @@
 <p class="lead l">Apple&#39;s search crawler for Spotlight, Siri and Safari features. If robots.txt doesn&#39;t mention Applebot but mentions Googlebot, Applebot follows the Googlebot rules.</p>
 <h2>What happens if you block it</h2><p>Your site won&#39;t appear in Apple&#39;s search features such as Spotlight, Siri and Safari suggestions.</p>
 <h2>Our take</h2><p>Keep it allowed. To opt out of Apple&#39;s AI training, disallow Applebot-Extended.</p>
+
 <h2>robots.txt</h2><p>To block it:</p><pre>User-agent: Applebot
 Disallow: /</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>User-agent: Applebot
 Allow: /</pre>

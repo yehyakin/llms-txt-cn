@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Claude-Agent 是什么？要不要屏蔽 · VAKSEL</title>
-<meta name="description" content="Claude-Agent 是 Anthropic 的爬虫。用户无法让 Claude 的托管浏览器在你的网站上替他完成任务；不影响 Anthropic 的爬虫。官方页面没有说明它是否遵守 robots.txt，识别时应核对公布的 IP 段，UA 可被伪造。">
+<meta name="description" content="Claude-Agent 是 Anthropic 的托管浏览器，不是爬虫。用户无法让 Claude 的托管浏览器在你的网站上替他完成任务；不影响 Anthropic 的爬虫。官方页面没有说明它是否遵守 robots.txt，识别时应核对公布的 IP 段，UA 可被伪造。">
 <meta name="robots" content="noindex"><meta name="theme-color" content="#0a0a0a">
 <link rel="canonical" href="https://cetxt.com/bots/claude-agent/">
 <link rel="alternate" hreflang="zh-CN" href="https://cetxt.com/bots/claude-agent/"><link rel="alternate" hreflang="en" href="https://vaksel.com/bots/claude-agent/">
-<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="Claude-Agent 是什么？要不要屏蔽 · VAKSEL"><meta property="og:description" content="Claude-Agent 是 Anthropic 的爬虫。用户无法让 Claude 的托管浏览器在你的网站上替他完成任务；不影响 Anthropic 的爬虫。官方页面没有说明它是否遵守 robots.txt，识别时应核对公布的 IP 段，UA 可被伪造。"><meta property="og:url" content="https://cetxt.com/bots/claude-agent/"><meta property="og:image" content="https://cetxt.com/og.png"><meta name="twitter:card" content="summary_large_image">
+<meta property="og:type" content="article"><meta property="og:site_name" content="VAKSEL"><meta property="og:title" content="Claude-Agent 是什么？要不要屏蔽 · VAKSEL"><meta property="og:description" content="Claude-Agent 是 Anthropic 的托管浏览器，不是爬虫。用户无法让 Claude 的托管浏览器在你的网站上替他完成任务；不影响 Anthropic 的爬虫。官方页面没有说明它是否遵守 robots.txt，识别时应核对公布的 IP 段，UA 可被伪造。"><meta property="og:url" content="https://cetxt.com/bots/claude-agent/"><meta property="og:image" content="https://cetxt.com/og.png"><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/en/brand/vaksel-favicon.svg" type="image/svg+xml"><link rel="icon" href="/en/brand/favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">
 <link rel="preload" href="/en/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
@@ -33,15 +33,12 @@
 <div class="facts"><div><span>运营方</span><b>Anthropic</b></div><div><span>用途</span><b>其他</b></div><div><span>遵守 robots.txt</span><b>官方未说明</b></div><div><span>来源</span><b><a href="https://support.claude.com/en/articles/18234133-how-do-anthropic-hosted-browsers-identify-themselves-when-they-browse-the-web-on-a-user-s-behalf" rel="nofollow noopener" target="_blank">官方文档 ↗</a></b></div></div>
 <p class="lead l">Anthropic 托管的真实浏览器，在 Claude Duet 等产品里按用户指示完成任务；UA 是浏览器本身的，附加 Claude-Agent 标识。IP 段公布在 claude.com/.well-known/sail，与 ClaudeBot、Claude-User、Claude-SearchBot 分开管理。</p>
 <h2>屏蔽后会怎样</h2><p>用户无法让 Claude 的托管浏览器在你的网站上替他完成任务；不影响 Anthropic 的爬虫。官方页面没有说明它是否遵守 robots.txt，识别时应核对公布的 IP 段，UA 可被伪造。</p>
-<h2>robots.txt 写法</h2>
-<p>屏蔽：</p><pre>User-agent: Claude-Agent
-Disallow: /</pre><p>显式放行（当有更宽的规则拦了其他机器人时有用）：</p><pre>User-agent: Claude-Agent
-Allow: /</pre>
+<h2>怎么拦截或放行</h2><p>它不是爬虫：请求来自真实浏览器，UA 是浏览器本身的，只多了一个 <code>Claude-Agent</code> 标识。在 CDN 或防火墙里按这个标识匹配，不要匹配整串 UA。Cloudflare 可新建自定义规则，表达式如下、动作选“阻止”；Nginx 用第二段返回 403。</p><pre>(http.user_agent contains &quot;Claude-Agent&quot;)</pre><pre>if ($http_user_agent ~* &quot;Claude-Agent&quot;) { return 403; }</pre><p>UA 谁都能伪造。信任或放行前，先核对请求是否来自 <a href="https://claude.com/.well-known/sail" rel="nofollow noopener" target="_blank">claude.com/.well-known/sail</a> 公布的 IP 段；IP 段会变，规则应从这个文件自动更新，不要写死。</p>
 <h2>官方原文</h2><blockquote>Allowing or disallowing this traffic will control whether your users can ask their Claude services that leverage this type of agentic browser use to complete tasks on your website.<cite><a href="https://support.claude.com/en/articles/18234133-how-do-anthropic-hosted-browsers-identify-themselves-when-they-browse-the-web-on-a-user-s-behalf" rel="nofollow noopener" target="_blank">Anthropic 文档</a>，核对于 2026-11-05</cite></blockquote>
 
 <h2>Anthropic 的其他爬虫</h2><div class="bgrid s"><a class="bcard" href="/bots/claudebot/"><div class="bt">ClaudeBot</div><div class="bv">Anthropic</div><p>收集可能用于训练 Anthropic 生成式模型的网页内容。</p></a><a class="bcard" href="/bots/claude-searchbot/"><div class="bt">Claude-SearchBot</div><div class="bv">Anthropic</div><p>为提升 Claude 搜索结果质量而索引网页。</p></a><a class="bcard" href="/bots/claude-user/"><div class="bt">Claude-User</div><div class="bv">Anthropic</div><p>用户向 Claude 提问时代为访问网页。</p></a></div>
 <div style="margin-top:28px">
-<div class="cta mini"><div><h3>Claude-Agent 能访问你的网站吗？</h3><p>免费，无需注册。我们以 18 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
+<div class="cta mini"><div><h3>AI 爬虫能访问你的网站吗？</h3><p>免费，无需注册。我们以 18 种不同身份请求你的首页，告诉你每个请求拿到了什么。</p></div>
 <form class="field inv" data-check autocomplete="off"><input placeholder="你的域名，例如 example.com" aria-label="域名" spellcheck="false" autocapitalize="off"><button class="btn">检测</button></form></div></div>
 </main><script>
 document.querySelectorAll('[data-check]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();let v=(f.querySelector('input').value||'').trim().toLowerCase().replace(/^https?:\/\//,'').split(/[\/?#]/)[0];if(/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v))location.href='/report/'+v;else{f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake')}}));

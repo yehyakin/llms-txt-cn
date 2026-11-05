@@ -32,6 +32,7 @@
 <p class="lead l">Fetches requested by Meta AI users, for example when a user shares a link.</p>
 <h2>What happens if you block it</h2><p>Meta says this fetcher may bypass robots.txt because the fetch was requested by a user. Only a firewall rule actually stops it.</p>
 <h2>Our take</h2><p>Leave it allowed unless you have a reason to block user-directed fetches.</p>
+
 <h2>robots.txt</h2><p>To block it:</p><pre>User-agent: meta-externalfetcher
 Disallow: /</pre><p>To allow it explicitly (useful when a wider rule blocks other bots):</p><pre>User-agent: meta-externalfetcher
 Allow: /</pre>
