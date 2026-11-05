@@ -1,5 +1,5 @@
 {
- "checked_at": "2026-11-05T01:40:36.884Z",
+ "checked_at": "2026-11-05T09:42:39.441Z",
  "docs": {
   "https://platform.openai.com/docs/bots": {
    "tokens": [
@@ -59,9 +59,7 @@
     "Applebot",
     "Applebot-Extended"
    ],
-   "since": "2026-11-04T10:48:31.361Z",
-   "last_error": "HTTP 429",
-   "last_error_at": "2026-11-05T01:40:36.884Z"
+   "since": "2026-11-04T10:48:31.361Z"
   },
   "https://docs.perplexity.ai/guides/bots": {
    "tokens": [
@@ -238,12 +236,10 @@
    "tokens": [
     "YandexBot"
    ],
-   "hash": "62b08ca307dfcfba",
-   "chars": 12175,
-   "found": [
-    "YandexBot"
-   ],
-   "since": "2026-11-04T10:47:16.098Z"
+   "hash": "b88d0b6b76449f4f",
+   "chars": 312,
+   "found": [],
+   "since": "2026-11-05T09:42:39.441Z"
   },
   "https://searchadvisor.naver.com/guide/seo-basic-firewall": {
    "tokens": [
@@ -255,6 +251,17 @@
     "Yeti"
    ],
    "since": "2026-11-04T10:47:16.098Z"
+  },
+  "https://support.claude.com/en/articles/18234133-how-do-anthropic-hosted-browsers-identify-themselves-when-they-browse-the-web-on-a-user-s-behalf": {
+   "tokens": [
+    "Claude-Agent"
+   ],
+   "hash": "c0b545be457a3596",
+   "chars": 3251,
+   "found": [
+    "Claude-Agent"
+   ],
+   "since": "2026-11-05T09:42:39.441Z"
   }
  }
 }

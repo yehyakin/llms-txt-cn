@@ -332,6 +332,14 @@
       "quote": "Crawling preferences addressed to the Google-CloudVertexBot user agent affect crawls requested by the site owners' for building Vertex AI Agents.",
       "block_consequence_zh": "你（或你授权的人）用 Vertex AI Agents 搭建基于本站内容的智能体时，抓取会受限；不影响 Google 搜索。",
       "docs_url": "https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers", "verified_on": "2026-11-04", "verification": "verified"
+    },
+    {
+      "token": "Claude-Agent", "vendor": "Anthropic", "category": "other", "purposes": ["agents"],
+      "respects_robots": "unverified",
+      "summary_zh": "Anthropic 托管的真实浏览器，在 Claude Duet 等产品里按用户指示完成任务；UA 是浏览器本身的，附加 Claude-Agent 标识。IP 段公布在 claude.com/.well-known/sail，与 ClaudeBot、Claude-User、Claude-SearchBot 分开管理。",
+      "quote": "Allowing or disallowing this traffic will control whether your users can ask their Claude services that leverage this type of agentic browser use to complete tasks on your website.",
+      "block_consequence_zh": "用户无法让 Claude 的托管浏览器在你的网站上替他完成任务；不影响 Anthropic 的爬虫。官方页面没有说明它是否遵守 robots.txt，识别时应核对公布的 IP 段，UA 可被伪造。",
+      "docs_url": "https://support.claude.com/en/articles/18234133-how-do-anthropic-hosted-browsers-identify-themselves-when-they-browse-the-web-on-a-user-s-behalf", "verified_on": "2026-11-05", "verification": "verified"
     }
   ],
   "vendor_training_tokens": {

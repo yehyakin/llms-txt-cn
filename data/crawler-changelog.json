@@ -3,6 +3,15 @@
   "entries": [
     {
       "date": "2026-11-05",
+      "kind": "directory",
+      "tokens": [
+        "Claude-Agent"
+      ],
+      "en": "Added Claude-Agent, Anthropic's hosted browser that completes tasks for users, under Other AI agents. It doesn't count toward the grade.",
+      "zh": "新增 Claude-Agent（Anthropic 代用户完成任务的托管浏览器），归入“其他 AI 相关爬虫”，不计入评级。"
+    },
+    {
+      "date": "2026-11-05",
       "kind": "vendor",
       "type": "new",
       "tokens": [
