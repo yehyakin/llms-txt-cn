@@ -426,18 +426,30 @@ write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="htt
 console.log('zh pages:', out.length);
 
 /* ---------- 旧文字页迁入新模板（11-02）：源文件在 legacy/，正文原样保留，旧样式转浅色并限定在 .lg 内 ---------- */
+export function darkCss(css) {
+  // 旧版深色调色板（暖白 + 荧光黄）→ 现站深色（#0a0a0a 底、#f5f5f7 字、绿色强调）
+  return css
+    .replace(/rgba\(244,\s*241,\s*233,\s*([\d.]+)\)/g, (m, x) => `rgba(255,255,255,${x})`)
+    .replace(/rgba\(210,\s*255,\s*0,\s*([\d.]+)\)/g, (m, x) => `rgba(62,224,122,${x})`)
+    .replace(/#0c0c0e\b/gi, '#0a0a0a').replace(/#121214\b/gi, '#151515').replace(/#17171a\b/gi, '#1c1c1e').replace(/#08080a\b/gi, '#0a0a0a')
+    .replace(/#f4f1e9\b/gi, '#f5f5f7').replace(/#d8d5cc\b/gi, '#c7c7cc').replace(/#97958d\b/gi, '#a1a1a6').replace(/#85837c\b/gi, '#86868b')
+    .replace(/#d2ff00\b/gi, '#3ee07a')
+    .replace(/"Noto Serif SC",\s*"Songti SC",\s*serif|"Noto Serif SC",\s*serif/g, '"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif')
+    .replace(/"Noto Sans SC",\s*sans-serif/g, '"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif')
+    .replace(/font-weight:\s*900/g, 'font-weight:700');
+}
 export function lightCss(css) {
   const a = (r, g, b) => (m, x) => `rgba(${r},${g},${b},${x})`;
   return css
     .replace(/rgba\(244,\s*241,\s*233,\s*([\d.]+)\)/g, (m, x) => `rgba(0,0,0,${Math.min(1, +x * 0.7).toFixed(3)})`)
-    .replace(/rgba\(210,\s*255,\s*0,\s*([\d.]+)\)/g, a(12, 99, 241))
+    .replace(/rgba\(210,\s*255,\s*0,\s*([\d.]+)\)/g, a(22, 163, 74))
     .replace(/rgba\(255,\s*107,\s*107,\s*([\d.]+)\)/g, a(215, 0, 21))
     .replace(/rgba\(255,\s*176,\s*32,\s*([\d.]+)\)/g, a(178, 106, 0))
     .replace(/rgba\(12,\s*12,\s*14,\s*\.72\)/g, 'rgba(255,255,255,.82)').replace(/rgba\(8,\s*8,\s*10,\s*\.7\)/g, 'rgba(255,255,255,.78)')
     .replace(/rgba\(0,0,0,\.55\)/g, 'rgba(0,0,0,.14)').replace(/rgba\(0,0,0,\.4\)/g, 'rgba(0,0,0,.12)')
     .replace(/#0c0c0e\b/gi, '#ffffff').replace(/#121214\b/gi, '#f5f5f7').replace(/#17171a\b/gi, '#ececf0').replace(/#08080a\b/gi, '#fafafa')
     .replace(/#f4f1e9\b/gi, '#1d1d1f').replace(/#d8d5cc\b/gi, '#333336').replace(/#97958d\b/gi, '#6e6e73').replace(/#85837c\b/gi, '#86868b')
-    .replace(/#d2ff00\b/gi, '#0C63F1').replace(/#ff6b6b\b|#ff8080\b/gi, '#d70015').replace(/#ffb020\b/gi, '#b26a00')
+    .replace(/#d2ff00\b/gi, '#16a34a').replace(/#ff6b6b\b|#ff8080\b/gi, '#d70015').replace(/#ffb020\b/gi, '#b26a00')
     .replace(/"Noto Serif SC",\s*"Songti SC",\s*serif|"Noto Serif SC",\s*serif/g, '"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif')
     .replace(/"Noto Sans SC",\s*sans-serif/g, '"Inter",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif')
     .replace(/"JetBrains Mono",\s*(ui-monospace,)?/g, 'ui-monospace,')
@@ -464,6 +476,22 @@ function scopeCss(css, sc) {
   return out;
 }
 const fixLinks = (h) => h.replace(/href="\/#check"/g, 'href="/"').replace(/href="\/#(gen|val|robots)"/g, 'href="/tools/#$1"').replace(/>去 cetxt\.com 测一下 →</g, '>免费检测我的网站 →<');
+// 旧页面并入深色内页：去掉旧页自带的背景，标题字距按中文排版
+const LG_FIX = `.lg{background:transparent!important;padding-bottom:24px}.lg a:hover{text-decoration:none}
+body.zh .lg h1,body.zh .lg h2,body.zh .lg h3{letter-spacing:0!important}
+body.zh .lg h1{font-size:clamp(30px,4vw,48px)!important;line-height:1.25!important;font-weight:600!important}
+body.zh .lg p,body.zh .lg li{line-height:1.75}
+`;
+const TOOLS_FIX = `.lg .grain,.lg #cur,.lg #curR,.lg #loader,.lg .announce{display:none!important}
+.lg,.lg *{cursor:auto}.lg a,.lg button,.lg [role=tab],.lg label{cursor:pointer}
+.lg .topbar{position:relative!important;top:auto!important;background:transparent!important;backdrop-filter:none!important;border-bottom:1px solid var(--line,rgba(255,255,255,.09))}
+.lg .stage main{padding-top:0!important}
+.lg .hero{padding:clamp(40px,6vw,72px) 0 clamp(28px,4vw,48px)!important}
+body.zh .lg .hero h1{font-size:clamp(32px,4.6vw,56px)!important;line-height:1.2!important;font-weight:600!important;letter-spacing:0!important}
+.lg .spot{display:none}
+.lg .tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.lg .tabs::-webkit-scrollbar{display:none}.lg .tabs>*{white-space:nowrap;flex:none}
+@media (max-width:720px){.lg .brand span{display:none}.lg .top-actions,.lg .gh{display:none!important}}
+`;
 const LEGACY_TEXT = [['faq/index.html', '/faq/'], ['guide/what-is-llms-txt/index.html', '/guide/what-is-llms-txt/'], ['guide/how-to-write-llms-txt/index.html', '/guide/how-to-write-llms-txt/'], ['survey/index.html', '/survey/']];
 for (const [rel, path] of LEGACY_TEXT) {
   const src = readFileSync(join(root, 'legacy', rel), 'utf8');
@@ -477,37 +505,30 @@ for (const [rel, path] of LEGACY_TEXT) {
     .replace(/\s*<div class="foot">[\s\S]*?<\/div>\n/, '\n')
     .replace(/\s*<footer>[\s\S]*?<\/footer>\n/, '\n');
   body = fixLinks(body);
-  const css = scopeCss(lightCss(style), '.lg') + '.lg{background:#fff;padding-bottom:24px}.lg a:hover{text-decoration:none}\n';
+  const css = scopeCss(darkCss(style), 'html:not(.lt) .lg') + scopeCss(lightCss(style), 'html.lt .lg') + LG_FIX;
   const fixed = readFileSync(join(root, rel), 'utf8');
   write(rel, page({ path, title, desc, active: rel.startsWith('survey') ? 'survey' : '', en: rel.startsWith('survey') ? '/research/' : '/',
-    robots: 'index,follow', theme: '', head: `<style>${css}</style>\n${lds}\n${umami}`, body: `<main class="lg">${body}</main>` }));
+    robots: 'index,follow', head: `<style>${css}</style>\n${lds}\n${umami}`, body: `<main class="lg">${body}</main>` }));
 }
 
-/* ---------- 旧页面换壳：只换导航、页脚、图标和标题后缀，正文与网址不动（幂等） ---------- */
-const LEGACY = [['tools/index.html', 'tools', '/']];
-for (const [rel, active, enPath] of LEGACY) {
-  const abs = join(root, rel);
-  let h = readFileSync(abs, 'utf8');
-  h = h.replace(/<!--VXS-NAV-->[\s\S]*?<!--\/VXS-NAV-->\n?/, '').replace(/<!--VXS-FOOT-->[\s\S]*?<!--\/VXS-FOOT-->\n?/, '');
-  h = h.replace('href="/css/site.css"', 'href="/css/site-light.css"').replace('href="/css/audit.css"', 'href="/css/audit-light.css"').replace('<meta name="theme-color" content="#0c0c0e">', '<meta name="theme-color" content="#ffffff">').replace(/<link href="https:\/\/fonts\.googleapis\.com[^>]*>\n?/, '').replace(/<link rel="preconnect" href="https:\/\/fonts\.(googleapis|gstatic)\.com"( crossorigin)?>\n?/g, '').replace(/cetxt · 给 AI 的网站说明书/g, 'llms.txt 中文生成器与校验器 · VAKSEL');
-  h = h.replace(/ · cetxt<\/title>/, ' · VAKSEL</title>').replace(/(<meta property="og:title" content="[^"]*?) · cetxt"/, '$1 · VAKSEL"').replace(/<meta property="og:site_name" content="[^"]*">/, '<meta property="og:site_name" content="VAKSEL">');
-  h = h.replace('<link rel="icon" type="image/svg+xml" href="/favicon.svg">', '<link rel="icon" type="image/svg+xml" href="/en/brand/vaksel-favicon.svg">').replace('<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">', '<link rel="icon" href="/en/brand/favicon.ico" sizes="16x16 32x32 48x48">').replace('<link rel="apple-touch-icon" href="/apple-touch-icon.png">', '<link rel="apple-touch-icon" href="/en/brand/apple-touch-icon.png">');
-  if (!h.includes('/en/shell.css')) h = h.replace('</head>', '<link rel="stylesheet" href="/en/shell.css">\n</head>');
-  if (rel.startsWith('tools/') && !h.includes('id="vxs-fix"')) h = h.replace('</head>', '<style id="vxs-fix">.announce{position:relative!important}.topbar{position:sticky!important;top:0!important}main,body.has-ann main{padding-top:28px!important}html{scroll-padding-top:70px}</style>\n</head>');
-  // 去掉旧的“← cetxt.com”顶栏和旧页脚
-  h = h.replace(/\n\s*<div class="topbar">(?:<span>[^<]*<\/span>)?<a href="\/">← cetxt\.com<\/a>(?:<a href="\/survey\/">调查报告<\/a>)?<\/div>\n/, '\n');
-  h = h.replace(/\n\s*<div class="foot"><span>cetxt\.com — 给 AI 的网站说明书<\/span><a href="\/">回首页<\/a><\/div>\n/, '\n');
-  h = h.replace(/\n\s*<footer>\s*<span>CETXT\.COM 出品 · 数据备查<\/span>[\s\S]*?<\/footer>\n/, '\n');
-  h = h.replace(/\n<footer>\n  <div class="foot-in">[\s\S]*?<\/footer>\n/, '\n');
-  h = h.replace('<a class="brand" id="brandHome"><b>ce<em>txt</em></b><span>AI 爬虫与训练规则检测</span></a>', '<a class="brand" id="brandHome"><b>llms<em>.txt</em></b><span>生成 · 校验 · robots 规则</span></a>');
-  const nav = '<!--VXS-NAV--><div class="vxs' + (rel.startsWith('tools/') ? '' : ' top') + '">' + NAV(active, enPath) + '</div><!--/VXS-NAV-->\n';
-  const foot = '<!--VXS-FOOT--><div class="vxs">' + FOOT(enPath) + '</div><!--/VXS-FOOT-->\n';
-  h = h.replace(/<body([^>]*)>\n?/, (m) => m.trimEnd() + '\n' + nav);
-  const i = h.lastIndexOf('</body>');
-  // 页脚放在页面脚本之前（tools 的脚本紧跟原页脚）
-  const j = rel.startsWith('tools/') ? h.indexOf('<script src="/llms.js"></script>') : i;
-  h = h.slice(0, j) + foot + h.slice(j);
-  writeFileSync(abs, h);
+/* ---------- /tools/：从 legacy/tools 取正文与脚本，套深色内页外壳（导航、页脚、主题切换与全站一致） ---------- */
+{
+  const src = readFileSync(join(root, 'legacy/tools/index.html'), 'utf8');
+  const title = src.match(/<title>([^<]*)<\/title>/)[1].replace(/ · cetxt$/, ' · VAKSEL');
+  const desc = (src.match(/<meta name="description" content="([^"]*)"/) || [, ''])[1];
+  const lds = [...src.matchAll(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g)].map((m) => m[0].replace(/"name": "cetxt"/g, '"name": "VAKSEL 中文版"')).join('\n');
+  const umami = (src.match(/<script defer src="https:\/\/umami[^>]*><\/script>/) || [''])[0];
+  let body = src.slice(src.search(/<body[^>]*>/), src.lastIndexOf('</body>')).replace(/^<body[^>]*>/, '');
+  body = body.replace(/\n<footer>\n  <div class="foot-in">[\s\S]*?<\/footer>\n/, '\n')
+    .replace('<a class="brand" id="brandHome"><b>ce<em>txt</em></b><span>AI 爬虫与训练规则检测</span></a>', '<a class="brand" id="brandHome"><b>llms<em>.txt</em></b><span>生成 · 校验 · robots 规则</span></a>')
+    .replace('<main>', '<main id="main" tabindex="-1">');
+  body = fixLinks(body);
+  // 跳过旧版开屏动画与顶部公告条（脚本仍需要这些元素存在）
+  body = body.replace('<script src="/js/app.js"></script>', "<script>try{sessionStorage.setItem('cetxt_seen','1');localStorage.setItem('cetxt_announce','off')}catch(e){}</script>\n<script src=\"/js/app.js\"></script>");
+  const raw = readFileSync(join(root, 'css/site.css'), 'utf8') + '\n' + readFileSync(join(root, 'css/audit.css'), 'utf8');
+  writeFileSync(join(root, 'css/tools-zh.css'), '/* 由 build-zh.mjs 从 site.css + audit.css 生成，勿手改 */\n' + scopeCss(darkCss(raw), 'html:not(.lt) .lg') + scopeCss(lightCss(raw), 'html.lt .lg') + LG_FIX + TOOLS_FIX);
+  write('tools/index.html', page({ path: '/tools/', title, desc, active: 'tools', en: '/', type: 'website', robots: 'index,follow',
+    head: `<link rel="stylesheet" href="/css/tools-zh.css">\n${lds}\n${umami}`, body: `<div class="lg tools">${body}</div>` }));
 }
 for (const c of ['site', 'audit']) writeFileSync(join(root, `css/${c}-light.css`), '/* 由 build-zh.mjs 从 ' + c + '.css 自动生成的浅色版，勿手改 */\n' + lightCss(readFileSync(join(root, `css/${c}.css`), 'utf8')));
-console.log('legacy reshelled:', LEGACY.length);
+console.log('legacy pages rebuilt');

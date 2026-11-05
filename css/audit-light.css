@@ -20,8 +20,8 @@
 .issue .msg .det{display:block; color:var(--ink); opacity:.82; font-size:13.5px; margin:4px 0 6px; line-height:1.7}
 .issue .msg .evi{display:flex; flex-wrap:wrap; gap:10px; margin-top:8px; align-items:center}
 .lns{display:inline-flex; flex-wrap:wrap; gap:4px}
-.lnk{font-family:var(--mono); font-size:11px; color:var(--acc); background:var(--acc-soft); border:1px solid rgba(12,99,241,.2); padding:1px 6px; border-radius:3px; text-decoration:none}
-.lnk:hover{background:rgba(12,99,241,.18)}
+.lnk{font-family:var(--mono); font-size:11px; color:var(--acc); background:var(--acc-soft); border:1px solid rgba(22,163,74,.2); padding:1px 6px; border-radius:3px; text-decoration:none}
+.lnk:hover{background:rgba(22,163,74,.18)}
 .lnk.more{color:var(--mut); background:none; border-color:var(--line)}
 .refs{display:inline-flex; flex-wrap:wrap; gap:8px}
 .refs a{font-family:var(--mono); font-size:11px; color:var(--mut); text-decoration:none; border-bottom:1px dotted var(--line)}
@@ -39,7 +39,7 @@
 .au-tr .rd{color:var(--mut); font-size:13px; line-height:1.6}
 .au-tr .src{color:var(--mut); font-size:12px; display:flex; flex-wrap:wrap; gap:6px; align-items:center}
 .st{font-family:var(--mono); font-size:11.5px; font-weight:500; padding:2px 8px; border-radius:3px; border:1px solid; white-space:nowrap}
-.st.allowed{color:var(--acc); background:var(--acc-soft); border-color:rgba(12,99,241,.3)}
+.st.allowed{color:var(--acc); background:var(--acc-soft); border-color:rgba(22,163,74,.3)}
 .st.partial{color:var(--amber); background:var(--amber-soft); border-color:rgba(178,106,0,.3)}
 .st.blocked{color:var(--red); background:var(--red-soft); border-color:rgba(215,0,21,.3)}
 @media (max-width:720px){
