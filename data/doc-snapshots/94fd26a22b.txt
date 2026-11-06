@@ -106,7 +106,7 @@ How to Send Crash Reports on iOS How to Send Crash Reports on macOS How to Send 
 Navigating Suspicious Activity Duck.ai Chat Models Duck.ai Privacy Voice Chat and Dictation Privacy Image Creation Sharing Chats Usage Limits How do I hide Duck.ai?
 Is my Duck.ai chat history private?
 What info do you share with model providers?
-Duck.ai Experiments Choosing the Best Model Passwords & Autofill Optional AI DuckDuckGo’s Approach to AI Opting Out of AI Features About noai.duckduckgo.com Misconceptions Is DuckDuckGo owned by Google?
+Duck.ai Experiments Choosing the Best Model Passwords & Autofill Adding Third-Party Extensions Optional AI DuckDuckGo’s Approach to AI Opting Out of AI Features About noai.duckduckgo.com Misconceptions Is DuckDuckGo owned by Google?
 Does DuckDuckGo sell personal information?
 Does DuckDuckGo have a deal with Bill Gates?
 Does DuckDuckGo Search use Google results?

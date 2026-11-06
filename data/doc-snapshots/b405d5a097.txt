@@ -1,6 +1,6 @@
 Does Anthropic crawl data from the web, and how can site owners block the crawler?
 | Claude Help Center Skip to main content API docs Release notes How to get support English Français Deutsch Bahasa Indonesia Italiano 日本語 한국어 Português Pусский 简体中文 Español 繁體中文 English Search ⌘ K Claude Pro, Max, and Ultra plans Team and Enterprise plans Identity management (SSO, JIT, SCIM) Claude Cowork Claude Code Claude Desktop Claude Mobile apps Claude API and Console Connectors Claude in Chrome Claude for Education Privacy and legal Safeguards Amazon Bedrock All Collections Privacy and legal Does Anthropic crawl data from the web, and how can site owners block the crawler?
-Updated today Copy for LLM This page covers Anthropic&#x27;s robots (crawlers and fetchers).
+Updated yesterday Copy for LLM This page covers Anthropic&#x27;s robots (crawlers and fetchers).
 For browsers hosted by Anthropic that Claude uses to complete tasks for users, including in Claude Duet ( Claude-Agent ), see How do Anthropic-hosted browsers identify themselves when they browse the web on a user&#x27;s behalf?
 Block or limit Anthropic’s bots As per industry standard, Anthropic uses a variety of robots to gather data from the public web for model development, to search the web, and to retrieve web content at users’ direction.
 Anthropic uses different robots to enable website owner transparency and choice.

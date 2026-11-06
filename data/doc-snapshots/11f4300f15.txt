@@ -1,6 +1,6 @@
 How do Anthropic-hosted browsers identify themselves when they browse the web on a user&#x27;s behalf?
 | Claude Help Center Skip to main content API docs Release notes How to get support English Français Deutsch Bahasa Indonesia Italiano 日本語 한국어 Português Pусский 简体中文 Español 繁體中文 English Search ⌘ K Claude Pro, Max, and Ultra plans Team and Enterprise plans Identity management (SSO, JIT, SCIM) Claude Cowork Claude Code Claude Desktop Claude Mobile apps Claude API and Console Connectors Claude in Chrome Claude for Education Privacy and legal Safeguards Amazon Bedrock All Collections Privacy and legal How do Anthropic-hosted browsers identify themselves when they browse the web on a user&#x27;s behalf?
-Updated today Copy for LLM Some Claude products, including Claude Duet , can use a browser hosted by Anthropic to complete tasks at a user&#x27;s direction.
+Updated yesterday Copy for LLM Some Claude products, including Claude Duet , can use a browser hosted by Anthropic to complete tasks at a user&#x27;s direction.
 This is known as agentic browser use.
 This article explains how website owners can identify traffic from this type of agentic browser use and choose whether to allow it.
 Agentic browser use is different from Anthropic&#x27;s robots (crawlers and fetchers, including ClaudeBot , Claude-User , and Claude-SearchBot ).

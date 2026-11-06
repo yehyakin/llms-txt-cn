@@ -1,5 +1,5 @@
 {
- "checked_at": "2026-11-05T09:42:39.441Z",
+ "checked_at": "2026-11-06T01:41:47.346Z",
  "docs": {
   "https://platform.openai.com/docs/bots": {
    "tokens": [
@@ -8,15 +8,15 @@
     "ChatGPT-User",
     "OAI-AdsBot"
    ],
-   "hash": "ca162b74a240d5c7",
-   "chars": 17468,
+   "hash": "416e83053967c2b1",
+   "chars": 17401,
    "found": [
     "GPTBot",
     "OAI-SearchBot",
     "ChatGPT-User",
     "OAI-AdsBot"
    ],
-   "since": "2026-11-05T01:40:36.884Z"
+   "since": "2026-11-06T01:41:47.346Z"
   },
   "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler": {
    "tokens": [
@@ -24,14 +24,14 @@
     "Claude-SearchBot",
     "Claude-User"
    ],
-   "hash": "2c624b494a6d6e0f",
-   "chars": 6493,
+   "hash": "718e4c0b71857ef4",
+   "chars": 6497,
    "found": [
     "ClaudeBot",
     "Claude-SearchBot",
     "Claude-User"
    ],
-   "since": "2026-11-05T01:40:36.884Z"
+   "since": "2026-11-06T01:41:47.346Z"
   },
   "https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers": {
    "tokens": [
@@ -66,13 +66,13 @@
     "PerplexityBot",
     "Perplexity-User"
    ],
-   "hash": "977671638c5e8059",
-   "chars": 58141,
+   "hash": "136eeefe183cc46d",
+   "chars": 58271,
    "found": [
     "PerplexityBot",
     "Perplexity-User"
    ],
-   "since": "2026-11-05T01:40:36.884Z"
+   "since": "2026-11-06T01:41:47.346Z"
   },
   "https://www.bing.com/webmasters/help/which-crawlers-does-bing-use-8c184ec0": {
    "tokens": [
@@ -140,12 +140,12 @@
    "tokens": [
     "DuckAssistBot"
    ],
-   "hash": "fa1892bbf93b4500",
-   "chars": 13641,
+   "hash": "a270a8db345994f8",
+   "chars": 13671,
    "found": [
     "DuckAssistBot"
    ],
-   "since": "2026-11-04T10:47:16.098Z"
+   "since": "2026-11-06T01:41:47.346Z"
   },
   "https://help.baidu.com/question?prod_id=99&class=476&id=2996": {
    "tokens": [
@@ -236,10 +236,12 @@
    "tokens": [
     "YandexBot"
    ],
-   "hash": "b88d0b6b76449f4f",
-   "chars": 312,
-   "found": [],
-   "since": "2026-11-05T09:42:39.441Z"
+   "hash": "62b08ca307dfcfba",
+   "chars": 12175,
+   "found": [
+    "YandexBot"
+   ],
+   "since": "2026-11-06T01:41:47.346Z"
   },
   "https://searchadvisor.naver.com/guide/seo-basic-firewall": {
    "tokens": [
@@ -256,12 +258,12 @@
    "tokens": [
     "Claude-Agent"
    ],
-   "hash": "c0b545be457a3596",
-   "chars": 3251,
+   "hash": "504568b6fd00516e",
+   "chars": 3255,
    "found": [
     "Claude-Agent"
    ],
-   "since": "2026-11-05T09:42:39.441Z"
+   "since": "2026-11-06T01:41:47.346Z"
   }
  }
 }
