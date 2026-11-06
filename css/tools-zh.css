@@ -1262,5 +1262,8 @@ body.zh .lg p,body.zh .lg li{line-height:1.75}
 .lg .hero{padding:clamp(40px,6vw,72px) 0 clamp(28px,4vw,48px)!important}
 body.zh .lg .hero h1{font-size:clamp(32px,4.6vw,56px)!important;line-height:1.2!important;font-weight:600!important;letter-spacing:0!important}
 .lg .spot{display:none}
+body.dk.in .lg .field,html:not(.lt) body.dk.in .lg .field{background:none!important;box-shadow:none!important;border:0!important;border-radius:0!important;padding:0!important;max-width:none}
+.lg .check-row .field input{height:100%;min-height:52px;border-radius:12px}
+.lg .check-row .btn-pri,.lg .check-row button{border-radius:12px}
 .lg .tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.lg .tabs::-webkit-scrollbar{display:none}.lg .tabs>*{white-space:nowrap;flex:none}
 @media (max-width:720px){.lg .brand span{display:none}.lg .top-actions,.lg .gh{display:none!important}}
