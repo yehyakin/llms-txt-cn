@@ -1,5 +1,5 @@
 {
- "checked_at": "2026-11-06T01:41:47.346Z",
+ "checked_at": "2026-11-19T10:13:03.277Z",
  "docs": {
   "https://platform.openai.com/docs/bots": {
    "tokens": [
@@ -8,15 +8,15 @@
     "ChatGPT-User",
     "OAI-AdsBot"
    ],
-   "hash": "416e83053967c2b1",
-   "chars": 17401,
+   "hash": "ca0ba14b3638f9cf",
+   "chars": 17985,
    "found": [
     "GPTBot",
     "OAI-SearchBot",
     "ChatGPT-User",
     "OAI-AdsBot"
    ],
-   "since": "2026-11-06T01:41:47.346Z"
+   "since": "2026-11-19T10:13:03.277Z"
   },
   "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler": {
    "tokens": [
@@ -24,14 +24,14 @@
     "Claude-SearchBot",
     "Claude-User"
    ],
-   "hash": "718e4c0b71857ef4",
-   "chars": 6497,
+   "hash": "34736aa7f79220f5",
+   "chars": 6504,
    "found": [
     "ClaudeBot",
     "Claude-SearchBot",
     "Claude-User"
    ],
-   "since": "2026-11-06T01:41:47.346Z"
+   "since": "2026-11-19T10:13:03.277Z"
   },
   "https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers": {
    "tokens": [
@@ -39,14 +39,14 @@
     "Googlebot",
     "Google-CloudVertexBot"
    ],
-   "hash": "a497b32d443e5c57",
-   "chars": 11356,
+   "hash": "c9982f2b1232d4c5",
+   "chars": 11383,
    "found": [
     "Google-Extended",
     "Googlebot",
     "Google-CloudVertexBot"
    ],
-   "since": "2026-11-04T10:47:16.098Z"
+   "since": "2026-11-19T10:13:03.277Z"
   },
   "https://support.apple.com/en-us/119829": {
    "tokens": [
@@ -59,20 +59,22 @@
     "Applebot",
     "Applebot-Extended"
    ],
-   "since": "2026-11-04T10:48:31.361Z"
+   "since": "2026-11-04T10:48:31.361Z",
+   "last_error": "HTTP 429",
+   "last_error_at": "2026-11-19T10:13:03.277Z"
   },
   "https://docs.perplexity.ai/guides/bots": {
    "tokens": [
     "PerplexityBot",
     "Perplexity-User"
    ],
-   "hash": "136eeefe183cc46d",
-   "chars": 58271,
+   "hash": "16f6f8b87ad48ba7",
+   "chars": 59876,
    "found": [
     "PerplexityBot",
     "Perplexity-User"
    ],
-   "since": "2026-11-06T01:41:47.346Z"
+   "since": "2026-11-19T10:13:03.277Z"
   },
   "https://www.bing.com/webmasters/help/which-crawlers-does-bing-use-8c184ec0": {
    "tokens": [
@@ -112,14 +114,14 @@
     "meta-webindexer",
     "meta-externalfetcher"
    ],
-   "hash": "bdb1c95e0f0f29b5",
-   "chars": 6267,
+   "hash": "4e68de39edb181b1",
+   "chars": 6295,
    "found": [
     "meta-externalagent",
     "meta-webindexer",
     "meta-externalfetcher"
    ],
-   "since": "2026-11-04T10:47:16.098Z"
+   "since": "2026-11-19T10:13:03.277Z"
   },
   "https://developer.amazon.com/amazonbot": {
    "tokens": [
@@ -140,12 +142,12 @@
    "tokens": [
     "DuckAssistBot"
    ],
-   "hash": "a270a8db345994f8",
-   "chars": 13671,
+   "hash": "cdd637e7a7d4dd33",
+   "chars": 13699,
    "found": [
     "DuckAssistBot"
    ],
-   "since": "2026-11-06T01:41:47.346Z"
+   "since": "2026-11-19T10:13:03.277Z"
   },
   "https://help.baidu.com/question?prod_id=99&class=476&id=2996": {
    "tokens": [
@@ -225,12 +227,12 @@
    "tokens": [
     "YouBot"
    ],
-   "hash": "e213a5391e7a3d5b",
-   "chars": 7983,
+   "hash": "0b6f3a7909075c23",
+   "chars": 7847,
    "found": [
     "YouBot"
    ],
-   "since": "2026-11-04T10:47:16.098Z"
+   "since": "2026-11-19T10:13:03.277Z"
   },
   "https://yandex.com/support/webmaster/en/robot-workings/check-yandex-robots": {
    "tokens": [
@@ -258,12 +260,12 @@
    "tokens": [
     "Claude-Agent"
    ],
-   "hash": "504568b6fd00516e",
-   "chars": 3255,
+   "hash": "b9873c6fa2599204",
+   "chars": 3262,
    "found": [
     "Claude-Agent"
    ],
-   "since": "2026-11-06T01:41:47.346Z"
+   "since": "2026-11-19T10:13:03.277Z"
   }
  }
 }
