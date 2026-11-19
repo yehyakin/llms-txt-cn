@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" data-status="vaksel-v1-production" data-production="true" data-fox-sha256="5aad0dd17df7748d07d295b233bd997d6670bdf2f71ce9c5324db9a38ae34352" data-wordmark-sha256="63b4118c24159274f52cfd85d90f6d568336ad16c2b08f92b9d109bedce08d87" data-wordmark-geometry-sha256="513aeb7c3adde8531209ce11049cb8cf6ccecbee0397af2b1c9e20bf429485ac" data-selection-sha256="40454be7827a1f00acfedfd822669597b1d9b51edbc54205077a7d7414455f13" data-asset-id="app-icon-dark" data-brand="VAKSEL" data-brand-version="1.0">
+  <title>VAKSEL favicon</title>
+  <desc>VAKSEL v1 production asset: favicon.</desc>
+  <g data-component="app-icon" data-asset-id="app-icon-dark" data-view-box="0 0 1024 1024" data-production="true">
+    <rect data-role="tile" x="0" y="0" width="1024" height="1024" rx="224" fill="#080B14" />
+    <g data-role="fox" color="#FFFFFF" transform="matrix(1.513739 0 0 1.513739 124.482783 100.61913)">
+      <g fill="currentColor" fill-rule="evenodd">
+        <path data-part="body-outline" d="M148 341 C105 379 101 439 136 476 C153 491 169 480 194 478 L207 479 C184 475 166 467 153 454 C128 428 133 389 171 354 Z M187 408 C214 378 248 355 289 339 L410 293 C426 343 425 399 397 444 C382 468 361 484 337 495 L349 469 C368 460 383 445 394 424 C412 388 412 349 401 317 L295 356 C253 371 220 392 198 422 Z" />
+        <path data-part="body-mass" d="M139 477 C146 420 185 379 238 355 C266 343 295 333 326 322 L298 382 L343 382 L319 430 L365 430 L341 478 Z" />
+        <path data-part="head-outline" d="M148 350 C130 334 110 312 86 286 L120 252 L87 219 L125 175 C111 136 111 86 121 35 C160 51 199 80 225 116 C244 112 268 112 287 116 C313 80 352 51 391 35 C401 86 401 136 387 175 L425 219 L392 252 L426 286 C402 312 382 334 364 350 L348 346 L389 309 L409 286 L378 252 L407 219 L380 181 C394 137 394 92 384 55 C347 73 316 102 292 134 C269 129 243 129 220 134 C196 102 165 73 128 55 C118 92 118 137 132 181 L105 219 L134 252 L103 286 C125 311 145 329 163 343 Z" />
+        <path data-part="left-eye" d="M168 241 C188 247 207 256 219 267 L223 282 L196 274 C181 269 172 258 168 241 Z" />
+        <path data-part="right-eye" d="M344 241 C324 247 305 256 293 267 L289 282 L316 274 C331 269 340 258 344 241 Z" />
+      </g>
+    </g>
+  </g>
+</svg>

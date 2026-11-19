@@ -1,0 +1,14 @@
+Common Crawl - CCBot The Data Overview CDXJ Index URL Index Web Graphs Latest Crawl Crawl Stats Graph Stats Errata Resources Get Started Blog Examples CCBot Infra Status Opt-Out Ledger FAQ Community Research Papers Mailing List Archive Hugging Face Discord Collaborators About About Team Jobs Privacy Policy Terms of Use Search AI Agent Contact Us CCBot Common Crawl is a non-profit foundation founded with the goal of democratizing access to web information by producing and maintaining an open repository of web crawl data that is universally accessible and analyzable by anyone.
+Enabling free access to web crawl data encourages collaboration and interdisciplinary research, as organizations, academia, and non-profits can work together to address complex challenges.
+Collaborating using Open Data accelerates progress and helps find solutions to pressing global issues, such as climate change, public health, and social equality.
+By embracing Open Data, we promote an inclusive and thriving knowledge ecosystem, where the collective intelligence of the global community can lead to transformative discoveries and positive societal impact.
+CCBot identifies itself in its UserAgent string as: CCBot/2.0 ( https://commoncrawl.org/faq/ ) To prevent Common Crawl from crawling your website, include the following in your robots.txt : User-agent: CCBot Disallow: / Please note that we are aware of crawlers falsely identifying themselves as CCBot.
+We recommend verifying UserAgent strings to ensure authenticity.
+‍ CCBot is now run on dedicated IP address ranges with reverse DNS (except over IPv6 where reverse DNS is not yet supported.) This allows webmasters to verify whether a logged request stems from the real CCBot, for example: ‍ $&gt; host 18.97.14.84 84.14.97.18.in-addr.arpa domain name pointer 18-97-14-84.crawl.commoncrawl.org.
+$&gt; host 18-97-14-84.crawl.commoncrawl.org 18-97-14-84.crawl.commoncrawl.org has address 18.97.14.84 $&gt; dig -x 18.97.14.84 ;; ANSWER SECTION: 84.14.97.18.in-addr.arpa.
+276 IN PTR 18-97-14-84.crawl.commoncrawl.org.
+$&gt; dig 18-97-14-84.crawl.commoncrawl.org A ;; ANSWER SECTION: 18-97-14-84.crawl.commoncrawl.org.
+275 IN A 18.97.14.84 These IP ranges (v4 and v6) are also provided as JSON at https://index.commoncrawl.org/ccbot.json .
+Read about our Opt-out Registry on our blog.
+Please see our FAQ for further information.
+The Data Overview CDXJ Index URL Index Web Graphs Latest Crawl Crawl Stats Graph Stats Errata Resources Get Started Blog Examples CCBot Infra Status Opt-Out Ledger FAQ Community Research Papers Mailing List Archive Hugging Face Discord Collaborators About About Team Jobs Privacy Policy Terms of Use &copy; 2026 Common Crawl

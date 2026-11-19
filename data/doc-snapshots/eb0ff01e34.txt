@@ -1,0 +1,26 @@
+搜狗资源平台_公平开放的交流平台 搜索服务 搜索学院 用户中心 互动交流 登录 立即注册 工具说明 站长工具帮助 网站验证 Sitemap提交 死链提交 域名变更 移动适配 成员管理帮助 图片查看器 网站分析帮助 抓取压力查询 收录索引查询 网站流量查询 网站关键词查询 搜索规范 落地页体验 网站优化 Spider SEO 其他 资源合作 智能问答[立知] 教育灵犀卡 翻译灵犀卡 搜狗号合作 平台服务协议 站长学院 &gt; 建站优化 &gt; Spider &gt; 爬虫抓取 爬虫抓取 sogou spider User-Agent字段是什么？
+PC端UA为 Sogou web spider 请注意，根据标准，ua区分大小写。
+如何验证抓取请求来自搜狗？
+除通过spider UA判断抓取是否来自搜狗，更精确的方法有两种：DNS反查IP和Web Bot Auth 签名验证。
+DNS如何反查IP？
+搜狗暂不对外提供搜狗spider IP列表，但您可以通过DNS反查IP的方式判断某只spider是否来自搜狗搜索引擎。根据不同平台有不同的验证方法。
+linux平台： 命令为host ip,如下图。搜狗spider的hostname以 *.sogou.com格式命名，非 *.sogou.com均为冒充。
+在windows平台或者IBM OS/2平台： 命令为nslookup ip，搜狗spider的hostname以 *.sogou.com格式命名，非 *.sogou.com均为冒充。
+mac os平台： 命令为dig ip，搜狗spider的hostname以 *.sogou.com格式命名，非 *.sogou.com均为冒充。
+Web Bot Auth 签名验证如何验证？
+除 DNS 反查外，搜狗 spider 现已支持 Web Bot Auth 签名验证。部分抓取请求会携带用搜狗私钥生成的数字签名（请求头中包含 Signature-Agent、Signature-Input 和 Signature 字段）。签名遵循 RFC 9421 与 Web Bot Auth 规范，签名算法为 Ed25519。您可以用搜狗公开发布的公钥验证该签名，以此确认请求来源，无需依赖 IP 地址或 User-Agent。
+验证请求来源时，DNS 反查与 Web Bot Auth 签名验证两种方式，只要通过任意一种即可，无需两种方式同时满足。
+公钥目录： https://zhanzhang.sogou.com/.well-known/http-message-signatures-directory 该地址由搜狗官方维护，以 JSON Web Key Set（JWKS）格式发布搜狗 spider 当前在用的 Ed25519 公钥。公钥会定期轮换，请以该地址的实时内容为准。
+验签接口：如果不便自行验签，可以将抓取请求的相关信息提交给搜狗验签接口，由搜狗完成校验。接口只使用公钥验签，不会访问您提交的地址。
+调用方法 POST https://zhanzhang.sogou.com/api/sogou-spider-verify Content-Type: application/json 调用时机 对访问日志做事后核查时调用。该接口限制调用频率，不建议对线上每个请求实时调用。
+参数说明 请求示例（签名值已简略） curl -X POST https://zhanzhang.sogou.com/api/sogou-spider-verify \ -H 'Content-Type: application/json' \ -d '{ &quot;method&quot;: &quot;GET&quot;, &quot;url&quot;: &quot;https://www.example.com/news/%E4%B8%AD%E6%96%87?id=1&from=sogou&quot;, &quot;headers&quot;: { &quot;Signature-Input&quot;: &quot;sig1=(\&quot;@authority\&quot; \&quot;signature-agent\&quot; \&quot;@method\&quot; \&quot;@path\&quot; \&quot;@query\&quot;);created=1792541729;expires=1792542029;keyid=\&quot;Lf-EHBFr05...nKSs2N8\&quot;;alg=\&quot;ed25519\&quot;;nonce=\&quot;BM2q2u5f...\&quot;;tag=\&quot;web-bot-auth\&quot;&quot;, &quot;Signature&quot;: &quot;sig1=:sa51DHOz...txoBQ==:&quot;, &quot;Signature-Agent&quot;: &quot;\&quot;https://zhanzhang.sogou.com\&quot;&quot; }, &quot;received_at&quot;: 1792541729 }' 返回示例（节选） { &quot;verdict&quot;: &quot;genuine&quot;, &quot;message&quot;: &quot;签名有效, 由搜狗爬虫私钥签发&quot;, &quot;authority&quot;: &quot;www.example.com&quot;, &quot;key_id&quot;: &quot;Lf-EHBFr05...nKSs2N8&quot;, &quot;nonce&quot;: &quot;BM2q2u5f...&quot;, &quot;checks&quot;: { &quot;signature_agent&quot;: &quot;pass&quot;, &quot;key&quot;: &quot;pass&quot;, &quot;signature&quot;: &quot;pass&quot;, &quot;time_window&quot;: &quot;pass&quot; } } 返回说明：verdict 为 genuine 表示签名由搜狗签发，且在有效期内。其他结果的具体原因见 message 字段。
+sogou spider 如何反应我网站上页面的更新？
+sogou spider 会根据网页的重要性和历史变化情况来动态调整更新时间，更新已经抓取过的页面。
+搜狗spider的抓取频次是怎样的？
+sogou spider 对于同一个 IP 地址的服务器主机，只建立一个连接，抓取间隔速度控制在几秒一次。一个网页被收录后，最快也要过几天以后才会去更新。如果持续不断地抓取您的网站，请注意您的网站上的网页是否每次访问都产生新的链接。
+如果您认为 sogou spider 对于您的网站抓取过快，请与我们联系，并最好能提供访问日志中sogou spider 访问的部分，而不要直接将搜狗spider的ua封禁。
+sogou spider 喜欢收录什么样的页面 内容优良而独特的页面。如果您的页面内容和互联网上已存在的其他页面有高度的相似性，可能不会被 sogou spider 收录。
+链接层次较浅的页面。过深的链接层次，尤其是动态网页的链接，会被丢弃而不收录。
+如果是动态网页，请控制参数的数量和URL的长度。搜狗更偏好收录静态网页。重定向次数越多的页面，越有可能被 sogou spider 丢弃。
+对搜狗spider有其他问题？可以向zzpt@tencent.com提交反馈邮件。
+有用： 阅读： 搜索服务 资源提交 搜索展现 网站支持 数据统计 搜索学院 工具说明 搜索规范 建站优化 资源合作 用户中心 账户信息 网站管理 网站成员 消息中心 公告中心 互动交流 问题反馈 联系我们 联系方式 QQ群1: 327024323 QQ群2: 418650081 邮箱：zzpt@tencent.com 工作日- 友情链接 企鹅号 微信小程序 Copyright © sogou.com.All Rights Reserved

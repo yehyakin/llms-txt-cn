@@ -1,0 +1,17 @@
+검색로봇 확인 방법 - 네이버 서치어드바이저 Search Advisor 웹마스터 가이드 home 웹마스터 가이드 dvr 웹마스터 도구 로그인 로그인 more_vert 로그인 로그인 close 웹마스터 가이드 arrow_forward 웹마스터 도구 arrow_forward 사이트 간단 체크 arrow_forward expand_more 네이버 검색에 대해 궁금한 점이 있으신가요?
+&#8203; 웹마스터 가이드 검색 search 웹마스터 가이드 / 검색엔진 최적화 기초 / 검색로봇 확인 방법 검색로봇 확인 방법 웹페이지를 방문하는 프로그램이나 앱은 자기 자신만의 이름을 User-Agent 에 명시합니다.
+통상의 웹 브라우저 소프트웨어뿐만이 아니라 검색로봇도 자신만의 User-Agent 이름을 가지고 있습니다.
+많은 웹사이트들은 일부 악의적인 접근을 막기 위하여 방화벽 을 운영하고 있습니다.
+만약 내 사이트가 검색에 노출되지 않거나 정보가 변경되지 않는다면, 이러한 목적을 위해 활동하는 로봇이 User-Agent 이름이나 IP 주소 등 방화벽의 제한 설정 때문에 접근이 차단되지는 않았는지 점검해야합니다.
+네이버가 운용하는 로봇인지를 구분하기 위해서는 User-Agent를 활용하여 구분하는 방법과 역 DNS 조회를 통한 IP로 확인하는 방법이 있습니다.
+User-Agent 이름으로 확인 일반적인 네이버 검색 서비스를 위해 웹 문서를 수집하는 검색로봇은 Yeti라고 불리우며, 아래와 같은 User-Agent 이름을 사용합니다.
+세부 버전 등은 사전 예고 없이 변경될 수 있습니다.
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko; compatible; Yeti/1.1; +https://naver.me/spd) Chrome/W.X.Y.Z Safari/537.36 또는 Mozilla/5.0 (compatible; Yeti/1.1; +https://naver.me/spd) 그 외에 특별한 용도로, 광고주 페이지에서 효과적인 광고 노출을 위한 추가 정보를 수집하는 로봇 (UA : Ads-Naver)과 블로그 에디터 등에서 링크를 삽입할 때 미리보기를 수집하는 로봇 (UA : Blueno) 등의 전문 로봇이 활동하는 경우가 있습니다.
+광고용 웹수집 로봇에 대해 요약정보 수집 로봇에 대해 IP 정보로 확인 로봇의 접근은 앞서 설명드린 HTTP header 내의 User-Agent 정보를 이용하여 식별할 수 있습니다.
+다만 이 정보만으로 네이버 서버로부터의 접근인지 확신할 수 없다면, 다음 방법으로도 확인이 가능합니다.
+역 DNS 조회를 통한 확인 웹서버 로그 혹은 방화벽 접근 기록에 있는 접근자의 IP 주소에 대해 역 DNS 조회를 하여 조회된 도메인이 .naver.com으로 끝나는지 확인합니다.
+위에서 얻어진 도메인에 대해서 DNS 조회를 하여 원래 IP 주소와 같은지 확인합니다.
+* 예시 (리눅스/MacOS) $ host 125.209.235.169 169.235.209.125.in-addr.arpa domain name pointer crawl.125-209-235-169.web.naver.com.
+$ host crawl.125-209-235-169.web.naver.com crawl.125-209-235-169.web.naver.com has address 125.209.235.169 * 예시 (Windows, 윈도우키 + R 입력 후 cmd 실행) C:\Users&gt; nslookup 125.209.235.169 Server: 168.126.63.1 Address: 168.126.63.1 Name: crawl.125-209-235-169.web.naver.com Address: 125.209.235.169 C:\Users&gt; nslookup crawl.125-209-235-169.web.naver.com Server: 168.126.63.1 Address: 168.126.63.1 Name: crawl.125-209-235-169.web.naver.com Address: 125.209.235.169 목록 대조를 통한 확인 식별하고 싶은 IP 주소를 네이버 검색 로봇이 사용하고 있는 IP 범위 목록 (JSON / CIDR 형식)과 대조하여 자동화된 방식으로 식별을 시도할 수 있습니다.
+단, 목록 내용은 예고없이 변경될 수 있습니다.
+이용약관 책임한계와 법적고지 고객센터 ©NAVER Corp.

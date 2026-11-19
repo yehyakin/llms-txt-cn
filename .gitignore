@@ -1,0 +1,4 @@
+worker/_libs.js
+node_modules/
+.wrangler/
+worker/_assets.js

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>概念 C · 深色终端仪表盘 · cetxt</title><meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0d0b;--pan:#0f1411;--line:#1e2a22;--ink:#d7e4d9;--mut:#6f8577;--g:#4ade80;--y:#facc15;--r:#f87171;--c:#67e8f9;
+--mono:"JetBrains Mono",ui-monospace,Menlo,monospace;--sans:-apple-system,"PingFang SC",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.6 var(--mono);background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:44px 44px;background-attachment:fixed}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at 50% 0,rgba(74,222,128,.10),transparent 60%),linear-gradient(transparent,var(--bg) 70%);pointer-events:none}
+a{color:inherit;text-decoration:none}
+.wrap{position:relative;max-width:1120px;margin:0 auto;padding:0 18px}
+.bar{display:flex;align-items:center;gap:14px;height:52px;border-bottom:1px solid var(--line);font-size:13px}
+.dots{display:flex;gap:6px}.dots i{width:10px;height:10px;border-radius:50%;background:#2a3a30}.dots i:first-child{background:var(--r)}.dots i:nth-child(2){background:var(--y)}.dots i:nth-child(3){background:var(--g)}
+.bar .t{color:var(--g);font-weight:800}.bar nav{margin-left:auto;display:flex;gap:18px;color:var(--mut)}.bar nav a:hover{color:var(--g)}
+.hero{padding:56px 0 28px}
+.prompt{color:var(--mut);font-size:13px}.prompt b{color:var(--g)}
+h1{font:800 clamp(30px,5.6vw,58px)/1.15 var(--sans);letter-spacing:-.02em;margin:14px 0 12px}
+h1 em{font-style:normal;color:var(--g);text-shadow:0 0 24px rgba(74,222,128,.45)}
+.sub{color:var(--mut);font:16px/1.7 var(--sans);max-width:36em}
+.term{margin-top:28px;display:flex;align-items:center;border:1px solid var(--g);background:rgba(10,13,11,.9);border-radius:6px;box-shadow:0 0 0 4px rgba(74,222,128,.08)}
+.term span{color:var(--g);padding:0 4px 0 14px;white-space:nowrap}
+.term input{flex:1;background:transparent;border:0;outline:0;color:var(--ink);font:16px var(--mono);padding:14px 6px;min-width:0;caret-color:var(--g)}
+.term button{border:0;background:var(--g);color:#052e12;font:800 14px var(--mono);padding:0 18px;align-self:stretch;border-radius:0 5px 5px 0;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;margin-top:22px}
+.pan{background:var(--pan);border:1px solid var(--line);border-radius:6px;padding:16px}
+.pan .h{display:flex;justify-content:space-between;color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.s4{grid-column:span 4}.s8{grid-column:span 8}.s3{grid-column:span 3}.s12{grid-column:span 12}
+.num{font-size:46px;font-weight:800;line-height:1;color:var(--g)}.num small{font-size:16px;color:var(--mut)}
+.ok{color:var(--g)}.wn{color:var(--y)}.bd{color:var(--r)}.cy{color:var(--c)}
+.rows{width:100%;border-collapse:collapse;font-size:13px}
+.rows th{text-align:left;color:var(--mut);font-weight:400;padding:6px 8px;border-bottom:1px solid var(--line)}
+.rows td{padding:7px 8px;border-bottom:1px dashed var(--line)}
+.rows td:last-child,.rows th:last-child{text-align:right}
+.chk{list-style:none;font-size:13px}.chk li{padding:4px 0}.chk li:before{content:"[✓] ";color:var(--g)}
+.log{font-size:13px;color:var(--mut);white-space:pre-wrap}.log b{color:var(--y);font-weight:600}
+.k{display:block;font-size:12px;color:var(--mut);margin-top:6px}
+.tile{display:block;transition:border-color .15s}.tile:hover{border-color:var(--g)}.tile b{color:var(--ink);font:700 15px var(--sans)}
+.blink{display:inline-block;width:9px;height:17px;background:var(--g);vertical-align:-3px;animation:b 1s steps(1) infinite}@keyframes b{50%{opacity:0}}
+footer{color:var(--mut);font-size:12px;padding:36px 0 56px}
+.tag{position:fixed;left:12px;bottom:12px;z-index:9;font:12px var(--mono);background:var(--g);color:#052e12;padding:6px 10px;border-radius:4px}
+@media(max-width:760px){.bar nav{display:none}.s4,.s8,.s3{grid-column:span 12}.hero{padding-top:36px}.term span{display:none}.term input{padding-left:12px}}
+</style></head><body>
+<div class="wrap">
+<div class="bar"><div class="dots"><i></i><i></i><i></i></div><span class="t">cetxt</span><span style="color:var(--mut)">~/check</span><nav><a href="#">check</a><a href="#">gen</a><a href="#">robots</a><a href="#">validate</a><a href="#">survey</a><a href="#">docs</a></nav></div>
+<section class="hero">
+ <div class="prompt"><b>$</b> cetxt check --robots --llms<span class="blink"></span></div>
+ <h1>你的网站，对 <em>AI</em> 说了什么？</h1>
+ <p class="sub">robots.txt AI 爬虫规则 + llms.txt 结构质量，一条命令看完。22 个爬虫逐个按 RFC 9309 判定。</p>
+ <form class="term" onsubmit="return false"><span>domain&gt;</span><input value="bilibili.com" aria-label="域名"><button>RUN ↵</button></form>
+</section>
+<div class="grid">
+ <div class="pan s4"><div class="h"><span>llms.txt</span><span class="ok">● PASS</span></div><div class="num">100<small>/100</small></div><span class="k">200 · text/markdown · 10.7 KB</span>
+  <ul class="chk" style="margin-top:12px"><li>H1 标题</li><li>一句话摘要</li><li>6 个 H2 分组</li><li>52 条链接 · 0 警告</li></ul></div>
+ <div class="pan s8"><div class="h"><span>robots.txt · ai crawlers</span><span class="wn">● 7/7 训练类部分放行</span></div>
+  <table class="rows"><tr><th>agent</th><th>用途</th><th>匹配组</th><th>结果</th></tr>
+  <tr><td class="cy">GPTBot</td><td>OpenAI 训练</td><td>*</td><td class="wn">PARTIAL</td></tr>
+  <tr><td class="cy">ClaudeBot</td><td>Anthropic 训练</td><td>*</td><td class="wn">PARTIAL</td></tr>
+  <tr><td class="cy">Google-Extended</td><td>Gemini</td><td>*</td><td class="wn">PARTIAL</td></tr>
+  <tr><td class="cy">OAI-SearchBot</td><td>ChatGPT 搜索</td><td>*</td><td class="wn">PARTIAL</td></tr>
+  <tr><td class="cy">Baiduspider</td><td>百度搜索</td><td>*</td><td class="wn">PARTIAL</td></tr></table></div>
+ <div class="pan s12"><div class="h"><span>hints</span><span>1</span></div>
+  <div class="log"><b>warn</b>  没有专门的 AI 规则：所有 AI 爬虫都落到 User-agent: * 组。
+      想拒绝训练、保留 AI 搜索引用 → 给训练类爬虫单独成组；专属组不继承 * 的规则。</div></div>
+ <a class="pan s3 tile" href="#"><div class="h"><span>01</span><span>→</span></div><b>生成 llms.txt</b><span class="k">表单 + 实时预览</span></a>
+ <a class="pan s3 tile" href="#"><div class="h"><span>02</span><span>→</span></div><b>生成 robots.txt</b><span class="k">训练偏好预设</span></a>
+ <a class="pan s3 tile" href="#"><div class="h"><span>03</span><span>→</span></div><b>粘贴校验</b><span class="k">本地运行 · 不联网</span></a>
+ <a class="pan s3 tile" href="/survey/"><div class="h"><span>survey</span><span class="ok">47/1000</span></div><b>中文大站普查</b><span class="k">拦 AI 训练的大站数</span></a>
+</div>
+<footer>cetxt.com · MIT · spec: llmstxt.org / RFC 9309</footer>
+</div>
+<div class="tag">概念 C · 深色终端仪表盘</div>
+</body></html>

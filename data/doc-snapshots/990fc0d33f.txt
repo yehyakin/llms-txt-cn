@@ -1,0 +1,13 @@
+Mistral crawlers | Mistral Docs Docs & API Search docs ⌘K Vibe Studio Inference & Models Admin Resources API Reference Search docs ⌘K Toggle theme Reach out Try Studio Home Mistral crawlers Mistral uses web crawlers, also known as robots, and user-agent strings to run product tasks automatically or when a user requests them.
+To help webmasters manage how their sites and content interact with AI, Mistral uses specific robots.txt tags.
+MistralAI-User Copy section link MistralAI-User MistralAI-User is for user actions in Vibe .
+When users ask Vibe a question, it may visit a web page to help answer and include a link to the source in its response .
+MistralAI-User governs which sites these user requests can be made to.
+It is not used for crawling the web in any automatic fashion, nor to crawl content for generative AI training .
+Crawler info Copy section link Crawler info Full user-agent string: Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; MistralAI-User/1.0; +https://docs.mistral.ai/robots) All published IP addresses: MistralAI-User IP addresses MistralAI-Index Copy section link MistralAI-Index MistralAI-Index is for automated crawling of the web for indexing purposes only .
+It indexes content for Mistral search, which helps answer user questions in Vibe.
+Content crawled by MistralAI-Index is not used for generative AI training of any kind .
+Crawler info Copy section link Crawler info Full user-agent string: Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; MistralAI-Index/1.0; +https://docs.mistral.ai/robots) All published IP addresses: MistralAI-Index IP addresses MistralAI-Training Copy section link MistralAI-Training MistralAI-Training crawls web content to help build datasets for training Mistral generative AI models.
+Webmasters can disallow this user agent in their robots.txt file.
+This crawler is not used for search indexing or to answer live user queries in Vibe.
+Crawler info Copy section link Crawler info Full user-agent string: Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; MistralAI-Training/1.0; +https://docs.mistral.ai/robots) WHY MISTRAL About us Our customers Careers Contact us EXPLORE AI Solutions Partners Research DOCUMENTATION Documentation Ambassadors Cookbooks BUILD Studio Vibe Mistral Code Mistral Compute Try the API LEGAL Terms of service Privacy policy Legal notice Privacy Choices Brand COMMUNITY Discord ↗ X ↗ Github ↗ LinkedIn ↗ Ambassadors Mistral AI © 2026 Toggle theme

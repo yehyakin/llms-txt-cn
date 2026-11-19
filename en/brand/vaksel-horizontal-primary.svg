@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1566.219565 296.05" role="img" data-status="vaksel-v1-production" data-production="true" data-fox-sha256="5aad0dd17df7748d07d295b233bd997d6670bdf2f71ce9c5324db9a38ae34352" data-wordmark-sha256="63b4118c24159274f52cfd85d90f6d568336ad16c2b08f92b9d109bedce08d87" data-wordmark-geometry-sha256="513aeb7c3adde8531209ce11049cb8cf6ccecbee0397af2b1c9e20bf429485ac" data-selection-sha256="40454be7827a1f00acfedfd822669597b1d9b51edbc54205077a7d7414455f13" data-asset-id="horizontal-positive-color" data-brand="VAKSEL" data-brand-version="1.0">
+  <title>VAKSEL horizontal-primary</title>
+  <desc>VAKSEL v1 production asset: horizontal-primary.</desc>
+  <g data-component="horizontal-lockup" data-candidate="B" data-status="vaksel-v1-production" data-production="true" data-fox-height-ratio="1.55" data-gap-ratio="0.4" data-optical-correction="-7.64" data-asset-id="horizontal-positive-color" data-selected-candidate="B">
+    <defs>
+      <clipPath id="horizontal-positive-color-wordmark-field">
+        <rect x="0" y="0" width="1271" height="191" />
+      </clipPath>
+    </defs>
+    <g data-role="fox" color="#080B14" transform="matrix(0.643587 0 0 0.643587 -55.348478 -22.525543)">
+      <g fill="currentColor" fill-rule="evenodd">
+        <path data-part="body-outline" d="M148 341 C105 379 101 439 136 476 C153 491 169 480 194 478 L207 479 C184 475 166 467 153 454 C128 428 133 389 171 354 Z M187 408 C214 378 248 355 289 339 L410 293 C426 343 425 399 397 444 C382 468 361 484 337 495 L349 469 C368 460 383 445 394 424 C412 388 412 349 401 317 L295 356 C253 371 220 392 198 422 Z" />
+        <path data-part="body-mass" d="M139 477 C146 420 185 379 238 355 C266 343 295 333 326 322 L298 382 L343 382 L319 430 L365 430 L341 478 Z" />
+        <path data-part="head-outline" d="M148 350 C130 334 110 312 86 286 L120 252 L87 219 L125 175 C111 136 111 86 121 35 C160 51 199 80 225 116 C244 112 268 112 287 116 C313 80 352 51 391 35 C401 86 401 136 387 175 L425 219 L392 252 L426 286 C402 312 382 334 364 350 L348 346 L389 309 L409 286 L378 252 L407 219 L380 181 C394 137 394 92 384 55 C347 73 316 102 292 134 C269 129 243 129 220 134 C196 102 165 73 128 55 C118 92 118 137 132 181 L105 219 L134 252 L103 286 C125 311 145 329 163 343 Z" />
+        <path data-part="left-eye" d="M168 241 C188 247 207 256 219 267 L223 282 L196 274 C181 269 172 258 168 241 Z" />
+        <path data-part="right-eye" d="M344 241 C324 247 305 256 293 267 L289 282 L316 274 C331 269 340 258 344 241 Z" />
+      </g>
+    </g>
+    <g data-role="wordmark" transform="translate(295.219565 44.885)" clip-path="url(#horizontal-positive-color-wordmark-field)">
+      <g data-letter="V" data-construction="independently-measured-from-raster">
+        <path data-part="continuous-chevron" d="M 9 0 C 2 1 -1 7 -1 15 L 73 177 C 77 186 84 191 93 191 C 103 191 109 186 113 177 L 187.5 15 C 189 7 184 1 177 0 L 170 0 C 165 1 162 6 160 13 L 94 154 L 27 13 C 24 6 19 1 18 0 Z" fill="#080B14" />
+      </g>
+      <g data-letter="A" data-construction="independently-measured-from-raster">
+        <path data-part="architectural-counter" d="M 303 0 C 312 0 318 5 322 12 L 398 174 C 402 182 397 190 389 191 C 382 192 377 188 374 181 L 303.5 36 L 235 181 C 229 189 223 192 216 190 C 209 188 207 181 210 174 L 284 12 C 288 5 294 0 303 0 Z" fill="#080B14" />
+      </g>
+      <g data-letter="K" data-construction="independently-measured-from-raster">
+        <path data-part="stem" d="M 457 13.5 L 457 177.5 C 457 195.5 484 195.5 484 177.5 L 484 13.5 C 484 -4.5 457 -4.5 457 13.5 Z" fill="#080B14" />
+        <path data-part="upper-branch" d="M 517.0679 104.824 L 625.0679 24.324 C 639.4999 13.5668 623.3641 -8.0812 608.9321 2.676 L 500.9321 83.176 C 486.5001 93.9332 502.6359 115.5812 517.0679 104.824 Z" fill="#080B14" />
+        <path data-part="lower-branch" d="M 500.7426 104.6802 L 608.7426 188.1802 C 622.9829 199.19 639.4976 177.8296 625.2574 166.8198 L 517.2574 83.3198 C 503.0171 72.31 486.5024 93.6704 500.7426 104.6802 Z" fill="#0C63F1" data-letter="K" />
+      </g>
+      <g data-letter="S" data-construction="independently-measured-from-raster">
+        <path data-part="continuous-flow" d="M 836 0 L 741 0 C 714 0 694 21 694 50 C 694 79 714 109 741 109 L 802 109 C 815 109 823 122 823 143 C 823 155 815 163 802 163 L 708 163 C 700 163 694 169 694 177 C 694 185 700 191 708 191 L 802 191 C 830 191 851 170 851 143 C 851 107 830 81 802 81 L 741 81 C 728 81 721 69 721 50 C 721 37 728 27 741 27 L 836 27 C 844 27 851 21 851 14 C 851 6 844 0 836 0 Z" fill="#080B14" />
+      </g>
+      <g data-letter="E" data-construction="independently-measured-from-raster">
+        <path data-part="top-arm" d="M 928 26.5 L 1051 26.5 C 1069 26.5 1069 -0.5 1051 -0.5 L 928 -0.5 C 910 -0.5 910 26.5 928 26.5 Z" fill="#080B14" />
+        <path data-part="middle-arm" d="M 928 108.5 L 1051 108.5 C 1069 108.5 1069 81.5 1051 81.5 L 928 81.5 C 910 81.5 910 108.5 928 108.5 Z" fill="#080B14" />
+        <path data-part="bottom-arm" d="M 928 191 L 1051 191 C 1069 191 1069 164 1051 164 L 928 164 C 910 164 910 191 928 191 Z" fill="#080B14" />
+      </g>
+      <g data-letter="L" data-construction="independently-measured-from-raster">
+        <path data-part="stem" d="M 1129 13.5 L 1129 177 C 1129 195 1156 195 1156 177 L 1156 13.5 C 1156 -4.5 1129 -4.5 1129 13.5 Z" fill="#080B14" />
+        <path data-part="foot" d="M 1142.5 190.5 L 1257 190.5 C 1275 190.5 1275 163.5 1257 163.5 L 1142.5 163.5 C 1124.5 163.5 1124.5 190.5 1142.5 190.5 Z" fill="#080B14" />
+      </g>
+    </g>
+  </g>
+</svg>
